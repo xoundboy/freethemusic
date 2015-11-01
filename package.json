@@ -1,0 +1,12 @@
+{
+  "name": "RESTful-API",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node Server.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "mysql": "^2.9.0",
+    "mysql-to-rest": "^1.0.3"
+  }
+}
