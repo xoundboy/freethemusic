@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1">
+
+    <title>Xoundboy.com</title>
+    <meta name="viewport" content="width=device-width">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css' />
+
+    <script src="bundle.js"></script>
+
+    <!--@Scripts.Render("~/Scripts/libs")-->
+    <!--@Scripts.Render("~/Scripts/models")-->
+    <!--@Scripts.Render("~/Scripts/collections")-->
+    <!--@Scripts.Render("~/Scripts/app/main")main-->
+
+</head>
+<body></body>
+</html>
+
+<script type="text/template" id="template_app">
+    <div id="page">
+
+        <div class="buttonBar">
+
+            <!-- show / hide button for player -->
+            <button id="playerToggle" class="showHide">show player</button>
+
+            <!-- Search button -->
+            <button id="searchToggle" class="showHide">show search</button>
+
+            <!-- nav -->
+            <button id="navToggle" class="showHide">show navigation</button>
+        </div>
+
+        <!-- player -->
+        <div id="playerContainer"></div>
+
+        <!-- search bar -->
+        <div id="searchContainer"></div>
+
+        <!-- nav body -->
+        <div id="navContainer"></div>
+
+        <!-- Main content -->
+        <div id="mainContent"></div>
+
+        <div id="testContainer"></div>
+    </div>
+</script>
+
+<script type="text/template" id="template_test">
+    <button id="testButton">test</button>
+</script>
+
+<script type="text/template" id="template_search">
+    {{#open}}
+    <div class="panelContents">
+        <input type="text" id="emptyPlayerSearch" placeholder="search for artists or tracks" />
+        <button id="emptyPlayerSearchButton">Search</button>
+    </div>
+    {{/open}}
+</script>
+
+<script type="text/template" id="template_player">
+    {{#open}}
+    <div class="panelContents">
+        {{#empty}}
+        <div class="playerEmpty">
+
+            <!-- empty message -->
+            <div>No track loaded</div>
+
+            {{/empty}}
+
+            {{^empty}}
+            <div class="playerTransport">
+
+                <!-- buttons -->
+                <div class="transportRow transportButtons">
+                    <button id="skipBackButton" type="button">Skip to the previous track</button>
+                    {{#isPlaying}}
+                    <button id="playButton" type="button" class="hidden">Play</button>
+                    <button id="pauseButton" type="button">Pause</button>
+                    {{/isPlaying}}
+                    {{^isPlaying}}
+                    <button id="playButton" type="button">Play</button>
+                    <button id="pauseButton" type="button" class="hidden">Pause</button>
+                    {{/isPlaying}}
+                    <button id="skipForwardButton" type="button">Skip to the previous track</button>
+                </div>
+
+                <!-- Track details -->
+                <div class="transportRow">
+                    <div id="trackName">{{name}} <span class="byLine">by {{artist}}</span></div>
+                </div>
+
+                <!-- slider -->
+                <div class="transportRow sliderRow">
+                    <div id="trackPosition" />
+                    <div id="trackTime">{{duration}}</div>
+                </div>
+
+                <!-- spinner -->
+                <div id="spinnerContainer" class="hidden">
+                    <div id="spinner"></div>
+                </div>
+
+            </div>
+            {{/empty}}
+        </div>
+        {{/open}}
+</script>
+
+<script type="text/template" id="template_nav">
+    {{#open}}
+    <li><a href="#">Home</a></li>
+    <li><a href="#/about">About</a></li>
+    <li><a href="#/music">Music</a></li>
+    <li><a href="#/projects">Projects</a></li>
+    <li><a href="#/contact">Contact</a></li>
+    <li><a href="#/playlists">Playlists</a></li>
+    {{/open}}
+</script>
+
+<script type="text/template" id="template_home">
+    <p>Home page</p>
+</script>
+
+<script type="text/template" id="template_about">
+    <p>About page</p>
+</script>
+
+<script type="text/template" id="template_music">
+    <p>Music page</p>
+</script>
+
+<script type="text/template" id="template_projects">
+    <p>Projects page</p>
+</script>
+
+<script type="text/template" id="template_contact">
+    <p>Contact page</p>
+</script>
+
+<script type="text/template" id="template_playlists">
+    <p>Playlists page</p>
+</script>

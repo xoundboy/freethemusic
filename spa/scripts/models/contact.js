@@ -1,0 +1,1 @@
+﻿x7.ContactModel = Backbone.Model.extend({});

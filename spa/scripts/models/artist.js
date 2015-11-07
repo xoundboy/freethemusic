@@ -1,0 +1,1 @@
+﻿x7.ArtistModel = Backbone.Model.extend({});

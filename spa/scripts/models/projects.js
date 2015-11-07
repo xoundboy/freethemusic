@@ -1,0 +1,1 @@
+﻿x7.ProjectsModel = Backbone.Model.extend({});

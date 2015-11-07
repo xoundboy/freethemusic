@@ -1,0 +1,1 @@
+﻿x7.HomeModel = Backbone.Model.extend({});

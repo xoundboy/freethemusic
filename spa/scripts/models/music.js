@@ -1,0 +1,1 @@
+﻿x7.MusicModel = Backbone.Model.extend({});

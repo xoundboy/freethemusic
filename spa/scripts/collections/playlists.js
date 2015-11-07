@@ -1,0 +1,1 @@
+﻿x7.PlaylistsModel = Backbone.Collection.extend({});

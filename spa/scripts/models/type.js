@@ -1,0 +1,1 @@
+﻿x7.TypeModel = Backbone.Model.extend({});

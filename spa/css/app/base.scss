@@ -1,0 +1,28 @@
+// update this number to reflect the number of buttons in the button bar
+$buttonCount: 3;
+$playerBg: #222222;
+
+
+html, body {
+	height: 100%;
+	width:100%;
+	margin:0;
+	padding:0;
+    background:#000;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+	font-size:1.0em;
+}
+
+.hidden {
+    display: none; 
+}
+
+.buttonBar {
+    width: 100%;
+    display: block;
+
+    button {
+        width: (100% / $buttonCount);
+    }
+}

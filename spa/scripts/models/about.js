@@ -1,0 +1,1 @@
+﻿x7.AboutModel = Backbone.Model.extend({});

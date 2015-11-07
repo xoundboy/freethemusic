@@ -1,0 +1,71 @@
+$playerBg: #02044E;
+$searchBg: #5D0303;
+
+.searchPanel, .playerPanel {
+
+    .panelContents {
+        width: 100%;
+        padding: 20px 0;
+        text-align: center;
+    }
+    
+}
+
+.playerPanel {
+
+    background: $playerBg;
+
+    .transportRow {
+        #trackName {
+            margin: 20px 20px 0;
+            font-weight: bold;
+        }
+        #trackName span.byLine {
+            font-size: 0.75em;
+        }
+    }
+    .transportButtons {
+        margin-top: 20px;
+    }
+
+    .sliderRow {
+        width: 90%;
+        box-sizing: border-box;
+
+        #trackPosition {
+            display: inline-block;
+            min-width: 280px;
+            width: 100%;
+            margin: 20px 0;
+            position: relative;
+            top: 3px;
+        }
+    }
+}
+
+.searchPanel {
+    background-color: $searchBg;
+}
+
+// player open/close buttons
+.showHide.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-icon-only {
+    margin: -2px;
+}
+.ui-state-default .ui-icon.ui-icon-player {
+      background-image: url("../../scripts/libs/jquery-ui-local-customizations/player-icon.png");
+}
+.ui-state-default .ui-icon.ui-icon-menu {
+      background-image: url("../../scripts/libs/jquery-ui-local-customizations/menu-icon.png");
+}
+
+.ui-slider .ui-slider-range {
+    background: red;
+}
+.ui-slider-horizontal {
+    height: 8px;
+}
+.ui-slider .ui-slider-handle {
+    height: 20px;
+    width: 5px;
+    padding-left: 10px;
+}
