@@ -4,13 +4,11 @@ var appModel = require('../models/app.js');
 var AppView = require('../views/app/app.js');
 var appView = new AppView({ model: appModel, template: $("#template_app").html() });
 
-
-
 module.exports = new (Backbone.Router.extend({
 
     initialize: function(options) {
         this.app = options;
-    },00ikoll
+    },
 
     routes: {
         '':          'showHome',

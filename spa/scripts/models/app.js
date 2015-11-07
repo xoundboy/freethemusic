@@ -1,6 +1,4 @@
-﻿var Backbone = require('backbone');
-
-module.exports = new ( Backbone.Model.extend({
+﻿module.exports = new ( Backbone.Model.extend({
 
     defaults: {
         player: "show",

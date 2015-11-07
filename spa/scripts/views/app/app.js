@@ -72,8 +72,8 @@ module.exports = Backbone.View.extend({
     renderDefaults: function () {
 
         // update visibility of sub-views
-        x7.models.player.toggle(this.model.get("player"));
-        x7.models.search.toggle(this.model.get("search"));
-        x7.models.nav.toggle(this.model.get("nav"));
+        playerModel.toggle(this.model.get("player"));
+        searchModel.toggle(this.model.get("search"));
+        navModel.toggle(this.model.get("nav"));
     }
 });

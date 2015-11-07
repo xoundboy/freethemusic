@@ -1,4 +1,6 @@
-﻿x7.PlayerModel = Backbone.Model.extend({
+﻿var Backbone = require('backbone');
+
+module.exports = new (Backbone.Model.extend({
 
     defaults: {
         open: false,
@@ -21,4 +23,4 @@
                 this.set("open", !this.get("open"));
         }
     }
-});
+}))();

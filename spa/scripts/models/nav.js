@@ -1,4 +1,4 @@
-﻿x7.NavModel = Backbone.Model.extend({
+﻿module.exports = new (Backbone.Model.extend({
     defaults: {
         open: false
     },
@@ -15,4 +15,4 @@
         }
     }
 
-});
+}))();

@@ -1,4 +1,4 @@
-﻿x7.SearchModel = Backbone.Model.extend({
+﻿module.exports = new (Backbone.Model.extend({
     defaults: {
         open: false
     },
@@ -14,4 +14,4 @@
                 this.set("open", !this.get("open"));
         }
     }
-});
+}))();

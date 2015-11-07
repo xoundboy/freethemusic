@@ -1,6 +1,10 @@
-window.x7 = window.x7 ? window.x7 : {};
+require('jquery-ui/button');
+var $ = require('jquery');
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Mustache = require('mustache');
 
-x7.PlayerView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
 
     tagName: "div",
     id: "playerPanel",
@@ -26,7 +30,7 @@ x7.PlayerView = Backbone.View.extend({
         if (this.model.get("empty")) {
 
             var $searchBtn = $('#emptyPlayerSearchButton');
-            $searchBtn.button({ icons: { primary: "ui-icon-search" }, text: false })
+            $searchBtn.button({ icons: { primary: "ui-icon-search" }, text: false });
 
         } else {
 
