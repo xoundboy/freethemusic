@@ -1,4 +1,8 @@
-﻿x7.RecordingsView = Backbone.View.extend({
+﻿var _ = require('underscore');
+var $ = require('jquery');
+var Mustache = require('mustache');
+
+module.exports = Backbone.View.extend({
 
     tagName: "div",
     id: "recordingsContent",

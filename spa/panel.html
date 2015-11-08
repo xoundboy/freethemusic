@@ -10,39 +10,17 @@
     <script src="commons.js" charset="utf-8"></script>
     <script src="admin.bundle.js" charset="utf-8"></script>
 
-    <!--@Styles.Render("~/Content/admin/css")-->
-
-    <!--<script>-->
-        <!--Date.prototype.getMonthFormatted = function () {-->
-            <!--var month = this.getMonth() + 1;-->
-            <!--return month < 10 ? '0' + month : '' + month;-->
-        <!--}-->
-        <!--Date.prototype.getDateFormatted = function () {-->
-            <!--var date = this.getDate() + 1;-->
-            <!--return date < 10 ? '0' + date : '' + date;-->
-        <!--}-->
-        <!--window.x7 = {};-->
-    <!--</script>-->
-
-    <!--@Scripts.Render("~/Scripts/libs")-->
-    <!--@Scripts.Render("~/node_modules")-->
-    <!--@Scripts.Render("~/Scripts/models")-->
-
-    <!--@Scripts.Render("~/Scripts/collections")-->
-
-    <!--<script>-->
-        <!--x7.collections = {-->
-            <!--artists: new x7.ArtistsCollection(),-->
-            <!--types: new x7.TypesCollection(),-->
-            <!--recordings: new x7.RecordingsCollection()-->
-        <!--};-->
-
-        <!--x7.collections.artists.reset(@Html.Raw(Model.Artists));-->
-        <!--x7.collections.types.reset(@Html.Raw(Model.Types));-->
-    <!--</script>-->
-
-    <!--@Scripts.Render("~/Scripts/admin/main")-->
-
+    <script>
+        Date.prototype.getMonthFormatted = function () {
+            var month = this.getMonth() + 1;
+            return month < 10 ? '0' + month : '' + month;
+        };
+        Date.prototype.getDateFormatted = function () {
+            var date = this.getDate() + 1;
+            return date < 10 ? '0' + date : '' + date;
+        };
+        window.x7 = {};
+    </script>
 
 </head>
 <body>

@@ -1,4 +1,4 @@
-﻿x7.TypesCollection = Backbone.Collection.extend({
+﻿module.exports = new (Backbone.Collection.extend({
     model: x7.TypeModel,
     url: "api/Types"
-});
+}))();

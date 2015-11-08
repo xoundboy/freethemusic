@@ -1,4 +1,12 @@
-﻿x7.AudioUploadView = Backbone.View.extend({
+﻿require('jquery-ui/button');
+var $ = require('jquery');
+var _ = require('underscore');
+var Mustache = require('mustache');
+
+var RecordingAddEdit = require('./recordingAddEdit.js');
+
+
+module.exports = Backbone.View.extend({
 
     tagName: "div",
     id: "audioUploadContent",
@@ -50,7 +58,7 @@
             } else {
                 this.stepBack();
             }
-        };
+        }
     },
 
     stepBack: function() {
@@ -79,7 +87,7 @@
         xhr.onerror = function (data) {
             alert("error uploading the file");
             console.log(data);
-        }
+        };
         xhr.send(formData);
     },
 
@@ -89,9 +97,9 @@
         this.$el.find("button").button();
 
         // create the info form subview and render it
-        var recordingInfoForm = new x7.RecordingAddEditView({
+        var recordingInfoForm = new RecordingAddEdit({
             model: this.model,
-            template: x7.templates.recordingAddEdit
+            template: $("#template_recordingAddEdit").html()
         });
 
         this.$el.find(".recordingInfoFormContainer").html(recordingInfoForm.render().el);

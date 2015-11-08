@@ -13,6 +13,6 @@ var Backbone = require('backbone');
 
 // Bootstrap the application when the DOM is ready
 $(function(){
-    require('./scripts/app/router');
+    require('./scripts/routers/appRouter.js');
     Backbone.history.start();
 });

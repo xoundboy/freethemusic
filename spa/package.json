@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "backbone": "^1.2.3",
-    "backbone-deep-model": "^0.11.0",
+    "backbone-nested-model": "^1.0.0-prerelease",
     "backgrid": "^0.3.5",
     "jquery": "^2.1.4",
     "jquery-serializejson": "^2.5.0",

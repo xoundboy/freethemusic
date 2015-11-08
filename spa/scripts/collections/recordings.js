@@ -1,7 +1,10 @@
-﻿x7.RecordingsCollection = Backbone.Collection.extend({
+﻿var config = require('../../config.js');
+var recordingModel = require('../models/recording.js');
 
-    model: x7.RecordingModel,
-    url: "api/Recordings",
+module.exports = new (Backbone.Collection.extend({
+
+    model: recordingModel,
+    url: config.databaseUrl + "api/Recordings",
     sort_key: "name",
 
     initialize: function() {
@@ -19,4 +22,4 @@
         this.sort();
     }
 
-});
+}))();

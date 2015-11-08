@@ -1,4 +1,7 @@
-﻿x7.AudioUploadModel = Backbone.Model.extend({
+﻿var artistsCollection = require('../collections/artists.js');
+var typesCollection = require('../collections/types.js');
+
+module.exports = new (Backbone.Model.extend({
 
     defaults: {
         size: 0,
@@ -7,8 +10,8 @@
     },
 
     initialize: function() {
-        this.set("artistOptions", x7.collections.artists.toJSON());
-        this.set("typeOptions", x7.collections.types.toJSON());
+        this.set("artistOptions", artistsCollection.toJSON());
+        this.set("typeOptions", typesCollection.toJSON());
     },
 
     setStep: function (step) {
@@ -21,11 +24,7 @@
         updateObj.currentStep = step;
 
         for (i = 1; i <= stepCount; i++) {
-            if (i === step) {
-                result = true;
-            } else {
-                result = false;
-            };
+            result = i === step;
             updateObj["step" + i] = result;
         }
 
@@ -45,5 +44,5 @@
         if (cs < sc) {
             this.setStep(cs + 1);
         }
-    },
-});
+    }
+}))();

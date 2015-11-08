@@ -1,4 +1,6 @@
-﻿x7.DashboardModel = Backbone.Model.extend({
+﻿var $ = require('jquery');
+
+module.exports = new ( Backbone.Model.extend({
     defaults: {
         currentTabHref: "#recordings"
     },
@@ -7,4 +9,4 @@
         return $('#tabs a[href="' + this.get("currentTabHref") + '"]').parent().index();
     }
 
-});
+}))();

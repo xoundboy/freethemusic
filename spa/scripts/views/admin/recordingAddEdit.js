@@ -1,4 +1,9 @@
-﻿x7.RecordingAddEditView = Backbone.View.extend({
+﻿require('jquery-ui/datepicker');
+
+var _ = require('underscore');
+var Mustache = require('mustache');
+
+module.exports = Backbone.View.extend({
 
     id: "recordingEditContent",
     className: "recordingEdit",

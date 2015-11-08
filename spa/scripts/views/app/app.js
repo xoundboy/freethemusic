@@ -4,7 +4,7 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Mustache = require('mustache');
 
-// sub-view: player
+// subview: player
 var playerModel = require('../../models/player.js');
 var PlayerView = require('../../views/app/player.js');
 var playerView = new PlayerView({ model: playerModel, template: $("#template_player").html() });

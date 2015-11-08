@@ -1,4 +1,21 @@
-﻿x7.DashboardView = Backbone.View.extend({
+﻿require('jquery-ui/tabs');
+var $ = require('jquery');
+var _ = require('underscore');
+var Backbone = require('backbone');
+var Mustache = require('mustache');
+
+// subview: recordings
+var recordingsCollection = require('../../collections/recordings.js');
+var RecordingsView = require('../../views/admin/recordings.js');
+var recordingsView = new RecordingsView({collection: recordingsCollection, template: $("#template_recordings").html()});
+
+// subview: audioUpload
+var audioUploadModel = require('../../models/audioUpload.js');
+var AudioUploadView = require('../../views/admin/audioUpload.js');
+var audioUploadView = new AudioUploadView({model: audioUploadModel, template: $("#template_audioUpload").html()});
+
+
+module.exports = Backbone.View.extend({
 
     el: "#page",
 
@@ -17,7 +34,7 @@
     },
 
     loadRecordings: function() {
-        x7.views.recordings.render();
+        recordingsView.render();
     },
 
     render: function () {
@@ -28,8 +45,8 @@
             .tabs('option', 'active', this.model.getCurrentTabIndex());
 
         // render sub-views
-        this.$("#audioUploadContainer").html(x7.views.audioUpload.render().el);
-        this.$("#recordingsContainer").html(x7.views.recordings.render().el);
+        this.$("#audioUploadContainer").html(audioUploadView.render().el);
+        this.$("#recordingsContainer").html(recordingsView.render().el);
 
         return this;
     }

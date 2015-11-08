@@ -1,4 +1,4 @@
-﻿x7.ArtistsCollection = Backbone.Collection.extend({
+﻿module.exports = new (Backbone.Collection.extend({
     model: x7.ArtistModel,
     url: "api/Artists"
-});
+}))();
