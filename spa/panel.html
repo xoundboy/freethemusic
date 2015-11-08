@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1">
+
+    <title>Xoundboy.com admin panel</title>
+    <meta name="viewport" content="width=device-width">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css' />
+    <script src="commons.js" charset="utf-8"></script>
+    <script src="admin.bundle.js" charset="utf-8"></script>
+
+    <!--@Styles.Render("~/Content/admin/css")-->
+
+    <!--<script>-->
+        <!--Date.prototype.getMonthFormatted = function () {-->
+            <!--var month = this.getMonth() + 1;-->
+            <!--return month < 10 ? '0' + month : '' + month;-->
+        <!--}-->
+        <!--Date.prototype.getDateFormatted = function () {-->
+            <!--var date = this.getDate() + 1;-->
+            <!--return date < 10 ? '0' + date : '' + date;-->
+        <!--}-->
+        <!--window.x7 = {};-->
+    <!--</script>-->
+
+    <!--@Scripts.Render("~/Scripts/libs")-->
+    <!--@Scripts.Render("~/node_modules")-->
+    <!--@Scripts.Render("~/Scripts/models")-->
+
+    <!--@Scripts.Render("~/Scripts/collections")-->
+
+    <!--<script>-->
+        <!--x7.collections = {-->
+            <!--artists: new x7.ArtistsCollection(),-->
+            <!--types: new x7.TypesCollection(),-->
+            <!--recordings: new x7.RecordingsCollection()-->
+        <!--};-->
+
+        <!--x7.collections.artists.reset(@Html.Raw(Model.Artists));-->
+        <!--x7.collections.types.reset(@Html.Raw(Model.Types));-->
+    <!--</script>-->
+
+    <!--@Scripts.Render("~/Scripts/admin/main")-->
+
+
+</head>
+<body>
+<div id="page"></div>
+</body>
+</html>
+
+<script type="text/template" id="template_dashboard">
+    <div id="tabs">
+        <ul>
+            <li><a id="tabAudioUpload" href="#audioUpload">Audio Upload</a></li>
+            <li><a id="tabRecordings" href="#recordings">Recordings</a></li>
+            <li><a id="tabArtists" href="#artists">Artists</a></li>
+            <li><a id="tabPlaylists" href="#playlists">Playlists</a></li>
+        </ul>
+        <div id="audioUpload">
+            <div id="audioUploadContainer"></div>
+        </div>
+        <div id="recordings">
+            <div id="recordingsContainer">
+                <p>Loading...</p>
+            </div>
+        </div>
+        <div id="artists">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+        </div>
+        <div id="playlists">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="template_audioUpload">
+    {{#step1}}
+    <div id="step1" class="steps">
+        <h2>Step 1: Upload Audio File</h2>
+        <input type="file" id="uploadFile" accept=".mp3" />
+    </div>
+    {{/step1}}
+    {{#step2}}
+    <div id="step2" class="steps">
+        <h2>Step 2: Preview Upload</h2>
+        <p>Check that the file uploaded correctly by playing it.</p>
+        <audio controls>
+            <source src="/Audio/temp/{{tempName}}.mp3" type="audio/mpeg">
+        </audio>
+        <p class="small">File size: {{size}} bytes</p>
+        <p class="buttons">
+            <button id="step2BackBtn" class="backBtn">Upload again</button>
+            <button id="step2NextBtn" class="nextBtn">Plays fine</button>
+        </p>
+    </div>
+    {{/step2}}
+    {{#step3}}
+    <div id="step3" class="steps">
+        <h2>Step 3: Provide Info</h2>
+        <p>Now enter some details about the uploaded audio recording so that it can be saved permanently</p>
+        <form id="recordingInfo">
+            <div class="recordingInfoFormContainer"></div>
+            <p class="buttons">
+                <button id="step3BackBtn" class="registerInfoBtn">Back</button>
+                <button id="step3NextBtn" class="registerInfoBtn" type="submit">Next</button>
+            </p>
+        </form>
+    </div>
+    {{/step3}}
+    {{#step4}}
+    <div id="step4" class="steps">
+        <h2>Step 4: Confirmation</h2>
+        <p>You have entered the following information:</p>
+        <p>Title: <strong>{{name}}</strong></p>
+        <p>Artist: <strong>{{{selectedArtistText}}}</strong></p>
+        <p>Type: <strong>{{{selectedTypeText}}}</strong></p>
+        <p>Location: <strong>{{location}}</strong></p>
+        <p>Date: <strong>{{date}}</strong></p>
+        <p>Notes: <strong>{{notes}}</strong></p>
+        <p class="buttons">
+            <button id="step4BackBtn" class="backBtn">Back</button>
+            <button id="step4NextBtn">Confirm</button>
+        </p>
+    </div>
+    {{/step4}}
+</script>
+
+<script type="text/template" id="template_recordings">
+    <table id="recordings" class="benGrid">
+        <thead>
+        <tr>
+            <th></th>
+            <th bengrid-key="name">Title</th>
+            <th bengrid-key="artist.name">Artist</th>
+            <th bengrid-key="size">Size</th>
+            <th bengrid-key="type.name">Type</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#recordings}}
+        <tr id="recordingId-{{id}}" class="recordingRow" data-recordingid="{{id}}">
+            <td><button class="previewButton" data-filename="{{fileName}}">preview</button></td>
+            <td>{{name}}</td>
+            <td data-artistid="{{artistId}}">{{artist.name}}</td>
+            <td>{{size}}</td>
+            <td data-typeid="{{typeId}}">{{type.name}}</td>
+            <td><button class="editRecordingButton">edit</button></td>
+            <td><button class="deleteRecordingButton">delete</button></td>
+        </tr>
+        {{/recordings}}
+        </tbody>
+    </table>
+</script>
+
+<script id="template_recordingAddEdit" type="text/template">
+
+    <!-- when form content used for audioUpload -->
+    {{#tempName}}
+    <input type="hidden" name="fileName" value="{{tempName}}" />
+    {{/tempName}}
+
+    <!-- when form content used for recording edit panel -->
+    {{^tempName}}
+    <input type="hidden" name="fileName" value="{{fileName}}" />
+    {{/tempName}}
+
+    <input type="hidden" name="size" value="{{size}}" />
+    <p>
+        <label for="name">Title</label>
+        <input type="text" name="name" maxlength="40" value="{{name}}" required />
+    </p>
+    <p>
+        <label for="artistId">Artist</label>
+        <select name="artistId" required>
+            {{^artistOptions}}
+            <option value="">Loading artists</option>
+            {{/artistOptions}}
+            <option value="">Select an artist</option>
+            {{#artistOptions}}
+            <option value="{{id}}">{{name}}</option>
+            {{/artistOptions}}
+        </select>
+    </p>
+    <p>
+        <label for="typeId">Type</label>
+        <select name="typeId" required>
+            {{^typeOptions}}
+            <option value="">Loading types</option>
+            {{/typeOptions}}
+            <option value="">Select a type</option>
+            {{#typeOptions}}
+            <option value="{{id}}">{{name}}</option>
+            {{/typeOptions}}
+        </select>
+    </p>
+    <p>
+        <label for="location">Location</label>
+        <input type="text" name="location" value="{{location}}" required />
+    </p>
+    <p>
+        <label for="date">Date</label>
+        <input class="datepicker" type="text" name="date" value="{{date}}" required />
+    </p>
+    <p>
+        <label for="notes">Notes</label>
+        <textarea name="notes">{{notes}}</textarea>
+    </p>
+
+
+</script>
+
+<script type="text/template" id="template_recordingEditPanel">
+    <td colspan='7'>
+        <form id="recordingInfo">
+            <div class="recordingInfoFormContainer"></div>
+            <p class="buttons">
+                <button id="cancelEditButton">Cancel</button>
+                <button id="updateRecordingButton">Update</button>
+            </p>
+        </form>
+    </td>
+</script>
