@@ -1,4 +1,5 @@
-var serverPort = 8000;
+// Set the server port
+var SERVER_PORT = 8000;
 
 var app = require('express')();
 var http = require('http').Server(app);
@@ -34,6 +35,6 @@ app.get('/api/recordings', function(req,res){
     });
 });
 
-http.listen(serverPort, function(){
-    console.log("Connected & Listen to port " + serverPort);
+http.listen(SERVER_PORT, function(){
+    console.log("Connected & Listen to port " + SERVER_PORT);
 });
