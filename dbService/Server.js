@@ -1,8 +1,9 @@
+var serverPort = 8000;
 
-var express = require('express');
+var app = require('express')();
+var http = require('http').Server(app);
 var mysql = require('mysql');
-var mysqltorest  = require('mysql-to-rest');
-var app = express();
+var bodyParser = require("body-parser");
 
 var connection = mysql.createConnection({
     host     : 'localhost',
@@ -11,7 +12,28 @@ var connection = mysql.createConnection({
     database : 'xoundboy_dev'
 });
 
-connection.connect();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-var api = mysqltorest(app,connection);
-app.listen(8000, function(){console.log("listening on port 8000")});
+
+/**
+ * GET /api/recordings
+ */
+app.get('/api/recordings', function(req,res){
+
+    connection.query("CALL GetAllRecordings();", function(err, rows){
+        var data = {};
+        if(rows.length != 0){
+            data["error"] = 0;
+            data["Recordings"] = rows;
+        } else {
+            data["error"] = 0;
+            data["Recordings"] = 'No recordings Found..';
+        }
+        res.json(data);
+    });
+});
+
+http.listen(serverPort, function(){
+    console.log("Connected & Listen to port " + serverPort);
+});

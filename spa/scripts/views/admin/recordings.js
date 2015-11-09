@@ -121,7 +121,7 @@ module.exports = Backbone.View.extend({
     },
 
     render: function () {
-        var compiledTemplate = Mustache.to_html(this.template, { recordings: this.collection.toJSON() });
+        var compiledTemplate = Mustache.to_html(this.template, { recordings: this.collection.toJSON()});
         this.$el.html(compiledTemplate);
         this.styleButtons();
 
