@@ -17,9 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-/**
- * GET /api/recordings
- */
+// GET /api/recordings
 app.get('/api/recordings', function(req,res){
 
     connection.query("CALL GetAllRecordings();", function(err, rows){
