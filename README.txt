@@ -45,8 +45,15 @@ Dev Env Setup
     Public site URL -  http://localhost:8080
     Admin panel URL - http://localhost:8080/panel.html
 
-	NOTE: Because the two servers run on separate ports then Chrome will not load
+IMPORTANT NOTE: 
+
+	Because the two servers run on separate ports then Chrome will not load
 	any AJAX stuff from the db service unless you disable web security when you
 	launch Chrome.
 
+	OSX:	
 		$ open /Applications/Google\ Chrome.app --args --disable-web-security	
+		
+	Windows:
+		chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
+		
