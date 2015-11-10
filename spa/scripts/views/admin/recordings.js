@@ -2,6 +2,10 @@
 var $ = require('jquery');
 var Mustache = require('mustache');
 
+var artistsCollection = require('../../collections/artists.js');
+var typesCollection = require('../../collections/types.js');
+var RecordingEditPanelView = require('./recordingEditPanel.js')
+
 module.exports = Backbone.View.extend({
 
     tagName: "div",
@@ -30,12 +34,12 @@ module.exports = Backbone.View.extend({
             recordingId = $tr.attr("data-recordingId");
 
         var recordingModel = this.collection.get(recordingId);
-        recordingModel.set("artistOptions", x7.collections.artists.toJSON(), {silent: true});
-        recordingModel.set("typeOptions", x7.collections.types.toJSON(), { silent: true });
+        recordingModel.set("artistOptions", artistsCollection.toJSON(), {silent: true});
+        recordingModel.set("typeOptions", typesCollection.toJSON(), { silent: true });
 
-        var recordingEditPanel = new x7.RecordingEditPanelView({
+        var recordingEditPanel = new RecordingEditPanelView({
             model: recordingModel,
-            template: x7.templates.recordingEditPanel
+            template: $('#template_recordingEditPanel').html()
         });
 
         // get rid of any existing edit panels

@@ -1,4 +1,10 @@
-﻿x7.RecordingEditPanelView = Backbone.View.extend({
+﻿var _ = require('underscore');
+var $ = require('jquery');
+var Mustache = require('mustache');
+
+var RecordingAddEditView = require("./recordingAddEdit.js");
+
+module.exports = Backbone.View.extend({
 
     tagName: "tr",
     id: "recordingEditPanel",
@@ -49,9 +55,9 @@
         this.$el.html(compiledTemplate);
 
         // create the info form subview and render it
-        var recordingInfoForm = new x7.RecordingAddEditView({
+        var recordingInfoForm = new RecordingAddEditView({
             model: this.model,
-            template: x7.templates.recordingAddEdit
+            template: $("#template_recordingAddEdit").html()
         });
 
         this.$el.find(".recordingInfoFormContainer").html(recordingInfoForm.render().el);
