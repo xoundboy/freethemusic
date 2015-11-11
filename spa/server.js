@@ -1,7 +1,7 @@
 // Set the server port
 var SERVER_PORT = 8000;
-
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var mysql = require('mysql');
 var bodyParser = require("body-parser");
@@ -32,6 +32,8 @@ app.get('/api/recordings', function(req,res){
         res.json(data);
     });
 });
+
+app.use(express.static("."));
 
 http.listen(SERVER_PORT, function(){
     console.log("Connected & Listen to port " + SERVER_PORT);

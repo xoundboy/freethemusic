@@ -7,7 +7,7 @@ module.exports = {
         admin: "./adminApp"
     },
     output: {
-        path: path.join(__dirname, "js"),
+        path: path.join(__dirname, "."),
         filename: "[name].bundle.js",
         chunkFilename: "[id].chunk.js"
     },
