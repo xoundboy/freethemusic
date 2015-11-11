@@ -3,17 +3,20 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server --inline -d"
+    "start": "node server.js"
   },
   "dependencies": {
     "backbone": "^1.2.3",
     "backbone-nested-model": "^1.0.0-prerelease",
     "backgrid": "^0.3.5",
+    "body-parser": "^1.14.1",
+    "ejs": "^2.3.4",
     "jquery": "^2.1.4",
     "jquery-serializejson": "^2.5.0",
     "jquery-ui": "^1.10.5",
     "jquery-validation": "^1.14.0",
     "mustache": "^2.2.0",
+    "mysql": "^2.9.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {

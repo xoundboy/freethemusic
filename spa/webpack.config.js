@@ -1,6 +1,5 @@
 var path = require('path');
 
-var CommonsChunkPlugin = require("./node_modules/webpack/lib/optimize/CommonsChunkPlugin");
 module.exports = {
     entry: {
         public: "./app",
@@ -8,12 +7,8 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, "js"),
-        filename: "[name].bundle.js",
-        chunkFilename: "[id].chunk.js"
+        filename: "[name].bundle.js"
     },
-    plugins: [
-        new CommonsChunkPlugin("commons.js")
-    ],
     watch: true,
     module: {
         loaders: [
@@ -44,4 +39,4 @@ module.exports = {
     resolve: {
         extensions: ['', '.js']
     }
-}
+};

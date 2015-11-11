@@ -47,7 +47,7 @@ module.exports = Backbone.View.extend({
                         //x7.views.recordings.highlightRecording(that.model.id);
                     }
                 });
-        };
+        }
     },
 
     render: function () {
