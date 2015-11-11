@@ -4,7 +4,7 @@ var Mustache = require('mustache');
 
 var artistsCollection = require('../../collections/artists.js');
 var typesCollection = require('../../collections/types.js');
-var RecordingEditPanelView = require('./recordingEditPanel.js')
+var RecordingEditPanelView = require('./recordingEditPanel.js');
 
 module.exports = Backbone.View.extend({
 
