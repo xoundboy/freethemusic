@@ -33,7 +33,7 @@ app.get('/api/recordings', function(req,res){
     });
 });
 
-app.use(express.static("."));
+app.use(express.static('public'));
 
 http.listen(SERVER_PORT, function(){
     console.log("Connected & Listen to port " + SERVER_PORT);

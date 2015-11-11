@@ -5,20 +5,20 @@ webpackJsonp([0],[
   \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(/*! ./css/reset.scss */ 1);
-	__webpack_require__(/*! ./css/admin/base.scss */ 5);
-	__webpack_require__(/*! ./css/admin/style.scss */ 7);
+	//require('./css/reset.scss');
+	//require('./css/admin/base.scss');//
+	//require('./css/admin/style.scss');
+	//
+	//require('./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.min.css');
+	//require('./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css');
+	//require('./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css');
 	
-	__webpack_require__(/*! ./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.min.css */ 9);
-	__webpack_require__(/*! ./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css */ 25);
-	__webpack_require__(/*! ./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css */ 27);
-	
-	var $ = __webpack_require__(/*! jquery */ 29);
-	var Backbone = __webpack_require__(/*! backbone */ 30);
+	var $ = __webpack_require__(/*! jquery */ 1);
+	var Backbone = __webpack_require__(/*! backbone */ 2);
 	
 	// Bootstrap the application when the DOM is ready
 	$(function(){
-	    __webpack_require__(/*! ./scripts/routers/adminRouter.js */ 32);
+	    __webpack_require__(/*! ./routers/adminRouter.js */ 4);
 	    Backbone.history.start();
 	});
 
@@ -26,133 +26,17 @@ webpackJsonp([0],[
 /* 1 */,
 /* 2 */,
 /* 3 */,
-/* 4 */,
-/* 5 */
-/*!*****************************!*\
-  !*** ./css/admin/base.scss ***!
-  \*****************************/
+/* 4 */
+/*!********************************!*\
+  !*** ./routers/adminRouter.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
+	var $ = __webpack_require__(/*! jquery */ 1);
+	var Backbone = __webpack_require__(/*! backbone */ 2);
 	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./base.scss */ 6);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./base.scss", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./base.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 6 */
-/*!************************************************************!*\
-  !*** ./~/css-loader!./~/sass-loader!./css/admin/base.scss ***!
-  \************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 3)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "body, html {\n  font-size: 0.825em;\n  background-color: #333333;\n  min-width: 320px; }\n\nform {\n  margin: 30px 0; }\n\np {\n  margin: 10px 0;\n  line-height: 22px; }\n  p strong {\n    font-weight: 900; }\n  p.small {\n    font-size: 0.8125em; }\n  p label {\n    display: inline-block;\n    width: 60px;\n    text-align: right;\n    vertical-align: top;\n    margin-right: 10px; }\n    p label.error {\n      display: block;\n      width: auto;\n      text-align: left;\n      color: red;\n      margin-left: 79px;\n      font-size: 0.8125em; }\n  p.buttons {\n    margin-top: 20px; }\n    p.buttons .nextBtn, p.buttons #step3NextBtn {\n      float: right; }\n\ntable.benGrid thead th {\n  color: #E1E1E1;\n  background: #585858;\n  padding: 10px;\n  border: 1px solid #666666;\n  cursor: pointer; }\n  table.benGrid thead th:hover {\n    background: #0078A3;\n    border: 1px solid #0078A3; }\n\ntable.benGrid tbody tr {\n  color: #E1E1E1; }\n  table.benGrid tbody tr.loadError {\n    background: #852C09; }\n  table.benGrid tbody tr.highlighted {\n    background: #FFAA7F;\n    color: #282424; }\n  table.benGrid tbody tr.recordingRow:hover {\n    background: #D4D4D4;\n    color: #1E1E1E;\n    cursor: pointer; }\n  table.benGrid tbody tr.recordingEdit {\n    background: #BBBCF5;\n    color: #282424; }\n  table.benGrid tbody tr td {\n    padding: 6px;\n    font-size: 0.9em; }\n    table.benGrid tbody tr td .nowPlaying {\n      background: green; }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 7 */
-/*!******************************!*\
-  !*** ./css/admin/style.scss ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./style.scss */ 8);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./style.scss", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./style.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 8 */
-/*!*************************************************************!*\
-  !*** ./~/css-loader!./~/sass-loader!./css/admin/style.scss ***!
-  \*************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 3)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "h1, h2, h3, h4 {\n  font-weight: 900; }\n\n.ui-tabs .ui-tabs-panel h2 {\n  font-size: 1.3em;\n  line-height: 2.3em; }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */
-/*!****************************************!*\
-  !*** ./scripts/routers/adminRouter.js ***!
-  \****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(/*! jquery */ 29);
-	var Backbone = __webpack_require__(/*! backbone */ 30);
-	
-	var dashboardModel = __webpack_require__(/*! ../models/dashboard.js */ 33);
-	var DashboardView = __webpack_require__(/*! ../views/admin/dashboard.js */ 34);
+	var dashboardModel = __webpack_require__(/*! ../models/dashboard.js */ 5);
+	var DashboardView = __webpack_require__(/*! ../views/admin/dashboard.js */ 6);
 	var dashboardView = new DashboardView({ model: dashboardModel, template: $("#template_dashboard").html() });
 	
 	module.exports = new (Backbone.Router.extend({
@@ -169,13 +53,13 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 33 */
-/*!*************************************!*\
-  !*** ./scripts/models/dashboard.js ***!
-  \*************************************/
+/* 5 */
+/*!*****************************!*\
+  !*** ./models/dashboard.js ***!
+  \*****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(/*! jquery */ 29);
+	var $ = __webpack_require__(/*! jquery */ 1);
 	
 	module.exports = new ( Backbone.Model.extend({
 	    defaults: {
@@ -189,26 +73,26 @@ webpackJsonp([0],[
 	}))();
 
 /***/ },
-/* 34 */
-/*!******************************************!*\
-  !*** ./scripts/views/admin/dashboard.js ***!
-  \******************************************/
+/* 6 */
+/*!**********************************!*\
+  !*** ./views/admin/dashboard.js ***!
+  \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(/*! jquery-ui/tabs */ 35);
-	var $ = __webpack_require__(/*! jquery */ 29);
-	var _ = __webpack_require__(/*! underscore */ 31);
-	var Backbone = __webpack_require__(/*! backbone */ 30);
-	var Mustache = __webpack_require__(/*! mustache */ 38);
+	__webpack_require__(/*! jquery-ui/tabs */ 7);
+	var $ = __webpack_require__(/*! jquery */ 1);
+	var _ = __webpack_require__(/*! underscore */ 3);
+	var Backbone = __webpack_require__(/*! backbone */ 2);
+	var Mustache = __webpack_require__(/*! mustache */ 10);
 	
 	// subview: recordings
-	var recordingsCollection = __webpack_require__(/*! ../../collections/recordings.js */ 39);
-	var RecordingsView = __webpack_require__(/*! ../../views/admin/recordings.js */ 43);
+	var recordingsCollection = __webpack_require__(/*! ../../collections/recordings.js */ 11);
+	var RecordingsView = __webpack_require__(/*! ../../views/admin/recordings.js */ 15);
 	var recordingsView = new RecordingsView({collection: recordingsCollection, template: $("#template_recordings").html()});
 	
 	// subview: audioUpload
-	var audioUploadModel = __webpack_require__(/*! ../../models/audioUpload.js */ 49);
-	var AudioUploadView = __webpack_require__(/*! ../../views/admin/audioUpload.js */ 50);
+	var audioUploadModel = __webpack_require__(/*! ../../models/audioUpload.js */ 21);
+	var AudioUploadView = __webpack_require__(/*! ../../views/admin/audioUpload.js */ 22);
 	var audioUploadView = new AudioUploadView({model: audioUploadModel, template: $("#template_audioUpload").html()});
 	
 	
@@ -250,15 +134,15 @@ webpackJsonp([0],[
 	});
 
 /***/ },
-/* 35 */
-/*!*****************************!*\
-  !*** ./~/jquery-ui/tabs.js ***!
-  \*****************************/
+/* 7 */
+/*!******************************!*\
+  !*** ../~/jquery-ui/tabs.js ***!
+  \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jQuery = __webpack_require__(/*! jquery */ 29);
-	__webpack_require__(/*! ./core */ 36);
-	__webpack_require__(/*! ./widget */ 37);
+	var jQuery = __webpack_require__(/*! jquery */ 1);
+	__webpack_require__(/*! ./core */ 8);
+	__webpack_require__(/*! ./widget */ 9);
 	
 	/*!
 	 * jQuery UI Tabs 1.10.4
@@ -1112,17 +996,17 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */
-/*!*******************************************!*\
-  !*** ./scripts/collections/recordings.js ***!
-  \*******************************************/
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */
+/*!***********************************!*\
+  !*** ./collections/recordings.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var config = __webpack_require__(/*! ../../config.js */ 40);
-	var recordingModel = __webpack_require__(/*! ../models/recording.js */ 41);
+	var config = __webpack_require__(/*! ../../config.js */ 12);
+	var recordingModel = __webpack_require__(/*! ../models/recording.js */ 13);
 	
 	module.exports = new (Backbone.Collection.extend({
 	
@@ -1152,10 +1036,10 @@ webpackJsonp([0],[
 	}))();
 
 /***/ },
-/* 40 */
-/*!*******************!*\
-  !*** ./config.js ***!
-  \*******************/
+/* 12 */
+/*!********************!*\
+  !*** ../config.js ***!
+  \********************/
 /***/ function(module, exports) {
 
 	/**
@@ -1166,13 +1050,13 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 41 */
-/*!*************************************!*\
-  !*** ./scripts/models/recording.js ***!
-  \*************************************/
+/* 13 */
+/*!*****************************!*\
+  !*** ./models/recording.js ***!
+  \*****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var BackboneDeepModel = __webpack_require__(/*! backbone-nested-model */ 42);
+	var BackboneDeepModel = __webpack_require__(/*! backbone-nested-model */ 14);
 	
 	module.exports = BackboneDeepModel.extend({
 	    urlRoot: "api/Recordings",
@@ -1192,28 +1076,28 @@ webpackJsonp([0],[
 	});
 
 /***/ },
-/* 42 */
-/*!**********************************************!*\
-  !*** ./~/backbone-nested-model/lib/model.js ***!
-  \**********************************************/
+/* 14 */
+/*!***********************************************!*\
+  !*** ../~/backbone-nested-model/lib/model.js ***!
+  \***********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	!function(e,t){if(true)module.exports=t(__webpack_require__(/*! backbone */ 30),__webpack_require__(/*! underscore */ 31));else if("function"==typeof define&&define.amd)define(["backbone","underscore"],t);else{var n="object"==typeof exports?t(require("backbone"),require("underscore")):t(e.Backbone,e._);for(var i in n)("object"==typeof exports?exports:e)[i]=n[i]}}(this,function(e,t){return function(e){function t(i){if(n[i])return n[i].exports;var r=n[i]={exports:{},id:i,loaded:!1};return e[i].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){"use strict";var i=n(2),r=n(1),s=n(3);e.exports=r.Model.extend({schema:{},children:null,constructor:function(e,t){t||(t={}),t.parse=!0,this.children={},r.Model.call(this,e,t)},parse:function(e){var t=i.keys(this.schema),n=i.reduce(t,i.bind(this.mapSchema,this),e);return n},mapSchema:function(e,t){var n,r,o;return r=e[t],!r&&this.defaults&&this.defaults[t]&&(r=i.clone(this.defaults[t])),r&&(n=this.schema[t],o=new n(r),o.on("all",function(e){var n=i.rest(Array.prototype.slice.call(arguments,0),1),r=[].concat([s.modifyEvent(e,t)],n);this.trigger.apply(this,r),"destroy"!==e&&-1===e.indexOf(":")&&this.trigger.apply(this,[].concat([e],n))},this),o.on("change",function(e){this.attributes[t]=i.clone(e.attributes),this.changed[t]=e.changed},this),o.on("destroy",function(){delete this.attributes[t],delete this.schema[t]},this),this.children[t]=o,e[t]=o.toJSON()),e},get:function(e){return s.getChildAttribute(e,this.children)||this.attributes[e]},set:function(e,t,n){var o,c,a,h,u,l;if(null===e)return this;"object"==typeof e?(o=e,n=t):(o={})[e]=t,n||(n={});var d={};for(l in o)if(c=s.getChildKey(l),a=s.getChild(c.key,this.children),h=a,u=o[l],-1!==l.indexOf(".")||-1!==l.indexOf("["))h=s.getChildContext(a,c.relativeKey,u),h.child.set(h.values,n),delete o[l],o[c.key]=a.toJSON(),d[c.key]=h.child.collection?[h.child.changed]:h.child.changed,n.unset=!1;else{if(!this.children.hasOwnProperty(l)&&this.schema.hasOwnProperty(l)){var f=this.schema[l];this.children[l]=new f}if(this.children.hasOwnProperty(l)){a=this.children[l];var p=i.clone(o[l]);a instanceof r.Collection?(a.reset(p),d[l]=i.clone(p)):(a.set(p,n),d[l]=a.changed),null!==p||"undefined"==typeof p?n.unset=!1:n.unset===!0&&delete this.children[l],o[l]=a.toJSON()}}var g=r.Model.prototype.set.apply(this,[o,n]);return this.changed=i.extend({},this.changed,d),g},toJSON:function(){var e,t;e=r.Model.prototype.toJSON.apply(this,arguments);for(t in this.children)e[t]=this.children[t].toJSON();return e},validate:function(){return s.validateInSchema.apply(this,arguments)}})},function(t){t.exports=e},function(e){e.exports=t},function(e,t,n){"use strict";var i=n(2),r=n(1);t.modifyEvent=function(e,t){var n=e.split(":");return[].concat([n[0],t],i.rest(n,1)).join(":")},t.validateInSchema=function(e,t){var n,i,r,s,o=[];for(r in this.schema)n=this.children[r],n&&"function"==typeof n.validate&&(s=n.validate,i=s.call(n,e[r],t),i&&o.push(i));return o.length?o:void 0},t.getChildAttribute=function(e,t){var n,i,r,s,o,c,a,h;if(n=e.indexOf("."),i=e.indexOf("["),r=-1!==n&&(i>n||-1===i),s=-1!==i&&(n>i||-1===n),r)return a=e.substring(0,n),h=t[a].get(e.substring(n+1));if(s){if(o=e.indexOf("]",i),c=e.substring(i+1,o),a=e.substring(0,i),t.hasOwnProperty(a)){h=t[a];var u=h.at(c);if(!u)return;return e=e.substring(o+1),-1===n?u.toJSON():u.get(e.substring(e.indexOf(".")+1))}}else;},t.getChildContext=function(e,t,n){var i,s,o,c,a;return e instanceof r.Collection&&(s=t.indexOf("]"),o=parseInt(t.substring(1,s),10),i=e.at(o)),-1!==t.indexOf(".")&&(c=t.substring(t.indexOf(".")+1),a={},a[c]=n,n=a),{child:i||e,values:n}},t.getChildKey=function(e){var t,n,i,r,s;return t=e.indexOf("."),n=e.indexOf("["),i=-1!==t&&(n>t||-1===n),r=-1!==n&&(t>n||-1===t),s=i?e.substring(0,t):r?e.substring(0,n):e,{key:s,relativeKey:s!==e?e.replace(s,""):e}},t.getChild=function(e,t){return t[e]}}])});
+	!function(e,t){if(true)module.exports=t(__webpack_require__(/*! backbone */ 2),__webpack_require__(/*! underscore */ 3));else if("function"==typeof define&&define.amd)define(["backbone","underscore"],t);else{var n="object"==typeof exports?t(require("backbone"),require("underscore")):t(e.Backbone,e._);for(var i in n)("object"==typeof exports?exports:e)[i]=n[i]}}(this,function(e,t){return function(e){function t(i){if(n[i])return n[i].exports;var r=n[i]={exports:{},id:i,loaded:!1};return e[i].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){"use strict";var i=n(2),r=n(1),s=n(3);e.exports=r.Model.extend({schema:{},children:null,constructor:function(e,t){t||(t={}),t.parse=!0,this.children={},r.Model.call(this,e,t)},parse:function(e){var t=i.keys(this.schema),n=i.reduce(t,i.bind(this.mapSchema,this),e);return n},mapSchema:function(e,t){var n,r,o;return r=e[t],!r&&this.defaults&&this.defaults[t]&&(r=i.clone(this.defaults[t])),r&&(n=this.schema[t],o=new n(r),o.on("all",function(e){var n=i.rest(Array.prototype.slice.call(arguments,0),1),r=[].concat([s.modifyEvent(e,t)],n);this.trigger.apply(this,r),"destroy"!==e&&-1===e.indexOf(":")&&this.trigger.apply(this,[].concat([e],n))},this),o.on("change",function(e){this.attributes[t]=i.clone(e.attributes),this.changed[t]=e.changed},this),o.on("destroy",function(){delete this.attributes[t],delete this.schema[t]},this),this.children[t]=o,e[t]=o.toJSON()),e},get:function(e){return s.getChildAttribute(e,this.children)||this.attributes[e]},set:function(e,t,n){var o,c,a,h,u,l;if(null===e)return this;"object"==typeof e?(o=e,n=t):(o={})[e]=t,n||(n={});var d={};for(l in o)if(c=s.getChildKey(l),a=s.getChild(c.key,this.children),h=a,u=o[l],-1!==l.indexOf(".")||-1!==l.indexOf("["))h=s.getChildContext(a,c.relativeKey,u),h.child.set(h.values,n),delete o[l],o[c.key]=a.toJSON(),d[c.key]=h.child.collection?[h.child.changed]:h.child.changed,n.unset=!1;else{if(!this.children.hasOwnProperty(l)&&this.schema.hasOwnProperty(l)){var f=this.schema[l];this.children[l]=new f}if(this.children.hasOwnProperty(l)){a=this.children[l];var p=i.clone(o[l]);a instanceof r.Collection?(a.reset(p),d[l]=i.clone(p)):(a.set(p,n),d[l]=a.changed),null!==p||"undefined"==typeof p?n.unset=!1:n.unset===!0&&delete this.children[l],o[l]=a.toJSON()}}var g=r.Model.prototype.set.apply(this,[o,n]);return this.changed=i.extend({},this.changed,d),g},toJSON:function(){var e,t;e=r.Model.prototype.toJSON.apply(this,arguments);for(t in this.children)e[t]=this.children[t].toJSON();return e},validate:function(){return s.validateInSchema.apply(this,arguments)}})},function(t){t.exports=e},function(e){e.exports=t},function(e,t,n){"use strict";var i=n(2),r=n(1);t.modifyEvent=function(e,t){var n=e.split(":");return[].concat([n[0],t],i.rest(n,1)).join(":")},t.validateInSchema=function(e,t){var n,i,r,s,o=[];for(r in this.schema)n=this.children[r],n&&"function"==typeof n.validate&&(s=n.validate,i=s.call(n,e[r],t),i&&o.push(i));return o.length?o:void 0},t.getChildAttribute=function(e,t){var n,i,r,s,o,c,a,h;if(n=e.indexOf("."),i=e.indexOf("["),r=-1!==n&&(i>n||-1===i),s=-1!==i&&(n>i||-1===n),r)return a=e.substring(0,n),h=t[a].get(e.substring(n+1));if(s){if(o=e.indexOf("]",i),c=e.substring(i+1,o),a=e.substring(0,i),t.hasOwnProperty(a)){h=t[a];var u=h.at(c);if(!u)return;return e=e.substring(o+1),-1===n?u.toJSON():u.get(e.substring(e.indexOf(".")+1))}}else;},t.getChildContext=function(e,t,n){var i,s,o,c,a;return e instanceof r.Collection&&(s=t.indexOf("]"),o=parseInt(t.substring(1,s),10),i=e.at(o)),-1!==t.indexOf(".")&&(c=t.substring(t.indexOf(".")+1),a={},a[c]=n,n=a),{child:i||e,values:n}},t.getChildKey=function(e){var t,n,i,r,s;return t=e.indexOf("."),n=e.indexOf("["),i=-1!==t&&(n>t||-1===n),r=-1!==n&&(t>n||-1===t),s=i?e.substring(0,t):r?e.substring(0,n):e,{key:s,relativeKey:s!==e?e.replace(s,""):e}},t.getChild=function(e,t){return t[e]}}])});
 
 /***/ },
-/* 43 */
-/*!*******************************************!*\
-  !*** ./scripts/views/admin/recordings.js ***!
-  \*******************************************/
+/* 15 */
+/*!***********************************!*\
+  !*** ./views/admin/recordings.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(/*! underscore */ 31);
-	var $ = __webpack_require__(/*! jquery */ 29);
-	var Mustache = __webpack_require__(/*! mustache */ 38);
+	var _ = __webpack_require__(/*! underscore */ 3);
+	var $ = __webpack_require__(/*! jquery */ 1);
+	var Mustache = __webpack_require__(/*! mustache */ 10);
 	
-	var artistsCollection = __webpack_require__(/*! ../../collections/artists.js */ 44);
-	var typesCollection = __webpack_require__(/*! ../../collections/types.js */ 45);
-	var RecordingEditPanelView = __webpack_require__(/*! ./recordingEditPanel.js */ 46);
+	var artistsCollection = __webpack_require__(/*! ../../collections/artists.js */ 16);
+	var typesCollection = __webpack_require__(/*! ../../collections/types.js */ 17);
+	var RecordingEditPanelView = __webpack_require__(/*! ./recordingEditPanel.js */ 18);
 	
 	module.exports = Backbone.View.extend({
 	
@@ -1346,10 +1230,10 @@ webpackJsonp([0],[
 	});
 
 /***/ },
-/* 44 */
-/*!****************************************!*\
-  !*** ./scripts/collections/artists.js ***!
-  \****************************************/
+/* 16 */
+/*!********************************!*\
+  !*** ./collections/artists.js ***!
+  \********************************/
 /***/ function(module, exports) {
 
 	module.exports = new (Backbone.Collection.extend({
@@ -1358,10 +1242,10 @@ webpackJsonp([0],[
 	}))();
 
 /***/ },
-/* 45 */
-/*!**************************************!*\
-  !*** ./scripts/collections/types.js ***!
-  \**************************************/
+/* 17 */
+/*!******************************!*\
+  !*** ./collections/types.js ***!
+  \******************************/
 /***/ function(module, exports) {
 
 	module.exports = new (Backbone.Collection.extend({
@@ -1370,17 +1254,17 @@ webpackJsonp([0],[
 	}))();
 
 /***/ },
-/* 46 */
-/*!***************************************************!*\
-  !*** ./scripts/views/admin/recordingEditPanel.js ***!
-  \***************************************************/
+/* 18 */
+/*!*******************************************!*\
+  !*** ./views/admin/recordingEditPanel.js ***!
+  \*******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(/*! underscore */ 31);
-	var $ = __webpack_require__(/*! jquery */ 29);
-	var Mustache = __webpack_require__(/*! mustache */ 38);
+	var _ = __webpack_require__(/*! underscore */ 3);
+	var $ = __webpack_require__(/*! jquery */ 1);
+	var Mustache = __webpack_require__(/*! mustache */ 10);
 	
-	var RecordingAddEditView = __webpack_require__(/*! ./recordingAddEdit.js */ 47);
+	var RecordingAddEditView = __webpack_require__(/*! ./recordingAddEdit.js */ 19);
 	
 	module.exports = Backbone.View.extend({
 	
@@ -1448,16 +1332,16 @@ webpackJsonp([0],[
 	});
 
 /***/ },
-/* 47 */
-/*!*************************************************!*\
-  !*** ./scripts/views/admin/recordingAddEdit.js ***!
-  \*************************************************/
+/* 19 */
+/*!*****************************************!*\
+  !*** ./views/admin/recordingAddEdit.js ***!
+  \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(/*! jquery-ui/datepicker */ 48);
+	__webpack_require__(/*! jquery-ui/datepicker */ 20);
 	
-	var _ = __webpack_require__(/*! underscore */ 31);
-	var Mustache = __webpack_require__(/*! mustache */ 38);
+	var _ = __webpack_require__(/*! underscore */ 3);
+	var Mustache = __webpack_require__(/*! mustache */ 10);
 	
 	module.exports = Backbone.View.extend({
 	
@@ -1492,14 +1376,14 @@ webpackJsonp([0],[
 	});
 
 /***/ },
-/* 48 */
-/*!***********************************!*\
-  !*** ./~/jquery-ui/datepicker.js ***!
-  \***********************************/
+/* 20 */
+/*!************************************!*\
+  !*** ../~/jquery-ui/datepicker.js ***!
+  \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var jQuery = __webpack_require__(/*! jquery */ 29);
-	__webpack_require__(/*! ./core */ 36);
+	var jQuery = __webpack_require__(/*! jquery */ 1);
+	__webpack_require__(/*! ./core */ 8);
 	
 	/*!
 	 * jQuery UI Datepicker 1.10.4
@@ -3542,14 +3426,14 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 49 */
-/*!***************************************!*\
-  !*** ./scripts/models/audioUpload.js ***!
-  \***************************************/
+/* 21 */
+/*!*******************************!*\
+  !*** ./models/audioUpload.js ***!
+  \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var artistsCollection = __webpack_require__(/*! ../collections/artists.js */ 44);
-	var typesCollection = __webpack_require__(/*! ../collections/types.js */ 45);
+	var artistsCollection = __webpack_require__(/*! ../collections/artists.js */ 16);
+	var typesCollection = __webpack_require__(/*! ../collections/types.js */ 17);
 	
 	module.exports = new (Backbone.Model.extend({
 	
@@ -3598,18 +3482,18 @@ webpackJsonp([0],[
 	}))();
 
 /***/ },
-/* 50 */
-/*!********************************************!*\
-  !*** ./scripts/views/admin/audioUpload.js ***!
-  \********************************************/
+/* 22 */
+/*!************************************!*\
+  !*** ./views/admin/audioUpload.js ***!
+  \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(/*! jquery-ui/button */ 51);
-	var $ = __webpack_require__(/*! jquery */ 29);
-	var _ = __webpack_require__(/*! underscore */ 31);
-	var Mustache = __webpack_require__(/*! mustache */ 38);
+	__webpack_require__(/*! jquery-ui/button */ 23);
+	var $ = __webpack_require__(/*! jquery */ 1);
+	var _ = __webpack_require__(/*! underscore */ 3);
+	var Mustache = __webpack_require__(/*! mustache */ 10);
 	
-	var RecordingAddEdit = __webpack_require__(/*! ./recordingAddEdit.js */ 47);
+	var RecordingAddEdit = __webpack_require__(/*! ./recordingAddEdit.js */ 19);
 	
 	
 	module.exports = Backbone.View.extend({
@@ -3724,4 +3608,4 @@ webpackJsonp([0],[
 
 /***/ }
 ]);
-//# sourceMappingURL=admin.bundle.js.map
+//# sourceMappingURL=backend.js.map

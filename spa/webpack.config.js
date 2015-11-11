@@ -1,19 +1,22 @@
 var path = require('path');
+var webpack = require('webpack');
 
-var CommonsChunkPlugin = require("./node_modules/webpack/lib/optimize/CommonsChunkPlugin");
+var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('shared.js');
+
 module.exports = {
+    context: path.resolve('scripts'),
     entry: {
-        public: "./app",
-        admin: "./adminApp"
+        frontend: './app.js',
+        backend: './adminApp.js'
     },
     output: {
-        path: path.join(__dirname, "."),
-        filename: "[name].bundle.js",
-        chunkFilename: "[id].chunk.js"
+        path: path.resolve('public/assets/js'),
+        filename: "[name].js"
     },
-    plugins: [
-        new CommonsChunkPlugin("commons.js")
-    ],
+    plugins: [commonsPlugin],
+    devServer: {
+        contentBase: 'public'
+    },
     watch: true,
     module: {
         loaders: [
@@ -44,4 +47,4 @@ module.exports = {
     resolve: {
         extensions: ['', '.js']
     }
-}
+};
