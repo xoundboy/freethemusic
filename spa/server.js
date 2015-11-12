@@ -33,10 +33,20 @@ app.get('/api/recordings', function(req,res){
     });
 });
 
-// DELETE /api/recordings/id
-app.delete('/api/recordings/:id', function(req,res){
+// DELETE /api/recording/id
+app.delete('/api/recording/:id', function(req,res){
     // TODO - delete the record
-    res.sendStatus(200);
+
+    connection.query("CALL DeleteRecording(" + req.params.id + ");", function(err, rows){
+        if(err){
+            res.sendStatus(400);
+            return;
+        }
+
+        res.sendStatus(200);
+    });
+
+
 });
 
 app.use(express.static('public'));

@@ -1,5 +1,6 @@
 ﻿module.exports = Backbone.Model.extend({
-    urlRoot: "api/recordings",
+
+    urlRoot: "api/recording",
 
     formattedDate: function (date) {
         var d = new Date(date);

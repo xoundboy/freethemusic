@@ -16,7 +16,7 @@ module.exports = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
-        this.collection.on('reset sort remove fetch change', this.render, this);
+        this.listenTo(this.collection, 'reset sort remove fetch change', this.render);
         this.collection.fetch();
         this.audio.addEventListener('error', $.proxy(this.handleAudioLoadError, this));
     },

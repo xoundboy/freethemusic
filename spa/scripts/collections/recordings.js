@@ -1,15 +1,15 @@
-﻿var config = require('../../config.js');
+﻿
 var recordingModel = require('../models/recording.js');
 
 module.exports = Backbone.Collection.extend({
 
     model: recordingModel,
-    url: config.databaseUrl + "api/Recordings",
+    url: "api/recordings",
     sort_key: "name",
 
     initialize: function() {
         this.bind("remove", function (model) {
-            model.destroy();
+            model.destroy({wait: true});
         });
     },
 
