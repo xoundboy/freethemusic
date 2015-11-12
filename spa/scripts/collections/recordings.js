@@ -1,7 +1,7 @@
 ﻿var config = require('../../config.js');
 var recordingModel = require('../models/recording.js');
 
-module.exports = new (Backbone.Collection.extend({
+module.exports = Backbone.Collection.extend({
 
     model: recordingModel,
     url: config.databaseUrl + "api/Recordings",
@@ -26,4 +26,4 @@ module.exports = new (Backbone.Collection.extend({
         return response.Recordings[0];
     }
 
-}))();
+});

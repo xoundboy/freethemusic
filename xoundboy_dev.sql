@@ -508,7 +508,8 @@ FROM     acts a, types t, recordings r
     LEFT JOIN images i
 ON       r.imgID = i.id
 WHERE    r.actID = a.id
-AND      r.typeID = t.id;
+AND      r.typeID = t.id
+ORDER BY r.audioFile;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -525,4 +526,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-09 22:35:44
+-- Dump completed on 2015-11-12 15:23:43

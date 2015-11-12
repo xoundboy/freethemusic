@@ -1,6 +1,6 @@
 ﻿var $ = require('jquery');
 
-module.exports = new ( Backbone.Model.extend({
+module.exports = Backbone.Model.extend({
     defaults: {
         currentTabHref: "#recordings"
     },
@@ -9,4 +9,4 @@ module.exports = new ( Backbone.Model.extend({
         return $('#tabs a[href="' + this.get("currentTabHref") + '"]').parent().index();
     }
 
-}))();
+});

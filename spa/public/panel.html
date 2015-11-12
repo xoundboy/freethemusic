@@ -107,7 +107,7 @@
 </script>
 
 <script type="text/template" id="template_recordings">
-    <table id="recordings" class="benGrid">
+    <table id="recordings_table" class="benGrid">
         <thead>
         <tr>
             <th></th>
@@ -150,11 +150,11 @@
     <input type="hidden" name="size" value="{{size}}" />
     <p>
         <label for="name">Title</label>
-        <input type="text" name="name" maxlength="40" value="{{name}}" required />
+        <input type="text" name="name" id="name" maxlength="40" value="{{name}}" required />
     </p>
     <p>
         <label for="artistId">Artist</label>
-        <select name="artistId" required>
+        <select name="artistId" id="artistId" required>
             {{^artistOptions}}
             <option value="">Loading artists</option>
             {{/artistOptions}}
@@ -166,7 +166,7 @@
     </p>
     <p>
         <label for="typeId">Type</label>
-        <select name="typeId" required>
+        <select name="typeId" id="typeId" required>
             {{^typeOptions}}
             <option value="">Loading types</option>
             {{/typeOptions}}
@@ -178,15 +178,15 @@
     </p>
     <p>
         <label for="location">Location</label>
-        <input type="text" name="location" value="{{location}}" required />
+        <input type="text" name="location" id="location" value="{{location}}" required />
     </p>
     <p>
         <label for="date">Date</label>
-        <input class="datepicker" type="text" name="date" value="{{date}}" required />
+        <input class="datepicker" type="text" name="date" id="date" value="{{date}}" required />
     </p>
     <p>
         <label for="notes">Notes</label>
-        <textarea name="notes">{{notes}}</textarea>
+        <textarea name="notes" id="notes">{{notes}}</textarea>
     </p>
 
 

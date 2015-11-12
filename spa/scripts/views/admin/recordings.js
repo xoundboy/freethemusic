@@ -2,8 +2,8 @@
 var $ = require('jquery');
 var Mustache = require('mustache');
 
-var artistsCollection = require('../../collections/artists.js');
-var typesCollection = require('../../collections/types.js');
+var ArtistsCollection = require('../../collections/artists.js');
+var TypesCollection = require('../../collections/types.js');
 var RecordingEditPanelView = require('./recordingEditPanel.js');
 
 module.exports = Backbone.View.extend({
@@ -34,8 +34,8 @@ module.exports = Backbone.View.extend({
             recordingId = $tr.attr("data-recordingId");
 
         var recordingModel = this.collection.get(recordingId);
-        recordingModel.set("artistOptions", artistsCollection.toJSON(), {silent: true});
-        recordingModel.set("typeOptions", typesCollection.toJSON(), { silent: true });
+        recordingModel.set("artistOptions", new ArtistsCollection().toJSON(), {silent: true});
+        recordingModel.set("typeOptions", new TypesCollection().toJSON(), { silent: true });
 
         var recordingEditPanel = new RecordingEditPanelView({
             model: recordingModel,
@@ -50,6 +50,7 @@ module.exports = Backbone.View.extend({
     },
 
     deleteRecording: function (e) {
+
         var $btn = $(e.currentTarget),
             recordingId = $btn.closest("tr").attr("data-recordingId");
         if (this.nowPlayingId === recordingId) {

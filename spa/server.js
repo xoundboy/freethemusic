@@ -33,6 +33,12 @@ app.get('/api/recordings', function(req,res){
     });
 });
 
+// DELETE /api/recordings/id
+app.delete('/api/recordings/:id', function(req,res){
+    // TODO - delete the record
+    res.sendStatus(200);
+});
+
 app.use(express.static('public'));
 
 http.listen(SERVER_PORT, function(){

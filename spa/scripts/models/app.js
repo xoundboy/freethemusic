@@ -1,4 +1,4 @@
-﻿module.exports = new ( Backbone.Model.extend({
+﻿module.exports = Backbone.Model.extend({
 
     defaults: {
         player: "show",
@@ -6,4 +6,4 @@
         nav: "hide"
     }
 
-}))();
+});

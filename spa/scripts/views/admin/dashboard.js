@@ -5,14 +5,14 @@ var Backbone = require('backbone');
 var Mustache = require('mustache');
 
 // subview: recordings
-var recordingsCollection = require('../../collections/recordings.js');
+var RecordingsCollection = require('../../collections/recordings.js');
 var RecordingsView = require('../../views/admin/recordings.js');
-var recordingsView = new RecordingsView({collection: recordingsCollection, template: $("#template_recordings").html()});
+var recordingsView = new RecordingsView({collection: new RecordingsCollection(), template: $("#template_recordings").html()});
 
 // subview: audioUpload
-var audioUploadModel = require('../../models/audioUpload.js');
+var AudioUploadModel = require('../../models/audioUpload.js');
 var AudioUploadView = require('../../views/admin/audioUpload.js');
-var audioUploadView = new AudioUploadView({model: audioUploadModel, template: $("#template_audioUpload").html()});
+var audioUploadView = new AudioUploadView({model: new AudioUploadModel(), template: $("#template_audioUpload").html()});
 
 
 module.exports = Backbone.View.extend({

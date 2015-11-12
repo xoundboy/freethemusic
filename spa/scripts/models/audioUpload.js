@@ -1,7 +1,7 @@
-﻿var artistsCollection = require('../collections/artists.js');
-var typesCollection = require('../collections/types.js');
+﻿var ArtistsCollection = require('../collections/artists.js');
+var TypesCollection = require('../collections/types.js');
 
-module.exports = new (Backbone.Model.extend({
+module.exports = Backbone.Model.extend({
 
     defaults: {
         size: 0,
@@ -10,8 +10,8 @@ module.exports = new (Backbone.Model.extend({
     },
 
     initialize: function() {
-        this.set("artistOptions", artistsCollection.toJSON());
-        this.set("typeOptions", typesCollection.toJSON());
+        this.set("artistOptions", new ArtistsCollection().toJSON());
+        this.set("typeOptions", new TypesCollection().toJSON());
     },
 
     setStep: function (step) {
@@ -45,4 +45,4 @@ module.exports = new (Backbone.Model.extend({
             this.setStep(cs + 1);
         }
     }
-}))();
+});

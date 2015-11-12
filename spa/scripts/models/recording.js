@@ -1,7 +1,5 @@
-﻿var BackboneDeepModel = require('backbone-nested-model');
-
-module.exports = BackboneDeepModel.extend({
-    urlRoot: "api/Recordings",
+﻿module.exports = Backbone.Model.extend({
+    urlRoot: "api/recordings",
 
     formattedDate: function (date) {
         var d = new Date(date);
