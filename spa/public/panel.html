@@ -139,22 +139,22 @@
 
     <!-- when form content used for audioUpload -->
     {{#tempName}}
-    <input type="hidden" name="fileName" value="{{tempName}}" />
+    <input type="hidden" name="audioFile" value="{{tempName}}" />
     {{/tempName}}
 
     <!-- when form content used for recording edit panel -->
     {{^tempName}}
-    <input type="hidden" name="fileName" value="{{fileName}}" />
+    <input type="hidden" name="audioFile" value="{{audioFile}}" />
     {{/tempName}}
 
-    <input type="hidden" name="size" value="{{size}}" />
+    <input type="hidden" name="size" value="{{fileSize}}" />
     <p>
-        <label for="name">Title</label>
-        <input type="text" name="name" id="name" maxlength="40" value="{{name}}" required />
+        <label for="audioFile">Title</label>
+        <input type="text" name="audioFile" id="audioFile" maxlength="40" value="{{audioFile}}" required />
     </p>
     <p>
-        <label for="artistId">Artist</label>
-        <select name="artistId" id="artistId" required>
+        <label for="actID">Artist</label>
+        <select name="actID" id="actID" required>
             {{^artistOptions}}
             <option value="">Loading artists</option>
             {{/artistOptions}}
@@ -165,8 +165,8 @@
         </select>
     </p>
     <p>
-        <label for="typeId">Type</label>
-        <select name="typeId" id="typeId" required>
+        <label for="typeID">Type</label>
+        <select name="typeID" id="typeID" required>
             {{^typeOptions}}
             <option value="">Loading types</option>
             {{/typeOptions}}

@@ -14,8 +14,8 @@ module.exports = Backbone.View.extend({
     },
 
     updateSelects: function () {
-        var selectedArtistValue = this.model.get("artistId"),
-            selectedType = this.model.get("typeId");
+        var selectedArtistValue = this.model.get("actID"),
+            selectedType = this.model.get("typeID");
 
         this.$el.find("select[name=artistId]")
             .find("option[value=" + parseInt(selectedArtistValue) + "]")
