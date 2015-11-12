@@ -71,7 +71,7 @@ module.exports = Backbone.View.extend({
 
         var $btn = $(e.currentTarget),
             recordingId = $btn.closest("tr").attr("data-recordingId"),
-            src = "Audio/" + $btn.attr("data-fileName");
+            src = "audio/" + $btn.attr("data-fileName");
 
         // stop if the now playing track was clicked
         if ($btn.hasClass("nowPlaying")) {

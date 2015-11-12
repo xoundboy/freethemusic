@@ -5,13 +5,12 @@ webpackJsonp([0],[
   \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	//require('./css/reset.scss');
-	//require('./css/admin/base.scss');//
-	//require('./css/admin/style.scss');
-	//
-	//require('./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.min.css');
-	//require('./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css');
-	//require('./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css');
+	__webpack_require__(/*! ../css/reset.scss */ 24);
+	__webpack_require__(/*! ../css/admin/base.scss */ 67);//
+	__webpack_require__(/*! ../css/admin/style.scss */ 69);
+	__webpack_require__(/*! ../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.min.css */ 38);
+	__webpack_require__(/*! ../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css */ 54);
+	__webpack_require__(/*! ../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css */ 56);
 	
 	var $ = __webpack_require__(/*! jquery */ 1);
 	var Backbone = __webpack_require__(/*! backbone */ 2);
@@ -1164,7 +1163,7 @@ webpackJsonp([0],[
 	
 	        var $btn = $(e.currentTarget),
 	            recordingId = $btn.closest("tr").attr("data-recordingId"),
-	            src = "Audio/" + $btn.attr("data-fileName");
+	            src = "audio/" + $btn.attr("data-fileName");
 	
 	        // stop if the now playing track was clicked
 	        if ($btn.hasClass("nowPlaying")) {
@@ -3605,6 +3604,142 @@ webpackJsonp([0],[
 	        return this;
 	    }
 	});
+
+/***/ },
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */
+/*!******************************!*\
+  !*** ../css/admin/base.scss ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./base.scss */ 68);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 27)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./base.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./base.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 68 */
+/*!***************************************************************!*\
+  !*** ../~/css-loader!../~/sass-loader!../css/admin/base.scss ***!
+  \***************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 26)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "body, html {\n  font-size: 0.825em;\n  background-color: #333333;\n  min-width: 320px; }\n\nform {\n  margin: 30px 0; }\n\np {\n  margin: 10px 0;\n  line-height: 22px; }\n  p strong {\n    font-weight: 900; }\n  p.small {\n    font-size: 0.8125em; }\n  p label {\n    display: inline-block;\n    width: 60px;\n    text-align: right;\n    vertical-align: top;\n    margin-right: 10px; }\n    p label.error {\n      display: block;\n      width: auto;\n      text-align: left;\n      color: red;\n      margin-left: 79px;\n      font-size: 0.8125em; }\n  p.buttons {\n    margin-top: 20px; }\n    p.buttons .nextBtn, p.buttons #step3NextBtn {\n      float: right; }\n\ntable.benGrid thead th {\n  color: #E1E1E1;\n  background: #585858;\n  padding: 10px;\n  border: 1px solid #666666;\n  cursor: pointer; }\n  table.benGrid thead th:hover {\n    background: #0078A3;\n    border: 1px solid #0078A3; }\n\ntable.benGrid tbody tr {\n  color: #E1E1E1; }\n  table.benGrid tbody tr.loadError {\n    background: #852C09; }\n  table.benGrid tbody tr.highlighted {\n    background: #FFAA7F;\n    color: #282424; }\n  table.benGrid tbody tr.recordingRow:hover {\n    background: #D4D4D4;\n    color: #1E1E1E;\n    cursor: pointer; }\n  table.benGrid tbody tr.recordingEdit {\n    background: #BBBCF5;\n    color: #282424; }\n  table.benGrid tbody tr td {\n    padding: 6px;\n    font-size: 0.9em; }\n    table.benGrid tbody tr td .nowPlaying {\n      background: green; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 69 */
+/*!*******************************!*\
+  !*** ../css/admin/style.scss ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./style.scss */ 70);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 27)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./style.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./style.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 70 */
+/*!****************************************************************!*\
+  !*** ../~/css-loader!../~/sass-loader!../css/admin/style.scss ***!
+  \****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 26)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "h1, h2, h3, h4 {\n  font-weight: 900; }\n\n.ui-tabs .ui-tabs-panel h2 {\n  font-size: 1.3em;\n  line-height: 2.3em; }\n", ""]);
+	
+	// exports
+
 
 /***/ }
 ]);

@@ -1,10 +1,9 @@
-//require('./css/reset.scss');
-//require('./css/admin/base.scss');//
-//require('./css/admin/style.scss');
-//
-//require('./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.min.css');
-//require('./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css');
-//require('./scripts/libs/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css');
+require('../css/reset.scss');
+require('../css/admin/base.scss');//
+require('../css/admin/style.scss');
+require('../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.min.css');
+require('../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css');
+require('../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css');
 
 var $ = require('jquery');
 var Backbone = require('backbone');

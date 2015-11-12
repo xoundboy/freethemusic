@@ -26,9 +26,9 @@ module.exports = {
                 loader: "style-loader!css-loader"
             },
             {
-                test: /\.png$/,
+                test: /\.(png|jpg)$/,
                 exclude: /node_modules/,
-                loader: "file-loader"
+                loader: "url-loader"
             },
             {
                 test: /\.scss$/,

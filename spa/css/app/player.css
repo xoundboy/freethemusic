@@ -30,10 +30,10 @@
   margin: -2px; }
 
 .ui-icon.ui-icon-player {
-  background-image: url("../../scripts/libs/jquery-ui-local-customizations/player-icon.png"); }
+  background-image: url("../../jquery-ui-custom-theme/jquery-ui-local-customizations/player-icon.png"); }
 
 .ui-icon.ui-icon-menu {
-  background-image: url("../../scripts/libs/jquery-ui-local-customizations/menu-icon.png"); }
+  background-image: url("../../jquery-ui-custom-theme/jquery-ui-local-customizations/menu-icon.png"); }
 
 .ui-slider .ui-slider-range {
   background: red; }
