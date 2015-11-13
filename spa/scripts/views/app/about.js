@@ -1,4 +1,4 @@
-x7.AboutView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
 
     id: "aboutView",
 

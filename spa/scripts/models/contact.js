@@ -1,1 +1,1 @@
-﻿x7.ContactModel = Backbone.Model.extend({});
+﻿module.exports  = Backbone.Model.extend({});

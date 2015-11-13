@@ -1,1 +1,1 @@
-﻿x7.ArtistModel = Backbone.Model.extend({});
+﻿module.exports = Backbone.Model.extend({});

@@ -14,7 +14,6 @@ var AudioUploadModel = require('../../models/audioUpload.js');
 var AudioUploadView = require('../../views/admin/audioUpload.js');
 var audioUploadView = new AudioUploadView({model: new AudioUploadModel(), template: $("#template_audioUpload").html()});
 
-
 module.exports = Backbone.View.extend({
 
     el: "#page",

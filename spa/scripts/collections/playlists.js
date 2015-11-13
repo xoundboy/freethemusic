@@ -1,1 +1,1 @@
-﻿x7.PlaylistsModel = Backbone.Collection.extend({});
+﻿module.exports = Backbone.Collection.extend({});

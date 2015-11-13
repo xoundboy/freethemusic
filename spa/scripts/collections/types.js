@@ -1,4 +1,9 @@
-﻿module.exports = Backbone.Collection.extend({
-    model: x7.TypeModel,
-    url: "api/Types"
+﻿var TypeModel = require('../models/type.js');
+
+module.exports = Backbone.Collection.extend({
+    model: TypeModel,
+    url: "api/types",
+    parse: function(response){
+        return response[0];
+    }
 });

@@ -17,6 +17,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
+
+
+
+/**
+ * RECORDINGS
+ */
+
 // GET /api/recordings
 app.get('/api/recordings', function(req,res){
 
@@ -35,19 +42,42 @@ app.get('/api/recordings', function(req,res){
 
 // DELETE /api/recording/id
 app.delete('/api/recording/:id', function(req,res){
-    // TODO - delete the record
-
     connection.query("CALL DeleteRecording(" + req.params.id + ");", function(err, rows){
-        if(err){
-            res.sendStatus(400);
-            return;
-        }
-
-        res.sendStatus(200);
+        var statusCode = (err) ? 400 : 200;
+        res.sendStatus(statusCode);
     });
-
-
 });
+
+
+
+/**
+ * ARTISTS
+ */
+
+// GET /api/artists
+app.get('/api/artists', function(req, res){
+    connection.query("CALL GetAllArtists();", function(err, rows){
+        (err) ? res.sendStatus(500) : res.json(rows);
+    });
+});
+
+
+
+/**
+ * TYPES
+ */
+
+// GET /api/types
+app.get('/api/types', function(req, res){
+    connection.query("CALL GetAllTypes();", function(err, rows){
+        (err) ? res.sendStatus(500) : res.json(rows);
+    });
+});
+
+
+/**
+ * PLAYLISTS
+ */
 
 app.use(express.static('public'));
 

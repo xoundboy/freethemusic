@@ -1,4 +1,4 @@
-x7.ProjectsView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
 
     id: "projectsView",
 

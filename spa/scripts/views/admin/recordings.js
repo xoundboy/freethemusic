@@ -11,14 +11,37 @@ module.exports = Backbone.View.extend({
     tagName: "div",
     id: "recordingsContent",
     className: "recordings",
-    audio: new Audio(),
-    nowPlayingId: null,
+    audio: new Audio(),    nowPlayingId: null,
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
         this.listenTo(this.collection, 'reset sort remove fetch change', this.render);
         this.collection.fetch();
+        this.loadOptions();
         this.audio.addEventListener('error', $.proxy(this.handleAudioLoadError, this));
+    },
+
+    loadOptions: function(){
+
+        var that = this;
+
+        // cache the artists and types collections
+        new ArtistsCollection().fetch({
+            success: function(collection){
+                that.artistsCollection = collection.toJSON();
+            },
+            error: function(){
+                console.log("cannot reach the artists api");
+            }
+        });
+        new TypesCollection().fetch({
+            success: function(collection){
+                that.typesCollection = collection.toJSON();
+            },
+            error: function(){
+                console.log("cannot reach the types api");
+            }
+        });
     },
 
     events: {
@@ -34,8 +57,8 @@ module.exports = Backbone.View.extend({
             recordingId = $tr.attr("data-recordingId");
 
         var recordingModel = this.collection.get(recordingId);
-        recordingModel.set("artistOptions", new ArtistsCollection().toJSON(), {silent: true});
-        recordingModel.set("typeOptions", new TypesCollection().toJSON(), { silent: true });
+        recordingModel.set("artistOptions", this.artistsCollection, {silent: true});
+        recordingModel.set("typeOptions", this.typesCollection, { silent: true });
 
         var recordingEditPanel = new RecordingEditPanelView({
             model: recordingModel,

@@ -160,7 +160,7 @@
             {{/artistOptions}}
             <option value="">Select an artist</option>
             {{#artistOptions}}
-            <option value="{{id}}">{{name}}</option>
+            <option value="{{id}}">{{actName}}</option>
             {{/artistOptions}}
         </select>
     </p>
@@ -172,21 +172,21 @@
             {{/typeOptions}}
             <option value="">Select a type</option>
             {{#typeOptions}}
-            <option value="{{id}}">{{name}}</option>
+            <option value="{{id}}">{{typeName}}</option>
             {{/typeOptions}}
         </select>
     </p>
     <p>
-        <label for="location">Location</label>
-        <input type="text" name="location" id="location" value="{{location}}" required />
+        <label for="recLocation">Location</label>
+        <input type="text" name="recLocation" id="recLocation" value="{{recLocation}}" required />
     </p>
     <p>
-        <label for="date">Date</label>
-        <input class="datepicker" type="text" name="date" id="date" value="{{date}}" required />
+        <label for="recDate">Date</label>
+        <input class="datepicker" type="text" name="recDate" id="recDate" value="{{recDate}}" required />
     </p>
     <p>
-        <label for="notes">Notes</label>
-        <textarea name="notes" id="notes">{{notes}}</textarea>
+        <label for="recNotes">Notes</label>
+        <textarea name="notes" id="recNotes">{{recNotes}}</textarea>
     </p>
 
 

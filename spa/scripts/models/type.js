@@ -1,1 +1,1 @@
-﻿x7.TypeModel = Backbone.Model.extend({});
+﻿module.exports  = Backbone.Model.extend({});

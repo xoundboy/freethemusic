@@ -1,4 +1,4 @@
-x7.PlaylistsView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
 
     id: "playlistsView",
 

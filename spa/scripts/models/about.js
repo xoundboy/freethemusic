@@ -1,1 +1,1 @@
-﻿x7.AboutModel = Backbone.Model.extend({});
+﻿module.exports = Backbone.Model.extend({});

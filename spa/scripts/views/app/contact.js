@@ -1,4 +1,4 @@
-x7.ContactView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
 
     id: "contactView",
 

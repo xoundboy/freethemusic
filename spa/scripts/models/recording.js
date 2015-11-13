@@ -10,7 +10,7 @@
     parse: function (response) {
         if (response) {
             this.set(response);
-            this.set("date", this.formattedDate(response.date));
+            this.set("recDate", this.formattedDate(response.recDate));
         }
     }
 

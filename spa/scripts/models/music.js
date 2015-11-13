@@ -1,1 +1,1 @@
-﻿x7.MusicModel = Backbone.Model.extend({});
+﻿module.exports = Backbone.Model.extend({});

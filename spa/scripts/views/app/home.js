@@ -1,4 +1,4 @@
-x7.HomeView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
 
     id: "homeView",
 
