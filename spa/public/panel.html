@@ -135,11 +135,13 @@
 
     <!-- when form content used for audioUpload -->
     {{#tempName}}
+    <h2>Upload Details</h2>
     <input type="hidden" name="audioFile" value="{{tempName}}" />
     {{/tempName}}
 
     <!-- when form content used for recording edit panel -->
     {{^tempName}}
+    <h2>Edit Recording Details</h2>
     <input type="hidden" name="audioFile" value="{{audioFile}}" />
     {{/tempName}}
 
