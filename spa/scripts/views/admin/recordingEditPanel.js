@@ -1,4 +1,7 @@
-﻿var _ = require('underscore');
+﻿require('jquery-validation');
+require('jquery-serializejson');
+
+var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
 
@@ -34,6 +37,8 @@ module.exports = Backbone.View.extend({
             validator = $infoForm.validate();
 
         if (validator.form()) {
+
+
             this.model
                 .set($infoForm.serializeJSON())
                 .unset("artistOptions", {silent: true})

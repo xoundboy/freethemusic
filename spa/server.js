@@ -17,6 +17,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
+function mysqlFormatDate(unformattedDate){
+    var date = new Date(unformattedDate);
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+}
 
 
 
@@ -41,14 +45,28 @@ app.get('/api/recordings', function(req,res){
 });
 
 // DELETE /api/recording/id
-app.delete('/api/recording/:id', function(req,res){
-    connection.query("CALL DeleteRecording(" + req.params.id + ");", function(err, rows){
-        var statusCode = (err) ? 400 : 200;
-        res.sendStatus(statusCode);
+app.delete('/api/recording/:id', function(req, res){
+    connection.query("CALL DeleteRecording(" + req.params.id + ");", function(err){
+        res.sendStatus((err) ? 400 : 200);
     });
 });
 
+// PUT /api/recording/id
+app.put('/api/recording/:id', function(req, res){
 
+    var query = "CALL UpdateRecording("
+        + req.params.id + ","
+        + req.body.typeID + ","
+        + req.body.actID + ",'"
+        + req.body.audioFile + "','"
+        + req.body.recLocation + "','"
+        + mysqlFormatDate(req.body.recDate) + "','"
+        + req.body.recNotes + "');";
+
+    connection.query(query, function(err){
+       res.sendStatus((err) ? 500 : 200);
+    });
+});
 
 /**
  * ARTISTS

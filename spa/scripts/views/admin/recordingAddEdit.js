@@ -14,15 +14,15 @@ module.exports = Backbone.View.extend({
     },
 
     updateSelects: function () {
-        var selectedArtistValue = this.model.get("actID"),
-            selectedType = this.model.get("typeID");
+        var selectedArtistValue = parseInt(this.model.get("actID")),
+            selectedType = parseInt(this.model.get("typeID"));
 
-        this.$el.find("select[name=artistId]")
-            .find("option[value=" + parseInt(selectedArtistValue) + "]")
+        this.$el.find("select[name=actID]")
+            .find("option[value=" + selectedArtistValue + "]")
             .attr("selected", true);
 
-        this.$el.find("select[name=typeId]")
-            .find("option[value=" + parseInt(selectedType) + "]")
+        this.$el.find("select[name=typeID]")
+            .find("option[value=" + selectedType + "]")
             .attr("selected", true);
     },
 
