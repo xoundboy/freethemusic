@@ -58,7 +58,7 @@ app.put('/api/recording/:id', function(req, res){
         + req.params.id + ","
         + req.body.typeID + ","
         + req.body.actID + ",'"
-        + req.body.audioFile + "','"
+        + req.body.title + "','"
         + req.body.recLocation + "','"
         + mysqlFormatDate(req.body.recDate) + "','"
         + req.body.recNotes + "');";
