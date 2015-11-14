@@ -9,10 +9,12 @@
     "backbone": "^1.2.3",
     "backbone-nested-model": "^1.0.0-prerelease",
     "backgrid": "^0.3.5",
+    "fs": "0.0.2",
     "jquery": "^2.1.4",
     "jquery-serializejson": "^2.5.0",
     "jquery-ui": "^1.10.5",
     "jquery-validation": "^1.14.0",
+    "multer": "^1.1.0",
     "mustache": "^2.2.0",
     "underscore": "^1.8.3",
     "webpack": "^1.12.3"

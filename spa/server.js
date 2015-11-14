@@ -1,10 +1,16 @@
 // Set the server port
 var SERVER_PORT = 8000;
 var express = require('express');
+var multer  = require('multer');
+var upload = multer({ dest: './public/uploads/'});
+
+var fs = require('fs');
+
 var app = express();
 var http = require('http').Server(app);
 var mysql = require('mysql');
 var bodyParser = require("body-parser");
+
 
 var connection = mysql.createConnection({
     host     : 'localhost',
@@ -22,6 +28,39 @@ function mysqlFormatDate(unformattedDate){
     return date.toISOString().slice(0, 19).replace('T', ' ');
 }
 
+/**
+ * UPLOAD
+ */
+
+
+
+app.post('/api/upload', upload.single('uploadFile'), function(req, res){
+
+    console.log(req.file);
+
+    // add the .mp3 extension to the uploaded file
+    fs.rename(req.file.path,req.file.path + ".mp3");
+
+
+    //var tmp_path = req.file.path;
+    //
+    ///** The original name of the uploaded file
+    // stored in the variable "originalname". **/
+    //var target_path = 'uploads/' + req.file.originalname;
+    //
+    ///** A better way to copy the uploaded file. **/
+    //var src = fs.createReadStream(tmp_path);
+    //var dest = fs.createWriteStream(target_path);
+    //src.pipe(dest);
+    //src.on('end', function() { res.render('complete'); });
+    //src.on('error', function(err) { res.render('error'); });
+
+    res.json({
+        tempName: req.file.filename,
+        size: req.file.size
+    });
+
+});
 
 
 /**

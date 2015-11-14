@@ -76,7 +76,7 @@ module.exports = Backbone.View.extend({
             formData = new FormData(),
             xhr = new XMLHttpRequest();
 
-        formData.append('file', file);
+        formData.append('uploadFile', file);
         xhr.open('POST', "/api/upload", true);
         xhr.onload = function (data) {
             var response = (JSON.parse(data.currentTarget.responseText));

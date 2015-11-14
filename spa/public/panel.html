@@ -58,7 +58,7 @@
     {{#step1}}
     <div id="step1" class="steps">
         <h2>Step 1: Upload Audio File</h2>
-        <input type="file" id="uploadFile" accept=".mp3" />
+        <input type="file" name="uploadFile" id="uploadFile" accept=".mp3" />
     </div>
     {{/step1}}
     {{#step2}}
@@ -66,7 +66,7 @@
         <h2>Step 2: Preview Upload</h2>
         <p>Check that the file uploaded correctly by playing it.</p>
         <audio controls>
-            <source src="/Audio/temp/{{tempName}}.mp3" type="audio/mpeg">
+            <source src="/uploads/{{tempName}}.mp3" type="audio/mpeg">
         </audio>
         <p class="small">File size: {{size}} bytes</p>
         <p class="buttons">

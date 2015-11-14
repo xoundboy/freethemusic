@@ -84,18 +84,23 @@ table.benGrid {
                 cursor: pointer;
             }
             &.recordingEditPanel {
-                background: #3d3d3d;
-                color: #ffffff;
-                border: 1px solid white;
+                background: #343030;
+                color: #cccccc;
+                border: 1px solid #666;
                 td {
                     padding: 10px 30px;
+
+                    h2 {
+                        font-weight: 400;
+                    }
 
                     input, select, textarea {
                         width: 70%;
                         padding-left: 5px;
+                        background-color: #cccccc;
                     }
                     select {
-                        font-size: 18px;
+                        font-size: 14px;
                     }
                     textarea {
                         height: 50px;

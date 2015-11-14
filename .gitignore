@@ -3,4 +3,5 @@ npm-debug.log
 .idea
 .DS_Store
 spa/public/assets/
+spa/public/uploads/
 
