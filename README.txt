@@ -1,59 +1,40 @@
 Dev Env Setup
 =============
 
-1. install database and set grants to allow access from localhost
+
+1. Add the following line to your ~/.bash_profile
+
+	export PATH=</path/to/project/root>:$PATH
+
+	(replacing </path/to/project/root> with the real thing of course)
+
+
+2. install the Mysql database and set grants to allow access from localhost
 
 	$ mysql -uroot -p
 	mysql> create database xoundboy_dev character set utf8;
 	mysql> grant all privileges on xoundboy_dev.* to root@localhost identified by "";
 
 
-1a. refresh the schema, data and stored procedures
-	$ mysql -uroot -p xoundboy_dev < xoundboy_dev.sql
+3. Install the database schema
+
+	$ db loadnodata
 
 
-1b. When dumping db don't forget the '--routines' flag to make sure that stored procs get dumped too
-        $ mysqldump -uroot -p xoundboy_dev > xoundboy_dev.sql --routines
+4. install node + npm
 
 
-2. install node + npm
+5. install dependencies for both projects by running npm install in both
+
+	$ cd </path/to/project/root>
+	$ npm install
 
 
-3. Set up the following 2 projects in the IDE:
+6. run the server
 
-	- dbService
-	- spa
-
-  Each of these runs its own node server. (This is a bit crap and should be done as a single project) 
+	$ npm start
 
 
-4. install dependencies for both projects by running npm install in both
+7. Public site URL -  http://localhost:8080
+   Admin panel URL - http://localhost:8080/panel.html
 
-	$ cd dbService && npm install
-	$ cd ../spa && npm install
-
-
-4. run the mysql REST api service
-
-	$ cd dbService && npm start
-	$ cd spa && npm start
-
-    Now you can interact with the db by hitting the service, eg to add a new recording type,
-
-	GET http://localhost:8000/api/Recordings
-
-    Public site URL -  http://localhost:8080
-    Admin panel URL - http://localhost:8080/panel.html
-
-IMPORTANT NOTE: 
-
-	Because the two servers run on separate ports then Chrome will not load
-	any AJAX stuff from the db service unless you disable web security when you
-	launch Chrome.
-
-	OSX:	
-		$ open /Applications/Google\ Chrome.app --args --disable-web-security	
-		
-	Windows:
-		chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
-		
