@@ -30,9 +30,14 @@ Dev Env Setup
 	$ npm install
 
 
-6. run the server
+6a. Open a new console and run the server
 
 	$ npm start
+
+
+6b. Open another new console and run the webpack watcher (with source maps)
+
+	$ webpack -d
 
 
 7. Public site URL -  http://localhost:8080

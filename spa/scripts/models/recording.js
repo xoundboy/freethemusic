@@ -1,16 +1,13 @@
-﻿module.exports = Backbone.Model.extend({
+﻿var utils = require('../utils.js');
+
+module.exports = Backbone.Model.extend({
 
     urlRoot: "api/recording",
-
-    formattedDate: function (date) {
-        var d = new Date(date);
-        return d.getMonthFormatted() + "/" + d.getDateFormatted() + '/' + d.getFullYear();
-    },
 
     parse: function (response) {
         if (response) {
             this.set(response);
-            this.set("recDate", this.formattedDate(response.recDate));
+            this.set("recDate", utils.formattedDate(response.recDate));
         }
     }
 
