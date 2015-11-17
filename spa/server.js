@@ -121,11 +121,25 @@ app.post('/api/recording', function(req, res){
 
 // DELETE /api/recording/id
 app.delete('/api/recording/:id', function(req, res){
+    connection.query("CALL GetRecordingById(" + req.params.id + ")", function(err, rows){
 
-    // @TODO: delete the file
+        if (err){
+            res.status(400).send("recording id does not exist in the database");
+            return;
+        }
 
-    connection.query("CALL DeleteRecording(" + req.params.id + ");", function(err){
-        res.sendStatus((err) ? 400 : 200);
+        var fileToDelete = rows[0][0].audioFile;
+
+        fs.unlink(config.AUDIO_LIBRARY_PATH + fileToDelete + ".mp3", function(err){
+            if (err){
+                console.log(err);
+                res.status(400).send("cannot delete the file");
+                return;
+            }
+            connection.query("CALL DeleteRecording('" + fileToDelete + "');", function(err){
+                res.sendStatus((err) ? 400 : 200);
+            });
+        });
     });
 });
 
