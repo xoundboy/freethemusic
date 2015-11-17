@@ -44,5 +44,25 @@ module.exports = Backbone.Model.extend({
         if (cs < sc) {
             this.setStep(cs + 1);
         }
+    },
+
+    getSaveProps: function(){
+        var that = this, attrs = {};
+        [
+            "actID",
+            "recDate",
+            "recLocation",
+            "recNotes",
+            "selectedArtistText",
+            "size",
+            "tempName",
+            "title",
+            "typeID"
+        ].map(function(prop){
+            attrs[prop] = that.get(prop);
+        });
+
+        return attrs;
     }
+
 });

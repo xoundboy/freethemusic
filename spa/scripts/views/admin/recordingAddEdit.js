@@ -3,6 +3,8 @@
 var _ = require('underscore');
 var Mustache = require('mustache');
 
+var sharedData = require('../../cache/sharedData.js');
+
 module.exports = Backbone.View.extend({
 
     id: "recordingEditContent",
@@ -10,6 +12,11 @@ module.exports = Backbone.View.extend({
 
     initialize: function(options) {
         _.extend(this, _.pick(options, "template"));
+
+        // load the artists and types from the shared data cache
+        this.model.set("artistOptions", sharedData.artistsCollection, {silent: true});
+        this.model.set("typeOptions", sharedData.typesCollection, { silent: true });
+
         this.model.bind('change', this.render, this);
     },
 

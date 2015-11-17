@@ -79,8 +79,8 @@
     <div id="step3" class="steps">
         <h2>Step 3: Provide Info</h2>
         <p>Now enter some details about the uploaded audio recording so that it can be saved permanently</p>
-        <form id="recordingInfo">
-            <div class="recordingInfoFormContainer"></div>
+        <form id="newRecordingInfo">
+            <div class="newRecordingInfoFormContainer"></div>
             <p class="buttons">
                 <button id="step3BackBtn" class="registerInfoBtn">Back</button>
                 <button id="step3NextBtn" class="registerInfoBtn" type="submit">Next</button>
@@ -92,12 +92,12 @@
     <div id="step4" class="steps">
         <h2>Step 4: Confirmation</h2>
         <p>You have entered the following information:</p>
-        <p>Title: <strong>{{name}}</strong></p>
+        <p>Title: <strong>{{title}}</strong></p>
         <p>Artist: <strong>{{{selectedArtistText}}}</strong></p>
         <p>Type: <strong>{{{selectedTypeText}}}</strong></p>
-        <p>Location: <strong>{{location}}</strong></p>
-        <p>Date: <strong>{{date}}</strong></p>
-        <p>Notes: <strong>{{notes}}</strong></p>
+        <p>Location: <strong>{{recLocation}}</strong></p>
+        <p>Date: <strong>{{recDate}}</strong></p>
+        <p>Notes: <strong>{{recNotes}}</strong></p>
         <p class="buttons">
             <button id="step4BackBtn" class="backBtn">Back</button>
             <button id="step4NextBtn">Confirm</button>
@@ -133,19 +133,20 @@
 
 <script id="template_recordingAddEdit" type="text/template">
 
-    <!-- when form content used for audioUpload -->
+
     {{#tempName}}
-    <h2>Upload Details</h2>
-    <input type="hidden" name="audioFile" value="{{tempName}}" />
+        <!-- when form content used for audioUpload -->
+        <input type="hidden" name="audioFile" value="{{tempName}}" />
     {{/tempName}}
 
-    <!-- when form content used for recording edit panel -->
+
     {{^tempName}}
-    <h2>Edit Recording Details</h2>
-    <input type="hidden" name="audioFile" value="{{audioFile}}" />
+        <!-- when form content used for recording edit panel -->
+        <h2>Edit Recording Details</h2>
+        <input type="hidden" name="audioFile" value="{{audioFile}}" />
     {{/tempName}}
 
-    <input type="hidden" name="size" value="{{fileSize}}" />
+    <input type="hidden" name="size" value="{{size}}" />
     <p>
         <label for="title">Title</label>
         <input type="text" name="title" id="title" maxlength="40" value="{{title}}" required />

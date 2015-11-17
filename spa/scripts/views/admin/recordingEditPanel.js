@@ -29,15 +29,12 @@ module.exports = Backbone.View.extend({
 
     updateRecording: function (e) {
 
-        var that = this;
-
         e.preventDefault();
 
         var $infoForm = this.$el.find("#recordingInfo"),
             validator = $infoForm.validate();
 
         if (validator.form()) {
-
 
             this.model
                 .set($infoForm.serializeJSON())

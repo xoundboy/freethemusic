@@ -2,11 +2,11 @@
 
 module.exports = Backbone.Model.extend({
     defaults: {
-        currentTabHref: "#recordings"
+        //currentTabHref: "#recordings"
     },
 
     getCurrentTabIndex: function() {
-        return $('#tabs a[href="' + this.get("currentTabHref") + '"]').parent().index();
+        return $('#tabs').find('a[href="' + this.get("currentTabHref") + '"]').parent().index();
     }
 
 });

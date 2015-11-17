@@ -2,8 +2,6 @@
 var $ = require('jquery');
 var Mustache = require('mustache');
 
-var ArtistsCollection = require('../../collections/artists.js');
-var TypesCollection = require('../../collections/types.js');
 var RecordingEditPanelView = require('./recordingEditPanel.js');
 
 module.exports = Backbone.View.extend({
@@ -12,36 +10,13 @@ module.exports = Backbone.View.extend({
     id: "recordingsContent",
     className: "recordings",
     audio: new Audio(),    nowPlayingId: null,
+    selectedId: null,
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
         this.listenTo(this.collection, 'reset sort remove fetch change', this.render);
         this.collection.fetch();
-        this.loadOptions();
         this.audio.addEventListener('error', $.proxy(this.handleAudioLoadError, this));
-    },
-
-    loadOptions: function(){
-
-        var that = this;
-
-        // cache the artists and types collections
-        new ArtistsCollection().fetch({
-            success: function(collection){
-                that.artistsCollection = collection.toJSON();
-            },
-            error: function(){
-                console.log("cannot reach the artists api");
-            }
-        });
-        new TypesCollection().fetch({
-            success: function(collection){
-                that.typesCollection = collection.toJSON();
-            },
-            error: function(){
-                console.log("cannot reach the types api");
-            }
-        });
     },
 
     events: {
@@ -57,8 +32,6 @@ module.exports = Backbone.View.extend({
             recordingId = $tr.attr("data-recordingId");
 
         var recordingModel = this.collection.get(recordingId);
-        recordingModel.set("artistOptions", this.artistsCollection, {silent: true});
-        recordingModel.set("typeOptions", this.typesCollection, { silent: true });
 
         var recordingEditPanel = new RecordingEditPanelView({
             model: recordingModel,
@@ -148,6 +121,24 @@ module.exports = Backbone.View.extend({
         });
     },
 
+    select: function(id){
+        this.selectedId = id;
+    },
+
+    showSelectedRow: function(){
+        if (this.selectedId){
+            this.$el.find("tr").removeClass("highlighted");
+
+            var w = $(window);
+            var row = this.$el.find("#recordingId-" + this.selectedId);
+            row.addClass("highlighted");
+
+            if (row.length){
+                w.scrollTop( row.offset().top - (w.height()/2) );
+            }
+        }
+    },
+
     render: function () {
         var compiledTemplate = Mustache.to_html(this.template, { recordings: this.collection.toJSON()});
         this.$el.html(compiledTemplate);
@@ -155,6 +146,9 @@ module.exports = Backbone.View.extend({
 
         // sub-views need this
         this.delegateEvents();
+
+        this.showSelectedRow();
+
         return this;
     }
 

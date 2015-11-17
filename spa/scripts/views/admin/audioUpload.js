@@ -2,15 +2,17 @@
 var $ = require('jquery');
 var _ = require('underscore');
 var Mustache = require('mustache');
+var Backbone = require('backbone');
 
 var RecordingAddEdit = require('./recordingAddEdit.js');
-
+var RecordingModel = require('../../models/recording.js');
 
 module.exports = Backbone.View.extend({
 
     tagName: "div",
     id: "audioUploadContent",
     className: "audioUpload",
+    model: {},
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
@@ -29,15 +31,20 @@ module.exports = Backbone.View.extend({
     },
 
     confirmUpload: function() {
-        var recording = new x7.RecordingModel(this.model), that = this;
-        recording.save(this.model, {
-            success: function(model) {
-                x7.models.dashboard.set("currentTabHref", "#recordings");
-                //x7.views.recordings.highlightRecording(model.id);
+
+        var recording = new RecordingModel(),
+            that = this;
+
+        recording.save(this.model.getSaveProps(), {
+            success: function(data) {
+                Backbone.history.navigate('recordings/highlight/' + data.id, {trigger: true});
                 that.model.setStep(1);
             },
-            error: function(model, response) {
-                alert(response.responseJSON.exceptionType);
+            error: function(model, response, options) {
+                console.log(model);
+                console.log(response);
+                console.log(options);
+
             }
         });
     },
@@ -46,13 +53,13 @@ module.exports = Backbone.View.extend({
 
         e.preventDefault();
 
-        var $infoForm = this.$el.find("#recordingInfo"),
+        var $infoForm = this.$el.find("#newRecordingInfo"),
             validator = $infoForm.validate();
 
         if (validator.form()) {
             this.model.set($infoForm.serializeJSON());
-            this.model.set("selectedArtistText", this.$el.find("select[name=artistId] option:selected").html());
-            this.model.set("selectedTypeText", this.$el.find("select[name=typeId] option:selected").html());
+            this.model.set("selectedArtistText", this.$el.find("select[name=actID] option:selected").html());
+            this.model.set("selectedTypeText", this.$el.find("select[name=typeID] option:selected").html());
             if ($(e.currentTarget).attr("id") === "step3NextBtn") {
                 this.stepForward();
             } else {
@@ -102,7 +109,7 @@ module.exports = Backbone.View.extend({
             template: $("#template_recordingAddEdit").html()
         });
 
-        this.$el.find(".recordingInfoFormContainer").html(recordingInfoForm.render().el);
+        this.$el.find(".newRecordingInfoFormContainer").html(recordingInfoForm.render().el);
 
         this.$el.find(".datepicker").datepicker({
             changeMonth: true,

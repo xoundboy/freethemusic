@@ -4,16 +4,6 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var Mustache = require('mustache');
 
-// subview: recordings
-var RecordingsCollection = require('../../collections/recordings.js');
-var RecordingsView = require('../../views/admin/recordings.js');
-var recordingsView = new RecordingsView({collection: new RecordingsCollection(), template: $("#template_recordings").html()});
-
-// subview: audioUpload
-var AudioUploadModel = require('../../models/audioUpload.js');
-var AudioUploadView = require('../../views/admin/audioUpload.js');
-var audioUploadView = new AudioUploadView({model: new AudioUploadModel(), template: $("#template_audioUpload").html()});
-
 module.exports = Backbone.View.extend({
 
     el: "#page",
@@ -44,9 +34,18 @@ module.exports = Backbone.View.extend({
             .tabs('option', 'active', this.model.getCurrentTabIndex());
 
         // render sub-views
-        this.$("#audioUploadContainer").html(audioUploadView.render().el);
-        this.$("#recordingsContainer").html(recordingsView.render().el);
+        this.renderUploads();
+        this.renderRecordings();
 
         return this;
+    },
+    renderUploads: function() {
+        this.$("#audioUploadContainer").html(adminApp.views.audioUpload.render().el);
+    },
+    renderRecordings: function(highlightId){
+        this.$("#recordingsContainer").html(adminApp.views.recordings.render().el);
+        if (highlightId){
+            recordingsView.highlight(highlightId);
+        }
     }
 });
