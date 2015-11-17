@@ -1,41 +1,32 @@
-// Set the server port
-var SERVER_PORT = 8000;
 var express = require('express');
-var multer  = require('multer');
-var upload = multer({ dest: './public/uploads/'});
-
-var fs = require('fs');
-
 var app = express();
+
+
 var http = require('http').Server(app);
+var multer  = require('multer');
+var config = require('./config.js');
+var utils = require('./scripts/utils.js');
+var fs = require('fs');
 var mysql = require('mysql');
 var bodyParser = require("body-parser");
 
-
 var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '',
-    database : 'xoundboy_dev'
+    host     : config.DB_HOST,
+    user     : config.DB_USER,
+    password : config.DB_PASS,
+    database : config.DB_NAME
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-function mysqlFormatDate(unformattedDate){
-    var date = new Date(unformattedDate);
-    var formattedDate = date.toISOString().slice(0, 19).replace('T', ' ');
-    console.log(formattedDate);
-    return formattedDate;
-}
-
 /**
  * UPLOAD
  */
 
 // POST /api/upload - initial file upload
-app.post('/api/upload', upload.single('uploadFile'), function(req, res){
+app.post('/api/upload', multer({ dest: './public/uploads/'}).single('uploadFile'), function(req, res){
 
     console.log(req.file);
 
@@ -48,7 +39,18 @@ app.post('/api/upload', upload.single('uploadFile'), function(req, res){
     });
 });
 
-
+/**
+ * PLAYBACK
+ */
+app.get("/assets/audio/:audioFile", function(req, res){
+    var pathToAudioFile = config.AUDIO_LIBRARY_PATH + req.params.audioFile;
+    if(fs.existsSync(pathToAudioFile)){
+        res.setHeader("content-type", "audio/mpeg");
+        fs.createReadStream(pathToAudioFile).pipe(res);
+    } else {
+        res.status(400).send("Audio file cannot be found");
+    }
+});
 
 
 /**
@@ -79,10 +81,10 @@ app.post('/api/recording', function(req, res){
     if(fs.existsSync(tempFilePath)){
 
         // rename the audio file to something more meaningful
-        var finalFileName = renameAudioFile(req.body);
+        var finalFileName = utils.renameAudioFile(req.body);
 
         // move the audio file into the audio library folder
-        fs.rename(tempFilePath, "./public/assets/audio/" + finalFileName + ".mp3");
+        fs.rename(tempFilePath, config.AUDIO_LIBRARY_PATH + finalFileName + ".mp3");
 
         // insert the database record for the new file
         var query = "CALL InsertRecording('"
@@ -92,7 +94,7 @@ app.post('/api/recording', function(req, res){
             + req.body.actID + ",'"
             + req.body.title + "','"
             + req.body.recLocation + "','"
-            + mysqlFormatDate(req.body.recDate) + "','"
+            + utils.mysqlFormatDate(req.body.recDate) + "','"
             + req.body.recNotes + "');";
 
         // respond to the client about how the save operation went
@@ -119,6 +121,9 @@ app.post('/api/recording', function(req, res){
 
 // DELETE /api/recording/id
 app.delete('/api/recording/:id', function(req, res){
+
+    // @TODO: delete the file
+
     connection.query("CALL DeleteRecording(" + req.params.id + ");", function(err){
         res.sendStatus((err) ? 400 : 200);
     });
@@ -133,7 +138,7 @@ app.put('/api/recording/:id', function(req, res){
         + req.body.actID + ",'"
         + req.body.title + "','"
         + req.body.recLocation + "','"
-        + mysqlFormatDate(req.body.recDate) + "','"
+        + utils.mysqlFormatDate(req.body.recDate) + "','"
         + req.body.recNotes + "');";
 
     connection.query(query, function(err){
@@ -157,7 +162,6 @@ app.get('/api/artists', function(req, res){
 /**
  * TYPES
  */
-
 // GET /api/types
 app.get('/api/types', function(req, res){
     connection.query("CALL GetAllTypes();", function(err, rows){
@@ -172,15 +176,6 @@ app.get('/api/types', function(req, res){
 
 app.use(express.static('public'));
 
-http.listen(SERVER_PORT, function(){
-    console.log("Connected & Listen to port " + SERVER_PORT);
+http.listen(config.SERVER_PORT, function(){
+    console.log("Connected & Listen to port " + config.SERVER_PORT);
 });
-
-
-function renameAudioFile(fields){
-    var strippedTitle = fields.title.replace(/[^a-zA-Z0-9.]+/g,'');
-    var strippedArtist = fields.selectedArtistText.replace(/[^a-zA-Z0-9.]+/g,'');
-    var random = Math.random()*100000000000000000;
-    var longName = strippedTitle + '-' + strippedArtist + '-' + random;
-    return longName.substring(0,46);
-}
