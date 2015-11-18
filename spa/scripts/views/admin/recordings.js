@@ -52,7 +52,7 @@ module.exports = Backbone.View.extend({
         if (this.nowPlayingId === recordingId) {
             this.audio.pause();
         }
-        if (confirm("Are you sure you want to delte this recording?")){
+        if (confirm("Are you sure you want to delete this recording?")){
             this.collection.remove(this.collection.get(recordingId));
         }
     },

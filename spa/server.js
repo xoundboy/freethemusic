@@ -7,6 +7,7 @@ var multer  = require('multer');
 var config = require('./config.js');
 var utils = require('./scripts/utils.js');
 var fs = require('fs');
+var rimraf = require('rimraf');
 var mysql = require('mysql');
 var bodyParser = require("body-parser");
 
@@ -17,6 +18,8 @@ var connection = mysql.createConnection({
     database : config.DB_NAME
 });
 
+var pathToUploadDir = './public/uploads/';
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -25,13 +28,32 @@ app.use(bodyParser.json());
  * UPLOAD
  */
 
-// POST /api/upload - initial file upload
-app.post('/api/upload', multer({ dest: './public/uploads/'}).single('uploadFile'), function(req, res){
+// DELETE /api/uploads - empty the temporary uploads folder
+app.delete('/api/removetempuploads', function(req, res){
 
-    console.log(req.file);
+    // remove the uploads directory
+    rimraf(pathToUploadDir, function(err){
+        if (err){
+            res.status(400).send("Temporary uploads folder cannot be removed");
+            return;
+        }
+
+        // recreate the uploads directory
+        fs.mkdir(pathToUploadDir, 0755, function(err){
+            if(err){
+                res.status(400).send("Temporary uploads folder cannot be recreated");
+                return;
+            }
+            res.sendStatus(200);
+        });
+    });
+});
+
+// POST /api/upload - initial file upload
+app.post('/api/upload', multer({ dest: pathToUploadDir}).single('uploadFile'), function(req, res){
 
     // add the .mp3 extension to the uploaded file
-    fs.rename(req.file.path,req.file.path + ".mp3");
+    fs.rename(req.file.path, req.file.path + ".mp3");
 
     res.json({
         tempName: req.file.filename,

@@ -24,9 +24,10 @@ module.exports = Backbone.View.extend({
 
     events: {
         "change #uploadFile": "initiateUpload",
-        "click .registerInfoBtn": "registerInfo",
         "click .backBtn": "stepBack",
         "click .nextBtn": "stepForward",
+        "click #step3BackBtn": "backToStepTwo",
+        "click #step3NextBtn": "onToStepFour",
         "click #step4NextBtn": "confirmUpload"
     },
 
@@ -44,28 +45,26 @@ module.exports = Backbone.View.extend({
                 console.log(model);
                 console.log(response);
                 console.log(options);
-
             }
         });
     },
 
-    registerInfo: function (e) {
+    backToStepTwo: function(){
+        this.stashFormData();
+        this.stepBack();
+    },
 
-        e.preventDefault();
-
-        var $infoForm = this.$el.find("#newRecordingInfo"),
-            validator = $infoForm.validate();
-
-        if (validator.form()) {
-            this.model.set($infoForm.serializeJSON());
-            this.model.set("selectedArtistText", this.$el.find("select[name=actID] option:selected").html());
-            this.model.set("selectedTypeText", this.$el.find("select[name=typeID] option:selected").html());
-            if ($(e.currentTarget).attr("id") === "step3NextBtn") {
-                this.stepForward();
-            } else {
-                this.stepBack();
-            }
+    onToStepFour: function () {
+        this.stashFormData();
+        if (this.$el.find("#newRecordingInfo").validate().form()) {
+            this.model.stepForward();
         }
+    },
+
+    stashFormData: function(){
+        this.model.set(this.$el.find("#newRecordingInfo").serializeJSON());
+        this.model.set("selectedArtistText", this.$el.find("select[name=actID] option:selected").html());
+        this.model.set("selectedTypeText", this.$el.find("select[name=typeID] option:selected").html());
     },
 
     stepBack: function() {
@@ -81,21 +80,32 @@ module.exports = Backbone.View.extend({
         var that = this,
             file = e.target.files[0],
             formData = new FormData(),
-            xhr = new XMLHttpRequest();
+            xhr_removeuploads = new XMLHttpRequest(),
+            xhr_upload = new XMLHttpRequest();
 
-        formData.append('uploadFile', file);
-        xhr.open('POST', "/api/upload", true);
-        xhr.onload = function (data) {
-            var response = (JSON.parse(data.currentTarget.responseText));
-            that.model.set("tempName", response.tempName);
-            that.model.set("size", response.size);
-            that.model.setStep(2);
+        // call the /api/removetempuploads endpoint
+        xhr_removeuploads.open('DELETE', '/api/removetempuploads', true);
+        xhr_removeuploads.onload = function(){
+
+            formData.append('uploadFile', file);
+            xhr_upload.open('POST', "/api/upload", true);
+            xhr_upload.onload = function (data) {
+                var response = (JSON.parse(data.currentTarget.responseText));
+                that.model.set("tempName", response.tempName);
+                that.model.set("size", response.size);
+                that.model.setStep(2);
+            };
+            xhr_upload.onerror = function (data) {
+                alert("error uploading the file");
+                console.log(data);
+            };
+            xhr_upload.send(formData);
         };
-        xhr.onerror = function (data) {
-            alert("error uploading the file");
-            console.log(data);
+        xhr_removeuploads.onerror = function(data){
+            console.log("could not recreate the remote uploads folder");
         };
-        xhr.send(formData);
+        xhr_removeuploads.send();
+
     },
 
     render: function () {
