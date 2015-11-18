@@ -5,7 +5,11 @@ module.exports = Backbone.Router.extend({
 
     routes: {
         '': 'showDashboard',
-        'recordings/highlight/:id': 'highlightRecording'
+        'recordings/highlight/:id': 'highlightRecording',
+        'uploads': 'uploadsTab',
+        'recordings': 'recordingsTab',
+        'artists': 'artistsTab',
+        'playlists': 'playlistsTab'
     },
 
     showDashboard: function () {
@@ -15,6 +19,21 @@ module.exports = Backbone.Router.extend({
     highlightRecording: function(id){
         adminApp.views.recordings.select(id);
         adminApp.models.dashboard.set("currentTabHref", "#recordings");
+    },
+
+    uploadsTab: function() {
+        adminApp.models.dashboard.set("currentTabHref", "#audioUpload");
+    },
+
+    recordingsTab: function() {
+        adminApp.models.dashboard.set("currentTabHref", "#recordings");
+    },
+
+    artistsTab: function() {
+        adminApp.models.dashboard.set("currentTabHref", "#artists");
+    },
+    playlistsTab: function() {
+        adminApp.models.dashboard.set("currentTabHref", "#playlists");
     }
 
 });

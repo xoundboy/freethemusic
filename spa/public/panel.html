@@ -34,7 +34,9 @@
             </div>
         </div>
         <div id="artists">
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+            <div id="artistsContainer">
+                <p>Loading...</p>
+            </div>
         </div>
         <div id="playlists">
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
@@ -115,11 +117,16 @@
             <td><button class="deleteRecordingButton">delete</button></td>
         </tr>
         {{/recordings}}
+        {{^recordings}}
+            <tr>
+                <td colspan="5" class="emptyTable">No recordings yet <a href="#uploads" class="link">Upload one now</a> </td>
+            </tr>
+        {{/recordings}}
         </tbody>
     </table>
 </script>
 
-<script id="template_recordingAddEdit" type="text/template">
+<script type="text/template" id="template_recordingAddEdit" >
 
 
     {{#tempName}}
@@ -141,25 +148,27 @@
     </p>
     <p>
         <label for="actID">Artist</label>
-        <select name="actID" id="actID" required>
-            {{^artistOptions}}
-            <option value="">Loading artists</option>
-            {{/artistOptions}}
-            <option value="">Select an artist</option>
-            {{#artistOptions}}
-            <option value="{{id}}">{{actName}}</option>
-            {{/artistOptions}}
-        </select>
+        {{^artistOptions}}
+            <span class="warningText">No artists added yet. <a href="#" class="link">Add an artist</a></span>
+        {{/artistOptions}}
+        
+        {{#artistOptions}}
+            <select name="actID" id="actID" required>
+                <option value="">Select an artist</option>
+                <option value="{{id}}">{{actName}}</option>
+            </select>
+        {{/artistOptions}}
     </p>
     <p>
         <label for="typeID">Type</label>
         <select name="typeID" id="typeID" required>
             {{^typeOptions}}
-            <option value="">Loading types</option>
+                <option value="">Loading types</option>
             {{/typeOptions}}
-            <option value="">Select a type</option>
+
             {{#typeOptions}}
-            <option value="{{id}}">{{typeName}}</option>
+                <option value="">Select a type</option>
+                <option value="{{id}}">{{typeName}}</option>
             {{/typeOptions}}
         </select>
     </p>

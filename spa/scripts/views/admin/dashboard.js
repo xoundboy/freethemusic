@@ -14,16 +14,11 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        "click #tabRecordings": "loadRecordings",
-        "tabsactivate": "updateTabInModel"
+        "tabsactivate": "changeTab"
     },
 
-    updateTabInModel: function (e, ui) {
-        this.model.set("currentTabHref", ui.newTab.find('a[href^=#]').attr('href'));
-    },
-
-    loadRecordings: function() {
-        recordingsView.render();
+    changeTab: function (e, ui) {
+        adminApp.routers.main.navigate(ui.newTab.find('a[href^=#]').attr('href'),{trigger:true});
     },
 
     render: function () {

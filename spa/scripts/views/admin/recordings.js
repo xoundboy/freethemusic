@@ -23,7 +23,12 @@ module.exports = Backbone.View.extend({
         "click th": "sortColumn",
         "click .previewButton": "previewTrack",
         "click .editRecordingButton": "editRecordingInfo",
-        "click .deleteRecordingButton": "deleteRecording"
+        "click .deleteRecordingButton": "deleteRecording",
+        "click a[href=#uploads]": "gotoUploads"
+    },
+
+    gotoUploads: function(e){
+        adminApp.routers.main.navigate("/uploads", {trigger: true});
     },
 
     editRecordingInfo: function(e) {
@@ -142,6 +147,7 @@ module.exports = Backbone.View.extend({
     },
 
     render: function () {
+
         var compiledTemplate = Mustache.to_html(this.template, { recordings: this.collection.toJSON()});
         this.$el.html(compiledTemplate);
         this.styleButtons();
