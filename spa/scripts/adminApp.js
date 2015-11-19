@@ -14,6 +14,12 @@ var RecordingsCollection = require('./collections/recordings.js');
 var RecordingsView = require('./views/admin/recordings.js');
 var AudioUploadModel = require('./models/audioUpload.js');
 var AudioUploadView = require('./views/admin/audioUpload.js');
+var ArtistsCollection = require('./collections/artists.js');
+var ArtistsView = require('./views/admin/artists.js');
+var PlaylistsCollection = require('./collections/playlists.js');
+var PlaylistsView = require('./views/admin/playlists.js');
+var TagsCollection = require('./collections/tags.js');
+var TagsView = require('./views/admin/tags.js');
 
 // Global App Object
 global.adminApp = {
@@ -45,6 +51,27 @@ $(function(){
     adminApp.views.audioUpload = new AudioUploadView({
         model: adminApp.models.audioUpload,
         template: $("#template_audioUpload").html()
+    });
+
+    // artsts tab
+    adminApp.collections.artists = new ArtistsCollection();
+    adminApp.views.artists = new ArtistsView({
+        collection: adminApp.collections.artists,
+        template: $("#template_artists").html()
+    });
+
+    // playlists tab
+    adminApp.collections.playlists = new PlaylistsCollection();
+    adminApp.views.playlists = new PlaylistsView({
+        collection: adminApp.collections.playlists,
+        template: $("#template_playlists").html()
+    });
+
+    // tags tab
+    adminApp.collections.tags = new TagsCollection();
+    adminApp.views.tags = new TagsView({
+        collection: adminApp.collections.tags,
+        template: $("#template_tags").html()
     });
 
     // Bootstrap the application

@@ -74,12 +74,18 @@ table.benGrid {
         th {
             color: #E1E1E1;
             background: #585858;
-            padding: 10px;
+            padding: 5px;
             border: 1px solid #666666;
             cursor: pointer;
             &:hover {
                 background: #0078A3;
                 border: 1px solid #0078A3;
+            }
+        }
+
+        td {
+            &.buttonColumn {
+                width: 45px
             }
         }
     }
@@ -98,7 +104,7 @@ table.benGrid {
                 color: #282424;
             }
 
-            &.recordingRow:hover{
+            &:hover{
                 background: #D4D4D4;
                 color: #1E1E1E;
                 cursor: pointer;
@@ -133,9 +139,21 @@ table.benGrid {
             }
 
             td {
-
+                vertical-align: middle;
                 padding: 6px;
                 font-size: 0.9em;
+
+                .imgMask {
+                    margin: auto;
+                    width: 50px;
+                    height: 50px;
+                    overflow: hidden;
+                    border-radius: 25px;
+                    text-align: center;
+                    img {
+                        height: 50px;
+                    }
+                }
 
                 .nowPlaying {
                     background: green;

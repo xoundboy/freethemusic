@@ -75,6 +75,7 @@ app.get("/assets/audio/:audioFile", function(req, res){
 });
 
 
+
 /**
  * RECORDINGS
  */
@@ -103,7 +104,7 @@ app.post('/api/recording', function(req, res){
     if(fs.existsSync(tempFilePath)){
 
         // rename the audio file to something more meaningful
-        var finalFileName = utils.renameAudioFile(req.body);
+        var finalFileName = utils.getUniqueAudioFileName(req.body);
 
         // move the audio file into the audio library folder
         fs.rename(tempFilePath, config.AUDIO_LIBRARY_PATH + finalFileName + ".mp3");
@@ -112,12 +113,12 @@ app.post('/api/recording', function(req, res){
         var query = "CALL InsertRecording('"
             + finalFileName + "',"
             + req.body.size + ","
-            + req.body.typeID + ","
             + req.body.actID + ",'"
             + req.body.title + "','"
             + req.body.recLocation + "','"
             + utils.mysqlFormatDate(req.body.recDate) + "','"
-            + req.body.recNotes + "');";
+            + req.body.recNotes + "','"
+            + req.body.tags + "');";
 
         // respond to the client about how the save operation went
         connection.query(query, function(err, rows){
@@ -170,17 +171,20 @@ app.put('/api/recording/:id', function(req, res){
 
     var query = "CALL UpdateRecording("
         + req.params.id + ","
-        + req.body.typeID + ","
         + req.body.actID + ",'"
         + req.body.title + "','"
         + req.body.recLocation + "','"
         + utils.mysqlFormatDate(req.body.recDate) + "','"
-        + req.body.recNotes + "');";
-
+        + req.body.recNotes + "','"
+        + req.body.tags + "');";
+console.log(query);
     connection.query(query, function(err){
+        console.log(err);
        res.sendStatus((err) ? 500 : 200);
     });
 });
+
+
 
 /**
  * ARTISTS
@@ -206,9 +210,29 @@ app.get('/api/types', function(req, res){
 });
 
 
+
 /**
  * PLAYLISTS
  */
+// GET /api/playlists
+app.get('/api/playlists', function(req, res){
+    connection.query("CALL GetAllPlaylists();", function(err, rows){
+        (err) ? res.sendStatus(500) : res.json(rows);
+    });
+});
+
+
+/**
+ * TAGS
+ */
+
+// GET /api/tags
+app.get('/api/tags', function(req, res){
+    connection.query("CALL GetAllTags();", function(err, rows){
+        (err) ? res.sendStatus(500) : res.json(rows);
+    });
+});
+
 
 app.use(express.static('public'));
 

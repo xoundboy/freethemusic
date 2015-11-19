@@ -141,7 +141,7 @@ module.exports = Backbone.View.extend({
             row.addClass("highlighted");
 
             if (row.length){
-                w.scrollTop( row.offset().top - (w.height()/2) );
+               w.scrollTop( row.offset().top - (w.height()/2) );
             }
         }
     },

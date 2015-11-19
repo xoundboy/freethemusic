@@ -24,6 +24,7 @@
             <li><a id="tabRecordings" href="#recordings">Recordings</a></li>
             <li><a id="tabArtists" href="#artists">Artists</a></li>
             <li><a id="tabPlaylists" href="#playlists">Playlists</a></li>
+            <li><a id="tabTags" href="#tags">Tags</a></li>
         </ul>
         <div id="audioUpload">
             <div id="audioUploadContainer"></div>
@@ -39,7 +40,14 @@
             </div>
         </div>
         <div id="playlists">
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+            <div id="playlistsContainer">
+                <p>Loading...</p>
+            </div>
+        </div>
+        <div id="tags">
+            <div id="tagsContainer">
+                <p>Loading tags ....</p>
+            </div>
         </div>
     </div>
 </script>
@@ -100,11 +108,11 @@
     <table id="recordings_table" class="benGrid">
         <thead>
         <tr>
-            <th></th>
+            <td class="buttonColumn"></td>
             <th bengrid-key="audioFile">Title</th>
             <th bengrid-key="actName">Artist</th>
-            <th></th>
-            <th></th>
+            <td class="buttonColumn"></td>
+            <td class="buttonColumn"></td>
         </tr>
         </thead>
         <tbody>
@@ -119,7 +127,7 @@
         {{/recordings}}
         {{^recordings}}
             <tr>
-                <td colspan="5" class="emptyTable">No recordings yet <a href="#uploads" class="link">Upload one now</a> </td>
+                <td colspan="5" class="emptyTable">No recordings yet <a href="#audioUpload" class="link">Upload one now</a> </td>
             </tr>
         {{/recordings}}
         </tbody>
@@ -148,29 +156,19 @@
     </p>
     <p>
         <label for="actID">Artist</label>
-        {{^artistOptions}}
-            <span class="warningText">No artists added yet. <a href="#" class="link">Add an artist</a></span>
-        {{/artistOptions}}
-        
-        {{#artistOptions}}
-            <select name="actID" id="actID" required>
-                <option value="">Select an artist</option>
+
+        <select name="actID" id="actID" required>
+            <option value="">Select an artist</option>
+            {{#artistOptions}}
                 <option value="{{id}}">{{actName}}</option>
-            </select>
-        {{/artistOptions}}
+            {{/artistOptions}}
+            <option value="new">Add a new artist</option>
+        </select>
+
     </p>
     <p>
-        <label for="typeID">Type</label>
-        <select name="typeID" id="typeID" required>
-            {{^typeOptions}}
-                <option value="">Loading types</option>
-            {{/typeOptions}}
-
-            {{#typeOptions}}
-                <option value="">Select a type</option>
-                <option value="{{id}}">{{typeName}}</option>
-            {{/typeOptions}}
-        </select>
+        <label for="tags">Tags (csv)</label>
+        <input type="text" name="tags" id="tags" value="{{tags}}" />
     </p>
     <p>
         <label for="recLocation">Location</label>
@@ -198,4 +196,40 @@
             </p>
         </form>
     </td>
+</script>
+
+<script type="text/template" id="template_artists">
+    <table id="recordings_table" class="benGrid">
+        <thead>
+        <tr>
+            <td></td>
+            <th bengrid-key="actName">Artist</th>
+            <td class="buttonColumn"></td>
+            <td class="buttonColumn"></td>
+        </tr>
+        </thead>
+        <tbody>
+        {{#artists}}
+        <tr id="actID-{{id}}" class="artistRow" data-actid="{{id}}">
+            <td><div class="imgMask"><img src="/assets/images/lg_{{imgFile}}" alt="" /></div></td>
+            <td data-artistid="{{actID}}">{{actName}}</td>
+            <td><button class="editArtistButton">edit</button></td>
+            <td><button class="deleteArtistButton">delete</button></td>
+        </tr>
+        {{/artists}}
+        {{^artists}}
+        <tr>
+            <td colspan="5" class="emptyTable">No artists yet <a href="#audioUpload" class="link">Upload one now</a> </td>
+        </tr>
+        {{/artists}}
+        </tbody>
+    </table>
+</script>
+
+<script type="text/template" id="template_playlists">
+    this is the playlists template
+</script>
+
+<script type="text/template" id="template_tags">
+    this is the tags template
 </script>

@@ -5,9 +5,9 @@ module.exports = Backbone.Router.extend({
 
     routes: {
         '': 'showDashboard',
-        'recordings/highlight/:id': 'highlightRecording',
-        'uploads': 'uploadsTab',
         'recordings': 'recordingsTab',
+        'recordings/highlight/:id': 'highlightRecording',
+        'audioUpload': 'uploadsTab',
         'artists': 'artistsTab',
         'playlists': 'playlistsTab'
     },

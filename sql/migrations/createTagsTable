@@ -1,0 +1,5 @@
+CREATE TABLE xoundboy_dev.tags
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    tag VARCHAR(50) NOT NULL
+);

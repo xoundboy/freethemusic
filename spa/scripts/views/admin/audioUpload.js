@@ -28,7 +28,15 @@ module.exports = Backbone.View.extend({
         "click .nextBtn": "stepForward",
         "click #step3BackBtn": "backToStepTwo",
         "click #step3NextBtn": "onToStepFour",
-        "click #step4NextBtn": "confirmUpload"
+        "click #step4NextBtn": "confirmUpload",
+        "change #actID": "selectArtist"
+    },
+
+    selectArtist: function(e){
+       if(e.target.value === "new"){
+           this.stashFormData();
+           adminApp.routers.main.navigate("/artists", {trigger:true});
+       }
     },
 
     confirmUpload: function() {
@@ -38,7 +46,8 @@ module.exports = Backbone.View.extend({
 
         recording.save(this.model.getSaveProps(), {
             success: function(data) {
-                Backbone.history.navigate('recordings/highlight/' + data.id, {trigger: true});
+                adminApp.routers.main.navigate('/recordings/highlight/' + data.id, {trigger: true});
+                that.model.clear().set(that.model.defaults);
                 that.model.setStep(1);
             },
             error: function(model, response, options) {

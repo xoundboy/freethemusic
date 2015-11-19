@@ -1,10 +1,9 @@
-﻿
-var RecordingModel = require('../models/recording.js');
+var TagModel = require('../models/tag.js');
 
 module.exports = Backbone.Collection.extend({
 
-    model: RecordingModel,
-    url: "api/recordings",
+    model: TagModel,
+    url: "api/tags",
     sort_key: "name",
 
     initialize: function() {
@@ -20,11 +19,6 @@ module.exports = Backbone.Collection.extend({
     sortByField: function(fieldName) {
         this.sort_key = fieldName;
         this.sort();
-    },
-
-    parse: function (response) {
-        return response.Recordings[0];
     }
-
 
 });

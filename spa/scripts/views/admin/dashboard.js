@@ -31,12 +31,19 @@ module.exports = Backbone.View.extend({
         // render sub-views
         this.renderUploads();
         this.renderRecordings();
+        this.renderArtists();
 
         return this;
     },
+
     renderUploads: function() {
         this.$("#audioUploadContainer").html(adminApp.views.audioUpload.render().el);
     },
+
+    renderArtists: function() {
+        this.$("#artistsContainer").html(adminApp.views.artists.render().el);
+    },
+
     renderRecordings: function(highlightId){
         this.$("#recordingsContainer").html(adminApp.views.recordings.render().el);
         if (highlightId){

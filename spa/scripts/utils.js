@@ -19,7 +19,7 @@ module.exports = {
         return date.toISOString().slice(0, 19).replace('T', ' ');
     },
 
-    renameAudioFile: function (fields){
+    getUniqueAudioFileName: function (fields){
         var strippedTitle = fields.title.replace(/[^a-zA-Z0-9.]+/g,'');
         var strippedArtist = fields.selectedArtistText.replace(/[^a-zA-Z0-9.]+/g,'');
         var random = Math.random()*100000000000000000;
