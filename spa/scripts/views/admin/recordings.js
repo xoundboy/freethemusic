@@ -138,20 +138,6 @@ module.exports = Backbone.View.extend({
         this.selectedId = id;
     },
 
-    showSelectedRow: function(){
-        if (this.selectedId){
-            this.$el.find("tr").removeClass("highlighted");
-
-            var w = $(window);
-            var row = this.$el.find("#recordingId-" + this.selectedId);
-            row.addClass("highlighted");
-
-            if (row.length){
-               w.scrollTop( row.offset().top - (w.height()/2) );
-            }
-        }
-    },
-
     render: function () {
 
         var compiledTemplate = Mustache.to_html(this.template, { recordings: this.collection.toJSON()});
@@ -161,7 +147,18 @@ module.exports = Backbone.View.extend({
         // sub-views need this
         this.delegateEvents();
 
-        this.showSelectedRow();
+        // highlight the selected row
+        if (this.selectedId){
+            this.$el.find("tr").removeClass("highlighted");
+            this.$el.find("#recordingId-" + this.selectedId).addClass("highlighted");
+
+            var element = document.getElementsByClassName('highlighted')[0];
+            if (element){
+                element.scrollIntoView();
+            }
+        }
+
+
 
         return this;
     }

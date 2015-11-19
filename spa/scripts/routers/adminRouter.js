@@ -26,6 +26,7 @@ module.exports = Backbone.Router.extend({
     },
 
     recordingsTab: function() {
+        adminApp.views.recordings.select(null);
         adminApp.models.dashboard.set("currentTab", "recordings");
     },
 

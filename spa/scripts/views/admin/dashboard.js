@@ -17,23 +17,14 @@ module.exports = Backbone.View.extend({
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
 
-        this.renderMainContent();
+        var currentTab = this.model.get('currentTab');
+        var htmlToRender = adminApp.views[currentTab].render().el;
+        this.$el.find("#mainContent").html(htmlToRender);
+
+        if (currentTab === 'recordings'){
+
+        }
 
         return this;
-    },
-
-    renderMainContent: function(){
-
-        var htmlToRender = adminApp.views[this.model.get('currentTab')].render().el;
-
-        this.$el.find("#mainContent").html(htmlToRender);
-    },
-
-
-    renderRecordings: function(highlightId){
-        this.$("#recordingsContainer").html(adminApp.views.recordings.render().el);
-        if (highlightId){
-            recordingsView.highlight(highlightId);
-        }
     }
 });
