@@ -53,7 +53,7 @@ module.exports = Backbone.Model.extend({
             "recDate",
             "recLocation",
             "recNotes",
-            "selectedArtistText",
+            "actName",
             "size",
             "tempName",
             "title",

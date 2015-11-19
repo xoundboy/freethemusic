@@ -13,14 +13,6 @@ module.exports = Backbone.View.extend({
         this.model.bind('change', this.render, this);
     },
 
-    events: {
-        //"tabsactivate": "changeTab"
-    },
-
-    //changeTab: function (e, ui) {
-    //    adminApp.routers.main.navigate(ui.newTab.find('a[href^=#]').attr('href'),{trigger:true});
-    //},
-
     render: function () {
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);

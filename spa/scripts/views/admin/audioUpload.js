@@ -3,6 +3,7 @@ var $ = require('jquery');
 var _ = require('underscore');
 var Mustache = require('mustache');
 var Backbone = require('backbone');
+var utils = require('../../utils.js');
 
 var RecordingAddEdit = require('./recordingAddEdit.js');
 var RecordingModel = require('../../models/recording.js');
@@ -46,6 +47,9 @@ module.exports = Backbone.View.extend({
 
         recording.save(this.model.getSaveProps(), {
             success: function(data) {
+                recording.set(data);
+                adminApp.collections.recordings.add(recording);
+                adminApp.collections.recordings.sortByField("title");
                 adminApp.routers.main.navigate('/recordings/highlight/' + data.id, {trigger: true});
                 that.model.clear().set(that.model.defaults);
                 that.model.setStep(1);
@@ -72,8 +76,7 @@ module.exports = Backbone.View.extend({
 
     stashFormData: function(){
         this.model.set(this.$el.find("#newRecordingInfo").serializeJSON());
-        this.model.set("selectedArtistText", this.$el.find("select[name=actID] option:selected").html());
-        this.model.set("selectedTypeText", this.$el.find("select[name=typeID] option:selected").html());
+        this.model.set("actName", this.$el.find("select[name=actID] option:selected").html());
     },
 
     stepBack: function() {
@@ -92,7 +95,7 @@ module.exports = Backbone.View.extend({
             xhr_removeuploads = new XMLHttpRequest(),
             xhr_upload = new XMLHttpRequest();
 
-        // call the /api/removetempuploads endpoint
+        // first, empty the temporary uploads folder on the server
         xhr_removeuploads.open('DELETE', '/api/removetempuploads', true);
         xhr_removeuploads.onload = function(){
 
@@ -112,7 +115,7 @@ module.exports = Backbone.View.extend({
             };
             xhr_upload.send(formData);
         };
-        xhr_removeuploads.onerror = function(data){
+        xhr_removeuploads.onerror = function(){
             console.log("could not recreate the remote uploads folder");
         };
         xhr_removeuploads.send();
@@ -143,7 +146,7 @@ module.exports = Backbone.View.extend({
             // get the audio file's duration from the audio object
             var audioTag = document.getElementById("uploadedFile");
             audioTag.addEventListener('loadedmetadata', function(e){
-                that.model.set('duration', Math.round(audioTag.duration));
+                that.model.set('duration', utils.formattedDuration(audioTag.duration));
             }, false);
         }
 

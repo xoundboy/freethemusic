@@ -112,8 +112,8 @@ app.post('/api/recording', function(req, res){
         // insert the database record for the new file
         var query = "CALL InsertRecording('"
             + finalFileName + "',"
-            + req.body.size + ","
-            + req.body.duration + ","
+            + req.body.size + ",'"
+            + req.body.duration + "',"
             + req.body.actID + ",'"
             + req.body.title + "','"
             + req.body.recLocation + "','"
@@ -121,8 +121,7 @@ app.post('/api/recording', function(req, res){
             + req.body.recNotes + "','"
             + req.body.tags + "');";
 
-        // respond to the client about how the save operation went
-        connection.query(query, function(err, rows){
+        connection.query(query, function(err){
 
             if (err) {
                 res.status(400).send("error inserting the record into the database");
@@ -133,7 +132,10 @@ app.post('/api/recording', function(req, res){
                     if (err){
                         res.status(400).send("can't get the insert ID from the database");
                     } else {
-                        res.json(rows[0]);
+                        res.json({
+                            id: rows[0].id,
+                            audioFile: finalFileName
+                        });
                     }
                 });
             }
@@ -178,9 +180,8 @@ app.put('/api/recording/:id', function(req, res){
         + utils.mysqlFormatDate(req.body.recDate) + "','"
         + req.body.recNotes + "','"
         + req.body.tags + "');";
-console.log(query);
+
     connection.query(query, function(err){
-        console.log(err);
        res.sendStatus((err) ? 500 : 200);
     });
 });

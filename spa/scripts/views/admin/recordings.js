@@ -24,11 +24,12 @@ module.exports = Backbone.View.extend({
         "click .previewButton": "previewTrack",
         "click .editRecordingButton": "editRecordingInfo",
         "click .deleteRecordingButton": "deleteRecording",
-        "click a[href=#uploads]": "gotoUploads"
+        "click a[href=#uploads]": "gotoUploads",
+        "click .addRecordingButton" : "gotoUploads"
     },
 
     gotoUploads: function(e){
-        adminApp.routers.main.navigate("/uploads", {trigger: true});
+        adminApp.routers.main.navigate("/audioUpload", {trigger: true});
     },
 
     editRecordingInfo: function(e) {
@@ -124,6 +125,11 @@ module.exports = Backbone.View.extend({
             text: false,
             icons: {
                 primary: "ui-icon-trash"
+            }
+        });
+        this.$el.find(".addRecordingButton").button({
+            icons: {
+                primary: "ui-icon-plusthick"
             }
         });
     },

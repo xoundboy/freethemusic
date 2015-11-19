@@ -19,7 +19,6 @@
 
 <script type="text/template" id="template_dashboard">
     <nav>
-        <a href="#audioUpload" id="navAudioUpload">Audio Upload</a>
         <a href="#recordings" id="navRecordings">Recordings</a>
         <a href="#artists" id="navArtists">Artists</a>
         <a href="#playlists" id="navPlaylists">Playlists</a>
@@ -70,13 +69,13 @@
     <div id="step4" class="steps">
         <h2>Step 4: Confirmation</h2>
         <p>Title: <strong>{{title}}</strong></p>
-        <p>Artist: <strong>{{{selectedArtistText}}}</strong></p>
-        <p>Type: <strong>{{{selectedTypeText}}}</strong></p>
+        <p>Artist: <strong>{{actName}}</strong></p>
+        <p>Tags: <strong>{{tags}}</strong></p>
         <p>Location: <strong>{{recLocation}}</strong></p>
         <p>Date: <strong>{{recDate}}</strong></p>
         <p>Notes: <strong>{{recNotes}}</strong></p>
         <p>Duration: <strong>{{duration}}</strong></p>
-        <p>Size: <strong>{{size}}</strong></p>
+        <p>Size: <strong>{{size}} bytes</strong></p>
         <p class="buttons">
             <button id="step4BackBtn" class="backBtn">Back</button>
             <button id="step4NextBtn">Confirm</button>
@@ -86,6 +85,11 @@
 </script>
 
 <script type="text/template" id="template_recordings">
+
+    <div class="buttonBar">
+        <button class="addRecordingButton cta">Upload recording</button>
+    </div>
+
     <table id="recordings_table" class="benGrid">
         <thead>
         <tr>
@@ -103,7 +107,7 @@
             <td><button class="previewButton" data-filename="{{audioFile}}.mp3">preview</button></td>
             <td>{{title}}</td>
             <td data-artistid="{{actID}}">{{actName}}</td>
-            <td class="rightAlign">{{formattedDuration}}</td>
+            <td class="rightAlign">{{duration}}</td>
             <td><button class="editRecordingButton">edit</button></td>
             <td><button class="deleteRecordingButton">delete</button></td>
         </tr>

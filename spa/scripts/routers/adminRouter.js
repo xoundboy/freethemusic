@@ -4,7 +4,7 @@ var Backbone = require('backbone');
 module.exports = Backbone.Router.extend({
 
     routes: {
-        '': 'showDashboard',
+        '': 'recordingsTab',
         'recordings': 'recordingsTab',
         'recordings/highlight/:id': 'highlightRecording',
         'audioUpload': 'uploadsTab',
@@ -32,6 +32,7 @@ module.exports = Backbone.Router.extend({
     artistsTab: function() {
         adminApp.models.dashboard.set("currentTab", "artists");
     },
+
     playlistsTab: function() {
         adminApp.models.dashboard.set("currentTab", "playlists");
     }
