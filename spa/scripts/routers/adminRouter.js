@@ -18,22 +18,22 @@ module.exports = Backbone.Router.extend({
 
     highlightRecording: function(id){
         adminApp.views.recordings.select(id);
-        adminApp.models.dashboard.set("currentTabHref", "#recordings");
+        adminApp.models.dashboard.set("currentTab", "recordings");
     },
 
     uploadsTab: function() {
-        adminApp.models.dashboard.set("currentTabHref", "#audioUpload");
+        adminApp.models.dashboard.set("currentTab", "audioUpload");
     },
 
     recordingsTab: function() {
-        adminApp.models.dashboard.set("currentTabHref", "#recordings");
+        adminApp.models.dashboard.set("currentTab", "recordings");
     },
 
     artistsTab: function() {
-        adminApp.models.dashboard.set("currentTabHref", "#artists");
+        adminApp.models.dashboard.set("currentTab", "artists");
     },
     playlistsTab: function() {
-        adminApp.models.dashboard.set("currentTabHref", "#playlists");
+        adminApp.models.dashboard.set("currentTab", "playlists");
     }
 
 });

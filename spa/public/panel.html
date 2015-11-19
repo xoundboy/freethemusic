@@ -18,37 +18,15 @@
 </html>
 
 <script type="text/template" id="template_dashboard">
-    <div id="tabs">
-        <ul>
-            <li><a id="tabAudioUpload" href="#audioUpload">Audio Upload</a></li>
-            <li><a id="tabRecordings" href="#recordings">Recordings</a></li>
-            <li><a id="tabArtists" href="#artists">Artists</a></li>
-            <li><a id="tabPlaylists" href="#playlists">Playlists</a></li>
-            <li><a id="tabTags" href="#tags">Tags</a></li>
-        </ul>
-        <div id="audioUpload">
-            <div id="audioUploadContainer"></div>
-        </div>
-        <div id="recordings">
-            <div id="recordingsContainer">
-                <p>Loading...</p>
-            </div>
-        </div>
-        <div id="artists">
-            <div id="artistsContainer">
-                <p>Loading...</p>
-            </div>
-        </div>
-        <div id="playlists">
-            <div id="playlistsContainer">
-                <p>Loading...</p>
-            </div>
-        </div>
-        <div id="tags">
-            <div id="tagsContainer">
-                <p>Loading tags ....</p>
-            </div>
-        </div>
+    <nav>
+        <a href="#audioUpload" id="navAudioUpload">Audio Upload</a>
+        <a href="#recordings" id="navRecordings">Recordings</a>
+        <a href="#artists" id="navArtists">Artists</a>
+        <a href="#playlists" id="navPlaylists">Playlists</a>
+        <a href="#tags" id="navTags">Tags</a>
+    </nav>
+    <div id="mainContent">
+        <div id="audioUploadContainer"></div>
     </div>
 </script>
 
@@ -56,14 +34,16 @@
     {{#step1}}
     <div id="step1" class="steps">
         <h2>Step 1: Upload Audio File</h2>
-        <input type="file" name="uploadFile" id="uploadFile" accept=".mp3" />
+        <p>
+            <input type="file" size="60" name="uploadFile" id="uploadFile" accept=".mp3" />
+        </p>
     </div>
     {{/step1}}
     {{#step2}}
     <div id="step2" class="steps">
         <h2>Step 2: Preview Upload</h2>
         <p>Check that the file uploaded correctly by playing it.</p>
-        <audio controls>
+        <audio id="uploadedFile" controls>
             <source src="/uploads/{{tempName}}.mp3" type="audio/mpeg">
         </audio>
         <p class="small">File size: {{size}} bytes</p>
@@ -89,13 +69,14 @@
     {{#step4}}
     <div id="step4" class="steps">
         <h2>Step 4: Confirmation</h2>
-        <p>You have entered the following information:</p>
         <p>Title: <strong>{{title}}</strong></p>
         <p>Artist: <strong>{{{selectedArtistText}}}</strong></p>
         <p>Type: <strong>{{{selectedTypeText}}}</strong></p>
         <p>Location: <strong>{{recLocation}}</strong></p>
         <p>Date: <strong>{{recDate}}</strong></p>
         <p>Notes: <strong>{{recNotes}}</strong></p>
+        <p>Duration: <strong>{{duration}}</strong></p>
+        <p>Size: <strong>{{size}}</strong></p>
         <p class="buttons">
             <button id="step4BackBtn" class="backBtn">Back</button>
             <button id="step4NextBtn">Confirm</button>
@@ -111,6 +92,7 @@
             <td class="buttonColumn"></td>
             <th bengrid-key="audioFile">Title</th>
             <th bengrid-key="actName">Artist</th>
+            <th bengrid-key="actName">Duration</th>
             <td class="buttonColumn"></td>
             <td class="buttonColumn"></td>
         </tr>
@@ -121,6 +103,7 @@
             <td><button class="previewButton" data-filename="{{audioFile}}.mp3">preview</button></td>
             <td>{{title}}</td>
             <td data-artistid="{{actID}}">{{actName}}</td>
+            <td class="rightAlign">{{formattedDuration}}</td>
             <td><button class="editRecordingButton">edit</button></td>
             <td><button class="deleteRecordingButton">delete</button></td>
         </tr>
@@ -199,6 +182,10 @@
 </script>
 
 <script type="text/template" id="template_artists">
+
+    <div class="buttonBar">
+        <button class="addArtistButton cta">Add artist</button>
+    </div>
     <table id="recordings_table" class="benGrid">
         <thead>
         <tr>

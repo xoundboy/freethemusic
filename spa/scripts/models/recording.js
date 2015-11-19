@@ -8,6 +8,7 @@ module.exports = Backbone.Model.extend({
         if (response) {
             this.set(response);
             this.set("recDate", utils.formattedDate(response.recDate));
+            this.set("formattedDuration", utils.formattedDuration(response.duration));
         }
     }
 

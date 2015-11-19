@@ -57,7 +57,8 @@ module.exports = Backbone.Model.extend({
             "size",
             "tempName",
             "title",
-            "tags"
+            "tags",
+            "duration"
 
         ].map(function(prop){
             attrs[prop] = that.get(prop);

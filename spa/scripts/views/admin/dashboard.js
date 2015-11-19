@@ -1,4 +1,4 @@
-﻿require('jquery-ui/tabs');
+﻿//require('jquery-ui/tabs');
 var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
@@ -14,35 +14,29 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        "tabsactivate": "changeTab"
+        //"tabsactivate": "changeTab"
     },
 
-    changeTab: function (e, ui) {
-        adminApp.routers.main.navigate(ui.newTab.find('a[href^=#]').attr('href'),{trigger:true});
-    },
+    //changeTab: function (e, ui) {
+    //    adminApp.routers.main.navigate(ui.newTab.find('a[href^=#]').attr('href'),{trigger:true});
+    //},
 
     render: function () {
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
-        this.$el.html(compiledTemplate)
-            .find("#tabs")
-            .tabs()
-            .tabs('option', 'active', this.model.getCurrentTabIndex());
+        this.$el.html(compiledTemplate);
 
-        // render sub-views
-        this.renderUploads();
-        this.renderRecordings();
-        this.renderArtists();
+        this.renderMainContent();
 
         return this;
     },
 
-    renderUploads: function() {
-        this.$("#audioUploadContainer").html(adminApp.views.audioUpload.render().el);
+    renderMainContent: function(){
+
+        var htmlToRender = adminApp.views[this.model.get('currentTab')].render().el;
+
+        this.$el.find("#mainContent").html(htmlToRender);
     },
 
-    renderArtists: function() {
-        this.$("#artistsContainer").html(adminApp.views.artists.render().el);
-    },
 
     renderRecordings: function(highlightId){
         this.$("#recordingsContainer").html(adminApp.views.recordings.render().el);

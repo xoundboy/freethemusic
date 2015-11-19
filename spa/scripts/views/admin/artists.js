@@ -15,6 +15,14 @@ module.exports = Backbone.View.extend({
         this.collection.fetch();
     },
 
+    events: {
+        "click button.addArtistButton": "addArtist"
+    },
+
+    addArtist: function(){
+        alert("hey");
+    },
+
     styleButtons: function() {
         this.$el.find(".editArtistButton").button({
             text: false,
@@ -26,6 +34,11 @@ module.exports = Backbone.View.extend({
             text: false,
             icons: {
                 primary: "ui-icon-trash"
+            }
+        });
+        this.$el.find(".addArtistButton").button({
+            icons: {
+                primary: "ui-icon-plusthick"
             }
         });
     },

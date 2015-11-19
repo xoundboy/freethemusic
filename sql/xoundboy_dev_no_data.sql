@@ -277,8 +277,10 @@ CREATE TABLE `recordings` (
   `recNotes` text NOT NULL,
   `featured` enum('yes','no') DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL,
+  `tags` varchar(254) DEFAULT NULL,
+  `duration` smallint(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=697 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=709 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -424,11 +426,10 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllRecordings`()
 BEGIN
 SELECT   *, r.id as id, DATE_FORMAT(recDate, "%D %M %Y") AS formattedDate
-FROM     acts a, types t, recordings r
+FROM     acts a, recordings r
     LEFT JOIN images i
 ON       r.imgID = i.id
 WHERE    r.actID = a.id
-AND      r.typeID = t.id
 ORDER BY r.audioFile;
 END ;;
 DELIMITER ;
@@ -513,33 +514,36 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertRecording`(
   IN audioFile VARCHAR(50),
   IN fileSize INT,
-  IN typeID SMALLINT,
+  IN duration SMALLINT,
   IN actID SMALLINT,
   IN title VARCHAR(50),
   IN recLocation VARCHAR(254),
   IN recDate DATETIME,
-  IN recNotes LONGTEXT
+  IN recNotes LONGTEXT,
+  IN tags VARCHAR(254)
 )
 BEGIN
 INSERT INTO recordings (
     audioFile,
     fileSize,
-    typeID,
+    duration,
     actID,
     title,
     recLocation,
     recDate,
-    recNotes
+    recNotes,
+    tags
   )
   VALUES (
     audioFile,
     fileSize,
-    typeID,
+    duration,
     actID,
     title,
     recLocation,
     recDate,
-    recNotes
+    recNotes,
+    tags
   );
 END ;;
 DELIMITER ;
@@ -559,22 +563,22 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateRecording`(
   IN idToUpdate SMALLINT,
-  IN typeID SMALLINT,
   IN actID SMALLINT,
   IN title VARCHAR(50),
   IN recLocation VARCHAR(254),
   IN recDate DATETIME,
-  IN recNotes LONGTEXT
+  IN recNotes LONGTEXT,
+  IN tags VARCHAR(254)
 )
 BEGIN
 UPDATE recordings r
   SET r.audioFile = audioFile,
-    r.typeID = typeID,
     r.actID = actID,
     r.title = title,
     r.recLocation = recLocation,
     r.recDate = recDate,
-    r.recNotes = recNotes
+    r.recNotes = recNotes,
+    r.tags = tags
   WHERE r.id = idToUpdate;
 END ;;
 DELIMITER ;
@@ -592,4 +596,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-18 20:19:27
+-- Dump completed on 2015-11-19 16:30:33

@@ -3,8 +3,10 @@ $cta-link-text: #76a01b;
 
 body,html
 {
-    font-size: 0.825em;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1;
     background-color: #333333;
+    color: white;
     min-width: 320px;
 }
 
@@ -24,6 +26,16 @@ a, .ui-widget-content a {
         color: $cta-link-text;
         text-decoration: underline;
     }
+}
+
+button {
+    &.ui-widget {
+        font-size: 1em;
+    }
+}
+
+input[type=file] {
+    font-size: 14px;
 }
 
 p {
@@ -65,21 +77,63 @@ p {
     
 }
 
+nav {
+    margin-bottom: 20px;
+
+    a {
+        display: inline-block;
+        color: white;
+        padding: 10px 20px;
+
+        &:hover {
+            background: white;
+            color: #333333;
+        }
+    }
+}
+
+#mainContent {
+    padding: 20px;
+
+    h2 {
+        line-height: 2em;
+    }
+}
+
+.buttonBar {
+    display: block;
+    margin: 20px 0;
+    text-align: right;
+
+    button {
+        &.cta {
+            background-image: none;
+            background-color: forestgreen;
+        }
+    }
+}
 
 table.benGrid {
 
     width: 100%;
 
+    th, td {
+        &.rightAlign {
+            text-align: right;
+        }
+    }
+
     thead {
         th {
-            color: #E1E1E1;
-            background: #585858;
+            text-transform: uppercase;
+            text-align: left;
+            color: #898989;
             padding: 5px;
-            border: 1px solid #666666;
             cursor: pointer;
+            font-size: 12px;
+
             &:hover {
-                background: #0078A3;
-                border: 1px solid #0078A3;
+                background: #585858;
             }
         }
 

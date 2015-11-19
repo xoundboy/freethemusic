@@ -113,6 +113,7 @@ app.post('/api/recording', function(req, res){
         var query = "CALL InsertRecording('"
             + finalFileName + "',"
             + req.body.size + ","
+            + req.body.duration + ","
             + req.body.actID + ",'"
             + req.body.title + "','"
             + req.body.recLocation + "','"

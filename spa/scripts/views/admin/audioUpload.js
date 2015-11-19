@@ -103,6 +103,8 @@ module.exports = Backbone.View.extend({
                 that.model.set("tempName", response.tempName);
                 that.model.set("size", response.size);
                 that.model.setStep(2);
+
+
             };
             xhr_upload.onerror = function (data) {
                 alert("error uploading the file");
@@ -118,6 +120,7 @@ module.exports = Backbone.View.extend({
     },
 
     render: function () {
+        var that = this;
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
         this.$el.find("button").button();
@@ -134,6 +137,15 @@ module.exports = Backbone.View.extend({
             changeMonth: true,
             changeYear: true
         });
+
+        if(this.model.get('currentStep') === 2){
+
+            // get the audio file's duration from the audio object
+            var audioTag = document.getElementById("uploadedFile");
+            audioTag.addEventListener('loadedmetadata', function(e){
+                that.model.set('duration', Math.round(audioTag.duration));
+            }, false);
+        }
 
         // sub-views need this
         this.delegateEvents();
