@@ -61,12 +61,14 @@ app.post('/api/upload', multer({ dest: pathToUploadDir}).single('uploadFile'), f
     });
 });
 
+
+
 /**
  * PLAYBACK
  */
 app.get("/assets/audio/:audioFile", function(req, res){
     var pathToAudioFile = config.AUDIO_LIBRARY_PATH + req.params.audioFile;
-    if(fs.existsSync(pathToAudioFile)){
+    if (fs.existsSync(pathToAudioFile)){
         res.setHeader("content-type", "audio/mpeg");
         fs.createReadStream(pathToAudioFile).pipe(res);
     } else {
@@ -96,6 +98,18 @@ app.get('/api/recordings', function(req,res){
     });
 });
 
+// GET /api/recording/id
+app.get('/api/recording/:id', function(req, res){
+    var query = "CALL GetRecordingById(" + utils.htmlEscape(req.params.id) + ");";
+    connection.query(query, function(err, rows){
+        if (err) {
+            res.status(400).send("error retrieving recording from the database");
+            return;
+        }
+        res.json(rows);
+    });
+});
+
 // POST /api/recording
 app.post('/api/recording', function(req, res){
 
@@ -112,30 +126,24 @@ app.post('/api/recording', function(req, res){
         // insert the database record for the new file
         var query = "CALL InsertRecording('"
             + finalFileName + "',"
-            + req.body.size + ",'"
-            + req.body.duration + "',"
-            + req.body.actID + ",'"
-            + req.body.title + "','"
-            + req.body.recLocation + "','"
-            + utils.mysqlFormatDate(req.body.recDate) + "','"
-            + req.body.recNotes + "','"
-            + req.body.tags + "');";
+            + utils.htmlEscape(req.body.size) + ",'"
+            + utils.htmlEscape(req.body.duration) + "',"
+            + utils.htmlEscape(req.body.actID) + ",'"
+            + utils.htmlEscape(req.body.title) + "','"
+            + utils.htmlEscape(req.body.recLocation) + "','"
+            + utils.htmlEscape(utils.mysqlFormatDate(req.body.recDate)) + "','"
+            + utils.htmlEscape(req.body.recNotes) + "','"
+            + utils.htmlEscape(req.body.tags) + "');";
 
         connection.query(query, function(err){
-
             if (err) {
                 res.status(400).send("error inserting the record into the database");
-            }
-
-            else {
+            } else {
                 connection.query('SELECT last_insert_id() AS id;', function(err, rows){
                     if (err){
                         res.status(400).send("can't get the insert ID from the database");
                     } else {
-                        res.json({
-                            id: rows[0].id,
-                            audioFile: finalFileName
-                        });
+                        res.json({id: rows[0].id});
                     }
                 });
             }
@@ -147,7 +155,7 @@ app.post('/api/recording', function(req, res){
 
 // DELETE /api/recording/id
 app.delete('/api/recording/:id', function(req, res){
-    connection.query("CALL GetRecordingById(" + req.params.id + ")", function(err, rows){
+    connection.query("CALL GetRecordingById(" + utils.htmlEscape(req.params.id) + ")", function(err, rows){
 
         if (err){
             res.status(400).send("recording id does not exist in the database");
@@ -158,7 +166,6 @@ app.delete('/api/recording/:id', function(req, res){
 
         fs.unlink(config.AUDIO_LIBRARY_PATH + fileToDelete + ".mp3", function(err){
             if (err){
-                console.log(err);
                 res.status(400).send("cannot delete the file");
                 return;
             }
@@ -171,18 +178,17 @@ app.delete('/api/recording/:id', function(req, res){
 
 // PUT /api/recording/id
 app.put('/api/recording/:id', function(req, res){
-
     var query = "CALL UpdateRecording("
-        + req.params.id + ","
-        + req.body.actID + ",'"
-        + req.body.title + "','"
-        + req.body.recLocation + "','"
-        + utils.mysqlFormatDate(req.body.recDate) + "','"
-        + req.body.recNotes + "','"
-        + req.body.tags + "');";
+        + utils.htmlEscape(req.params.id) + ","
+        + utils.htmlEscape(req.body.actID) + ",'"
+        + utils.htmlEscape(req.body.title) + "','"
+        + utils.htmlEscape(req.body.recLocation) + "','"
+        + utils.htmlEscape(utils.mysqlFormatDate(req.body.recDate)) + "','"
+        + utils.htmlEscape(req.body.recNotes) + "','"
+        + utils.htmlEscape(req.body.tags) + "');";
 
     connection.query(query, function(err){
-       res.sendStatus((err) ? 500 : 200);
+        res.sendStatus((err) ? 500 : 200);
     });
 });
 

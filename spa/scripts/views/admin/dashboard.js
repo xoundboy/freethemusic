@@ -32,7 +32,7 @@ module.exports = Backbone.View.extend({
 
     render: function () {
         console.log("rendering dashboard");
-        var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
+        var compiledTemplate = Mustache.to_html(this.template, {});
         this.$el.html(compiledTemplate);
         return this;
     }

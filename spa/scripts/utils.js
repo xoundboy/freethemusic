@@ -58,5 +58,14 @@ module.exports = {
         var random = Math.random()*100000000000000000;
         var longName = strippedTitle + '-' + strippedArtist + '-' + random;
         return longName.substring(0,46);
+    },
+
+    htmlEscape: function (str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
     }
 };

@@ -6,6 +6,7 @@ var $ = require('jquery');
 var Mustache = require('mustache');
 
 var RecordingAddEditView = require("./recordingAddEdit.js");
+var utils = require('../../utils.js');
 
 module.exports = Backbone.View.extend({
 
@@ -39,9 +40,7 @@ module.exports = Backbone.View.extend({
             this.model
                 .set($infoForm.serializeJSON())
                 .unset("artistOptions", {silent: true})
-                .unset("typeOptions", {silent: true})
                 .unset("artist", {silent: true})
-                .unset("type", {silent: true})
                 .save({}, {
                     success: function() {
                         //that.closePanel();

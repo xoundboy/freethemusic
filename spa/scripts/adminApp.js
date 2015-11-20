@@ -9,7 +9,6 @@ require('../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.theme.min.c
 var $ = require('jquery');
 var Backbone = require('backbone');
 var AdminRouter = require('./routers/adminRouter.js');
-var DashboardModel = require('./models/dashboard.js');
 var DashboardView = require('./views/admin/dashboard.js');
 var RecordingsCollection = require('./collections/recordings.js');
 var RecordingsView = require('./views/admin/recordings.js');
@@ -41,13 +40,6 @@ $(function(){
         template: $("#template_artists").html()
     });
 
-    // Dashboard
-    adminApp.models.dashboard = new DashboardModel();
-    adminApp.views.dashboard = new DashboardView({
-        model: adminApp.models.dashboard,
-        template: $("#template_dashboard").html()
-    });
-
     // recordings tab
     adminApp.collections.recordings = new RecordingsCollection();
     adminApp.views.recordings = new RecordingsView({
@@ -76,12 +68,16 @@ $(function(){
         template: $("#template_tags").html()
     });
 
+    // Dashboard
+    adminApp.views.dashboard = new DashboardView({
+        template: $("#template_dashboard").html()
+    });
+
     // Bootstrap the application
     $( document ).ajaxStop(function() {
         $(this).unbind("ajaxStop");
         $("#loading").remove();
         adminApp.views.dashboard.render();
-        adminApp.models.dashboard.set("currentTab", "recordings");
         adminApp.routers.main = new AdminRouter();
         Backbone.history.start();
     });

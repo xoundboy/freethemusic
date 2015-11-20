@@ -39,7 +39,7 @@ module.exports = Backbone.View.extend({
             recordingId = $tr.attr("data-recordingId");
 
         var recordingModel = this.collection.get(recordingId);
-
+console.log(recordingModel);
         var recordingEditPanel = new RecordingEditPanelView({
             model: recordingModel,
             template: $('#template_recordingEditPanel').html()
@@ -147,7 +147,7 @@ module.exports = Backbone.View.extend({
     },
 
     render: function () {
-
+console.log("rendering recordings tab");
         var compiledTemplate = Mustache.to_html(this.template, { recordings: this.collection.toJSON()});
         this.$el.html(compiledTemplate);
         this.styleButtons();
