@@ -1,3 +1,4 @@
+
 require('../css/reset.scss');
 require('../css/admin/base.scss');//
 require('../css/admin/style.scss');
@@ -21,6 +22,7 @@ var PlaylistsView = require('./views/admin/playlists.js');
 var TagsCollection = require('./collections/tags.js');
 var TagsView = require('./views/admin/tags.js');
 
+
 // Global App Object
 global.adminApp = {
     models: {},
@@ -31,6 +33,13 @@ global.adminApp = {
 
 
 $(function(){
+
+    // artists tab
+    adminApp.collections.artists = new ArtistsCollection();
+    adminApp.views.artists = new ArtistsView({
+        collection: adminApp.collections.artists,
+        template: $("#template_artists").html()
+    });
 
     // Dashboard
     adminApp.models.dashboard = new DashboardModel();
@@ -53,13 +62,6 @@ $(function(){
         template: $("#template_audioUpload").html()
     });
 
-    // artsts tab
-    adminApp.collections.artists = new ArtistsCollection();
-    adminApp.views.artists = new ArtistsView({
-        collection: adminApp.collections.artists,
-        template: $("#template_artists").html()
-    });
-
     // playlists tab
     adminApp.collections.playlists = new PlaylistsCollection();
     adminApp.views.playlists = new PlaylistsView({
@@ -75,6 +77,13 @@ $(function(){
     });
 
     // Bootstrap the application
-    adminApp.routers.main = new AdminRouter();
-    Backbone.history.start();
+    $( document ).ajaxStop(function() {
+        $(this).unbind("ajaxStop");
+        $("#loading").remove();
+        adminApp.views.dashboard.render();
+        adminApp.models.dashboard.set("currentTab", "recordings");
+        adminApp.routers.main = new AdminRouter();
+        Backbone.history.start();
+    });
+
 });

@@ -5,7 +5,7 @@ module.exports = Backbone.Collection.extend({
 
     model: RecordingModel,
     url: "api/recordings",
-    sort_key: "name",
+    sort_key: "title",
 
     initialize: function() {
         this.bind("remove", function (model) {

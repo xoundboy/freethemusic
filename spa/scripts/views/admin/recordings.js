@@ -9,13 +9,14 @@ module.exports = Backbone.View.extend({
     tagName: "div",
     id: "recordingsContent",
     className: "recordings",
-    audio: new Audio(),    nowPlayingId: null,
+    audio: new Audio(),
+    nowPlayingId: null,
     selectedId: null,
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
-        this.listenTo(this.collection, 'reset sort remove fetch change', this.render);
-        this.collection.fetch();
+        this.listenTo(this.collection, 'reset sort change remove', this.render);
+        this.collection.fetch({reset:true});
         this.audio.addEventListener('error', $.proxy(this.handleAudioLoadError, this));
     },
 
@@ -134,7 +135,14 @@ module.exports = Backbone.View.extend({
         });
     },
 
-    select: function(id){
+    highlightItem: function(){
+        if (this.selectedId) {
+            this.$el.find("#recordings_table").find("tr").removeClass("highlighted");
+            this.$el.find("#recordingId-" + this.selectedId).addClass("highlighted");
+        }
+    },
+
+    setSelectedId: function(id){
         this.selectedId = id;
     },
 
@@ -143,22 +151,11 @@ module.exports = Backbone.View.extend({
         var compiledTemplate = Mustache.to_html(this.template, { recordings: this.collection.toJSON()});
         this.$el.html(compiledTemplate);
         this.styleButtons();
+        this.highlightItem();
 
-        // sub-views need this
+        // Sub-views need this or events associated with
+        // previous renderings of the view will be lost.
         this.delegateEvents();
-
-        // highlight the selected row
-        if (this.selectedId){
-            this.$el.find("tr").removeClass("highlighted");
-            this.$el.find("#recordingId-" + this.selectedId).addClass("highlighted");
-
-            var element = document.getElementsByClassName('highlighted')[0];
-            if (element){
-                element.scrollIntoView();
-            }
-        }
-
-
 
         return this;
     }

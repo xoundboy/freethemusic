@@ -10,21 +10,30 @@ module.exports = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
-        this.model.bind('change', this.render, this);
+    },
+
+    scrollToElement: function($element){
+
+        var offset = $element.offset();
+
+        if(offset){
+            console.log(offset);
+            $('html, body').animate({
+                scrollTop: offset.top,
+                scrollLeft: offset.left
+            });
+        }
+    },
+
+    switchMainContent: function(tabName){
+        var tabHtml = adminApp.views[tabName].render().el;
+        this.$el.find("#mainContent").html(tabHtml);
     },
 
     render: function () {
+        console.log("rendering dashboard");
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
-
-        var currentTab = this.model.get('currentTab');
-        var htmlToRender = adminApp.views[currentTab].render().el;
-        this.$el.find("#mainContent").html(htmlToRender);
-
-        if (currentTab === 'recordings'){
-
-        }
-
         return this;
     }
 });

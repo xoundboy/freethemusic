@@ -48,8 +48,8 @@ module.exports = Backbone.View.extend({
         recording.save(this.model.getSaveProps(), {
             success: function(data) {
                 recording.set(data);
-                adminApp.collections.recordings.add(recording);
-                adminApp.collections.recordings.sortByField("title");
+                adminApp.collections.recordings.add(recording, {silent: true});
+                adminApp.collections.recordings.sort({silent: true});
                 adminApp.routers.main.navigate('/recordings/highlight/' + data.id, {trigger: true});
                 that.model.clear().set(that.model.defaults);
                 that.model.setStep(1);
@@ -123,25 +123,14 @@ module.exports = Backbone.View.extend({
     },
 
     render: function () {
+
         var that = this;
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
-        this.$el.find("button").button();
 
-        // create the info form subview and render it
-        var recordingInfoForm = new RecordingAddEdit({
-            model: this.model,
-            template: $("#template_recordingAddEdit").html()
-        });
 
-        this.$el.find(".newRecordingInfoFormContainer").html(recordingInfoForm.render().el);
-
-        this.$el.find(".datepicker").datepicker({
-            changeMonth: true,
-            changeYear: true
-        });
-
-        if(this.model.get('currentStep') === 2){
+        // only for step 2
+        if(this.model.get('step2')){
 
             // get the audio file's duration from the audio object
             var audioTag = document.getElementById("uploadedFile");
@@ -149,6 +138,21 @@ module.exports = Backbone.View.extend({
                 that.model.set('duration', utils.formattedDuration(audioTag.duration));
             }, false);
         }
+
+        // only for step 3
+        if(this.model.get("step3")){
+            var recordingInfoForm = new RecordingAddEdit({
+                model: this.model,
+                template: $("#template_recordingAddEdit").html()
+            });
+            this.$el.find(".newRecordingInfoFormContainer").html(recordingInfoForm.render().el);
+            this.$el.find(".datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+        }
+
+        this.$el.find("button").button();
 
         // sub-views need this
         this.delegateEvents();

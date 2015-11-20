@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var Backbone = require('backbone');
+var $ = require('jquery');
 var Mustache = require('mustache');
 
 module.exports = Backbone.View.extend({
@@ -11,8 +11,8 @@ module.exports = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
-        this.listenTo(this.collection, 'reset sort remove fetch change', this.render);
-        this.collection.fetch();
+        this.listenTo(this.collection, 'reset sort change remove', this.render);
+        this.collection.fetch({reset:true});
     },
 
     events: {
@@ -44,6 +44,7 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
+        console.log("rendering artists collection");
         var compiledTemplate = Mustache.to_html(this.template, { artists: this.collection.toJSON()});
         this.$el.html(compiledTemplate);
         this.styleButtons();

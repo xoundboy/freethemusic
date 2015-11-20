@@ -9,7 +9,8 @@ module.exports = Backbone.Router.extend({
         'recordings/highlight/:id': 'highlightRecording',
         'audioUpload': 'uploadsTab',
         'artists': 'artistsTab',
-        'playlists': 'playlistsTab'
+        'playlists': 'playlistsTab',
+        'tags': 'tagsTab'
     },
 
     showDashboard: function () {
@@ -17,25 +18,30 @@ module.exports = Backbone.Router.extend({
     },
 
     highlightRecording: function(id){
-        adminApp.views.recordings.select(id);
-        adminApp.models.dashboard.set("currentTab", "recordings");
+        adminApp.views.recordings.setSelectedId(id);
+        adminApp.views.dashboard.switchMainContent("recordings");
+        adminApp.views.dashboard.scrollToElement($("#recordingId-" + id));
     },
 
     uploadsTab: function() {
-        adminApp.models.dashboard.set("currentTab", "audioUpload");
+        adminApp.views.dashboard.switchMainContent("audioUpload");
     },
 
     recordingsTab: function() {
-        adminApp.views.recordings.select(null);
-        adminApp.models.dashboard.set("currentTab", "recordings");
+        adminApp.views.recordings.setSelectedId(null);
+        adminApp.views.dashboard.switchMainContent("recordings");
     },
 
     artistsTab: function() {
-        adminApp.models.dashboard.set("currentTab", "artists");
+        adminApp.views.dashboard.switchMainContent("artists");
     },
 
     playlistsTab: function() {
-        adminApp.models.dashboard.set("currentTab", "playlists");
-    }
+        adminApp.views.dashboard.switchMainContent("playlists");
+    },
+
+    tagsTab: function() {
+        adminApp.views.dashboard.switchMainContent("tags");
+    },
 
 });

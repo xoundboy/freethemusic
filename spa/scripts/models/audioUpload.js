@@ -5,8 +5,7 @@ module.exports = Backbone.Model.extend({
 
     defaults: {
         size: 0,
-        stepCount: 4,
-        tempFile: null
+        stepCount: 4
     },
 
     initialize: function() {
