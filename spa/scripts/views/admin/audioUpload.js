@@ -47,11 +47,12 @@ module.exports = Backbone.View.extend({
 
         recording.save(this.model.getSaveProps(), {
             success: function(data) {
-                //recording.set(data);
-                //adminApp.collections.recordings.add(recording, {silent: true});
-                //adminApp.collections.recordings.sort({silent: true});
-                adminApp.collections.recordings.fetch({reset: true});
-                adminApp.routers.main.navigate('/recordings/highlight/' + data.id, {trigger: true});
+                adminApp.collections.recordings.fetch({
+                    reset: true,
+                    success: function(){
+                        adminApp.routers.main.navigate('/recordings/highlight/' + data.id, {trigger: true});
+                    }
+                });
                 that.model.clear().set(that.model.defaults);
                 that.model.setStep(1);
             },

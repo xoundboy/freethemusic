@@ -42,6 +42,6 @@ module.exports = Backbone.Router.extend({
 
     tagsTab: function() {
         adminApp.views.dashboard.switchMainContent("tags");
-    },
+    }
 
 });
