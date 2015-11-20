@@ -43,8 +43,13 @@ module.exports = {
     },
 
     mysqlFormatDate: function (unformattedDate){
-        var date = new Date(unformattedDate);
-        return date.toISOString().slice(0, 19).replace('T', ' ');
+
+        // converts from 'MM/DD/YYYY' to 'YYYY-MM-DD 00:00:00'
+        var MM = unformattedDate.substring(0,2);
+        var DD = unformattedDate.substring(3,5);
+        var YYYY = unformattedDate.substring(6,10);
+
+        return YYYY + '-' + MM + '-' + DD + ' 00:00:00';
     },
 
     getUniqueAudioFileName: function (fields){
