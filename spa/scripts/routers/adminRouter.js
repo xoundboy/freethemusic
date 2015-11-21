@@ -2,54 +2,87 @@
 var Backbone = require('backbone');
 
 var RecordingEditPanelView = require('../views/admin/recordingEditPanel.js');
+var ArtistAddPanelView = require('../views/admin/artistAddPanel.js');
+var ArtistEditPanelView = require('../views/admin/artistEditPanel.js');
+var ArtistModel = require('../models/artist.js');
 
 module.exports = Backbone.Router.extend({
 
     routes: {
-        '': 'recordingsTab',
-        'recording/edit/:id': "editRecording",
-        'recordings': 'recordingsTab',
-        'recordings/highlight/:id': 'highlightRecording',
-        'audioUpload': 'uploadsTab',
-        'artists': 'artistsTab',
-        'playlists': 'playlistsTab',
-        'tags': 'tagsTab'
+
+        ''                          : 'recordings',
+        'recordings'                : 'recordings',
+        'recordings/highlight/:id'  : 'recordingHighlight',
+        'recording/edit/:id'        : "recordingEdit",
+        'recording/add'             : 'recordingAdd',
+
+        'artists'                   : 'artists',
+        'artists/highlight/:id'     : 'artistHighlight',
+        'artist/edit/:id'           : "artistEdit",
+        'artists/add'               : 'artistAdd',
+
+        'playlists'                 : 'playlists',
+
+        'tags'                      : 'tags'
     },
 
-    editRecording: function(id){
-        var recordingModel = adminApp.collections.recordings.get(id);
-        var recordingEditPanel = new RecordingEditPanelView({
-            model: recordingModel,
-            template: $('#template_recordingEditPanel').html()
-        });
-        var tabHtml = recordingEditPanel.render().el;
-        adminApp.views.dashboard.loadTabHtml(tabHtml);
+
+    recordings: function() {
+        adminApp.views.recordings.setSelectedId(null);
+        adminApp.views.dashboard.loadTabHtml(adminApp.views.recordings.render().el);
     },
 
-    highlightRecording: function(id){
+    recordingHighlight: function(id){
         adminApp.views.recordings.setSelectedId(id);
         adminApp.views.dashboard.loadTabHtml(adminApp.views.recordings.render().el);
         adminApp.views.dashboard.scrollToElement($("#recordingId-" + id));
     },
 
-    uploadsTab: function() {
+    recordingEdit: function(id){
+        var recordingEditPanel = new RecordingEditPanelView({
+            model: adminApp.collections.recordings.get(id),
+            template: $('#template_recordingEditPanel').html()
+        });
+        adminApp.views.dashboard.loadTabHtml(recordingEditPanel.render().el);
+    },
+
+    recordingAdd: function() {
         adminApp.views.dashboard.loadTabHtml(adminApp.views.audioUpload.render().el);
     },
 
-    recordingsTab: function() {
-        adminApp.views.recordings.setSelectedId(null);
-        adminApp.views.dashboard.loadTabHtml(adminApp.views.recordings.render().el);
-    },
 
-    artistsTab: function() {
+    artists: function() {
         adminApp.views.dashboard.loadTabHtml(adminApp.views.artists.render().el);
     },
 
-    playlistsTab: function() {
+    artistHighlight: function(id){
+        adminApp.views.artists.setSelectedId(id);
+        adminApp.views.dashboard.loadTabHtml(adminApp.views.artists.render().el);
+        adminApp.views.dashboard.scrollToElement($("#actID-" + id));
+    },
+
+    artistEdit: function(id){
+        var artistEditPanel = new ArtistEditPanelView({
+            model: adminApp.collections.artists.get(id),
+            template: $('#template_artistEditPanel').html()
+        });
+        adminApp.views.dashboard.loadTabHtml(artistEditPanel.render().el);
+    },
+
+    artistAdd: function() {
+        var artistAddPanel = new ArtistAddPanelView({
+            model: new ArtistModel(),
+            template: $('#template_artistEditPanel').html()
+        });
+        adminApp.views.dashboard.loadTabHtml(artistAddPanel.render().el);
+    },
+
+
+    playlists: function() {
         adminApp.views.dashboard.loadTabHtml(adminApp.views.playlists.render().el);
     },
 
-    tagsTab: function() {
+    tags: function() {
         adminApp.views.dashboard.loadTabHtml(adminApp.views.tags.render().el);
     }
 

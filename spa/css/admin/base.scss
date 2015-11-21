@@ -125,7 +125,7 @@ nav {
     }
 }
 
-#recordingEditContent {
+.addOrEditPanel {
 
     input, select, textarea {
         width: 70%;
@@ -133,7 +133,7 @@ nav {
     }
 
     textarea {
-        height: 50px;
+        height: 100px;
     }
     p.buttons {
         text-align: right;

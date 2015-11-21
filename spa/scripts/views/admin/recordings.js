@@ -19,25 +19,24 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        "click th": "sortColumn",
-        "click .previewButton": "previewTrack",
-        "click .editRecordingButton": "editRecordingInfo",
-        "click .deleteRecordingButton": "deleteRecording",
-        "click a[href=#uploads]": "gotoUploads",
-        "click .addRecordingButton" : "gotoUploads"
+        "click th"                      : "sort",
+        "click .previewButton"          : "preview",
+        "click .editRecordingButton"    : "edit",
+        "click .deleteRecordingButton"  : "delete",
+        "click a[href=#uploads]"        : "add",
+        "click .addRecordingButton"     : "add"
     },
 
-    gotoUploads: function(e){
-        adminApp.routers.main.navigate("/audioUpload", {trigger: true});
+    add: function(){
+        adminApp.routers.main.navigate("/recording/add", {trigger: true});
     },
 
-    editRecordingInfo: function(e) {
+    edit: function(e) {
         var recID = $(e.currentTarget).closest("tr").attr("data-recordingId");
         adminApp.routers.main.navigate('recording/edit/' + recID, {trigger:true});
     },
 
-    deleteRecording: function (e) {
-
+    delete: function (e) {
         var $btn = $(e.currentTarget),
             recordingId = $btn.closest("tr").attr("data-recordingId");
         if (this.nowPlayingId === recordingId) {
@@ -48,16 +47,16 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    highlightRecording: function (id) {
-        var that = this;
-        this.collection.fetch({
-            success: function(collection, response, options) {
-                that.$el.find("#recordingId-" + id).addClass("highlighted");
-            }
-        });
-    },
+    //highlightRecording: function (id) {
+    //    var that = this;
+    //    this.collection.fetch({
+    //        success: function(collection, response, options) {
+    //            that.$el.find("#recordingId-" + id).addClass("highlighted");
+    //        }
+    //    });
+    //},
 
-    previewTrack: function (e) {
+    preview: function (e) {
 
         var $btn = $(e.currentTarget),
             recordingId = $btn.closest("tr").attr("data-recordingId"),
@@ -79,7 +78,7 @@ module.exports = Backbone.View.extend({
         this.nowPlayingId = recordingId;
     },
 
-    sortColumn: function(e) {
+    sort: function(e) {
         var field = $(e.target).attr("bengrid-key");
 
         if (field) {

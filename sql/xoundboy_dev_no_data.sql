@@ -49,7 +49,8 @@ CREATE TABLE `acts` (
   `biog` text,
   `actNotes` longtext,
   `imgID` smallint(5) unsigned DEFAULT NULL,
-  `website` text,
+  `website` varchar(254) DEFAULT NULL,
+  `tags` varchar(254) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=110 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -269,7 +270,7 @@ CREATE TABLE `recordings` (
   `typeID` smallint(5) unsigned zerofill DEFAULT NULL,
   `audioFile` varchar(50) NOT NULL DEFAULT '',
   `filesize` int(11) DEFAULT NULL,
-  `actID` smallint(5) unsigned zerofill NOT NULL DEFAULT '00000',
+  `actID` smallint(5) unsigned NOT NULL,
   `recLocation` varchar(254) NOT NULL DEFAULT '',
   `recDate` datetime DEFAULT NULL,
   `setupID` smallint(5) unsigned zerofill NOT NULL DEFAULT '00000',
@@ -278,9 +279,9 @@ CREATE TABLE `recordings` (
   `featured` enum('yes','no') DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL,
   `tags` varchar(254) DEFAULT NULL,
-  `duration` smallint(6) NOT NULL,
+  `duration` varchar(12) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=709 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=769 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -349,6 +350,28 @@ CREATE TABLE `users` (
 --
 -- Dumping routines for database 'xoundboy_dev'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `DeleteAct` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteAct`(IN idToDelete VARCHAR(50))
+BEGIN
+	DELETE FROM acts
+    WHERE id = idToDelete;
+  DELETE FROM recordings
+    WHERE actID = idToDelete;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `DeleteRecording` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -437,6 +460,29 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetAllRecordingsByActId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllRecordingsByActId`(
+    IN actIdToFind SMALLINT
+)
+BEGIN
+SELECT   *
+FROM     recordings r 
+WHERE    r.actID = actIdToFind;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `GetAllTags` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -492,9 +538,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRecordingById`(
   IN id SMALLINT
 )
 BEGIN
-SELECT *
-FROM recordings r
-WHERE r.id = id;
+SELECT *, r.id as id, DATE_FORMAT(recDate, "%D %M %Y") AS formattedDate
+FROM     acts a, recordings r
+  LEFT JOIN images i
+    ON       r.imgID = i.id
+WHERE    r.actID = a.id
+AND      r.id = id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -514,7 +563,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertRecording`(
   IN audioFile VARCHAR(50),
   IN fileSize INT,
-  IN duration SMALLINT,
+  IN duration VARCHAR(12),
   IN actID SMALLINT,
   IN title VARCHAR(50),
   IN recLocation VARCHAR(254),
@@ -545,6 +594,40 @@ INSERT INTO recordings (
     recNotes,
     tags
   );
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `UpdateArtist` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateArtist`(
+  IN idToUpdate SMALLINT,
+  IN actName VARCHAR(50),
+  IN actTown VARCHAR(50),
+  IN actCountry VARCHAR(50),
+  IN website VARCHAR(254),
+  IN tags VARCHAR(254),
+  IN biog LONGTEXT
+)
+BEGIN
+UPDATE acts a
+  SET a.actName = actName,
+      a.actTown = actTown,
+      a.actCountry = actCountry,
+      a.website = website,
+      a.tags = tags,
+      a.biog = biog
+  WHERE a.id = idToUpdate;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -596,4 +679,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-19 16:30:33
+-- Dump completed on 2015-11-21 22:20:23

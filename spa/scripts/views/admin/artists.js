@@ -16,11 +16,37 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        "click button.addArtistButton": "addArtist"
+        "click button.addArtistButton"      : "add",
+        "click button.deleteArtistButton"   : "delete",
+        "click button.editArtistButton"     : "edit"
     },
 
-    addArtist: function(){
-        alert("hey");
+    add: function(){
+        adminApp.routers.main.navigate("/artist/add", {trigger: true});
+    },
+
+    edit: function(e){
+        var actID = $(e.currentTarget).closest("tr").attr("data-actid");
+        adminApp.routers.main.navigate('artist/edit/' + actID, {trigger:true});
+    },
+
+    delete: function (e){
+        var $btn = $(e.currentTarget),
+            actID = parseInt($btn.closest("tr").attr("data-actid"));
+
+        var thisArtistsRecordings = adminApp.collections.recordings.where({actID: actID});
+        console.log(thisArtistsRecordings);
+        var recordingList = "";
+
+        thisArtistsRecordings.map(function(recording){
+            recordingList += recording.get("title") + "\n";
+        });
+
+        if (confirm("WARNING: If you delete this artist then the following recordings will also be deleted:\n" + recordingList)){
+            if (confirm("Really really really sure?")){
+                this.collection.remove(this.collection.get(actID));
+            }
+        }
     },
 
     styleButtons: function() {
@@ -43,11 +69,28 @@ module.exports = Backbone.View.extend({
         });
     },
 
+    highlightItem: function(){
+        if (this.selectedId) {
+            this.$el.find("#artists_table").find("tr").removeClass("highlighted");
+            this.$el.find("#actID-" + this.selectedId).addClass("highlighted");
+        }
+    },
+
+    setSelectedId: function(id){
+        this.selectedId = id;
+    },
+
     render: function(){
         console.log("rendering artists collection");
         var compiledTemplate = Mustache.to_html(this.template, { artists: this.collection.toJSON()});
         this.$el.html(compiledTemplate);
         this.styleButtons();
+        this.highlightItem();
+
+        // Sub-views need this or events associated with
+        // previous renderings of the view will be lost.
+        this.delegateEvents();
+
         return this;
     }
 });

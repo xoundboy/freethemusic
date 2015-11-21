@@ -110,6 +110,8 @@ app.get('/api/recording/:id', function(req, res){
     });
 });
 
+
+
 // POST /api/recording
 app.post('/api/recording', function(req, res){
 
@@ -169,7 +171,7 @@ app.delete('/api/recording/:id', function(req, res){
                 res.status(400).send("cannot delete the file");
                 return;
             }
-            connection.query("CALL DeleteRecording('" + fileToDelete + "');", function(err){
+            connection.query("CALL DeleteRecording('" + utils.htmlEscape(fileToDelete) + "');", function(err){
                 res.sendStatus((err) ? 400 : 200);
             });
         });
@@ -206,6 +208,54 @@ app.put('/api/recording/:id', function(req, res){
 app.get('/api/artists', function(req, res){
     connection.query("CALL GetAllArtists();", function(err, rows){
         (err) ? res.sendStatus(500) : res.json(rows);
+    });
+});
+
+// PUT /api/artist/id
+app.put('/api/artist/:id', function(req, res){
+    var query = "CALL UpdateArtist("
+        + utils.htmlEscape(req.params.id) + ",'"
+        + utils.htmlEscape(req.body.actName) + "','"
+        + utils.htmlEscape(req.body.actTown) + "','"
+        + utils.htmlEscape(req.body.actCountry) + "','"
+        + utils.htmlEscape(req.body.website) + "','"
+        + utils.htmlEscape(req.body.tags) + "','"
+        + utils.htmlEscape(req.body.biog) + "');";
+
+    connection.query(query, function(err){
+        if(err){
+            console.log(err);
+            res.status(400).send("can't update the artist in the database");
+        }
+        res.json({msg: "success"});
+    });
+});
+
+// DELETE /api/artist/id
+app.delete('/api/artist/:id', function(req, res){
+
+    // find all the artist's recordings
+    connection.query("CALL GetAllRecordingsByActId(" + utils.htmlEscape(req.params.id) + ");", function(err, rows){
+
+        rows[0].map(function(recording){
+            console.log(recording.audioFile);
+            fs.unlink(config.AUDIO_LIBRARY_PATH + recording.audioFile + ".mp3", function(err){
+                if (err){
+                    res.status(400).send("cannot delete the file " + recording.audioFile + ".mp3");
+                    return;
+                }
+                connection.query("CALL DeleteRecording('" + utils.htmlEscape(recording.audioFile) + "');", function(err){
+                    if (err){
+                        res.status(400).send("a recording could not be deleted from the database");
+                    }
+                });
+            });
+        });
+        res.sendStatus(200);
+    });
+
+    connection.query("CALL DeleteAct(" + utils.htmlEscape(req.params.id) + ");", function(err){
+        res.sendStatus((err) ? 400 : 200);
     });
 });
 

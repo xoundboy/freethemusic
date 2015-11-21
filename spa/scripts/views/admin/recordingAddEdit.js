@@ -6,7 +6,7 @@ var Mustache = require('mustache');
 module.exports = Backbone.View.extend({
 
     id: "recordingEditContent",
-    className: "recordingEdit",
+    className: "addOrEditPanel",
 
     initialize: function(options) {
         _.extend(this, _.pick(options, "template"));
@@ -14,16 +14,10 @@ module.exports = Backbone.View.extend({
         this.model.bind('change', this.render, this);
     },
 
-    updateSelects: function () {
-        var selectedArtistValue = parseInt(this.model.get("actID")),
-            selectedType = parseInt(this.model.get("typeID"));
-
+    updateSelect: function () {
+        var selectedArtistValue = parseInt(this.model.get("actID"));
         this.$el.find("select[name=actID]")
             .find("option[value=" + selectedArtistValue + "]")
-            .attr("selected", true);
-
-        this.$el.find("select[name=typeID]")
-            .find("option[value=" + selectedType + "]")
             .attr("selected", true);
     },
 
@@ -34,7 +28,7 @@ module.exports = Backbone.View.extend({
             changeMonth: true,
             changeYear: true
         });
-        this.updateSelects();
+        this.updateSelect();
         return this;
     }
 });
