@@ -10,7 +10,7 @@ var utils = require('../../utils.js');
 
 module.exports = Backbone.View.extend({
 
-    tagName: "tr",
+    tagName: "div",
     id: "recordingEditPanel",
     className: "recordingEditPanel",
 
@@ -25,14 +25,15 @@ module.exports = Backbone.View.extend({
     },
 
     closePanel: function() {
-        this.remove();
+        adminApp.routers.main.navigate('recordings/highlight/' + this.model.id, {trigger: true});
     },
 
     updateRecording: function (e) {
 
         e.preventDefault();
 
-        var $infoForm = this.$el.find("#recordingInfo"),
+        var that = this,
+            $infoForm = this.$el.find("#recordingInfo"),
             validator = $infoForm.validate();
 
         if (validator.form()) {
@@ -41,11 +42,14 @@ module.exports = Backbone.View.extend({
                 .set($infoForm.serializeJSON())
                 .unset("artistOptions", {silent: true})
                 .unset("artist", {silent: true})
-                .save({}, {
+                .save(null, {
                     success: function() {
-                        //that.closePanel();
-                        //x7.collections.recordings.fetch();
-                        //x7.views.recordings.highlightRecording(that.model.id);
+                        adminApp.collections.recordings.fetch({
+                            reset:true,
+                            success: function(){
+                                that.closePanel();
+                            }
+                        });
                     }
                 });
         }

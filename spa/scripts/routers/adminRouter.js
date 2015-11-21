@@ -1,10 +1,13 @@
 ﻿var $ = require('jquery');
 var Backbone = require('backbone');
 
+var RecordingEditPanelView = require('../views/admin/recordingEditPanel.js');
+
 module.exports = Backbone.Router.extend({
 
     routes: {
         '': 'recordingsTab',
+        'recording/edit/:id': "editRecording",
         'recordings': 'recordingsTab',
         'recordings/highlight/:id': 'highlightRecording',
         'audioUpload': 'uploadsTab',
@@ -13,35 +16,41 @@ module.exports = Backbone.Router.extend({
         'tags': 'tagsTab'
     },
 
-    showDashboard: function () {
-        adminApp.views.dashboard.render();
+    editRecording: function(id){
+        var recordingModel = adminApp.collections.recordings.get(id);
+        var recordingEditPanel = new RecordingEditPanelView({
+            model: recordingModel,
+            template: $('#template_recordingEditPanel').html()
+        });
+        var tabHtml = recordingEditPanel.render().el;
+        adminApp.views.dashboard.loadTabHtml(tabHtml);
     },
 
     highlightRecording: function(id){
         adminApp.views.recordings.setSelectedId(id);
-        adminApp.views.dashboard.switchMainContent("recordings");
+        adminApp.views.dashboard.loadTabHtml(adminApp.views.recordings.render().el);
         adminApp.views.dashboard.scrollToElement($("#recordingId-" + id));
     },
 
     uploadsTab: function() {
-        adminApp.views.dashboard.switchMainContent("audioUpload");
+        adminApp.views.dashboard.loadTabHtml(adminApp.views.audioUpload.render().el);
     },
 
     recordingsTab: function() {
         adminApp.views.recordings.setSelectedId(null);
-        adminApp.views.dashboard.switchMainContent("recordings");
+        adminApp.views.dashboard.loadTabHtml(adminApp.views.recordings.render().el);
     },
 
     artistsTab: function() {
-        adminApp.views.dashboard.switchMainContent("artists");
+        adminApp.views.dashboard.loadTabHtml(adminApp.views.artists.render().el);
     },
 
     playlistsTab: function() {
-        adminApp.views.dashboard.switchMainContent("playlists");
+        adminApp.views.dashboard.loadTabHtml(adminApp.views.playlists.render().el);
     },
 
     tagsTab: function() {
-        adminApp.views.dashboard.switchMainContent("tags");
+        adminApp.views.dashboard.loadTabHtml(adminApp.views.tags.render().el);
     }
 
 });

@@ -188,7 +188,11 @@ app.put('/api/recording/:id', function(req, res){
         + utils.htmlEscape(req.body.tags) + "');";
 
     connection.query(query, function(err){
-        res.sendStatus((err) ? 500 : 200);
+        if(err){
+            console.log(err);
+            res.status(400).send("can't update the recording in the database");
+        }
+        res.json({msg: "success"});
     });
 });
 

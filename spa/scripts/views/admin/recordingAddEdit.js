@@ -30,7 +30,10 @@ module.exports = Backbone.View.extend({
     render: function () {
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
-        this.$el.find(".datepicker").datepicker();
+        this.$el.find(".datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true
+        });
         this.updateSelects();
         return this;
     }

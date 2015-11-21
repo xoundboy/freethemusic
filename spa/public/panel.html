@@ -9,11 +9,16 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css' />
 
     <style>
+        html, body {
+            height: 100%;
+        }
         #loading {
             font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
-            margin-top: 100px;
-            text-align: center;
             font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
         }
     </style>
 
@@ -28,10 +33,11 @@
 
 <script type="text/template" id="template_dashboard">
     <nav>
+        <button class="goBack">Back</button>
+        <button class="goForward">Forward</button>
         <a href="#recordings" id="navRecordings">Recordings</a>
         <a href="#artists" id="navArtists">Artists</a>
         <a href="#playlists" id="navPlaylists">Playlists</a>
-        <a href="#tags" id="navTags">Tags</a>
     </nav>
     <div id="mainContent">
         <div id="audioUploadContainer"></div>
@@ -64,7 +70,7 @@
     {{#step3}}
     <div id="step3" class="steps">
         <h2>Step 3: Provide Info</h2>
-        <p>Now enter some details about the uploaded audio recording so that it can be saved permanently</p>
+        <p>Now enter some details about the recording so that it can be saved permanently</p>
         <form id="newRecordingInfo">
             <div class="newRecordingInfoFormContainer"></div>
             <p class="buttons">
@@ -184,15 +190,13 @@
 </script>
 
 <script type="text/template" id="template_recordingEditPanel">
-    <td colspan='7'>
-        <form id="recordingInfo">
-            <div class="recordingInfoFormContainer"></div>
-            <p class="buttons">
-                <button id="cancelEditButton">Cancel</button>
-                <button id="updateRecordingButton">Update</button>
-            </p>
-        </form>
-    </td>
+    <form id="recordingInfo">
+        <div class="recordingInfoFormContainer"></div>
+        <p class="buttons">
+            <button id="cancelEditButton">Cancel</button>
+            <button id="updateRecordingButton">Update</button>
+        </p>
+    </form>
 </script>
 
 <script type="text/template" id="template_artists">
