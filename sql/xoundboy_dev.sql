@@ -532,8 +532,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteAct`(IN idToDelete VARCHAR(50
 BEGIN
 	DELETE FROM acts
     WHERE id = idToDelete;
-  DELETE FROM recordings
-    WHERE actID = idToDelete;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -847,4 +845,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-21 22:20:15
+-- Dump completed on 2015-11-21 22:23:25
