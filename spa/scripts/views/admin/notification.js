@@ -17,7 +17,6 @@ module.exports = Backbone.View.extend({
 
     close: function(){
         $("#notificationContainer").empty().removeData().unbind().hide();
-        this.remove();
         Backbone.View.prototype.remove.call(this);
     },
 
