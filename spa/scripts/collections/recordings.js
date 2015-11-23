@@ -1,4 +1,4 @@
-﻿
+﻿var utils = require('../utils.js');
 var RecordingModel = require('../models/recording.js');
 
 module.exports = Backbone.Collection.extend({
@@ -10,6 +10,10 @@ module.exports = Backbone.Collection.extend({
     initialize: function() {
         this.bind("remove", function (model) {
             model.destroy({wait: true});
+            utils.createNotification({
+                message: "RECORDING DELETED<br />'" + model.get("title") + "' by " + model.get("actName"),
+                autohide: true
+            });
         });
     },
 

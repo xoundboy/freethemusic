@@ -81,11 +81,14 @@ module.exports = Backbone.View.extend({
                 adminApp.collections.recordings.fetch({
                     reset: true,
                     success: function(){
+                        that.model.clear().set(that.model.defaults);
+                        that.model.setStep(1);
                         adminApp.routers.main.navigate('/recordings/highlight/' + data.id, {trigger: true});
+                    },
+                    error: function(err){
+                        console.log(err);
                     }
                 });
-                that.model.clear().set(that.model.defaults);
-                that.model.setStep(1);
             },
             error: function(model, response, options) {
                 console.log(model);

@@ -43,7 +43,8 @@ module.exports = Backbone.View.extend({
             this.audio.pause();
         }
         if (confirm("Are you sure you want to delete this recording?")){
-            this.collection.remove(this.collection.get(recordingId));
+            var modelToDelete = this.collection.get(recordingId);
+            this.collection.remove(modelToDelete);
         }
     },
 

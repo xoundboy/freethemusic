@@ -9,15 +9,14 @@ module.exports = Backbone.View.extend({
         _.extend(this, _.pick(options, "template"));
         this.listenTo(this.model, 'change', this.render);
         this.render();
-    },
 
-    open: function(){
-
+        if (this.model.get("autohide")){
+            setTimeout(this.close, this.model.get("duration"));
+        }
     },
 
     close: function(){
         $("#notificationContainer").empty().removeData().unbind().hide();
-        this.undelegateEvents();
         this.remove();
         Backbone.View.prototype.remove.call(this);
     },

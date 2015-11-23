@@ -1,4 +1,5 @@
-﻿var ArtistModel = require('../models/artist.js');
+﻿var utils = require('../utils.js');
+var ArtistModel = require('../models/artist.js');
 
 module.exports = Backbone.Collection.extend({
 
@@ -9,6 +10,10 @@ module.exports = Backbone.Collection.extend({
     initialize: function() {
         this.bind("remove", function (model) {
             model.destroy({wait: true});
+            utils.createNotification({
+                message: "ARTIST DELETED<br />" + model.get("actName"),
+                autohide: true
+            });
         });
     },
 

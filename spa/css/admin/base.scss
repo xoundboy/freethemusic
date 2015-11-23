@@ -1,6 +1,14 @@
 $background: #282828;
-
+$success-background: #298d12;
+$success-foreground: #b3c5ff;
 $warning-text: orange;
+
+$info-background: #565656;
+$info-foreground: white;
+$warning-background: orange;
+$warning-foreground: black;
+$error-background: red;
+$error-foreground: white;
 
 $cta-link-text: #76a01b;
 
@@ -21,25 +29,31 @@ body, html, input, select, textarea {
     position: fixed;
     height: 100vh;
     width: 100vw;
-    opacity: 0.75;
+    opacity: 0.9;
     z-index: 100;
     display: none;
+
     #notificationInner {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100%;
+
         p {
             font-size: 18px;
+            text-align: center;
         }
         &.info {
-            background: #00008d;
+            background: $info-background;
+            color: $info-foreground;
         }
         &.warning {
-            background: #8f500f;
+            background: $warning-background;
+            color: $warning-foreground;
         }
         &.error {
-            background: #910000;
+            background: $error-background;
+            color: $error-foreground;
         }
 
     }
@@ -50,8 +64,8 @@ select {
 }
 
 .highlighted {
-    background: #FFAA7F;
-    color: black;
+    background: $success-background;
+    color: $success-foreground;
 }
 
 h2 {
