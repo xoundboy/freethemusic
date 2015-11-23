@@ -27,14 +27,12 @@ module.exports = Backbone.Router.extend({
 
 
     recordings: function() {
-        adminApp.views.recordings.setSelectedId(null);
         adminApp.views.dashboard.loadTabHtml(adminApp.views.recordings.render().el);
     },
 
     recordingHighlight: function(id){
-        adminApp.views.recordings.setSelectedId(id);
         adminApp.views.dashboard.loadTabHtml(adminApp.views.recordings.render().el);
-        adminApp.views.dashboard.scrollToElement($("#recordingId-" + id));
+        adminApp.views.dashboard.highlightElement($("#recordingId-" + id));
     },
 
     recordingEdit: function(id){
@@ -55,9 +53,8 @@ module.exports = Backbone.Router.extend({
     },
 
     artistHighlight: function(id){
-        adminApp.views.artists.setSelectedId(id);
         adminApp.views.dashboard.loadTabHtml(adminApp.views.artists.render().el);
-        adminApp.views.dashboard.scrollToElement($("#actID-" + id));
+        adminApp.views.dashboard.highlightElement($("#actID-" + id));
     },
 
     artistEdit: function(id){

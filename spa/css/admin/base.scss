@@ -1,11 +1,14 @@
+$background: #282828;
+
 $warning-text: orange;
+
 $cta-link-text: #76a01b;
 
 $font-size: 15px;
 
 body, html {
     font-family: 'Open Sans', sans-serif;
-    background-color: #282828;
+    background-color: $background;
     color: white;
     min-width: 320px;
 }
@@ -44,6 +47,11 @@ body, html, input, select, textarea {
 
 select {
     -webkit-appearance: none;
+}
+
+.highlighted {
+    background: #FFAA7F;
+    color: black;
 }
 
 h2 {
@@ -204,14 +212,13 @@ table.benGrid {
 
         tr {
             color: #E1E1E1;
+            -webkit-transition: all 0.25s ease;
+            -moz-transition: all 0.25s ease;
+            -o-transition: all 0.25s ease;
+            transition: all 0.25s ease;
 
             &.loadError {
                 background: #852C09;
-            }
-
-            &.highlighted {
-                background: #FFAA7F;
-                color: #282424;
             }
 
             &:hover{

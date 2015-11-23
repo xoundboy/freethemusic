@@ -69,23 +69,11 @@ module.exports = Backbone.View.extend({
         });
     },
 
-    highlightItem: function(){
-        if (this.selectedId) {
-            this.$el.find("#artists_table").find("tr").removeClass("highlighted");
-            this.$el.find("#actID-" + this.selectedId).addClass("highlighted");
-        }
-    },
-
-    setSelectedId: function(id){
-        this.selectedId = id;
-    },
-
     render: function(){
         console.log("rendering artists collection");
         var compiledTemplate = Mustache.to_html(this.template, { artists: this.collection.toJSON()});
         this.$el.html(compiledTemplate);
         this.styleButtons();
-        this.highlightItem();
 
         // Sub-views need this or events associated with
         // previous renderings of the view will be lost.

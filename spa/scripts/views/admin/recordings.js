@@ -1,4 +1,5 @@
-﻿var _ = require('underscore');
+﻿require('jquery-ui/effect');
+var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
 
@@ -9,7 +10,6 @@ module.exports = Backbone.View.extend({
     className: "recordings",
     audio: new Audio(),
     nowPlayingId: null,
-    selectedId: null,
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
@@ -109,22 +109,10 @@ module.exports = Backbone.View.extend({
         });
     },
 
-    highlightItem: function(){
-        if (this.selectedId) {
-            this.$el.find("#recordings_table").find("tr").removeClass("highlighted");
-            this.$el.find("#recordingId-" + this.selectedId).addClass("highlighted");
-        }
-    },
-
-    setSelectedId: function(id){
-        this.selectedId = id;
-    },
-
     render: function () {
         var compiledTemplate = Mustache.to_html(this.template, { recordings: this.collection.toJSON()});
         this.$el.html(compiledTemplate);
         this.styleButtons();
-        this.highlightItem();
 
         // Sub-views need this or events associated with
         // previous renderings of the view will be lost.

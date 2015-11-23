@@ -25,17 +25,29 @@ module.exports = Backbone.View.extend({
         Backbone.history.history.forward();
     },
 
-    scrollToElement: function($element){
+    highlightElement: function($element){
 
-        var offset = $element.offset();
+        if ($element.length){
 
-        if(offset){
-            $('html, body').animate({
-                scrollTop: offset.top,
-                scrollLeft: offset.left
-            });
+            // highlight the colour
+            $element.addClass("highlighted");
+
+            // scroll into view
+            var offset = $element.offset();
+            if(offset){
+                $('html, body').animate({
+                    scrollTop: offset.top,
+                    scrollLeft: offset.left
+                }, "slow");
+
+                setTimeout(function(){
+                    // unhighlight after a couple of secs
+                    $element.removeClass("highlighted")
+                },2000)
+            }
         }
     },
+
 
     styleButtons: function(){
         this.$el.find(".goForward").button({
