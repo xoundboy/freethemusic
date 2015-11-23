@@ -33,11 +33,42 @@ module.exports = Backbone.View.extend({
         "change #actID": "selectArtist"
     },
 
-    selectArtist: function(e){
-       if(e.target.value === "new"){
-           this.stashFormData();
-           adminApp.routers.main.navigate("/artists", {trigger:true});
-       }
+    initiateUpload: function (e) {
+
+        var that = this,
+            file = e.target.files[0],
+            formData = new FormData(),
+            xhr_removeuploads = new XMLHttpRequest(),
+            xhr_upload = new XMLHttpRequest();
+
+        // show the "uploading" message
+        var loadingMessage = utils.createNotification({
+            message: "Uploading file to server, please wait..."
+        });
+
+        // empty the temporary uploads folder on the server
+        xhr_removeuploads.open('DELETE', '/api/removetempuploads', true);
+        xhr_removeuploads.onload = function(){
+
+            formData.append('uploadFile', file);
+            xhr_upload.open('POST', "/api/upload", true);
+            xhr_upload.onload = function (data) {
+                var response = (JSON.parse(data.currentTarget.responseText));
+                that.model.set("tempName", response.tempName);
+                that.model.set("size", response.size);
+                loadingMessage.close();
+                that.model.setStep(2);
+            };
+            xhr_upload.onerror = function (data) {
+                alert("error uploading the file");
+                console.log(data);
+            };
+            xhr_upload.send(formData);
+        };
+        xhr_removeuploads.onerror = function(){
+            console.log("could not recreate the remote uploads folder");
+        };
+        xhr_removeuploads.send();
     },
 
     confirmUpload: function() {
@@ -89,39 +120,11 @@ module.exports = Backbone.View.extend({
         this.model.stepForward();
     },
 
-    initiateUpload: function (e) {
-
-        var that = this,
-            file = e.target.files[0],
-            formData = new FormData(),
-            xhr_removeuploads = new XMLHttpRequest(),
-            xhr_upload = new XMLHttpRequest();
-
-        // first, empty the temporary uploads folder on the server
-        xhr_removeuploads.open('DELETE', '/api/removetempuploads', true);
-        xhr_removeuploads.onload = function(){
-
-            formData.append('uploadFile', file);
-            xhr_upload.open('POST', "/api/upload", true);
-            xhr_upload.onload = function (data) {
-                var response = (JSON.parse(data.currentTarget.responseText));
-                that.model.set("tempName", response.tempName);
-                that.model.set("size", response.size);
-                that.model.setStep(2);
-
-
-            };
-            xhr_upload.onerror = function (data) {
-                alert("error uploading the file");
-                console.log(data);
-            };
-            xhr_upload.send(formData);
-        };
-        xhr_removeuploads.onerror = function(){
-            console.log("could not recreate the remote uploads folder");
-        };
-        xhr_removeuploads.send();
-
+    selectArtist: function(e){
+        if(e.target.value === "new"){
+            this.stashFormData();
+            adminApp.routers.main.navigate("/artists", {trigger:true});
+        }
     },
 
     render: function () {

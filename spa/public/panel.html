@@ -25,11 +25,18 @@
 </head>
 <body>
     <div id="loading">Loading...</div>
+    <div id="notificationContainer"></div>
     <div id="page"></div>
     <script src="/assets/js/shared.js" charset="utf-8"></script>
     <script src="/assets/js/backend.js" charset="utf-8"></script>
 </body>
 </html>
+
+<script type="text/template" id="template_notification">
+    <div id="notificationInner" class="{{type}}">
+        <p>{{message}}</p>
+    </div>
+</script>
 
 <script type="text/template" id="template_dashboard">
     <nav>
@@ -231,43 +238,42 @@
     </table>
 </script>
 
-<script type="text/template" id="template_artistAddEdit" >
-
-    <input type="hidden" name="id" value="{{id}}" />
-
-    <p>
-        <label for="actName">Artist</label>
-        <input type="text" name="actName" id="actName" maxlength="50" value="{{{actName}}}" required />
-    </p>
-    <p>
-        <label for="actTown">Town</label>
-        <input type="text" name="actTown" id="actTown" maxlength="50" value="{{{actTown}}}" />
-    </p>
-    <p>
-        <label for="actCountry">Country</label>
-        <input type="text" name="actCountry" id="actCountry" maxlength="50" value="{{{actCountry}}}" />
-    </p>
-    <p>
-        <label for="website">Website</label>
-        <input type="text" name="website" id="website" maxlength="254" value="{{{website}}}" />
-    </p>
-    <p>
-        <label for="tags">Tags</label>
-        <input type="text" name="tags" id="tags" maxlength="254" value="{{{tags}}}" />
-    </p>
-    <p>
-        <label for="biog">Biog</label>
-        <textarea name="biog" id="biog" cols="30" rows="10" >{{{biog}}}</textarea>
-    </p>
-
-</script>
-
-<script type="text/template" id="template_artistEditPanel">
+<script type="text/template" id="template_artistAddOrEditPanel">
     <form id="artistInfo">
-        <div class="artistInfoFormContainer"></div>
+
+        {{#id}}
+            <input type="hidden" id="actID" name="id" value="{{id}}" />
+        {{/id}}
+        <p>
+            <label for="actName">Artist</label>
+            <input type="text" name="actName" id="actName" maxlength="50" value="{{{actName}}}" required />
+        </p>
+        <p>
+            <label for="actTown">Town</label>
+            <input type="text" name="actTown" id="actTown" maxlength="50" value="{{{actTown}}}" />
+        </p>
+        <p>
+            <label for="actCountry">Country</label>
+            <input type="text" name="actCountry" id="actCountry" maxlength="50" value="{{{actCountry}}}" />
+        </p>
+        <p>
+            <label for="website">Website</label>
+            <input type="text" name="website" id="website" maxlength="254" value="{{{website}}}" />
+        </p>
+        <p>
+            <label for="tags">Tags</label>
+            <input type="text" name="tags" id="tags" maxlength="254" value="{{{tags}}}" />
+        </p>
+        <p>
+            <label for="biog">Biog</label>
+            <textarea name="biog" id="biog" cols="30" rows="10" >{{{biog}}}</textarea>
+        </p>
         <p class="buttons">
             <button id="cancelEditButton">Cancel</button>
-            <button id="updateArtistButton">Update</button>
+            <button id="addOrUpdateArtist">
+                {{#id}}Update{{/id}}
+                {{^id}}Add{{/id}}
+            </button>
         </p>
     </form>
 </script>

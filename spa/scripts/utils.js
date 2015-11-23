@@ -1,3 +1,6 @@
+var $ = require('jquery');
+var NotificationModel = require('./models/notification.js');
+var NotificationView = require('./views/admin/notification.js');
 
 var _getMonthFormatted = function (dateObj) {
     var month = dateObj.getMonth() + 1;
@@ -67,5 +70,12 @@ module.exports = {
             .replace(/'/g, '&#39;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;');
+    },
+
+    createNotification: function(options){
+        return new NotificationView({
+            model: new NotificationModel(options),
+            template: $("#template_notification").html()
+        });
     }
 };

@@ -47,15 +47,6 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    //highlightRecording: function (id) {
-    //    var that = this;
-    //    this.collection.fetch({
-    //        success: function(collection, response, options) {
-    //            that.$el.find("#recordingId-" + id).addClass("highlighted");
-    //        }
-    //    });
-    //},
-
     preview: function (e) {
 
         var $btn = $(e.currentTarget),

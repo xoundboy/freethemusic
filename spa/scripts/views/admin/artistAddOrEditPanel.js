@@ -5,14 +5,13 @@ var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
 
-var ArtistAddEditView = require("./artistAddEdit.js");
 var utils = require('../../utils.js');
 
 module.exports = Backbone.View.extend({
 
     tagName: "div",
     id: "artistEditPanel",
-    className: "artistEditPanel",
+    className: "addOrEditPanel",
 
     initialize: function(options) {
         _.extend(this, _.pick(options, "template"));
@@ -21,14 +20,14 @@ module.exports = Backbone.View.extend({
 
     events: {
         "click #cancelEditButton": "closePanel",
-        "click #updateArtistButton": "updateArtist"
+        "click #addOrUpdateArtist": "addOrUpdateArtist"
     },
 
     closePanel: function() {
         adminApp.routers.main.navigate('artists/highlight/' + this.model.id, {trigger: true});
     },
 
-    updateArtist: function (e) {
+    addOrUpdateArtist: function (e) {
 
         e.preventDefault();
 
@@ -42,7 +41,7 @@ module.exports = Backbone.View.extend({
                 .save(null, {
                     success: function() {
                         adminApp.collections.artists.fetch({
-                            reset:true,
+                            reset: true,
                             success: function(){
                                 that.closePanel();
                             }
@@ -53,18 +52,9 @@ module.exports = Backbone.View.extend({
     },
 
     render: function () {
-        var compiledTemplate = Mustache.to_html(this.template);
+        var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
-
-        // create the info form subview and render it
-        var artistInfoForm = new ArtistAddEditView({
-            model: this.model,
-            template: $("#template_artistAddEdit").html()
-        });
-
-        this.$el.find(".artistInfoFormContainer").html(artistInfoForm.render().el);
         this.$el.find("button").button();
-
         return this;
     }
 

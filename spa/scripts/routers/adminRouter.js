@@ -2,8 +2,7 @@
 var Backbone = require('backbone');
 
 var RecordingEditPanelView = require('../views/admin/recordingEditPanel.js');
-var ArtistAddPanelView = require('../views/admin/artistAddPanel.js');
-var ArtistEditPanelView = require('../views/admin/artistEditPanel.js');
+var ArtistAddOrEditPanelView = require('../views/admin/artistAddOrEditPanel.js');
 var ArtistModel = require('../models/artist.js');
 
 module.exports = Backbone.Router.extend({
@@ -19,7 +18,7 @@ module.exports = Backbone.Router.extend({
         'artists'                   : 'artists',
         'artists/highlight/:id'     : 'artistHighlight',
         'artist/edit/:id'           : "artistEdit",
-        'artists/add'               : 'artistAdd',
+        'artist/add'               : 'artistAdd',
 
         'playlists'                 : 'playlists',
 
@@ -62,21 +61,20 @@ module.exports = Backbone.Router.extend({
     },
 
     artistEdit: function(id){
-        var artistEditPanel = new ArtistEditPanelView({
+        var artistEditPanel = new ArtistAddOrEditPanelView({
             model: adminApp.collections.artists.get(id),
-            template: $('#template_artistEditPanel').html()
+            template: $('#template_artistAddOrEditPanel').html()
         });
         adminApp.views.dashboard.loadTabHtml(artistEditPanel.render().el);
     },
 
     artistAdd: function() {
-        var artistAddPanel = new ArtistAddPanelView({
+        var artistAddPanel = new ArtistAddOrEditPanelView({
             model: new ArtistModel(),
-            template: $('#template_artistEditPanel').html()
+            template: $('#template_artistAddOrEditPanel').html()
         });
         adminApp.views.dashboard.loadTabHtml(artistAddPanel.render().el);
     },
-
 
     playlists: function() {
         adminApp.views.dashboard.loadTabHtml(adminApp.views.playlists.render().el);

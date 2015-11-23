@@ -13,6 +13,35 @@ body, html {
 body, html, input, select, textarea {
     font-size: $font-size;
 }
+
+#notificationContainer {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    opacity: 0.75;
+    z-index: 100;
+    display: none;
+    #notificationInner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        p {
+            font-size: 18px;
+        }
+        &.info {
+            background: #00008d;
+        }
+        &.warning {
+            background: #8f500f;
+        }
+        &.error {
+            background: #910000;
+        }
+
+    }
+}
+
 select {
     -webkit-appearance: none;
 }

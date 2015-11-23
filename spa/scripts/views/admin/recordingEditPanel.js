@@ -45,7 +45,7 @@ module.exports = Backbone.View.extend({
                 .save(null, {
                     success: function() {
                         adminApp.collections.recordings.fetch({
-                            reset:true,
+                            reset: true,
                             success: function(){
                                 that.closePanel();
                             }
