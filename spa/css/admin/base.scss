@@ -59,11 +59,9 @@ body, html, input, select, textarea {
     }
 }
 
-#playQueueContainer {
-    max-height: 56px;
+#queueContainer {
     background: #424242;
     padding: 3px;
-    overflow-y: auto;
 }
 select {
     -webkit-appearance: none;
@@ -97,6 +95,10 @@ a, .ui-widget-content a {
         color: $cta-link-text;
         text-decoration: underline;
     }
+}
+
+.ui-sortable-helper {
+    display: table;
 }
 
 button {
@@ -208,6 +210,9 @@ table.benGrid {
         &.buttonColumn {
             width: 45px
         }
+        &.emptyCollection {
+            text-align: center;
+        }
     }
 
     thead {
@@ -229,10 +234,10 @@ table.benGrid {
 
         tr {
             color: #E1E1E1;
-            -webkit-transition: all 0.25s ease;
-            -moz-transition: all 0.25s ease;
-            -o-transition: all 0.25s ease;
-            transition: all 0.25s ease;
+            //-webkit-//ition: all 0.25s ease;
+            //-moz-transition: all 0.25s ease;
+            //-o-transition: all 0.25s ease;
+            //transition: all 0.25s ease;
 
             &.loadError {
                 background: #852C09;

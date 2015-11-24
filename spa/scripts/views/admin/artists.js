@@ -70,7 +70,6 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
-        console.log("rendering artists collection");
         var compiledTemplate = Mustache.to_html(this.template, { artists: this.collection.toJSON()});
         this.$el.html(compiledTemplate);
         this.styleButtons();

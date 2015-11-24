@@ -75,8 +75,7 @@ module.exports = Backbone.View.extend({
 
         var $btn = $(e.currentTarget),
             recordingId = $btn.closest("tr").attr("data-recordingId");
-
-        adminApp.collections.playQueue.push(this.collection.get(recordingId));
+        adminApp.collections.queue.pushRecording(this.collection.get(recordingId));
     },
 
     sort: function(e) {

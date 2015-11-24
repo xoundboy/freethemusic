@@ -14,13 +14,15 @@ module.exports = Backbone.Router.extend({
         ''                          : 'recordings',
         'recordings'                : 'recordings',
         'recordings/highlight/:id'  : 'recordingHighlight',
-        'recording/edit/:id'        : "recordingEdit",
+        'recording/edit/:id'        : 'recordingEdit',
         'recording/add'             : 'recordingAdd',
+
+        'queue'                     : 'queue',
 
         'artists'                   : 'artists',
         'artists/highlight/:id'     : 'artistHighlight',
-        'artist/edit/:id'           : "artistEdit",
-        'artist/add'               : 'artistAdd',
+        'artist/edit/:id'           : 'artistEdit',
+        'artist/add'                : 'artistAdd',
 
         'playlists'                 : 'playlists',
 
@@ -47,6 +49,11 @@ module.exports = Backbone.Router.extend({
 
     recordingAdd: function() {
         this.$main.html(adminApp.views.audioUpload.render().el);
+    },
+
+
+    queue: function() {
+        this.$main.html(adminApp.views.queue.render().el);
     },
 
 

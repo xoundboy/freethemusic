@@ -29,8 +29,8 @@ var TagsView                = require('./views/admin/tags.js');
 var PlayerModel             = require('./models/player.js');
 var PlayerView              = require('./views/admin/player.js');
 
-var PlayQueueCollection     = require('./collections/playQueue.js');
-var PlayQueueView           = require('./views/admin/playQueue.js');
+var QueueCollection         = require('./collections/queue.js');
+var QueueView               = require('./views/admin/queue.js');
 
 var NavView                 = require('./views/admin/nav.js');
 
@@ -89,10 +89,10 @@ $(function(){
     });
 
     // play queue
-    adminApp.collections.playQueue = new PlayQueueCollection();
-    adminApp.views.playQueue = new PlayQueueView({
-        collection: adminApp.collections.playQueue,
-        template: $("#template_playQueue").html()
+    adminApp.collections.queue = new QueueCollection();
+    adminApp.views.queue = new QueueView({
+        collection: adminApp.collections.queue,
+        template: $("#template_queue").html()
     });
 
     // Navigation

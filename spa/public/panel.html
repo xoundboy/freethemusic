@@ -46,6 +46,7 @@
         <button class="goBack">Back</button>
         <button class="goForward">Forward</button>
         <a href="#recordings" id="navRecordings">Recordings</a>
+        <a href="#queue" id="navQueue">Queue</a>
         <a href="#artists" id="navArtists">Artists</a>
         <a href="#playlists" id="navPlaylists">Playlists</a>
     </nav>
@@ -55,17 +56,24 @@
     <p>Player</p>
 </script>
 
-<script type="text/template" id="template_playQueue">
+<script type="text/template" id="template_queue">
     <table class="benGrid">
         <tbody>
-            {{#recordings}}
-                <tr>
+            {{#queue}}
+                <tr data-id="{{id}}">
                     <td id="queuedRecId-{{id}}" class="queuedRecordingTitle">{{{title}}}</td>
                     <td id="queuedActId-{{id}}" data-actID="{{actID}}" class="queuedActName">{{{actName}}}</td>
                     <td id="queuedDuration-{{id}}">{{{duration}}}</td>
                     <td class="buttonColumn"><button class="removeTrackFromQueueButton" data-recID="{{id}}">remove track from queue</button></td>
                 </tr>
-            {{/recordings}}
+            {{/queue}}
+            {{^queue}}
+                <tr>
+                    <td colspan="4" class="emptyCollection">
+                        Nothing in the play queue yet
+                    </td>
+                </tr>
+            {{/queue}}
         </tbody>
     </table>
 </script>
@@ -158,7 +166,8 @@
         {{^recordings}}
             <tr>
                 <td colspan="5" class="emptyTable">No recordings yet
-                    <a href="#audioUpload" class="link">Upload one now</a> </td>
+                    <a href="#audioUpload" class="link">Upload one now</a>
+                </td>
             </tr>
         {{/recordings}}
         </tbody>
