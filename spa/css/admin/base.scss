@@ -59,6 +59,12 @@ body, html, input, select, textarea {
     }
 }
 
+#playQueueContainer {
+    max-height: 56px;
+    background: #424242;
+    padding: 3px;
+    overflow-y: auto;
+}
 select {
     -webkit-appearance: none;
 }
@@ -199,6 +205,9 @@ table.benGrid {
         &.rightAlign {
             text-align: right;
         }
+        &.buttonColumn {
+            width: 45px
+        }
     }
 
     thead {
@@ -212,12 +221,6 @@ table.benGrid {
 
             &:hover {
                 background: #585858;
-            }
-        }
-
-        td {
-            &.buttonColumn {
-                width: 45px
             }
         }
     }

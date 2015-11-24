@@ -26,7 +26,10 @@
 <body>
     <div id="loading">Loading...</div>
     <div id="notificationContainer"></div>
-    <div id="page"></div>
+    <div id="navContainer"></div>
+    <div id="playerContainer"></div>
+    <div id="playQueueContainer"></div>
+    <div id="mainContent"></div>
     <script src="/assets/js/shared.js" charset="utf-8"></script>
     <script src="/assets/js/backend.js" charset="utf-8"></script>
 </body>
@@ -38,7 +41,7 @@
     </div>
 </script>
 
-<script type="text/template" id="template_dashboard">
+<script type="text/template" id="template_nav">
     <nav>
         <button class="goBack">Back</button>
         <button class="goForward">Forward</button>
@@ -46,9 +49,25 @@
         <a href="#artists" id="navArtists">Artists</a>
         <a href="#playlists" id="navPlaylists">Playlists</a>
     </nav>
-    <div id="mainContent">
-        <div id="audioUploadContainer"></div>
-    </div>
+</script>
+
+<script type="text/template" id="template_player">
+    <p>Player</p>
+</script>
+
+<script type="text/template" id="template_playQueue">
+    <table class="benGrid">
+        <tbody>
+            {{#recordings}}
+                <tr>
+                    <td id="queuedRecId-{{id}}" class="queuedRecordingTitle">{{{title}}}</td>
+                    <td id="queuedActId-{{id}}" data-actID="{{actID}}" class="queuedActName">{{{actName}}}</td>
+                    <td id="queuedDuration-{{id}}">{{{duration}}}</td>
+                    <td class="buttonColumn"><button class="removeTrackFromQueueButton" data-recID="{{id}}">remove track from queue</button></td>
+                </tr>
+            {{/recordings}}
+        </tbody>
+    </table>
 </script>
 
 <script type="text/template" id="template_audioUpload">
@@ -116,6 +135,7 @@
         <thead>
         <tr>
             <td class="buttonColumn"></td>
+            <td class="buttonColumn"></td>
             <th bengrid-key="audioFile">Title</th>
             <th bengrid-key="actName">Artist</th>
             <th bengrid-key="actName">Duration</th>
@@ -126,7 +146,8 @@
         <tbody>
         {{#recordings}}
         <tr id="recordingId-{{id}}" class="recordingRow" data-recordingid="{{id}}">
-            <td><button class="previewButton" data-filename="{{audioFile}}.mp3">preview</button></td>
+            <td><button class="previewButton" data-filename="{{audioFile}}.mp3">Play now</button></td>
+            <td><button class="plusButton" data-filename="{{audioFile}}.mp3">Add to queue</button></td>
             <td>{{{title}}}</td>
             <td data-artistid="{{actID}}">{{{actName}}}</td>
             <td class="rightAlign">{{duration}}</td>

@@ -7,6 +7,8 @@ var ArtistModel = require('../models/artist.js');
 
 module.exports = Backbone.Router.extend({
 
+    $main: $("#mainContent"),
+
     routes: {
 
         ''                          : 'recordings',
@@ -27,12 +29,12 @@ module.exports = Backbone.Router.extend({
 
 
     recordings: function() {
-        adminApp.views.dashboard.loadTabHtml(adminApp.views.recordings.render().el);
+        this.$main.html(adminApp.views.recordings.render().el);
     },
 
     recordingHighlight: function(id){
-        adminApp.views.dashboard.loadTabHtml(adminApp.views.recordings.render().el);
-        adminApp.views.dashboard.highlightElement($("#recordingId-" + id));
+        this.$main.html(adminApp.views.recordings.render().el);
+        this.highlightElement($("#recordingId-" + id));
     },
 
     recordingEdit: function(id){
@@ -40,21 +42,21 @@ module.exports = Backbone.Router.extend({
             model: adminApp.collections.recordings.get(id),
             template: $('#template_recordingEditPanel').html()
         });
-        adminApp.views.dashboard.loadTabHtml(recordingEditPanel.render().el);
+        this.$main.html(recordingEditPanel.render().el);
     },
 
     recordingAdd: function() {
-        adminApp.views.dashboard.loadTabHtml(adminApp.views.audioUpload.render().el);
+        this.$main.html(adminApp.views.audioUpload.render().el);
     },
 
 
     artists: function() {
-        adminApp.views.dashboard.loadTabHtml(adminApp.views.artists.render().el);
+        this.$main.html(adminApp.views.artists.render().el);
     },
 
     artistHighlight: function(id){
-        adminApp.views.dashboard.loadTabHtml(adminApp.views.artists.render().el);
-        adminApp.views.dashboard.highlightElement($("#actID-" + id));
+        this.$main.html(adminApp.views.artists.render().el);
+        this.highlightElement($("#actID-" + id));
     },
 
     artistEdit: function(id){
@@ -62,7 +64,7 @@ module.exports = Backbone.Router.extend({
             model: adminApp.collections.artists.get(id),
             template: $('#template_artistAddOrEditPanel').html()
         });
-        adminApp.views.dashboard.loadTabHtml(artistEditPanel.render().el);
+        this.$main.html(artistEditPanel.render().el);
     },
 
     artistAdd: function() {
@@ -70,15 +72,38 @@ module.exports = Backbone.Router.extend({
             model: new ArtistModel(),
             template: $('#template_artistAddOrEditPanel').html()
         });
-        adminApp.views.dashboard.loadTabHtml(artistAddPanel.render().el);
+        this.$main.html(artistAddPanel.render().el);
     },
 
     playlists: function() {
-        adminApp.views.dashboard.loadTabHtml(adminApp.views.playlists.render().el);
+        this.$main.html(adminApp.views.playlists.render().el);
     },
 
     tags: function() {
-        adminApp.views.dashboard.loadTabHtml(adminApp.views.tags.render().el);
+        this.$main.html(adminApp.views.tags.render().el);
+    },
+
+    highlightElement: function($element){
+
+        if ($element.length){
+
+            // highlight the colour
+            $element.addClass("highlighted");
+
+            // scroll into view
+            var offset = $element.offset();
+            if(offset){
+                $('html, body').animate({
+                    scrollTop: offset.top,
+                    scrollLeft: offset.left
+                }, "slow");
+
+                setTimeout(function(){
+                    // unhighlight after a couple of secs
+                    $element.removeClass("highlighted");
+                }, 2000);
+            }
+        }
     }
 
 });

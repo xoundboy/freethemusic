@@ -6,7 +6,7 @@ var Mustache = require('mustache');
 
 module.exports = Backbone.View.extend({
 
-    el: "#page",
+    el: "#navContainer",
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
@@ -25,30 +25,6 @@ module.exports = Backbone.View.extend({
         Backbone.history.history.forward();
     },
 
-    highlightElement: function($element){
-
-        if ($element.length){
-
-            // highlight the colour
-            $element.addClass("highlighted");
-
-            // scroll into view
-            var offset = $element.offset();
-            if(offset){
-                $('html, body').animate({
-                    scrollTop: offset.top,
-                    scrollLeft: offset.left
-                }, "slow");
-
-                setTimeout(function(){
-                    // unhighlight after a couple of secs
-                    $element.removeClass("highlighted")
-                },2000)
-            }
-        }
-    },
-
-
     styleButtons: function(){
         this.$el.find(".goForward").button({
             text: false,
@@ -62,10 +38,6 @@ module.exports = Backbone.View.extend({
                 primary: "ui-icon-arrowthick-1-w"
             }
         });
-    },
-
-    loadTabHtml: function(html){
-        this.$el.find("#mainContent").html(html);
     },
 
     render: function () {

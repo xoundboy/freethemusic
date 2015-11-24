@@ -21,6 +21,7 @@ module.exports = Backbone.View.extend({
     events: {
         "click th"                      : "sort",
         "click .previewButton"          : "preview",
+        "click .plusButton"             : "addToQueue",
         "click .editRecordingButton"    : "edit",
         "click .deleteRecordingButton"  : "delete",
         "click a[href=#uploads]"        : "add",
@@ -70,6 +71,14 @@ module.exports = Backbone.View.extend({
         this.nowPlayingId = recordingId;
     },
 
+    addToQueue: function(e){
+
+        var $btn = $(e.currentTarget),
+            recordingId = $btn.closest("tr").attr("data-recordingId");
+
+        adminApp.collections.playQueue.push(this.collection.get(recordingId));
+    },
+
     sort: function(e) {
         var field = $(e.target).attr("bengrid-key");
 
@@ -89,6 +98,12 @@ module.exports = Backbone.View.extend({
             text: false,
             icons: {
                 primary: "ui-icon-play"
+            }
+        });
+        this.$el.find(".plusButton").button({
+            text: false,
+            icons: {
+                primary: "ui-icon-plusthick"
             }
         });
         this.$el.find(".editRecordingButton").button({

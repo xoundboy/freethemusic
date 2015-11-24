@@ -5,6 +5,8 @@ var Mustache = require('mustache');
 
 module.exports = Backbone.View.extend({
 
+    el: "#notificationContainer",
+
     initialize: function(options){
         _.extend(this, _.pick(options, "template"));
         this.listenTo(this.model, 'change', this.render);
@@ -22,7 +24,7 @@ module.exports = Backbone.View.extend({
 
     render: function(){
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
-        $("#notificationContainer").html(compiledTemplate).show();
+        this.$el.html(compiledTemplate).show();
         return this;
     }
 });
