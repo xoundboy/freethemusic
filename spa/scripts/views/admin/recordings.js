@@ -20,7 +20,7 @@ module.exports = Backbone.View.extend({
 
     events: {
         "click th"                      : "sort",
-        "click .previewButton"          : "preview",
+        "click .previewButton"          : "playNow",
         "click .plusButton"             : "addToQueue",
         "click .editRecordingButton"    : "edit",
         "click .deleteRecordingButton"  : "delete",
@@ -49,26 +49,10 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    preview: function (e) {
+    playNow: function (e) {
+        var recordingId = $(e.currentTarget).closest("tr").attr("data-recordingId");
+        adminApp.models.player.loadAndPlay(this.collection.get(recordingId));
 
-        var $btn = $(e.currentTarget),
-            recordingId = $btn.closest("tr").attr("data-recordingId"),
-            src = "assets/audio/" + $btn.attr("data-fileName");
-
-        // stop if the now playing track was clicked
-        if ($btn.hasClass("nowPlaying")) {
-            $btn.removeClass("nowPlaying");
-            this.audio.pause();
-            this.nowPlayingId = null;
-            return;
-        }
-
-        $(".previewButton").removeClass("nowPlaying");
-
-        this.audio.src = src;
-        this.audio.play();
-        $btn.addClass("nowPlaying");
-        this.nowPlayingId = recordingId;
     },
 
     addToQueue: function(e){

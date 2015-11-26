@@ -17,6 +17,11 @@ module.exports = Backbone.View.extend({
     render: function(){
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
+
+        if (this.model.get("playing")){
+            this.$el.find("audio").trigger("play");
+        }
+
         return this;
     }
 });

@@ -18,11 +18,8 @@ module.exports = Backbone.Collection.extend({
         });
     },
 
-    updateCollectionOrderInLocalStorage: function(){
-        // need to override the save method in the localstorage
-        // adapter as it doesn't save in the correct order
+    // TODO - remove models from local storage when they are removed from the collection
 
-    },
 
     addRecording: function(recording, position){
         this.add(recording, {at: position});

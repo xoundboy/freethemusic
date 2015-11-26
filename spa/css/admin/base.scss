@@ -14,6 +14,9 @@ $cta-link-text: #76a01b;
 
 $font-size: 15px;
 
+$player-height: 60px;
+$nav-height:31px;
+
 body, html {
     font-family: 'Open Sans', sans-serif;
     background-color: $background;
@@ -56,6 +59,30 @@ body, html, input, select, textarea {
             color: $error-foreground;
         }
 
+    }
+}
+
+#playerContainer {
+    position: fixed;
+    top: $nav-height + 10px;
+    z-index: 10;
+    padding: 0 30px;
+    width: 100vw;
+    height: $player-height;
+    background: #585858;
+
+    #playerPanel {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        #recInfo {
+            width: 100%;
+            #byline {
+                color: grey;
+            }
+        }
     }
 }
 
@@ -150,14 +177,18 @@ p {
     
 }
 
-nav {
+#navContainer {
+    position:fixed;
+    height: $nav-height;
+    width: 100vw;
     padding: 8px;
     text-transform: uppercase;
-
+    z-index: 10;
+    background-color: $background;
     a {
         display: inline-block;
         color: #aaaaaa;
-        padding: 10px 20px;
+        padding: 6px;
         font-size: 16px;
 
         &:hover {
@@ -165,10 +196,20 @@ nav {
             color: #333333;
         }
     }
+
+    button {
+        position: relative;
+        top: -2px;
+    }
 }
 
 #mainContent {
+    position: relative;
+    top: $nav-height + $player-height;
+    height: calc(100% - 132px);
+    overflow: auto;
     padding: 20px;
+    z-index: 5;
 }
 
 .buttonBar {
