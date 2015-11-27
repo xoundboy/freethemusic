@@ -141,10 +141,12 @@ module.exports = Backbone.View.extend({
         if(this.model.get('step2')){
 
             // get the audio file's duration from the audio object
-            var audioTag = document.getElementById("uploadedFile");
-            audioTag.addEventListener('loadedmetadata', function(e){
-                that.model.set('duration', utils.formattedDuration(audioTag.duration));
-            }, false);
+            if (!this.model.get('duration')){
+                var audioTag = document.getElementById("uploadedFile");
+                audioTag.addEventListener('loadedmetadata', function(e){
+                    that.model.set('duration', utils.formattedDuration(audioTag.duration));
+                }, false);
+            }
         }
 
         // only for step 3

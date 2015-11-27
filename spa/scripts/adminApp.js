@@ -26,11 +26,19 @@ var PlaylistsView           = require('./views/admin/playlists.js');
 var TagsCollection          = require('./collections/tags.js');
 var TagsView                = require('./views/admin/tags.js');
 
-var PlayerModel             = require('./models/player.js');
-var PlayerView              = require('./views/admin/player.js');
+//var PlayerModel             = require('./models/player.js');
+//var PlayerView              = require('./views/admin/player.js');
+
+var QueueHistoryCollection  = require('./collections/queueHistory.js');
+var QueueHistoryView        = require('./views/admin/queueHistory.js');
+
+var QueuePlayerModel        = require('./models/queuePlayer.js');
+var QueuePlayerView         = require('./views/admin/queuePlayer.js');
 
 var QueueCollection         = require('./collections/queue.js');
 var QueueView               = require('./views/admin/queue.js');
+
+var QueuePageView           = require('./views/admin/queuePage.js');
 
 var NavView                 = require('./views/admin/nav.js');
 
@@ -81,11 +89,18 @@ $(function(){
         template: $("#template_tags").html()
     });
 
-    // player
-    adminApp.models.player = new PlayerModel();
-    adminApp.views.player = new PlayerView({
-        model: adminApp.models.player,
-        template: $("#template_player").html()
+    //// player
+    //adminApp.models.player = new PlayerModel();
+    //adminApp.views.player = new PlayerView({
+    //    model: adminApp.models.player,
+    //    template: $("#template_player").html()
+    //});
+
+    // queue history
+    adminApp.collections.queueHistory = new QueueHistoryCollection();
+    adminApp.views.queueHistory = new QueueHistoryView({
+        collection: adminApp.collections.queueHistory,
+        template: $("#template_queueHistory").html()
     });
 
     // play queue
@@ -93,6 +108,19 @@ $(function(){
     adminApp.views.queue = new QueueView({
         collection: adminApp.collections.queue,
         template: $("#template_queue").html()
+    });
+
+    // queue player
+    // id = 1 to ensure that it gets saved in local storage
+    adminApp.models.queuePlayer = new QueuePlayerModel({id:1});
+    adminApp.views.queuePlayer = new QueuePlayerView({
+        model: adminApp.models.queuePlayer,
+        template: $("#template_queuePlayer").html()
+    });
+
+    // queue page
+    adminApp.views.queuePage = new QueuePageView({
+        template: $("#template_queuePage").html()
     });
 
     // Navigation

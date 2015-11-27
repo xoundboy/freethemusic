@@ -2,7 +2,7 @@ Backbone.LocalStorage = require("backbone.localstorage");
 var $ = require('jquery');
 var RecordingModel = require('../models/recording.js');
 
-var localStorageKey = "x7-queue";
+var localStorageKey = "x7-audio-archive-publisher";
 
 module.exports = Backbone.Collection.extend({
 

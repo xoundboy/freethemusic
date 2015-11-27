@@ -27,8 +27,7 @@
     <div id="loading">Loading...</div>
     <div id="notificationContainer"></div>
     <div id="navContainer"></div>
-    <div id="playerContainer"></div>
-    <div id="playQueueContainer"></div>
+    <!--<div id="miniPlayerContainer"></div>-->
     <div id="mainContent"></div>
     <script src="/assets/js/shared.js" charset="utf-8"></script>
     <script src="/assets/js/backend.js" charset="utf-8"></script>
@@ -53,16 +52,37 @@
 </script>
 
 <script type="text/template" id="template_player">
-    {{#audioFile}}
-        <div id="playerPanel">
+
+</script>
+
+<script type="text/template" id="template_queuePage">
+
+    <!-- parent view for composing the three views that make up the view page -->
+    <div id="queueParent">
+        <div id="queueHistoryContainer"></div>
+        <div id="queuePlayerContainer"></div>
+        <div id="queueContainer"></div>
+    </div>
+</script>
+
+<script type="text/template" id="template_queueHistory">
+    <p>this is the queue history template</p>
+</script>
+
+<script type="text/template" id="template_queuePlayer">
+    <div id="playerPanel">
+        {{^audioFile}}
+            <p>Player empty</p>
+        {{/audioFile}}
+        {{#audioFile}}
             <p id="player">
-                <audio id="nowPlaying" controls>
+                <audio id="nowPlaying" preload="auto" controls>
                     <source src="assets/audio/{{{audioFile}}}.mp3" type="audio/mpeg">
                 </audio>
             </p>
             <p id="recInfo">"{{{title}}}"<span id="byline"> by {{{actName}}}</span></p>
-        </div>
-    {{/audioFile}}
+        {{/audioFile}}
+    </div>
 </script>
 
 <script type="text/template" id="template_queue">
@@ -104,6 +124,7 @@
             <source src="/uploads/{{tempName}}.mp3" type="audio/mpeg">
         </audio>
         <p class="small">File size: {{size}} bytes</p>
+        <p class="small">Duration: {{duration}}</p>
         <p class="buttons">
             <button id="step2BackBtn" class="backBtn">Upload again</button>
             <button id="step2NextBtn" class="nextBtn">Plays fine</button>
@@ -163,7 +184,7 @@
         <tbody>
         {{#recordings}}
         <tr id="recordingId-{{id}}" class="recordingRow" data-recordingid="{{id}}">
-            <td><button class="previewButton" data-filename="{{audioFile}}.mp3">Play now</button></td>
+            <td><button class="playButton" data-filename="{{audioFile}}.mp3">Play now</button></td>
             <td><button class="plusButton" data-filename="{{audioFile}}.mp3">Add to queue</button></td>
             <td>{{{title}}}</td>
             <td data-artistid="{{actID}}">{{{actName}}}</td>

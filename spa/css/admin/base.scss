@@ -62,27 +62,13 @@ body, html, input, select, textarea {
     }
 }
 
-#playerContainer {
-    position: fixed;
-    top: $nav-height + 10px;
-    z-index: 10;
+#queuePlayerContainer {
     padding: 0 30px;
-    width: 100vw;
     height: $player-height;
-    background: #585858;
+    background: #0d0d0e;
 
     #playerPanel {
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
 
-        #recInfo {
-            width: 100%;
-            #byline {
-                color: grey;
-            }
-        }
     }
 }
 
@@ -205,8 +191,8 @@ p {
 
 #mainContent {
     position: relative;
-    top: $nav-height + $player-height;
-    height: calc(100% - 132px);
+    top: $nav-height;
+    height: calc(100% - $nav-height);
     overflow: auto;
     padding: 20px;
     z-index: 5;

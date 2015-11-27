@@ -4,9 +4,8 @@ var Mustache = require('mustache');
 
 module.exports = Backbone.View.extend({
 
-    el: "#playerContainer",
     tagName: "div",
-    id: "player",
+    id: "queuePlayer",
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
@@ -18,9 +17,8 @@ module.exports = Backbone.View.extend({
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
 
-        //if (this.model.get("playing")){
-        //    this.$el.find("audio").trigger("play");
-        //}
+        // sub-views need this
+        this.delegateEvents();
 
         return this;
     }

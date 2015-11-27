@@ -20,7 +20,7 @@ module.exports = Backbone.View.extend({
 
     events: {
         "click th"                      : "sort",
-        "click .previewButton"          : "playNow",
+        "click .playButton"             : "play",
         "click .plusButton"             : "addToQueue",
         "click .editRecordingButton"    : "edit",
         "click .deleteRecordingButton"  : "delete",
@@ -49,10 +49,10 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    playNow: function (e) {
-        var recordingId = $(e.currentTarget).closest("tr").attr("data-recordingId");
-        adminApp.models.player.loadAndPlay(this.collection.get(recordingId));
-
+    play: function (e) {
+        //var recordingId = $(e.currentTarget).closest("tr").attr("data-recordingId");
+        //var player = adminApp.models.player;
+        //
     },
 
     addToQueue: function(e){
@@ -77,7 +77,7 @@ module.exports = Backbone.View.extend({
     },
 
     styleButtons: function() {
-        this.$el.find(".previewButton").button({
+        this.$el.find(".playButton").button({
             text: false,
             icons: {
                 primary: "ui-icon-play"

@@ -66,15 +66,23 @@ app.post('/api/upload', multer({ dest: pathToUploadDir}).single('uploadFile'), f
 /**
  * PLAYBACK
  */
-app.get("/assets/audio/:audioFile", function(req, res){
-    var pathToAudioFile = config.AUDIO_LIBRARY_PATH + req.params.audioFile;
-    if (fs.existsSync(pathToAudioFile)){
-        res.setHeader("content-type", "audio/mpeg");
-        fs.createReadStream(pathToAudioFile).pipe(res);
-    } else {
-        res.status(400).send("Audio file cannot be found");
-    }
-});
+
+// STREAMING AUDIO - use the below endpoint to stream audio
+// instead of downloading the file.
+
+// Disabled as the audio tag doesn't support scanning with
+// streamed audio - an 'audio' symlink is placed into the assets
+// folder to map the aduio library
+
+//app.get("/assets/audio/:audioFile", function(req, res){
+//    var pathToAudioFile = config.AUDIO_LIBRARY_PATH + req.params.audioFile;
+//    if (fs.existsSync(pathToAudioFile)){
+//        res.setHeader("content-type", "audio/mpeg");
+//        fs.createReadStream(pathToAudioFile).pipe(res);
+//    } else //{
+//        res.status(400).send("Audio file cannot be found");
+//    }
+//});
 
 
 
