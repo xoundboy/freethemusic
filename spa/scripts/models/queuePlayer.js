@@ -21,25 +21,34 @@ module.exports = Backbone.Model.extend({
             if (!adminApp.collections.queue.length) {
 
                 // when something gets added to the queue..
-                this.listenTo(adminApp.collections.queue, 'change', function () {
+                this.listenTo(adminApp.collections.queue, 'add', function () {
 
                     // load it straight away
-                    that.loadNextFromQueue();
+                    that.loadNextTrackFromQueue();
 
                     // and stop waiting for something to be added to the queue
-                    that.stopListening(adminApp.collections.queue, 'change');
+                    that.stopListening(adminApp.collections.queue, 'add');
                 });
 
             } else {
-                that.loadNextFromQueue();
+                that.loadNextTrackFromQueue();
             }
         }
     },
 
-    loadNextFromQueue: function(){
+    loadNextTrackFromQueue: function(){
+        if (this.get("audioFile")) {
+            this.saveCurrentTrackToHistory();
+        }
         var recording = adminApp.collections.queue.at(0);
         this.load(recording.clone());
         recording.destroy();
+    },
+
+    saveCurrentTrackToHistory: function(){
+        var oldRecording = this.clone();
+        oldRecording.set("id", oldRecording.get("originalId"));
+        adminApp.collections.queueHistory.add(oldRecording);
     },
 
     load: function(recording){

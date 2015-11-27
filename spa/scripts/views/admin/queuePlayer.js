@@ -14,11 +14,18 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
+
+        var that = this;
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
 
         // sub-views need this
         this.delegateEvents();
+
+        this.$el.find("audio").bind('ended', function(){
+            console.log("playback ended");
+            that.model.loadNextTrackFromQueue();
+        });
 
         return this;
     }
