@@ -334,7 +334,7 @@ CREATE TABLE `playlists` (
   `actID` int(11) DEFAULT NULL,
   `yearPublished` varchar(50) DEFAULT NULL,
   `label` varchar(50) NOT NULL,
-  `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dateCreated` datetime DEFAULT NULL,
   `isAlbum` varchar(5) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_name` (`name`)
@@ -886,4 +886,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-30 14:24:03
+-- Dump completed on 2015-11-30 15:00:48

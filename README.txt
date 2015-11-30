@@ -1,34 +1,31 @@
-Dev Env Setup
-=============
+Setup & deployment
+==================
 
+1. checkout the project into a folder on your server
+	$ cd ~
+	$ git clone https://xoundboy@bitbucket.org/xoundboy/x7.1.git
 
-1. Add the following line to your ~/.bash_profile
+2. Create the database configuration file
+	$ cp db_TEMPLATE db.sh
 
-	export PATH=</path/to/project/root>:$PATH
-
-	(replacing </path/to/project/root> with the real thing of course)
-
-
-2. Set up the database
-
-	a) Choose values for the following:
+3. Set up the database. Before you start you need to choose values for the following:
 	- database name [DB_NAME]
 	- database user name [DB_USER]
 	- database user's password [DB_PASS]
 
-	b) Open the mysql command line client
+	a) Open the mysql command line client
 	$ mysql -uroot -p
 
-	c) Create the database
+	b) Create the database
 	mysql> create database [DB_NAME] character set utf8;
 
-	d) Set the permissions for the node application to connect to the database
+	c) Set the permissions for the node application to connect to the database
 	mysql> grant all privileges on [DB_NAME].* to [DB_USER]@localhost identified by "[DB_PASS]";
 
-	e) Set permissions for the db dump script to dump stored procedures
+	d) Set permissions for the db dump script to dump stored procedures
 	mysql> grant select on mysql.proc to [DB_USER]@localhost;
 
-	f) Install the database schema
+3. Install the database schema
 	$ db loadnodata
 
 
