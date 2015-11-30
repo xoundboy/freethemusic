@@ -2,7 +2,8 @@ node_modules
 npm-debug.log
 .idea
 .DS_Store
-spa/public/assets/
+spa/public/assets/audio/
+spa/public/assets/images/
 spa/public/uploads/
 spa/config.js
 db
