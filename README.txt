@@ -25,7 +25,10 @@ Dev Env Setup
 	d) Set the permissions for the node application to connect to the database
 	mysql> grant all privileges on [DB_NAME].* to [DB_USER]@localhost identified by "[DB_PASS]";
 
-	e) Install the database schema
+	e) Set permissions for the db dump script to dump stored procedures
+	mysql> grant select on mysql.proc to [DB_USER]@localhost;
+
+	f) Install the database schema
 	$ db loadnodata
 
 

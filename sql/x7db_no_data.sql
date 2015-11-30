@@ -281,7 +281,7 @@ CREATE TABLE `recordings` (
   `tags` varchar(254) DEFAULT NULL,
   `duration` varchar(12) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=779 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=782 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -718,4 +718,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-23 18:35:16
+-- Dump completed on 2015-11-30 14:12:34

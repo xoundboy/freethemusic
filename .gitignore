@@ -5,3 +5,4 @@ npm-debug.log
 spa/public/assets/
 spa/public/uploads/
 spa/config.js
+db

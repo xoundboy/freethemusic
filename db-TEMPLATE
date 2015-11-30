@@ -2,9 +2,9 @@
 
 
 # Start of config
-DATABASE=xoundboy_dev        # database name
-DBUSER=x7devuser             # database user
-DBPASS=x7devuserpass         # database user's password
+DATABASE=   # database name
+DBUSER=     # database user
+DBPASS=     # database user's password
 # End of config
 
 DUMPFILE=x7db.sql
