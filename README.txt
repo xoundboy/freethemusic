@@ -9,15 +9,23 @@ Dev Env Setup
 	(replacing </path/to/project/root> with the real thing of course)
 
 
-2. install the Mysql database and set grants to allow access from localhost
+2. Set up the database
 
+	a) Choose values for the following:
+	- database name [DB_NAME]
+	- database user name [DB_USER]
+	- database user's password [DB_PASS]
+
+	b) Open the mysql command line client
 	$ mysql -uroot -p
-	mysql> create database xoundboy_dev character set utf8;
-	mysql> grant all privileges on xoundboy_dev.* to root@localhost identified by "";
 
+	c) Create the database
+	mysql> create database [DB_NAME] character set utf8;
 
-3. Install the database schema
+	d) Set the permissions for the node application to connect to the database
+	mysql> grant all privileges on [DB_NAME].* to [DB_USER]@localhost identified by "[DB_PASS]";
 
+	e) Install the database schema
 	$ db loadnodata
 
 
