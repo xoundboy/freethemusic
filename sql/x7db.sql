@@ -528,7 +528,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteAct`(IN idToDelete VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteAct`(IN idToDelete VARCHAR(50))sudo
 BEGIN
 	DELETE FROM acts
     WHERE id = idToDelete;

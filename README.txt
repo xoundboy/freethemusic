@@ -5,10 +5,11 @@ Setup & deployment
 	$ cd ~
 	$ git clone https://xoundboy@bitbucket.org/xoundboy/x7.1.git
 
-2. Create the database configuration file
-	$ cp db_TEMPLATE db.sh
 
-3. Set up the database. Before you start you need to choose values for the following:
+2. Create and configure the database load/dump script
+	$ cp db_TEMPLATE db.sh
+	$ vim db.sh
+	... and set values for the following:
 	- database name [DB_NAME]
 	- database user name [DB_USER]
 	- database user's password [DB_PASS]
@@ -25,8 +26,17 @@ Setup & deployment
 	d) Set permissions for the db dump script to dump stored procedures
 	mysql> grant select on mysql.proc to [DB_USER]@localhost;
 
+	e) Set permissions for the db load script to write globally to the db for loading storec prcedures
+	mysql> grant super on *.* to [DB_USER]@localhost identified by "[DB_PASS]"
+
+
 3. Install the database schema
-	$ db loadnodata
+	$ db.sh loadnodata
+
+4. Create and configure the express webserver config
+	$ cp spa/config-TEMPLATE.js spa/config.js
+	$ vim spa/config.js
+	... and set values for all the items
 
 
 4. install node + npm
@@ -35,19 +45,22 @@ Setup & deployment
 5. install dependencies for both projects by running npm install in both
 
 	$ cd </path/to/project/root>
-	$ npm install
+	$ npm install --production
 
 
 6a. Open a new console and run the server
 
 	$ npm start
 
+	Public site URL -  http://localhost:8080
+  	Admin panel URL - http://localhost:8080/panel.html
 
-6b. Open another new console and run the webpack watcher (with source maps)
 
+For development
+---------------
+
+	$ npm install
 	$ webpack -d
 
 
-7. Public site URL -  http://localhost:8080
-   Admin panel URL - http://localhost:8080/panel.html
 
