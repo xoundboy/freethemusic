@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+require('es6-promise').polyfill();
 
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('shared.js');
 var uglifyPlugin = new webpack.optimize.UglifyJsPlugin({
