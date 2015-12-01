@@ -4,7 +4,7 @@ var app = express();
 
 var http = require('http').Server(app);
 var multer  = require('multer');
-var config = require('./config.js');
+var config = require('./scripts/config.js');
 var utils = require('./scripts/utils.js');
 var fs = require('fs');
 var rimraf = require('rimraf');
