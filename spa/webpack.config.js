@@ -2,6 +2,11 @@ var path = require('path');
 var webpack = require('webpack');
 
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('shared.js');
+var uglifyPlugin = new webpack.optimize.UglifyJsPlugin({
+    compress: {
+        warnings: false
+    }
+});
 
 module.exports = {
     context: path.resolve('scripts'),
@@ -13,7 +18,7 @@ module.exports = {
         path: path.resolve('public/assets/js'),
         filename: "[name].js"
     },
-    plugins: [commonsPlugin],
+    plugins: [commonsPlugin, uglifyPlugin],
     devServer: {
         contentBase: 'public'
     },
