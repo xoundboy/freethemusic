@@ -23,7 +23,7 @@ module.exports = {
     devServer: {
         contentBase: 'public'
     },
-    watch: true,
+    watch: false,
     module: {
         loaders: [
             {
