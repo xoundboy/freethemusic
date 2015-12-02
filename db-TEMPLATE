@@ -18,7 +18,7 @@ if [ "$1" == "dump" ]; then
 
 # Dump without data
 elif [ "$1" == "dumpnodata" ]; then
-    mysqldump -u${DBUSER} -p${DBPASS} -d ${DATABASE} --routines >  ${DIR}/sql/${DUMPFILENODATA}
+    mysqldump -u${DBUSER} -p${DBPASS} --add-drop-table -d --routines ${DATABASE} >  ${DIR}/sql/${DUMPFILENODATA}
 
 # Load database with data
 elif [ "$1" == "load" ]; then
