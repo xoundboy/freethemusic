@@ -528,7 +528,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteAct`(IN idToDelete VARCHAR(50))sudo
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteAct`(IN idToDelete VARCHAR(50))
 BEGIN
 	DELETE FROM acts
     WHERE id = idToDelete;
@@ -886,4 +886,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-30 15:00:48
+-- Dump completed on 2015-12-02 14:34:51
