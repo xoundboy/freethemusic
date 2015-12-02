@@ -37,4 +37,16 @@ mysql -u${X71_DB_USER} -p${X71_DB_PASS} --verbose ${X71_DB_NAME} < sql/x7db.sql
 
 
 # build the static files for production use (no source maps)
-"deploy-latest" 50L, 1263C                                                                            1,1           Top
+echo "building static packages..."
+webpack -p --progress
+
+
+# restarting the node server
+echo "restarting the node server..."
+pm2 start ${X71_ROOT}/server.js
+
+
+# done
+echo "DEPLOYMENT FINSHED SUCCESSFULLY"
+
+
