@@ -33,7 +33,7 @@ npm install --verbose
 
 # Update the database with a new schema and empty tables
 echo "updating the database..."
-mysql -u${X71_DB_USER} -p${X71_DB_PASS} --verbose ${X71_DB_NAME} < sql/x7db.sql
+mysql -u${X71_DB_USER} -p${X71_DB_PASS} --verbose ${X71_DB_NAME} < sql/x7db_no_data.sql
 
 
 # build the static files for production use (no source maps)
