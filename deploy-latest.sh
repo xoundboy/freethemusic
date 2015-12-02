@@ -39,8 +39,9 @@ if [ "$1" == "empty" ]; then
     mysql -u${X71_DB_USER} -p${X71_DB_PASS} --verbose ${X71_DB_NAME} < sql/x7db_no_data.sql
 
     # remove any media files saved in the library folders
-    rm -rf ${X71_LIB_PATH}audio/*
-    rm -rf ${X71_LIB_PATH}images/*
+    echo "removing any medai that exists in the audio and images folders within the library folder"
+    rm -rf ${X71_LIB_PATH}/audio/*
+    rm -rf ${X71_LIB_PATH}/images/*
 
 else
 
