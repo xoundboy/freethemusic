@@ -4,4 +4,4 @@ npm-debug.log
 .DS_Store
 public/assets/
 public/uploads/
-db
+sql/x7db.sql

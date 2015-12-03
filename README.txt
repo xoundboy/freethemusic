@@ -1,7 +1,7 @@
 Setup for Linux / Mac
 =====================
 
-(Note that the application works in Windows, just no setup script made yet)
+Using a Bash shell...
 
 1. Install Mysql (server only)
 
