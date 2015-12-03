@@ -31,3 +31,10 @@ Stop
 
 See https://www.npmjs.com/package/pm2 for more information on how to use the PM2 process manager including
 how to cluster processes if you have heavy load.
+
+
+Use
+===
+http://localhost:8080/panel.html
+
+Note that you should install a reverse proxy (e.g. Nginx) to expose the service to the public internet
