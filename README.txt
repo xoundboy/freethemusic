@@ -1,66 +1,33 @@
-Setup & deployment
-==================
+Setup for Linux / Mac
+=====================
 
-1. checkout the project into a folder on your server
-	$ cd ~
-	$ git clone https://xoundboy@bitbucket.org/xoundboy/x7.1.git
+(Note that the application works in Windows, just no setup script made yet)
 
+1. Install Mysql (server only)
 
-2. Create and configure the database load/dump script
-	$ cp db_TEMPLATE db.sh
-	$ vim db.sh
-	... and set values for the following:
-	- database name [DB_NAME]
-	- database user name [DB_USER]
-	- database user's password [DB_PASS]
+2. Install Node.js and the Node Package Manger (https://docs.npmjs.com/getting-started/installing-node)
 
-	a) Open the mysql command line client
-	$ mysql -uroot -p
+3. Open a command prompt and install the following three npm packages globally
 
-	b) Create the database
-	mysql> create database [DB_NAME] character set utf8;
+	$ npm install -g express
+	$ npm install -g pm2
+	$ npm install -g webpack
 
-	c) Set the permissions for the node application to connect to the database
-	mysql> grant all privileges on [DB_NAME].* to [DB_USER]@localhost identified by "[DB_PASS]";
+4. Checkout the project into your home folder on your server
+	$ cd ~ && git clone https://xoundboy@bitbucket.org/xoundboy/x7.1.git
 
-	d) Set permissions for the db dump script to dump stored procedures
-	mysql> grant select on mysql.proc to [DB_USER]@localhost;
-
-	e) Set permissions for the db load script to write globally to the db for loading storec prcedures
-	mysql> grant super on *.* to [DB_USER]@localhost identified by "[DB_PASS]"
+5. Run the setup script following the instructions
+	$ cd x7.1 && chmod +x setup.sh && . setup
 
 
-3. Install the database schema
-	$ db.sh loadnodata
+Start / Stop
+============
 
-4. Create and configure the express webserver config
-	$ cp spa/config-TEMPLATE.js spa/config.js
-	$ vim spa/config.js
-	... and set values for all the items
+Start
+	$ pm2 start server.js
 
+Stop
+	$ pm2 stop 0
 
-4. install node + npm
-
-
-5. install dependencies for both projects by running npm install in both
-
-	$ cd </path/to/project/root>
-	$ npm install --production
-
-
-6a. Open a new console and run the server
-
-	$ npm start
-
-	Public site URL -  http://localhost:8080
-  	Admin panel URL - http://localhost:8080/panel.html
-
-
-For development
----------------
-
-	$ npm install
-	$ webpack -d
-
-
-
+See https://www.npmjs.com/package/pm2 for more information on how to use the PM2 process manager including
+how to cluster processes if you have heavy load.
