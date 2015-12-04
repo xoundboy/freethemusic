@@ -18,6 +18,11 @@ dbpass=x71dbuserpass
 conffile=".x71dbcnf.tmp"
 
 
+# Welcome message
+echo -e
+echo -e
+echo -e "Welcome to X7.1 setup"
+
 
 # path to media library
 default="$HOME/x71_library"
@@ -37,7 +42,7 @@ fi
 
 # database host
 default="localhost"
-read -p "Enter the database host name or IP [$default]: " dbhost
+read -p "Enter the database host name or IP adress [$default]: " dbhost
 if [ "$dbhost" = "" ]; then
     dbhost="$default"
 fi
