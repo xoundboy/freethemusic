@@ -93,7 +93,7 @@ mysql --defaults-extra-file=$conffile $dbname < sql/x7db_no_data.sql
 # Set the permissions for the node application to connect to the database
 echo -e "setting database permissions ..."
 mysql --defaults-extra-file=$conffile <<END
-REVOKE ALL PRIVILEGES, GRANT OPTION FROM $dbuser@$dbhost;
+-- REVOKE ALL PRIVILEGES, GRANT OPTION FROM $dbuser@$dbhost;
 GRANT ALL PRIVILEGES ON $dbname.* TO $dbuser@$dbhost IDENTIFIED BY "$dbpass";
 END
 
