@@ -127,12 +127,15 @@ function setEnvVar {
     TARGET_KEY=$1
     REPLACEMENT_VALUE=$2
     CONFIG_FILE=$HOME/.bash_profile
-
-    # Mac only
-    #sed -i "s/export $TARGET_KEY=.*//g" $CONFIG_FILE
-    sed -i '' "s/export $TARGET_KEY=.*//g" $CONFIG_FILE
+    if [[ `uname` == 'Darwin' ]]; then
+        # sed on Mac is different
+       sed -i '' "s/export $TARGET_KEY=.*//g" $CONFIG_FILE
+    else
+       sed -i "s/export $TARGET_KEY=.*//g" $CONFIG_FILE
+    fi
     echo "export $TARGET_KEY=$REPLACEMENT_VALUE" >> "$CONFIG_FILE"
 }
+
 
 setEnvVar NODE_ENV production
 setEnvVar X71_SERVER_PORT $port
