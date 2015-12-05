@@ -10,7 +10,33 @@
 ##   will need one if you intend to expose the service to the public internet as running a    ##
 ##   node service on port 80 or 443 is very insecure.                                         ##
 ##                                                                                            ##
+##   USAGE:                                                                                   ##
+##   $ chmod +x setup.sh                                                                      ##
+##   $ source setup.sh                                                                        ##
+##                                                                                            ##
+##   NOTE that you need to source this file in order that environment variables can be        ##
+##   correctly exported for the current shell                                                 ##
+##                                                                                            ##
 ################################################################################################
+
+
+sudo apt-get update
+sudo apt-get install mysql-server
+sudo mysql_secure_installation
+
+sudo apt-get install nodejs
+sudo ln -sf "$(which nodejs)" /usr/bin/node
+
+sudo apt-get install npm
+sudo apt-get install git
+
+sudo npm install -g webpack
+
+rm -rf x7.1
+
+git clone https://xoundboy@bitbucket.org/xoundboy/x7.1.git
+
+cd x7.1
 
 
 dbuser=x71dbuser
@@ -123,12 +149,14 @@ ln -s -f $libpath/images $DIR/public/assets/images
 
 
 # install dependencies
-echo -e "installing application dependencies. You may need to provide your password to run as root ..."
-sudo npm install
+echo -e "installing application dependencies ..."
+npm install
 
 
 # Insert env vars and aliases into bash profile
 echo -e "setting environment variables ..."
+
+
 
 function setEnvVar {
     TARGET_KEY=$1
@@ -150,12 +178,12 @@ setEnvVar X71_LIB_PATH $libpath
 setEnvVar X71_DB_HOST $dbhost
 setEnvVar X71_DB_NAME $dbname
 setEnvVar X71_DB_USER $dbuser
-setEnvVar X71_PB_PASS $dbpass
+setEnvVar X71_DB_PASS $dbpass
 
 
-# source the bash profile
+# export the env vars for the current shell
 echo "reinitialising shell ..."
-. $HOME/.bash_profile
+source $HOME/.bash_profile
 
 # build the static packages
 echo -e "building static packages"
