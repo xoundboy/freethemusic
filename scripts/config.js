@@ -5,5 +5,5 @@ module.exports = {
     DB_HOST:            process.env.X71_DB_HOST,
     DB_NAME:            process.env.X71_DB_NAME,
     DB_USER:            process.env.X71_DB_USER,
-    DB_PASS:            process.env.X71_PB_PASS
+    DB_PASS:            process.env.X71_DB_PASS
 };
