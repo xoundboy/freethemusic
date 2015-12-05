@@ -116,14 +116,14 @@ mkdir $libpath/images
 
 # create the mappings to the library folders
 echo -e "creating library mappings ..."
-rm -f $DIR/public/assets/audio 2>/dev/null
-rm -f $DIR/public/assets/images 2>/dev/null
-ln -s $libpath/audio $DIR/public/assets/audio
-ln -s $libpath/images $DIR/public/assets/images
+echo "ln -s -f $libpath/audio $DIR/public/assets/audio"
+ln -s -f $libpath/audio $DIR/public/assets/audio
+echo "ln -s -f $libpath/images $DIR/public/assets/images"
+ln -s -f $libpath/images $DIR/public/assets/images
 
 
 # install dependencies
-echo -e "installing application dependencies. You will need to provide your password to run as root ..."
+echo -e "installing application dependencies. You may need to provide your password to run as root ..."
 sudo npm install
 
 

@@ -25,8 +25,7 @@ Using a Bash shell (tested on Ubuntu Server 14.04LTS):
     $ sudo apt-get install git
 
 
-3. Open a command prompt and install the following three npm packages globally
-	$ sudo npm install -g express
+3. Open a command prompt and install the following npm packages globally
 	$ sudo npm install -g pm2
 	$ sudo npm install -g webpack
 
