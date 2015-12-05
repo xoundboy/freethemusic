@@ -123,7 +123,7 @@ ln -s $libpath/images $DIR/public/assets/images
 
 
 # install dependencies
-echo -e "installing application dependencies ..."
+echo -e "installing application dependencies. You will need to provide your password to run as root ..."
 sudo npm install
 
 

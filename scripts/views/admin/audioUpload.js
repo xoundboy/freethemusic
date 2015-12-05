@@ -126,7 +126,7 @@ module.exports = Backbone.View.extend({
     selectArtist: function(e){
         if(e.target.value === "new"){
             this.stashFormData();
-            adminApp.routers.main.navigate("/artists", {trigger:true});
+            adminApp.routers.main.navigate("/artist/add", {trigger:true});
         }
     },
 
