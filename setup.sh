@@ -117,7 +117,7 @@ mkdir $libpath/images
 
 # install dependencies
 echo -e "installing application dependencies..."
-npm install
+sudo npm install
 
 
 # Insert env vars and aliases into bash profile
@@ -127,6 +127,9 @@ function setEnvVar {
     TARGET_KEY=$1
     REPLACEMENT_VALUE=$2
     CONFIG_FILE=$HOME/.bash_profile
+
+    # Mac only
+    #sed -i "s/export $TARGET_KEY=.*//g" $CONFIG_FILE
     sed -i '' "s/export $TARGET_KEY=.*//g" $CONFIG_FILE
     echo "export $TARGET_KEY=$REPLACEMENT_VALUE" >> "$CONFIG_FILE"
 }
@@ -143,6 +146,12 @@ setEnvVar X71_PB_PASS $dbpass
 # source the bash profile
 echo "reinitialising shell..."
 . $HOME/.bash_profile
+
+# build the static packages
+echo -e "building static packages"
+webpack -p --progress
+
+
 echo -e "DONE"
 echo -e
 echo -e "Installation completed successfully"

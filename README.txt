@@ -1,7 +1,7 @@
 Setup for Linux / Mac
 =====================
 
-Using a Bash shell:
+Using a Bash shell (tested on Ubuntu Server 14.04LTS):
 
 1. Install MySQL (server only)
     $ sudo apt-get update
