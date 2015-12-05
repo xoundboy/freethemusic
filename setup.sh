@@ -142,14 +142,15 @@ mkdir $libpath/images
 
 # create the mappings to the library folders
 echo -e "creating library mappings ..."
-echo "ln -s -f $libpath/audio $DIR/public/assets/audio"
-ln -s -f $libpath/audio $DIR/public/assets/audio
-echo "ln -s -f $libpath/images $DIR/public/assets/images"
-ln -s -f $libpath/images $DIR/public/assets/images
+echo "ln -s -f $libpath/audio $DIR/x7.1/public/assets/audio"
+ln -s -f $libpath/audio $DIR/x7.1/public/assets/audio
+echo "ln -s -f $libpath/images $DIR/x7.1/public/assets/images"
+ln -s -f $libpath/images $DIR/x7.1/public/assets/images
 
 
 # install dependencies
 echo -e "installing application dependencies ..."
+cd $HOME/x7.1
 npm install
 
 
@@ -194,11 +195,6 @@ echo -e "DONE"
 echo -e
 echo -e "Installation completed successfully"
 echo -e
-echo -e "To start the node server do one of the following:"
-echo -e "  i) npm start"
-echo -e " ii) pm2 start server.js"
-echo -e "The second option launches the node process using pm2 process manager which will re-start it if it crashes"
-echo -e
-echo -e "You can then access the application at http://localhost:$port/panel.html"
-echo -e "To stop the service when running under pm2, run the following command:"
-echo -e "   pm2 kill"
+echo -e "To start the node server:"
+echo -e "  $ cd ~/x7.1"
+echo -e "  $ npm start"
