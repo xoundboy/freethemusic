@@ -2,6 +2,8 @@ node_modules
 npm-debug.log
 .idea
 .DS_Store
-public/assets/
+public/assets/audio
+public/assets/images
+public/assets/js
 public/uploads/
 sql/x7db.sql
