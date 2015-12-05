@@ -142,16 +142,15 @@ mkdir $libpath/images
 
 # create the mappings to the library folders
 echo -e "creating library mappings ..."
-echo "ln -s -f $libpath/audio $DIR/x7.1/public/assets/audio"
-ln -s -f $libpath/audio $DIR/x7.1/public/assets/audio
-echo "ln -s -f $libpath/images $DIR/x7.1/public/assets/images"
-ln -s -f $libpath/images $DIR/x7.1/public/assets/images
+echo "ln -s -f $libpath/audio $DIR/public/assets/audio"
+ln -s -f $libpath/audio $DIR/public/assets/audio
+echo "ln -s -f $libpath/images $DIR/public/assets/images"
+ln -s -f $libpath/images $DIR/public/assets/images
 
 
 # install dependencies
 echo -e "installing application dependencies ..."
-cd $HOME/x7.1
-npm install
+sudo npm install
 
 
 # Insert env vars and aliases into bash profile
