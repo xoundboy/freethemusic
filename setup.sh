@@ -16,7 +16,7 @@
 dbuser=x71dbuser
 dbpass=x71dbuserpass
 conffile=".x71dbcnf.tmp"
-
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Welcome message
 echo -e
@@ -70,7 +70,7 @@ if [ -a $conffile ]; then
     echo -e "removing old temporary mysql config file"
     rm -f $conffile
 fi
-echo -e "creating temporary mysql config file..."
+echo -e "creating temporary mysql config file ..."
 touch $conffile
 echo "[client]" >> $conffile
 echo "user=$dbrootuser" >> $conffile
@@ -79,49 +79,56 @@ echo "host=$dbhost" >> $conffile
 
 
 # create the database
-echo -e "creating the database..."
+echo -e "creating the database ..."
 mysql --defaults-extra-file=$conffile <<END
 CREATE DATABASE IF NOT EXISTS $dbname CHARACTER SET utf8;
 USE $dbname;
 END
 
 # install the empty database schema
-echo -e "installing the empty database schema..."
+echo -e "installing the empty database schema ..."
 mysql --defaults-extra-file=$conffile $dbname < sql/x7db_no_data.sql
 
 
 # Set the permissions for the node application to connect to the database
-echo -e "setting database permissions..."
+echo -e "setting database permissions ..."
 mysql --defaults-extra-file=$conffile <<END
 REVOKE ALL PRIVILEGES, GRANT OPTION FROM $dbuser@$dbhost;
 GRANT ALL PRIVILEGES ON $dbname.* TO $dbuser@$dbhost IDENTIFIED BY "$dbpass";
 END
 
 # remove the temporary mysql config file
-echo -e "removing the temporary mysql config file..."
+echo -e "removing the temporary mysql config file ..."
 rm -f $conffile
 
 
 # remove the library root folder if it already exists
 if [ -d "$libpath" ]; then
-    echo -e "removing existing library root folder..."
+    echo -e "removing existing library root folder ..."
     rm -rf $libpath
 fi
 
 # create the library folders
-echo -e "creating the new library folders..."
+echo -e "creating the new library folders ..."
 mkdir $libpath
 mkdir $libpath/audio
 mkdir $libpath/images
 
+# create the mappings to the library folders
+echo -e "creating library mappings ..."
+rm -f $DIR/public/assets/audio 2>/dev/null
+rm -f $DIR/public/assets/images 2>/dev/null
+ln -s $libpath/audio $DIR/public/assets/audio
+ln -s $libpath/images $DIR/public/assets/images
+
 
 # install dependencies
-echo -e "installing application dependencies..."
+echo -e "installing application dependencies ..."
 sudo npm install
 
 
 # Insert env vars and aliases into bash profile
-echo -e "setting environment variables..."
+echo -e "setting environment variables ..."
 
 function setEnvVar {
     TARGET_KEY=$1
@@ -147,7 +154,7 @@ setEnvVar X71_PB_PASS $dbpass
 
 
 # source the bash profile
-echo "reinitialising shell..."
+echo "reinitialising shell ..."
 . $HOME/.bash_profile
 
 # build the static packages
@@ -159,9 +166,11 @@ echo -e "DONE"
 echo -e
 echo -e "Installation completed successfully"
 echo -e
-echo "starting node service..."
-pm2 start server.js
-echo -e "DONE"
+echo -e "To start the node server do one of the following:"
+echo -e "  i) npm start"
+echo -e " ii) pm2 start server.js"
+echo -e "The second option launches the node process using pm2 process manager which will re-start it if it crashes"
 echo -e
-echo -e "You can access the application at http://localhost:$port/panel.html"
-echo -e "To stop the service type 'pm2 kill'"
+echo -e "You can then access the application at http://localhost:$port/panel.html"
+echo -e "To stop the service when running under pm2, run the following command:"
+echo -e "   pm2 kill"

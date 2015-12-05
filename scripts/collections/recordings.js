@@ -27,8 +27,7 @@ module.exports = Backbone.Collection.extend({
     },
 
     parse: function (response) {
-        return response.Recordings[0];
+        return response[0];
     }
-
 
 });

@@ -94,15 +94,13 @@ app.post('/api/upload', multer({ dest: pathToUploadDir}).single('uploadFile'), f
 app.get('/api/recordings', function(req,res){
 
     connection.query("CALL GetAllRecordings();", function(err, rows){
-        var data = {};
-        if(rows.length != 0){
-            data["error"] = 0;
-            data["Recordings"] = rows;
-        } else {
-            data["error"] = 0;
-            data["Recordings"] = 'No recordings Found..';
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+            return;
         }
-        res.json(data);
+        rows = (rows && rows.length != 0) ? rows : {};
+        res.json(rows);
     });
 });
 
@@ -111,6 +109,7 @@ app.get('/api/recording/:id', function(req, res){
     var query = "CALL GetRecordingById(" + utils.htmlEscape(req.params.id) + ");";
     connection.query(query, function(err, rows){
         if (err) {
+            console.log(err);
             res.status(400).send("error retrieving recording from the database");
             return;
         }
@@ -145,10 +144,12 @@ app.post('/api/recording', function(req, res){
 
         connection.query(query, function(err){
             if (err) {
+                console.log(err);
                 res.status(400).send("error inserting the recording record into the database");
             } else {
                 connection.query('SELECT last_insert_id() AS id;', function(err, rows){
                     if (err){
+                        console.log(err);
                         res.status(400).send("can't get the new recording record insert ID from the database");
                     } else {
                         res.json({id: rows[0].id});
@@ -166,6 +167,7 @@ app.delete('/api/recording/:id', function(req, res){
     connection.query("CALL GetRecordingById(" + utils.htmlEscape(req.params.id) + ")", function(err, rows){
 
         if (err){
+            console.log(err);
             res.status(400).send("recording id does not exist in the database");
             return;
         }
@@ -174,11 +176,17 @@ app.delete('/api/recording/:id', function(req, res){
 
         fs.unlink(config.AUDIO_LIBRARY_PATH + fileToDelete + ".mp3", function(err){
             if (err){
+                console.log(err);
                 res.status(400).send("cannot delete the file");
                 return;
             }
             connection.query("CALL DeleteRecording('" + utils.htmlEscape(fileToDelete) + "');", function(err){
-                res.sendStatus((err) ? 400 : 200);
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(400);
+                    return;
+                }
+                res.sendStatus(200);
             });
         });
     });
@@ -213,7 +221,12 @@ app.put('/api/recording/:id', function(req, res){
 // GET /api/artists
 app.get('/api/artists', function(req, res){
     connection.query("CALL GetAllArtists();", function(err, rows){
-        (err) ? res.sendStatus(500) : res.json(rows);
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        } else {
+            res.json(rows);
+        }
     });
 });
 
@@ -272,32 +285,43 @@ app.delete('/api/artist/:id', function(req, res){
     // find all the artist's recordings
     connection.query("CALL GetAllRecordingsByActId(" + utils.htmlEscape(req.params.id) + ");", function(err, rows){
 
-        // first delete all of the artist's recordings (one by one)
-        rows[0].map(function(recording){
+        if (err){
+            console.log(err);
+            res.sendStatus(200);
 
-            // delete the mp3 file
-            fs.unlink(config.AUDIO_LIBRARY_PATH + recording.audioFile + ".mp3", function(err){
-                if (err){
-                    res.status(400).send("cannot delete the file " + recording.audioFile + ".mp3");
-                    return;
-                }
+        } else if(rows && rows.length) {
 
-                // then delete the recording's database entry
-                connection.query("CALL DeleteRecording('" + utils.htmlEscape(recording.audioFile) + "');", function(err){
-                    if (err){
-                        res.status(400).send("an artist's recording could not be deleted from the database");
+            // first delete all of the artist's recordings (one by one)
+            rows[0].map(function (recording) {
+
+                // delete the mp3 file
+                fs.unlink(config.AUDIO_LIBRARY_PATH + recording.audioFile + ".mp3", function (err) {
+                    if (err) {
+
+                        res.status(400).send("cannot delete the file " + recording.audioFile + ".mp3");
+                        return;
                     }
+
+                    // then delete the recording's database entry
+                    connection.query("CALL DeleteRecording('" + utils.htmlEscape(recording.audioFile) + "');", function (err) {
+                        if (err) {
+                            res.status(400).send("an artist's recording could not be deleted from the database");
+                        }
+                    });
                 });
             });
-        });
 
-        // next, delete the artist from the database
-        connection.query("CALL DeleteAct(" + utils.htmlEscape(req.params.id) + ");", function(err){
-            if (err){
-                res.status(400).send("the artist could not be deleted from the database");
-            }
-            res.sendStatus(200);
-        });
+            // next, delete the artist from the database
+            connection.query("CALL DeleteAct(" + utils.htmlEscape(req.params.id) + ");", function (err) {
+                if (err) {
+                    res.status(400).send("the artist could not be deleted from the database");
+                }
+                res.sendStatus(200);
+            });
+
+        } else {
+            res.status(200).send("no recordings found for the artist");
+        }
     });
 
 
@@ -311,7 +335,12 @@ app.delete('/api/artist/:id', function(req, res){
 // GET /api/types
 app.get('/api/types', function(req, res){
     connection.query("CALL GetAllTypes();", function(err, rows){
-        (err) ? res.sendStatus(500) : res.json(rows);
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+            return;
+        }
+        res.json(rows);
     });
 });
 
@@ -323,7 +352,12 @@ app.get('/api/types', function(req, res){
 // GET /api/playlists
 app.get('/api/playlists', function(req, res){
     connection.query("CALL GetAllPlaylists();", function(err, rows){
-        (err) ? res.sendStatus(500) : res.json(rows);
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+            return;
+        }
+        res.json(rows);
     });
 });
 
@@ -335,7 +369,12 @@ app.get('/api/playlists', function(req, res){
 // GET /api/tags
 app.get('/api/tags', function(req, res){
     connection.query("CALL GetAllTags();", function(err, rows){
-        (err) ? res.sendStatus(500) : res.json(rows);
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+            return;
+        }
+        res.json(rows);
     });
 });
 
