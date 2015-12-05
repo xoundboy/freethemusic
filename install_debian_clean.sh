@@ -18,14 +18,14 @@ apt-get install mysql-server
 mysql_secure_installation
 
 apt-get install nodejs
-ln -s "$(which nodejs)" /usr/bin/node
+ln -sf "$(which nodejs)" /usr/bin/node
 
 apt-get install npm
 apt-get install git
 
 npm install -g webpack
 
-rm -rf x.71
+rm -rf x7.1
 
 git clone https://xoundboy@bitbucket.org/xoundboy/x7.1.git
 
