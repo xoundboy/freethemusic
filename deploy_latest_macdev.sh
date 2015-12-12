@@ -39,6 +39,10 @@
 #       - audio
 #       - images
 
+#   7) Map the audio and image libraries
+#       $ ln -s -f $X71_LIB_PATH/audio $X71_ROOT/public/assets/audio
+#       $ ln -s -f $X71_LIB_PATH/images $X71_ROOT/public/assets/images
+
 
 #   To begin development:
 #   ---------------------
