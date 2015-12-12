@@ -1,4 +1,5 @@
-$background: #282828;
+$background: #303030;
+$background-header-footer: rgb(0, 0, 0);
 $success-background: #298d12;
 $success-foreground: #b3c5ff;
 $warning-text: orange;
@@ -14,7 +15,6 @@ $cta-link-text: #76a01b;
 
 $font-size: 15px;
 
-$nav-height:31px;
 
 body, html {
     font-family: 'Open Sans', sans-serif;
@@ -61,9 +61,52 @@ body, html, input, select, textarea {
     }
 }
 
-#queuePlayerContainer {
-    padding: 10px 30px;
-    background: rgba(0, 0, 0, 0.33);
+#navContainer {
+    box-sizing: border-box;
+    padding: 0 5px;
+    height: 40px;
+    width: 100vw;
+    text-transform: uppercase;
+    z-index: 10;
+    background-color: $background-header-footer;
+    a {
+        display: inline-block;
+        color: #848484;
+        padding: 12px;
+        font-size: 16px;
+
+        &:hover {
+            color: white;
+            background: #222222;
+        }
+        &.selected {
+            color: white;
+            background: $background;
+        }
+    }
+
+    button {
+        position: relative;
+        top: -2px;
+    }
+}
+
+#mainContent {
+    box-sizing: border-box;
+    padding: 10px;
+    overflow: auto;
+    z-index: 5;
+    height: calc(100% - 133px);
+    background-color: $background;
+}
+
+
+#playerContainer {
+    box-sizing: border-box;
+    padding: 0;
+    height: 83px;
+    width: 100%;
+    background: $background-header-footer;
 
     #playerPanel {
         #recInfo {
@@ -73,7 +116,7 @@ body, html, input, select, textarea {
     }
 }
 
-#queueContainer, #queueHistoryContainer {
+#queueContainer {
     background: #424242;
     padding: 3px;
 }
@@ -164,45 +207,15 @@ p {
     
 }
 
-#navContainer {
-    position:fixed;
-    height: $nav-height;
-    width: 100vw;
-    padding: 8px;
-    text-transform: uppercase;
-    z-index: 10;
-    background-color: $background;
-    a {
-        display: inline-block;
-        color: #aaaaaa;
-        padding: 6px;
-        font-size: 16px;
 
-        &:hover {
-            background: white;
-            color: #333333;
-        }
-    }
 
-    button {
-        position: relative;
-        top: -2px;
-    }
-}
-
-#mainContent {
-    position: relative;
-    top: $nav-height;
-    //height: calc(100% - $nav-height);
-    overflow: auto;
-    padding: 20px;
-    z-index: 5;
-}
 
 .buttonBar {
     display: block;
     text-align: right;
     margin-bottom: 20px;
+    box-sizing: border-box;
+    padding: 5px;
 
     button {
         &.cta {
@@ -230,6 +243,10 @@ p {
 table.benGrid {
 
     width: 100%;
+
+    tr {
+        border-bottom: 1px solid #4A4040;
+    }
 
     th, td {
         &.rightAlign {
@@ -262,6 +279,7 @@ table.benGrid {
 
         tr {
             color: #E1E1E1;
+
             //-webkit-//ition: all 0.25s ease;
             //-moz-transition: all 0.25s ease;
             //-o-transition: all 0.25s ease;

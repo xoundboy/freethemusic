@@ -27,8 +27,8 @@
     <div id="loading">Loading...</div>
     <div id="notificationContainer"></div>
     <div id="navContainer"></div>
-    <!--<div id="miniPlayerContainer"></div>-->
     <div id="mainContent"></div>
+    <div id="playerContainer"></div>
     <script src="/assets/js/shared.js" charset="utf-8"></script>
     <script src="/assets/js/backend.js" charset="utf-8"></script>
 </body>
@@ -44,24 +44,14 @@
     <nav>
         <button class="goBack">Back</button>
         <button class="goForward">Forward</button>
-        <a href="#recordings" id="navRecordings">Tracks</a>
+        <a href="#recordings" id="navRecordings" class="selected">Tracks</a>
         <a href="#queue" id="navQueue">Queue</a>
         <a href="#artists" id="navArtists">Artists</a>
         <a href="#playlists" id="navPlaylists">Lists</a>
     </nav>
 </script>
 
-
-<script type="text/template" id="template_queuePage">
-
-    <!-- parent view for composing the three views that make up the view page -->
-    <div id="queueParent">
-        <div id="queuePlayerContainer"></div>
-        <div id="queueContainer"></div>
-    </div>
-</script>
-
-<script type="text/template" id="template_queuePlayer">
+<script type="text/template" id="template_player">
     <div id="playerPanel">
         {{^audioFile}}
             <p>Player empty</p>

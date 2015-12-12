@@ -53,7 +53,7 @@ module.exports = Backbone.Router.extend({
 
 
     queue: function() {
-        var queueHtml = adminApp.views.queuePage.render().el;
+        var queueHtml = adminApp.views.queue.render().el;
         this.$main.html(queueHtml);
     },
 

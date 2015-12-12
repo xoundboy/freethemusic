@@ -14,7 +14,13 @@ module.exports = Backbone.View.extend({
 
     events: {
         "click .goBack": "goBack",
-        "click .goForward": "goForward"
+        "click .goForward": "goForward",
+        "click a": "selectItem"
+    },
+
+    selectItem: function(e){
+        this.$el.find("a").removeClass("selected");
+        $(e.target).addClass("selected");
     },
 
     goBack: function(){

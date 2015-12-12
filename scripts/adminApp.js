@@ -26,11 +26,8 @@ var PlaylistsView           = require('./views/admin/playlists.js');
 var TagsCollection          = require('./collections/tags.js');
 var TagsView                = require('./views/admin/tags.js');
 
-//var PlayerModel             = require('./models/player.js');
-//var PlayerView              = require('./views/admin/player.js');
-
-var QueuePlayerModel        = require('./models/queuePlayer.js');
-var QueuePlayerView         = require('./views/admin/queuePlayer.js');
+var PlayerModel             = require('./models/player.js');
+var PlayerView              = require('./views/admin/player.js');
 
 var QueueCollection         = require('./collections/queue.js');
 var QueueView               = require('./views/admin/queue.js');
@@ -87,9 +84,7 @@ $(function(){
     });
 
     // play queue
-    adminApp.collections.queue = new QueueCollection({
-        localStorageKey: "x7-queue"
-    });
+    adminApp.collections.queue = new QueueCollection();
     adminApp.views.queue = new QueueView({
         collection: adminApp.collections.queue,
         template: $("#template_queue").html()
@@ -97,15 +92,10 @@ $(function(){
 
     // queue player
     // id = 1 to ensure that it gets saved in local storage
-    adminApp.models.queuePlayer = new QueuePlayerModel({id:1});
-    adminApp.views.queuePlayer = new QueuePlayerView({
-        model: adminApp.models.queuePlayer,
-        template: $("#template_queuePlayer").html()
-    });
-
-    // queue page
-    adminApp.views.queuePage = new QueuePageView({
-        template: $("#template_queuePage").html()
+    adminApp.models.player = new PlayerModel({id:1});
+    adminApp.views.player = new PlayerView({
+        model: adminApp.models.player,
+        template: $("#template_player").html()
     });
 
     // Navigation
@@ -118,6 +108,7 @@ $(function(){
         $(this).unbind("ajaxStop");
         $("#loading").remove();
         adminApp.views.nav.render();
+        adminApp.views.player.render();
         adminApp.routers.main = new AdminRouter();
         Backbone.history.start();
     });
