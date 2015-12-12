@@ -97,14 +97,18 @@ $(function(){
     //});
 
     // queue history
-    adminApp.collections.queueHistory = new QueueHistoryCollection();
+    adminApp.collections.queueHistory = new QueueHistoryCollection({
+        localStorageKey: "x7-queue-history"
+    });
     adminApp.views.queueHistory = new QueueHistoryView({
         collection: adminApp.collections.queueHistory,
-        template: $("#template_queueHistory").html()
+        template: $("#template_queue").html()
     });
 
     // play queue
-    adminApp.collections.queue = new QueueCollection();
+    adminApp.collections.queue = new QueueCollection({
+        localStorageKey: "x7-queue"
+    });
     adminApp.views.queue = new QueueView({
         collection: adminApp.collections.queue,
         template: $("#template_queue").html()

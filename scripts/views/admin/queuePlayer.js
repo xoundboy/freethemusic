@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
+var utils = require('../../utils.js');
 
 module.exports = Backbone.View.extend({
 
@@ -13,11 +14,29 @@ module.exports = Backbone.View.extend({
         this.render();
     },
 
+    events: {
+        "click #nextButton": "loadNextTrack",
+        "click #prevButton": "loadPreviousTrack"
+    },
+
+    loadNextTrack: function(){
+
+    },
+    loadPreviousTrack: function(){
+    },
+
+    styleButtons: function(){
+        utils.styleButton(this.$el.find("#nextButton"), "ui-icon-arrowthickstop-1-e");
+        utils.styleButton(this.$el.find("#prevButton"), "ui-icon-arrowthickstop-1-w");
+    },
+
     render: function(){
 
         var that = this;
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
+
+        this.styleButtons();
 
         // sub-views need this
         this.delegateEvents();

@@ -2,6 +2,7 @@
 var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
+var utils = require('../../utils.js');
 
 module.exports = Backbone.View.extend({
 
@@ -77,35 +78,11 @@ module.exports = Backbone.View.extend({
     },
 
     styleButtons: function() {
-        this.$el.find(".playButton").button({
-            text: false,
-            icons: {
-                primary: "ui-icon-play"
-            }
-        });
-        this.$el.find(".plusButton").button({
-            text: false,
-            icons: {
-                primary: "ui-icon-plusthick"
-            }
-        });
-        this.$el.find(".editRecordingButton").button({
-            text: false,
-            icons: {
-                primary: "ui-icon-pencil"
-            }
-        });
-        this.$el.find(".deleteRecordingButton").button({
-            text: false,
-            icons: {
-                primary: "ui-icon-trash"
-            }
-        });
-        this.$el.find(".addRecordingButton").button({
-            icons: {
-                primary: "ui-icon-plusthick"
-            }
-        });
+        utils.styleButton(this.$el.find(".playButton"), "ui-icon-play");
+        utils.styleButton(this.$el.find(".plusButton"), "ui-icon-plusthick");
+        utils.styleButton(this.$el.find(".editRecordingButton"), "ui-icon-pencil");
+        utils.styleButton(this.$el.find(".deleteRecordingButton"), "ui-icon-trash");
+        utils.styleButton(this.$el.find(".addRecordingButton"), "ui-icon-plusthick", true);
     },
 
     render: function () {

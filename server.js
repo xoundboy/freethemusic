@@ -175,20 +175,28 @@ app.delete('/api/recording/:id', function(req, res){
         var fileToDelete = rows[0][0].audioFile;
 
         fs.unlink(config.AUDIO_LIBRARY_PATH + fileToDelete + ".mp3", function(err){
+
+            var deleted = true;
             if (err){
                 console.log(err);
-                res.status(400).send("cannot delete the file");
-                return;
+                deleted = false;
             }
+
             connection.query("CALL DeleteRecording('" + utils.htmlEscape(fileToDelete) + "');", function(err){
                 if (err) {
                     console.log(err);
-                    res.sendStatus(400);
+                    res.status(400).send("recording could not be deleted from the database");
                     return;
                 }
-                res.sendStatus(200);
+                if (!deleted) {
+                    res.status(400).send("recording file could not be removed from the library folder");
+                } else {
+                    res.sendStatus(200);
+                }
             });
         });
+
+
     });
 });
 

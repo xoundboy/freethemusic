@@ -14,7 +14,6 @@ $cta-link-text: #76a01b;
 
 $font-size: 15px;
 
-$player-height: 60px;
 $nav-height:31px;
 
 body, html {
@@ -63,16 +62,18 @@ body, html, input, select, textarea {
 }
 
 #queuePlayerContainer {
-    padding: 0 30px;
-    height: $player-height;
-    background: #0d0d0e;
+    padding: 10px 30px;
+    background: rgba(0, 0, 0, 0.33);
 
     #playerPanel {
-
+        #recInfo {
+            font-size: 11px;
+            margin: 5px 0;
+        }
     }
 }
 
-#queueContainer {
+#queueContainer, #queueHistoryContainer {
     background: #424242;
     padding: 3px;
 }
@@ -192,7 +193,7 @@ p {
 #mainContent {
     position: relative;
     top: $nav-height;
-    height: calc(100% - $nav-height);
+    //height: calc(100% - $nav-height);
     overflow: auto;
     padding: 20px;
     z-index: 5;

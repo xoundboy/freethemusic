@@ -1,4 +1,4 @@
-var QueueBaseView = require('./queueBaseView.js');
+var QueueBaseView = require('./base/queueBaseView.js');
 
 module.exports = QueueBaseView.extend({
 

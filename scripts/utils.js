@@ -77,5 +77,15 @@ module.exports = {
             model: new NotificationModel(options),
             template: $("#template_notification").html()
         });
+    },
+
+    styleButton: function($el, icon, showText){
+        showText = !!showText;
+        $el.button({
+            text: showText,
+            icons: {
+                primary: icon
+            }
+        });
     }
 };

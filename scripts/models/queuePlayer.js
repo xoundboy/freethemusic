@@ -48,7 +48,7 @@ module.exports = Backbone.Model.extend({
     saveCurrentTrackToHistory: function(){
         var oldRecording = this.clone();
         oldRecording.set("id", oldRecording.get("originalId"));
-        adminApp.collections.queueHistory.add(oldRecording);
+        adminApp.collections.queueHistory.pushRecording(oldRecording);
     },
 
     load: function(recording){
