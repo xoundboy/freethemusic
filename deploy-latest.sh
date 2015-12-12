@@ -1,15 +1,22 @@
 #!/bin/bash -e
 
-###########################################
-#                                         #
-#           deploy-latest.sh              # 
-#                                         #     
-# This script deploys the latest version  #
-# of X7.1 onto the host on which it is    #
-# executed. Use the environment variables #
-# to configure it.                        #     
-#                                         #
-###########################################
+###########################################################
+#                                                         #
+#           deploy-latest.sh                              #
+#                                                         #
+#   This script deploys the latest version of X7.1 onto   #
+#   the host on which it is executed. Set the following   #
+#   environment variables before running it.              #
+#                                                         #
+#   X71_ROOT         - absolute path to project root      #
+#   X71_LIB_PATH     - absolute path to library root      #
+#   X71_DB_HOST      - hostname of MySQL host             #
+#   X71_DB_NAME      - name of MySQL db                   #
+#   X71_DB_USER      - MySQL db user name                 #
+#   X71_DB_PASS      - MySQL db user password             #
+#   SERVER_PORT      - Node server port                   #
+#                                                         #
+###########################################################
 
 
 # Change into the project root
