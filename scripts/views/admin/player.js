@@ -18,9 +18,14 @@ module.exports = Backbone.View.extend({
         "click #prevButton": "loadPreviousTrack"
     },
 
+    play: function(){
+        this.$el.find("audio").trigger('play');
+    },
+
     loadNextTrack: function(){
 
     },
+
     loadPreviousTrack: function(){
     },
 

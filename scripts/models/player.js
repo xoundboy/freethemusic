@@ -51,7 +51,7 @@ module.exports = Backbone.Model.extend({
         adminApp.collections.queueHistory.pushRecording(oldRecording);
     },
 
-    load: function(recording){
+    load: function(recording, playNow){
 
         // save the recordings id as 'originalId'
         recording.set("originalId", recording.get("id"));
@@ -64,6 +64,10 @@ module.exports = Backbone.Model.extend({
 
         // save it in local storage
         this.save();
+
+        if (playNow){
+            adminApp.views.player.play();
+        }
     }
 
 

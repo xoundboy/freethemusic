@@ -51,9 +51,9 @@ module.exports = Backbone.View.extend({
     },
 
     play: function (e) {
-        //var recordingId = $(e.currentTarget).closest("tr").attr("data-recordingId");
-        //var player = adminApp.models.player;
-        //
+        var recordingId = $(e.currentTarget).closest("tr").attr("data-recordingId");
+        console.log(recordingId);
+        adminApp.models.player.load(this.collection.get(recordingId), true);
     },
 
     addToQueue: function(e){
