@@ -17,7 +17,6 @@ module.exports = Backbone.View.extend({
         this.$el.html(this.template);
 
         // render the three subviews
-        this.$el.find("#queueHistoryContainer").html(adminApp.views.queueHistory.render().el);
         this.$el.find("#queuePlayerContainer").html(adminApp.views.queuePlayer.render().el);
         this.$el.find("#queueContainer").html(adminApp.views.queue.render().el);
 

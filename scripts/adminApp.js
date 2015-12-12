@@ -29,9 +29,6 @@ var TagsView                = require('./views/admin/tags.js');
 //var PlayerModel             = require('./models/player.js');
 //var PlayerView              = require('./views/admin/player.js');
 
-var QueueHistoryCollection  = require('./collections/queueHistory.js');
-var QueueHistoryView        = require('./views/admin/queueHistory.js');
-
 var QueuePlayerModel        = require('./models/queuePlayer.js');
 var QueuePlayerView         = require('./views/admin/queuePlayer.js');
 
@@ -87,22 +84,6 @@ $(function(){
     adminApp.views.tags = new TagsView({
         collection: adminApp.collections.tags,
         template: $("#template_tags").html()
-    });
-
-    //// player
-    //adminApp.models.player = new PlayerModel();
-    //adminApp.views.player = new PlayerView({
-    //    model: adminApp.models.player,
-    //    template: $("#template_player").html()
-    //});
-
-    // queue history
-    adminApp.collections.queueHistory = new QueueHistoryCollection({
-        localStorageKey: "x7-queue-history"
-    });
-    adminApp.views.queueHistory = new QueueHistoryView({
-        collection: adminApp.collections.queueHistory,
-        template: $("#template_queue").html()
     });
 
     // play queue
