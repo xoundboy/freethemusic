@@ -36,7 +36,12 @@
 
 <script type="text/template" id="template_notification">
     <div id="notificationInner" class="{{type}}">
-        <p>{{{message}}}</p>
+        <div id="messageBox">
+            <p>{{{message}}}</p>
+            {{#showOkButton}}
+                <p><button id="okButton">{{okButtonText}}</button></p>
+            {{/showOkButton}}
+        </div>
     </div>
 </script>
 
@@ -54,17 +59,21 @@
 <script type="text/template" id="template_player">
     <div id="playerPanel">
         {{^audioFile}}
-            <p>Player empty</p>
+            <div>
+                Hit the <button class="dummyPlus">add</button> buttons to add tracks to your own personal playlist
+            </div>
         {{/audioFile}}
         {{#audioFile}}
-            <p id="player">
-                <button id="prevButton">Previous track</button>
-                <button id="nextButton">Next track</button>
-                &nbsp;&nbsp;"{{{title}}}"<span id="byline"> by {{{actName}}}</span>
+            <div>
                 <audio id="nowPlaying" preload="auto" controls>
                     <source src="assets/audio/{{{audioFile}}}.mp3" type="audio/mpeg">
                 </audio>
-            </p>
+            </div>
+            <div>
+                <button id="prevButton">Previous track</button>
+                <button id="nextButton">Next track</button>
+                &nbsp;&nbsp;"{{{title}}}"<span id="byline"> by {{{actName}}}</span>
+            </div>
         {{/audioFile}}
     </div>
 </script>
@@ -131,14 +140,14 @@
     {{#step4}}
     <div id="step4" class="steps">
         <h2>Step 4: Confirmation</h2>
-        <p>Title: <strong>{{{title}}}</strong></p>
-        <p>Artist: <strong>{{{actName}}}</strong></p>
-        <p>Tags: <strong>{{{tags}}}</strong></p>
-        <p>Location: <strong>{{{recLocation}}}</strong></p>
-        <p>Date: <strong>{{recDate}}</strong></p>
-        <p>Notes: <strong>{{{recNotes}}}</strong></p>
-        <p>Duration: <strong>{{duration}}</strong></p>
-        <p>Size: <strong>{{size}} bytes</strong></p>
+        <p><span class="label">Title:</span> {{{title}}}</p>
+        <p><span class="label">Artist:</span> {{{actName}}}</p>
+        <p><span class="label">Tags:</span> {{{tags}}}{{^tags}}-{{/tags}}</p>
+        <p><span class="label">Location:</span> {{{recLocation}}}</p>
+        <p><span class="label">Date:</span> {{recDate}}</p>
+        <p><span class="label">Notes:</span> {{{recNotes}}}{{^recNotes}}-{{/recNotes}}</p>
+        <p><span class="label">Duration:</span> {{duration}}</p>
+        <p><span class="label">Size:</span> {{size}} bytes</p>
         <p class="buttons">
             <button id="step4BackBtn" class="backBtn">Back</button>
             <button id="step4NextBtn">Confirm</button>
@@ -216,7 +225,7 @@
             {{#artistOptions}}
                 <option value="{{id}}">{{{actName}}}</option>
             {{/artistOptions}}
-            <option value="new">Add a new artist</option>
+            <option value="new">+ Add new artist</option>
         </select>
 
     </p>

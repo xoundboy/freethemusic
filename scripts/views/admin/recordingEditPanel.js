@@ -12,7 +12,7 @@ module.exports = Backbone.View.extend({
 
     tagName: "div",
     id: "recordingEditPanel",
-    className: "recordingEditPanel",
+    className: "addOrEditPanel",
 
     initialize: function(options) {
         _.extend(this, _.pick(options, "template"));

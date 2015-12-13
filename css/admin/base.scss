@@ -4,7 +4,7 @@ $success-background: #298d12;
 $success-foreground: #b3c5ff;
 $warning-text: orange;
 
-$info-background: #565656;
+$info-background: #001d07;
 $info-foreground: white;
 $warning-background: orange;
 $warning-foreground: black;
@@ -13,7 +13,8 @@ $error-foreground: white;
 
 $cta-link-text: #76a01b;
 
-$font-size: 18px;
+$font-size: 15px;
+
 
 $upholstery-pattern: radial-gradient(hsl(136, 100%, 5%) 4%, hsl(119, 100%, 2%) 9%, hsla(0, 100%, 20%, 0) 9%) 0 0,
 radial-gradient(hsl(134, 100%, 5%) 4%, hsl(134, 100%, 3%) 8%, hsla(0, 100%, 20%, 0) 10%) 50px 50px,
@@ -29,7 +30,7 @@ linear-gradient(-45deg, hsla(0, 100%, 20%, 0) 49%, hsla(0, 100%, 0%, 1) 50%, hsl
 
 body, html {
     font-family: 'Open Sans', sans-serif;
-    background-color: $background;
+    background: black;
     color: white;
     min-width: 320px;
 }
@@ -52,7 +53,14 @@ body, html, input, select, textarea {
         align-items: center;
         height: 100%;
 
-        p {
+        #messageBox {
+            flex: none;
+            max-width: 70%;
+        }
+
+        div {
+            flex: none;
+            display: block;
             font-size: 18px;
             text-align: center;
         }
@@ -74,16 +82,14 @@ body, html, input, select, textarea {
 
 #navContainer {
     box-sizing: border-box;
-    padding: 0 5px;
+    padding: 3px 5px;
     height: 40px;
-    width: 100vw;
-    text-transform: uppercase;
     z-index: 10;
     background-color: $background-header-footer;
     a {
         display: inline-block;
         color: #848484;
-        padding: 12px;
+        padding: 12px 11px;
         font-size: 16px;
 
         &:hover {
@@ -93,6 +99,7 @@ body, html, input, select, textarea {
         &.selected {
             color: white;
             background: $upholstery-pattern;
+            background-size: 100px 100px;
         }
     }
 
@@ -107,24 +114,26 @@ body, html, input, select, textarea {
     padding: 10px;
     overflow: auto;
     z-index: 5;
-    height: calc(100% - 133px);
+    height: calc(100% - 143px);
     background: $upholstery-pattern;
-    background-color: #300;
     background-size: 100px 100px;
 }
 
-
 #playerContainer {
     box-sizing: border-box;
-    padding: 0;
-    height: 83px;
+    padding: 0 10px;
+    //height: $player-height;
     width: 100%;
     background: $background-header-footer;
 
     #playerPanel {
-        #recInfo {
-            font-size: 11px;
-            margin: 5px 0;
+        div {
+            audio {
+                width: 100%;
+            }
+            vertical-align: middle;
+            line-height: 30px;
+            padding: 6px 0;
         }
     }
 }
@@ -133,6 +142,7 @@ body, html, input, select, textarea {
     background: #424242;
     padding: 3px;
 }
+
 select {
     -webkit-appearance: none;
 }
@@ -154,6 +164,12 @@ form {
 }
 
 span {
+
+    &.label {
+        width: 100px;
+        display: inline-block;
+        font-weight:800;
+    }
     &.warningText {
         font-size: 0.8em;
         color: $warning-text
@@ -184,6 +200,7 @@ input[type=file] {
 p {
     margin: 10px 0;
     line-height: 22px;
+    font-weight: 300;
 
     strong {
         font-weight: 900;
@@ -220,9 +237,6 @@ p {
     
 }
 
-
-
-
 .buttonBar {
     display: block;
     text-align: right;
@@ -233,12 +247,13 @@ p {
     button {
         &.cta {
             background-image: none;
-            background-color: forestgreen;
+            background-color: $success-background;
         }
     }
 }
 
 .addOrEditPanel {
+
 
     input, select, textarea {
         width: 70%;
@@ -251,11 +266,13 @@ p {
     p.buttons {
         text-align: right;
     }
+
 }
 
 table.benGrid {
 
     width: 100%;
+    table-layout: fixed;
 
     tr {
         border-bottom: 1px solid #4A4040;
@@ -303,28 +320,19 @@ table.benGrid {
             }
 
             &:hover{
-                background: #D4D4D4;
-                color: #1E1E1E;
+                background: black;
+                opacity: 0.75;
+                color: $success-background;
                 cursor: pointer;
-            }
-            &.recordingEditPanel {
-                background: #343030;
-                color: #cccccc;
-                border: 1px solid #666;
-
-                td {
-                    padding: 10px 30px;
-
-                    h2 {
-                        font-weight: 400;
-                    }
-                }
             }
 
             td {
                 vertical-align: middle;
                 padding: 6px;
                 font-size: 0.9em;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
 
                 .imgMask {
                     margin: auto;

@@ -10,6 +10,7 @@ module.exports = Backbone.View.extend({
     initialize: function(options){
         _.extend(this, _.pick(options, "template"));
         this.listenTo(this.model, 'change', this.render);
+
         this.render();
 
         if (this.model.get("autohide")){

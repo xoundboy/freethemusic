@@ -12,7 +12,7 @@ module.exports = Backbone.View.extend({
 
     tagName: "div",
     id: "audioUploadContent",
-    className: "audioUpload",
+    className: "addOrEditPanel",
     model: {},
 
     initialize: function (options) {

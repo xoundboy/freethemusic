@@ -32,6 +32,7 @@ module.exports = Backbone.View.extend({
     styleButtons: function(){
         utils.styleButton(this.$el.find("#nextButton"), "ui-icon-arrowthickstop-1-e");
         utils.styleButton(this.$el.find("#prevButton"), "ui-icon-arrowthickstop-1-w");
+        utils.styleButton(this.$el.find(".dummyPlus"), "ui-icon-plusthick");
     },
 
     render: function(){

@@ -28,6 +28,9 @@ module.exports = Backbone.Model.extend({
 
                     // and stop waiting for something to be added to the queue
                     that.stopListening(adminApp.collections.queue, 'add');
+
+                    // and start the track playing
+                    adminApp.views.player.play();
                 });
 
             } else {

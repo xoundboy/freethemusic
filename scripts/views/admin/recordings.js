@@ -61,6 +61,15 @@ module.exports = Backbone.View.extend({
         var $btn = $(e.currentTarget),
             recordingId = $btn.closest("tr").attr("data-recordingId");
         adminApp.collections.queue.pushRecording(this.collection.get(recordingId));
+//
+        // show onboarding help for first time a user adds a track to the queue
+        //console.log(adminApp.collections.queue.length);
+        //if (!adminApp.collections.queue.length){
+        //    utils.createNotification({
+        //        message: "Thank queue!<br />You can queue up as many tracks as you like",
+        //        okButtonText: "Take me to the queue"
+        //    });
+        //}
     },
 
     sort: function(e) {
