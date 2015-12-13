@@ -14,6 +14,7 @@ var AdminRouter             = require('./routers/adminRouter.js');
 var ArtistsCollection       = require('./collections/artists.js');
 var ArtistsView             = require('./views/admin/artists.js');
 
+var RecordingModel          = require('./models/recording.js');
 var RecordingsCollection    = require('./collections/recordings.js');
 var RecordingsView          = require('./views/admin/recordings.js');
 
@@ -26,7 +27,7 @@ var PlaylistsView           = require('./views/admin/playlists.js');
 var TagsCollection          = require('./collections/tags.js');
 var TagsView                = require('./views/admin/tags.js');
 
-var PlayerModel             = require('./models/player.js');
+//var PlayerModel             = require('./models/player.js');
 var PlayerView              = require('./views/admin/player.js');
 
 var QueueCollection         = require('./collections/queue.js');
@@ -94,7 +95,7 @@ $(function(){
     adminApp.collections.queueHistory = new QueueHistoryCollection();
 
     // player
-    adminApp.models.player = new PlayerModel();
+    adminApp.models.player = new RecordingModel();
     adminApp.views.player = new PlayerView({
         model: adminApp.models.player,
         template: $("#template_player").html()

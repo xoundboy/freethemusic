@@ -8,28 +8,57 @@ module.exports = Backbone.View.extend({
     el: "#playerContainer",
 
     initialize: function (options) {
+
+        var that = this;
+
         _.extend(this, _.pick(options, "template"));
         this.listenTo(this.model, 'change', this.render);
+
+        // auto load the first queued track when it appears if no model is loaded
+        if (!adminApp.collections.queue.length) {
+            this.listenTo(adminApp.collections.queue, 'add', function () {
+                that.loadQueueHeadButDontPlay();
+                that.stopListening(adminApp.collections.queue, 'add');
+                adminApp.views.player.play();
+            });
+        } else {
+            that.loadQueueHeadButDontPlay();
+        }
+
         this.render();
     },
 
     events: {
-        "click #nextButton": "loadNextTrack",
-        "click #prevButton": "loadPreviousTrack"
+        "click #nextButton": "skipForward",
+        "click #prevButton": "skipBack"
     },
 
     play: function(){
         this.$el.find("audio").trigger('play');
     },
 
-    loadNextTrack: function(){
+    loadQueueHeadButDontPlay: function(){
+        this.changeModel(adminApp.collections.queue.at(0));
+    },
+
+    skipForward: function(){
         if (adminApp.collections.queue.length > 1){
-            this.model.skipToNext();
+            this.changeModel(adminApp.collections.queue.getNextTrack());
             this.play();
         }
     },
 
-    loadPreviousTrack: function(){
+    skipBack: function(){
+        if (adminApp.collections.queueHistory.length > 0) {
+            adminApp.collections.queue.pushRecording(this);
+            this.changeModel(adminApp.collections.queueHistory.getMostRecentTrack());
+            this.play();
+        }
+    },
+
+    changeModel: function(newModel){
+        // TODO unbind stuff first
+        this.model.set(newModel.attributes);
     },
 
     styleButtons: function(){
