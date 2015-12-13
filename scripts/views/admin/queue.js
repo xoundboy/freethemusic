@@ -16,12 +16,13 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        "click .removeTrackFromQueueButton": "remove"
+        "click .removeTrackFromQueueButton": "removeTrack"
     },
 
-    remove: function(e){
+    removeTrack: function(e){
         var id = $(e.currentTarget).attr("data-recid");
-        this.collection.remove(id);
+        console.log(id);
+        this.collection.removeRecording(id);
     },
 
     styleButtons: function() {

@@ -32,11 +32,13 @@ module.exports = Backbone.Router.extend({
 
     recordings: function() {
         this.$main.html(adminApp.views.recordings.render().el);
+        adminApp.views.nav.selectItemById("navRecordings");
     },
 
     recordingHighlight: function(id){
         this.$main.html(adminApp.views.recordings.render().el);
         this.highlightElement($("#recordingId-" + id));
+        adminApp.views.nav.selectItemById("navRecordings");
     },
 
     recordingEdit: function(id){
@@ -45,26 +47,31 @@ module.exports = Backbone.Router.extend({
             template: $('#template_recordingEditPanel').html()
         });
         this.$main.html(recordingEditPanel.render().el);
+        adminApp.views.nav.selectItemById("navRecordings");
     },
 
     recordingAdd: function() {
         this.$main.html(adminApp.views.audioUpload.render().el);
+        adminApp.views.nav.selectItemById("navRecordings");
     },
 
 
     queue: function() {
         var queueHtml = adminApp.views.queue.render().el;
         this.$main.html(queueHtml);
+        adminApp.views.nav.selectItemById("navQueue");
     },
 
 
     artists: function() {
         this.$main.html(adminApp.views.artists.render().el);
+        adminApp.views.nav.selectItemById("navArtists");
     },
 
     artistHighlight: function(id){
         this.$main.html(adminApp.views.artists.render().el);
         this.highlightElement($("#actID-" + id));
+        adminApp.views.nav.selectItemById("navArtists");
     },
 
     artistEdit: function(id){
@@ -73,6 +80,7 @@ module.exports = Backbone.Router.extend({
             template: $('#template_artistAddOrEditPanel').html()
         });
         this.$main.html(artistEditPanel.render().el);
+        adminApp.views.nav.selectItemById("navArtists");
     },
 
     artistAdd: function() {
@@ -81,14 +89,12 @@ module.exports = Backbone.Router.extend({
             template: $('#template_artistAddOrEditPanel').html()
         });
         this.$main.html(artistAddPanel.render().el);
+        adminApp.views.nav.selectItemById("navArtists");
     },
 
     playlists: function() {
         this.$main.html(adminApp.views.playlists.render().el);
-    },
-
-    tags: function() {
-        this.$main.html(adminApp.views.tags.render().el);
+        adminApp.views.nav.selectItemById("navPlaylists");
     },
 
     highlightElement: function($element){

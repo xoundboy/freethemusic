@@ -9,7 +9,7 @@ module.exports = Backbone.Collection.extend({
 
     initialize: function(){
         var that = this;
-        this.localStorage = new Backbone.LocalStorage(localStorageKey)
+        this.localStorage = new Backbone.LocalStorage(localStorageKey);
         this.on('update', function(){
             // localstorage adapter unfortunately doesn't save collections in
             // the correct order after they have been re-ordered so doing it manually
@@ -17,12 +17,16 @@ module.exports = Backbone.Collection.extend({
         });
     },
 
-    // TODO - remove models from local storage when they are removed from the collection
-
     pushRecording: function(recording){
         var copyOfRecordingModel = recording.clone();
         this.push(copyOfRecordingModel);
-        copyOfRecordingModel.save();
+        copyOfRecordingModel.save({silent: true});
+    },
+
+    removeRecording: function(id){
+        var modelToRemove = this.remove(id);
+        // need to manually remove the models from local storage as the adapter doesn't do it - a bit rubbish
+        window.localStorage.removeItem(localStorageKey + "-" + id);
     },
 
     reorder: function(id, newIndex){

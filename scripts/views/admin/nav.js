@@ -23,6 +23,11 @@ module.exports = Backbone.View.extend({
         $(e.target).addClass("selected");
     },
 
+    selectItemById: function(id){
+        this.$el.find("a").removeClass("selected");
+        this.$el.find("a#" + id).addClass("selected");
+    },
+
     goBack: function(){
         Backbone.history.history.back();
     },
