@@ -33,7 +33,11 @@ module.exports = Backbone.Model.extend({
     loadQueueHead: function(){
         var recording = adminApp.collections.queue.at(0);
         this.set(recording.clone().attributes);
-        adminApp.views.player.play();
+    },
+
+    skipToNext: function(){
+        var recording = adminApp.collections.queue.getNextTrack();
+        this.set(recording.clone().attributes);
     }
 
 

@@ -29,6 +29,12 @@ module.exports = Backbone.Collection.extend({
         window.localStorage.removeItem(localStorageKey + "-" + id);
     },
 
+    getNextTrack: function(){
+        var recordingToRemove = this.shift();
+        adminApp.collections.queueHistory.add(recordingToRemove);
+        return this.at(0);
+    },
+
     reorder: function(id, newIndex){
 
         // remove model with given id

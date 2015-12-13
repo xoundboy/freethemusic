@@ -23,7 +23,7 @@ module.exports = Backbone.View.extend({
     },
 
     loadNextTrack: function(){
-
+        this.model.skipToNext();
     },
 
     loadPreviousTrack: function(){

@@ -32,7 +32,7 @@ var PlayerView              = require('./views/admin/player.js');
 var QueueCollection         = require('./collections/queue.js');
 var QueueView               = require('./views/admin/queue.js');
 
-var QueuePageView           = require('./views/admin/queuePage.js');
+var QueueHistoryCollection  = require('./collections/queueHistory.js');
 
 var NavView                 = require('./views/admin/nav.js');
 
@@ -90,8 +90,10 @@ $(function(){
         template: $("#template_queue").html()
     });
 
-    // queue player
-    // id = 1 to ensure that it gets saved in local storage
+    // queue history
+    adminApp.collections.queueHistory = new QueueHistoryCollection();
+
+    // player
     adminApp.models.player = new PlayerModel({id:1});
     adminApp.views.player = new PlayerView({
         model: adminApp.models.player,
