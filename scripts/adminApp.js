@@ -94,7 +94,7 @@ $(function(){
     adminApp.collections.queueHistory = new QueueHistoryCollection();
 
     // player
-    adminApp.models.player = new PlayerModel({id:1});
+    adminApp.models.player = new PlayerModel();
     adminApp.views.player = new PlayerView({
         model: adminApp.models.player,
         template: $("#template_player").html()

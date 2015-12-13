@@ -79,10 +79,12 @@ module.exports = {
         });
     },
 
-    styleButton: function($el, icon, showText){
+    styleButton: function($el, icon, showText, disabled){
         showText = !!showText;
+        disabled = !!disabled;
         $el.button({
             text: showText,
+            disabled: disabled,
             icons: {
                 primary: icon
             }

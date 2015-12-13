@@ -23,15 +23,22 @@ module.exports = Backbone.View.extend({
     },
 
     loadNextTrack: function(){
-        this.model.skipToNext();
+        if (adminApp.collections.queue.length > 1){
+            this.model.skipToNext();
+            this.play();
+        }
     },
 
     loadPreviousTrack: function(){
     },
 
     styleButtons: function(){
-        utils.styleButton(this.$el.find("#nextButton"), "ui-icon-arrowthickstop-1-e");
-        utils.styleButton(this.$el.find("#prevButton"), "ui-icon-arrowthickstop-1-w");
+
+        var nextButtonDisabled = false,//(adminApp.collections.queue.length < 2),
+            prevButtonDisabled = false;//(adminApp.collections.queueHistory.length == 0);
+
+        utils.styleButton(this.$el.find("#nextButton"), "ui-icon-arrowthickstop-1-e", false, nextButtonDisabled);
+        utils.styleButton(this.$el.find("#prevButton"), "ui-icon-arrowthickstop-1-w", false, prevButtonDisabled);
         utils.styleButton(this.$el.find(".dummyPlus"), "ui-icon-plusthick");
     },
 

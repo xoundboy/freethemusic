@@ -14,6 +14,9 @@ module.exports = Backbone.Collection.extend({
             // localstorage adapter unfortunately doesn't save collections in
             // the correct order after they have been re-ordered so doing it manually
             window.localStorage.setItem(localStorageKey, that.pluck('id'));
+
+            // adding tracks to the queue can affect the disabled state of the player buttons
+            //adminApp.views.player.styleButtons();
         });
     },
 
