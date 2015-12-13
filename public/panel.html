@@ -58,14 +58,12 @@
         {{/audioFile}}
         {{#audioFile}}
             <p id="player">
-                <audio id="nowPlaying" preload="auto" controls>
-                    <source src="assets/audio/{{{audioFile}}}.mp3" type="audio/mpeg">
-                </audio>
-            </p>
-            <p id="recInfo">
                 <button id="prevButton">Previous track</button>
                 <button id="nextButton">Next track</button>
                 &nbsp;&nbsp;"{{{title}}}"<span id="byline"> by {{{actName}}}</span>
+                <audio id="nowPlaying" preload="auto" controls>
+                    <source src="assets/audio/{{{audioFile}}}.mp3" type="audio/mpeg">
+                </audio>
             </p>
         {{/audioFile}}
     </div>
