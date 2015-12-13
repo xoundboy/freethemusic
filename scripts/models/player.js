@@ -1,20 +1,11 @@
-Backbone.LocalStorage = require("backbone.localstorage");
 var $ = require('jquery');
-//var RecordingModel = require('../models/recording.js');
-
-var localStorageKey = "x71-player";
 
 module.exports = Backbone.Model.extend({
-
-    localStorage: new Backbone.LocalStorage(localStorageKey),
 
     initialize: function(){
 
         var that = this;
 
-        this.fetch();
-
-        // no track found in local storage
         if (!this.get("audioFile")) {
 
             // queue empty
@@ -24,7 +15,7 @@ module.exports = Backbone.Model.extend({
                 this.listenTo(adminApp.collections.queue, 'add', function () {
 
                     // load it straight away
-                    that.loadNextTrackFromQueue();
+                    that.loadQueueHead();
 
                     // and stop waiting for something to be added to the queue
                     that.stopListening(adminApp.collections.queue, 'add');
@@ -34,43 +25,15 @@ module.exports = Backbone.Model.extend({
                 });
 
             } else {
-                that.loadNextTrackFromQueue();
+                that.loadQueueHead();
             }
         }
     },
 
-    loadNextTrackFromQueue: function(){
-        if (this.get("audioFile")) {
-            this.saveCurrentTrackToHistory();
-        }
+    loadQueueHead: function(){
         var recording = adminApp.collections.queue.at(0);
-        this.load(recording.clone());
-        recording.destroy();
-    },
-
-    saveCurrentTrackToHistory: function(){
-        var oldRecording = this.clone();
-        oldRecording.set("id", oldRecording.get("originalId"));
-        adminApp.collections.queueHistory.pushRecording(oldRecording);
-    },
-
-    load: function(recording, playNow){
-
-        // save the recordings id as 'originalId'
-        recording.set("originalId", recording.get("id"));
-
-        // set the recording's id to 1
-        recording.set("id", 1);
-
-        // load the modified recording
-        this.set(recording.attributes);
-
-        // save it in local storage
-        this.save();
-
-        if (playNow){
-            adminApp.views.player.play();
-        }
+        this.set(recording.clone().attributes);
+        adminApp.views.player.play();
     }
 
 
