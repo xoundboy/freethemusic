@@ -134,6 +134,13 @@ body, html, input, select, textarea {
             vertical-align: middle;
             line-height: 30px;
             padding: 6px 0;
+
+            span {
+               &#byline {
+                    font-weight: 300;
+                    color: grey;
+                }
+            }
         }
     }
 }

@@ -60,17 +60,16 @@ module.exports = Backbone.View.extend({
         var index = this.getQueueIndex();
         if (adminApp.collections.queue.length > (index + 1)){
             this.setQueueIndex(index + 1);
-            this.changeModel();
-            this.play();
         }
+        this.changeModel();
     },
 
     skipBack: function(){
         var index = this.getQueueIndex();
         if (index > 0) {
             this.setQueueIndex(index - 1);
-            this.changeModel();
         }
+        this.changeModel();
     },
 
     changeModel: function(){

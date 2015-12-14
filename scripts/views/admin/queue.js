@@ -16,36 +16,12 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        "click .removeTrackFromQueueButton": "removeTrack"
+        "click .removeTrackFromQueueButton": "remove"
     },
 
-    removeTrack: function(e) {
+    remove: function(e) {
         var id = $(e.currentTarget).attr("data-recid");
-
-
-        // queue index may be affected
-        var indexToRemove = this.collection.indexOf(this.collection.get(id));
-        var queueIndex = adminApp.views.player.getQueueIndex();
-
-        console.log("indexToRemove: " + indexToRemove);
-        console.log("queueIndex" + queueIndex);
-
-        this.collection.removeRecording(id);
-
-        var diff = indexToRemove - queueIndex;
-
-        if (diff == 0) {
-
-            // remove the currently loaded track
-            adminApp.views.player.setQueueIndex(queueIndex - 1);
-            adminApp.views.player.skipForward();
-            console.log("indexes equal");
-
-        } else if (diff < 0) {
-
-            // queueIndex affected
-            adminApp.views.player.setQueueIndex(queueIndex - 1);
-        }
+        this.collection.removeTrackById(id);
     },
 
     styleButtons: function() {

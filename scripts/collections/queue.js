@@ -26,16 +26,42 @@ module.exports = Backbone.Collection.extend({
         copyOfRecordingModel.save({silent: true});
     },
 
-    removeRecording: function(id){
-        var modelToRemove = this.remove(id);
-        // need to manually remove the models from local storage as the adapter doesn't do it - a bit rubbish
-        window.localStorage.removeItem(localStorageKey + "-" + id);
-    },
-
     getNextTrack: function(){
         var recordingToRemove = this.shift();
         adminApp.collections.queueHistory.add(recordingToRemove);
         return this.at(0);
+    },
+
+    removeTrackById: function(id){
+
+        var indexToRemove, queueIndex, diff;
+
+        // Manually remove the models from local storage as the adapter doesn't :/
+        window.localStorage.removeItem(localStorageKey + "-" + id);
+
+        // queue index may be affected
+        indexToRemove = this.indexOf(this.get(id));
+        queueIndex = adminApp.views.player.getQueueIndex();
+
+        // Remove the model
+        this.remove(id);
+
+        // special case: last remaining model
+        if (indexToRemove === 0 && this.length === 0) {
+
+            // leave the queue index at zero
+
+        } else {
+
+            diff = indexToRemove - queueIndex;
+
+            if (diff === 0) {
+                adminApp.views.player.setQueueIndex(queueIndex - 1);
+                adminApp.views.player.skipForward();
+            } else if (diff < 0) {
+                adminApp.views.player.setQueueIndex(queueIndex - 1);
+            }
+        }
     },
 
     reorder: function(id, newIndex){

@@ -12,18 +12,21 @@ var uglifyPlugin = new webpack.optimize.UglifyJsPlugin({
 module.exports = {
     context: path.resolve('scripts'),
     entry: {
-        frontend: './app.js',
+        //frontend: './app.js',
         backend: './adminApp.js'
     },
     output: {
         path: path.resolve('public/assets/js'),
         filename: "[name].js"
     },
-    plugins: [commonsPlugin, uglifyPlugin],
+
+    // TODO - uglify plugin should be enabled in production but has
+    // been disabled for development as it prevents Chrome dev tools
+    // debugger from working properly
+    plugins: [commonsPlugin/*, uglifyPlugin*/],
     devServer: {
         contentBase: 'public'
     },
-    watch: false,
     module: {
         loaders: [
             {
@@ -52,5 +55,6 @@ module.exports = {
     },
     resolve: {
         extensions: ['', '.js']
-    }
+    },
+    devtool: "source-map"
 };
