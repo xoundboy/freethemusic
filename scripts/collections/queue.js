@@ -48,6 +48,8 @@ module.exports = Backbone.Collection.extend({
             at: newIndex
         });
 
+        // TODO - re-ordering can affect the queue index
+
         modelToMove.save();
     }
 

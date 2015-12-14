@@ -3,6 +3,8 @@ var $ = require('jquery');
 var Mustache = require('mustache');
 var utils = require('../../utils.js');
 
+var indexKey = "x71-queue-index";
+
 module.exports = Backbone.View.extend({
 
     el: "#playerContainer",
@@ -13,6 +15,11 @@ module.exports = Backbone.View.extend({
 
         _.extend(this, _.pick(options, "template"));
         this.listenTo(this.model, 'change', this.render);
+
+        // initialize the queue index at zero ready for the first track to be queued
+        if (!this.getQueueIndex()){
+            this.setQueueIndex(0);
+        }
 
         // auto load the first queued track when it appears if no model is loaded
         if (!adminApp.collections.queue.length) {
@@ -33,32 +40,42 @@ module.exports = Backbone.View.extend({
         "click #prevButton": "skipBack"
     },
 
+    getQueueIndex: function(){
+        return parseInt(window.localStorage.getItem(indexKey));
+    },
+
+    setQueueIndex: function(index){
+        window.localStorage.setItem(indexKey, index);
+    },
+
     play: function(){
         this.$el.find("audio").trigger('play');
     },
 
     loadQueueHeadButDontPlay: function(){
-        this.changeModel(adminApp.collections.queue.at(0));
+        this.changeModel();
     },
 
     skipForward: function(){
-        if (adminApp.collections.queue.length > 1){
-            this.changeModel(adminApp.collections.queue.getNextTrack());
+        var index = this.getQueueIndex();
+        if (adminApp.collections.queue.length > (index + 1)){
+            this.setQueueIndex(index + 1);
+            this.changeModel();
             this.play();
         }
     },
 
     skipBack: function(){
-        if (adminApp.collections.queueHistory.length > 0) {
-            adminApp.collections.queue.pushRecording(this);
-            this.changeModel(adminApp.collections.queueHistory.getMostRecentTrack());
-            this.play();
+        var index = this.getQueueIndex();
+        if (index > 0) {
+            this.setQueueIndex(index - 1);
+            this.changeModel();
         }
     },
 
-    changeModel: function(newModel){
+    changeModel: function(){
         // TODO unbind stuff first
-        this.model.set(newModel.attributes);
+        this.model.set(adminApp.collections.queue.at(this.getQueueIndex()).attributes);
     },
 
     styleButtons: function(){
