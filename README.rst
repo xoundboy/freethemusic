@@ -87,7 +87,7 @@ Images
 Playlists
 ---------
 - Name
-- Atist
+- Artist
 - Date
 - Artwork (jpg / png format images)
 - Description / notes
@@ -212,3 +212,4 @@ Contact
 | Email: xoundboy@gmail.com
 | Skype name: xoundboy
 | Twitter: xoundboy
+| Time zone: CET (Prague, Czech Republic)
