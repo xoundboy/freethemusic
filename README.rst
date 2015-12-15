@@ -1,8 +1,8 @@
 =====================
 X71 (Free The Music)
 =====================
-This is a **web content management system** for anyone who owns a library or archive of original audio recordings that they
-wish to self-publish in a curated way. It's something between Spotify and Soundcloud. I think of it as my personal
+This is a **web content management system** for anyone who owns a library or archive of original audio recordings that
+they wish to self-publish in a curated way. It's something between Spotify and Soundcloud. I think of it as my personal
 Soundcloud with metadata, but it looks more like Spotify.
 
 ====
@@ -10,19 +10,20 @@ Why?
 ====
 I built it for myself after spending several years working in a recording studio making all sorts of recordings, music,
 soundtracks, radio broadcasts and more working with hundreds of diverse people from garage band teenagers in a youth
-club to well known artists, musicians, comedians, actors and poets. The vast majority of that work never got widely
-distributed, nevertheless, most of it was made with that intention and hope springs eternal that more of it may one day
-reach a wider audience, even if that is just friends and family.
+club to well known recording artists, musicians, comedians, actors and poets. The vast majority of that work never got
+widely distributed, nevertheless, most of it was made with that intention and hope springs eternal that more of it may
+one day reach a wider audience, even if that is just friends and family.
 
-Hence the name *Free the music* ...
+Hence the name **Free the music** ...
 
 ... but it doesn't need to be music really. It could be any MP3 format file. Maybe one day it will also support videos.
 The key difference here though, is that each artist, recording, album and playlist will be populate-able with rich
-text and imagery, credits, lyrics, artwork and links to other similarly-tagged content within the archive as well as
-support user interaction and commentary.
+text and imagery, credits, lyrics, artwork and links to other similarly-tagged content within the archive. Your visitors
+will of course be able to leave comments and ratings too and sharing on social media will mean a simple button click.
 
 Early versions of my portfolio website (http://xoundboy.com) were very basic. Each recording had its own page, each
-artist their own aggregation page but there was no player, no user-generated playlists and the user experience was bad.
+artist their own aggregation page but there was no player, no user-generated playlists and the user experience was
+basic.
 
 This new design seeks to be delightfully easy to use and so intuitive that even your parents can use it, and maybe drunk
 people will use it to D-J their own work at parties. Who knows how it might end up being used? The main thing is that it
@@ -34,7 +35,8 @@ How Does It Work?
 =================
 You install this package onto a publicly-accessible web server then add some configuration and set up an administrator
 account. You can then log in from your computer via a web browser and begin uploading your MP3s and adding the metadata.
-Once your recordings are available in the database, you can start creating
+Once your recordings are available in the database, you can start creating and curating your playlists, albums and
+compilations and sharing them with your friends.
 
 =================================
 What types of metadata can I add?
@@ -103,11 +105,13 @@ Installation - Production Environment
 Installation - Testing Environment
 ==================================
 
-Currently there's only one installer script which is designed to automate the installation on a Debian Linux type server (see section below). More installer scripts will hopefully appear in the future.
-There's another script *(deploy-latest.sh)* that automatically deploys the latest revision to the server once it has already been setup and configured.
+Currently there's only one installer script which is designed to automate the installation on a Debian Linux type server
+(see section below). More installer scripts will hopefully appear in the future. There's another script
+*(deploy-latest.sh)* that automatically deploys the latest revision to the server once it has already been setup and
+configured.
 
 Debian Setup
---------------------------
+------------
 
 Using a Bash shell (tested on Ubuntu Server 14.04LTS only):
 
@@ -140,7 +144,12 @@ Using a Bash shell (tested on Ubuntu Server 14.04LTS only):
     $ cd ~/x7.1 && npm start
 
 **Important**
-Exposing the node service to the public internet is a security risk. If you want the site to be publicly accessible then use a firewall to block the Node server port and configure Apache or Nginx as a reverse proxy.
+Exposing the node service to the public internet is a security risk. If you want the site to be publicly accessible then
+use a firewall to block the Node server port and configure Apache or Nginx as a reverse proxy.
+
+** Also Important**
+Starting the process using PM2 process manager makes sense so that if the server crashes it automatically restarts
+itself and provides logging.
 
 =====
 Usage
@@ -150,4 +159,7 @@ http://localhost:8080/panel.html
 ======================================
 Installation - Development Environment
 ======================================
-I would warmly welcome anyone who is interested in helping develop this idea and would like to submit pull requests. To make the idea more attractive to you, I've created a special script that will automatically install your development environment. Just run the bash script called *deploy_latest_macdev.sh* which you'll find in the scripts folder. Make sure you read the instructions in comments at the top of the script first.
+I would warmly welcome anyone who is interested in helping develop this idea and would like to submit pull requests. To
+make the idea more attractive to you, I've created a special script that will automatically install your development
+environment. Just run the bash script called *deploy_latest_macdev.sh* which you'll find in the scripts folder. Make
+sure you read the instructions in comments at the top of the script first.
