@@ -22,8 +22,8 @@ text and imagery, credits, lyrics, artwork and links to other similarly-tagged c
 will of course be able to leave comments and ratings too and sharing on social media will mean a simple button click.
 
 Early versions of my portfolio website (http://xoundboy.com) were very basic. Each recording had its own page, each
-artist their own aggregation page but there was no player, no user-generated playlists and the user experience was
-basic.
+artist their own aggregation page but there was no player, no user-generated playlists (play queue) and the user
+experience was very basic.
 
 This new design seeks to be delightfully easy to use and so intuitive that even your parents can use it, and maybe drunk
 people will use it to D-J their own work at parties. Who knows how it might end up being used? The main thing is that it
@@ -37,6 +37,11 @@ You install this package onto a publicly-accessible web server then add some con
 account. You can then log in from your computer via a web browser and begin uploading your MP3s and adding the metadata.
 Once your recordings are available in the database, you can start creating and curating your playlists, albums and
 compilations and sharing them with your friends.
+
+=======================
+What does it look like?
+=======================
+As soon as there's something to show I'll add some screenshots here. Watch this space.
 
 =================================
 What types of metadata can I add?
@@ -87,6 +92,42 @@ Playlists
 - Artwork (jpg / png format images)
 - Description / notes
 - Tags
+
+==================
+Features Completed
+==================
+- Upload MP3 flow including addition of recording metadata
+- Edit / delete recordings
+- Add / edit / delete artists
+- Add track to play queue
+- Reordering of play queue
+- Remove recording from play queue
+- Play queue and player - basic functionality (play, pause, skip forward, skip back)
+- Play queue persisted in browser local storage
+
+
+============================
+Feature Roadmap in order of priority
+============================
+(See the issues for this repo for an up to date list of planned features)
+
+- Authentication for administrators
+- Securing REST API
+- Public facing site hides admin-only features (e.g. edit / delete buttons)
+- Playlist management
+- Image upload and management
+- Tag management
+- Search & lazy-loading of recordings
+- ...
+
+===================
+Engineering Roadmap
+===================
+- Stable test environment
+- build pipeline
+- JS unit test coverage
+- Functional / flow testing (webdriver)
+- Alpha release
 
 ===================
 System Requirements
@@ -163,3 +204,11 @@ I would warmly welcome anyone who is interested in helping develop this idea and
 make the idea more attractive to you, I've created a special script that will automatically install your development
 environment. Just run the bash script called *deploy_latest_macdev.sh* which you'll find in the scripts folder. Make
 sure you read the instructions in comments at the top of the script first.
+
+=======
+Contact
+=======
+Ben Roberts
+xoundboy@gmail.com
+skype: xoundboy
+twitter: xoundboy
