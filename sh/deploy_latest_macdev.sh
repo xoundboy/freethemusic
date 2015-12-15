@@ -35,7 +35,6 @@
 
 
 #   6) Create an empty folder for X71_LIB_PATH to point to and inside it create the following two folders:
-
 #       - audio
 #       - images
 

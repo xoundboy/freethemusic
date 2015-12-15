@@ -69,5 +69,3 @@ pm2 start ${X71_ROOT}/server.js
 
 # done
 echo "DEPLOYMENT FINSHED SUCCESSFULLY"
-
-

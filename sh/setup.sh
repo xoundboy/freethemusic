@@ -4,18 +4,20 @@
 ##                                                                                            ##
 ##   setup.sh                                                                                 ##
 ##                                                                                            ##
-##   This script is designed to be run on a clean installation of a Debian based Linux OS.    ##
+##   This script is designed to be run on a clean installation of a Debian based Linux OS     ##
+##   and is intended for production use.                                                      ##
+##                                                                                            ##
 ##   It sets up the environment and installs all dependencies and configurations              ##
 ##   needed to run the node server and serve the application, including the MySQL database.   ##
 ##   It currently doesn't install or configure a reverse proxy such as Nginx. However, you    ##
 ##   will need one if you intend to expose the service to the public internet as running a    ##
-##   node service on port 80 or 443 is very insecure.                                         ##
+##   node service on a public port, especially 80 or 443, is very insecure.                   ##
 ##                                                                                            ##
 ##   USAGE:                                                                                   ##
 ##   $ chmod +x setup.sh                                                                      ##
 ##   $ source setup.sh                                                                        ##
 ##                                                                                            ##
-##   NOTE that you need to source this file in order that environment variables can be        ##
+##   NOTE that you need to 'source' this file in order that environment variables can be      ##
 ##   correctly exported for the current shell                                                 ##
 ##                                                                                            ##
 ################################################################################################
@@ -39,8 +41,10 @@ sudo apt-get install npm
 # Install Webpack
 sudo npm install -g webpack
 
-# Install Git and clone the repo
+# Remove any existing installation
 rm -rf x7.1
+
+# Install Git and clone the repo
 sudo apt-get install git
 git clone https://xoundboy@bitbucket.org/xoundboy/x7.1.git
 cd x7.1
@@ -139,9 +143,7 @@ mkdir $libpath/images
 
 # Create the mappings to the library folders
 echo -e "creating library mappings ..."
-echo "ln -s -f $libpath/audio $DIR/public/assets/audio"
 ln -s -f $libpath/audio $DIR/public/assets/audio
-echo "ln -s -f $libpath/images $DIR/public/assets/images"
 ln -s -f $libpath/images $DIR/public/assets/images
 
 # Install dependencies
