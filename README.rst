@@ -188,7 +188,7 @@ Using a Bash shell (tested on Ubuntu Server 14.04LTS only):
 Exposing the node service to the public internet is a security risk. If you want the site to be publicly accessible then
 use a firewall to block the Node server port and configure Apache or Nginx as a reverse proxy.
 
-** Also Important**
+**Also Important**
 Starting the process using PM2 process manager makes sense so that if the server crashes it automatically restarts
 itself and provides logging.
 
@@ -201,14 +201,14 @@ http://localhost:8080/panel.html
 Installation - Development Environment
 ======================================
 I would warmly welcome anyone who is interested in helping develop this idea and would like to submit pull requests. To
-make the idea more attractive to you, I've created a special script that will automatically install your development
+make the prospect of that more attractive to you, I've created a special script that will automatically install your development
 environment. Just run the bash script called *deploy_latest_macdev.sh* which you'll find in the scripts folder. Make
 sure you read the instructions in comments at the top of the script first.
 
 =======
 Contact
 =======
-Ben Roberts
-xoundboy@gmail.com
-skype: xoundboy
-twitter: xoundboy
+| Ben Roberts
+| Email: xoundboy@gmail.com
+| Skype name: xoundboy
+| Twitter: xoundboy
