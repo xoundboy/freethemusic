@@ -7,6 +7,7 @@
 #   Before running this script you need to do the following things:
 #   ---------------------------------------------------------------
 
+#   0) Install MySQL, Node.js, NPM and Webpack.
 
 #   1) Set the environment variables
 #       X71_ROOT         - absolute path to project root
