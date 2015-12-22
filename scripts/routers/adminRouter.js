@@ -1,13 +1,17 @@
 ﻿var $ = require('jquery');
 var Backbone = require('backbone');
 
-var RecordingEditPanelView = require('../views/admin/recordingEditPanel.js');
-var ArtistAddOrEditPanelView = require('../views/admin/artistAddOrEditPanel.js');
-var ArtistModel = require('../models/artist.js');
+var RecordingEditPanelView      = require('../views/admin/recordingEditPanel.js');
+var ArtistAddOrEditPanelView    = require('../views/admin/artistAddOrEditPanel.js');
+var ArtistModel                 = require('../models/artist.js');
+
+var AudioUploadModel            = require('../models/audioUpload.js');
+var AudioUploadView             = require('../views/admin/audioUpload.js');
+
+var OverlayModel                = require('../models/overlay.js');
+var OverlayView                 = require('../views/admin/overlay.js');
 
 module.exports = Backbone.Router.extend({
-
-    $main: $("#mainContent"),
 
     routes: {
 
@@ -29,16 +33,19 @@ module.exports = Backbone.Router.extend({
         'tags'                      : 'tags'
     },
 
+    /**
+     * ROUTES
+     */
 
     recordings: function() {
-        this.$main.html(adminApp.views.recordings.render().el);
-        adminApp.views.nav.selectItemById("navRecordings");
+        this._showInMainContent(adminApp.views.recordings);
+        this._selectItemById("navRecordings");
     },
 
     recordingHighlight: function(id){
-        this.$main.html(adminApp.views.recordings.render().el);
-        this.highlightElement($("#recordingId-" + id));
-        adminApp.views.nav.selectItemById("navRecordings");
+        this._showInMainContent(adminApp.views.recordings);
+        this._highlightElement($("#recordingId-" + id));
+        this._selectItemById("navRecordings");
     },
 
     recordingEdit: function(id){
@@ -46,32 +53,39 @@ module.exports = Backbone.Router.extend({
             model: adminApp.collections.recordings.get(id),
             template: $('#template_recordingEditPanel').html()
         });
-        this.$main.html(recordingEditPanel.render().el);
-        adminApp.views.nav.selectItemById("navRecordings");
+        this._showInMainContent(recordingEditPanel);
+        this._selectItemById("navRecordings");
     },
 
     recordingAdd: function() {
-        this.$main.html(adminApp.views.audioUpload.render().el);
-        adminApp.views.nav.selectItemById("navRecordings");
+        var that = this;
+        this._pausePlayback();
+        this._showInOverlay({
+            contentView: new AudioUploadView({
+                model: new AudioUploadModel(),
+                template: $("#template_audioUpload").html()
+            }),
+            onClose: function(){
+                that.navigate('recordings', {trigger: true});
+            }
+        });
+        this._selectItemById("navRecordings");
     },
-
 
     queue: function() {
-        var queueHtml = adminApp.views.queue.render().el;
-        this.$main.html(queueHtml);
-        adminApp.views.nav.selectItemById("navQueue");
+        this._showInMainContent(adminApp.views.queue);
+        this._selectItemById("navQueue");
     },
 
-
     artists: function() {
-        this.$main.html(adminApp.views.artists.render().el);
-        adminApp.views.nav.selectItemById("navArtists");
+        this._showInMainContent(adminApp.views.artists);
+        this._selectItemById("navArtists");
     },
 
     artistHighlight: function(id){
-        this.$main.html(adminApp.views.artists.render().el);
-        this.highlightElement($("#actID-" + id));
-        adminApp.views.nav.selectItemById("navArtists");
+        this._showInMainContent(adminApp.views.artists);
+        this._highlightElement($("#actID-" + id));
+        this._selectItemById("navArtists");
     },
 
     artistEdit: function(id){
@@ -79,8 +93,8 @@ module.exports = Backbone.Router.extend({
             model: adminApp.collections.artists.get(id),
             template: $('#template_artistAddOrEditPanel').html()
         });
-        this.$main.html(artistEditPanel.render().el);
-        adminApp.views.nav.selectItemById("navArtists");
+        this._showInMainContent(artistEditPanel);
+        this._selectItemById("navArtists");
     },
 
     artistAdd: function() {
@@ -88,16 +102,43 @@ module.exports = Backbone.Router.extend({
             model: new ArtistModel(),
             template: $('#template_artistAddOrEditPanel').html()
         });
-        this.$main.html(artistAddPanel.render().el);
-        adminApp.views.nav.selectItemById("navArtists");
+        this._showInMainContent(artistAddPanel);
+        this._selectItemById("navArtists");
     },
 
     playlists: function() {
-        this.$main.html(adminApp.views.playlists.render().el);
-        adminApp.views.nav.selectItemById("navPlaylists");
+        this._showInMainContent(adminApp.views.playlists);
+        this._selectItemById("navPlaylists");
     },
 
-    highlightElement: function($element){
+
+
+    /**
+     * PRIVATE METHODS
+     */
+
+    _showInMainContent: function(view){
+        $("#mainContent").empty().html(view.render().el);
+        $("#overlayContainer").hide();
+    },
+
+    _showInOverlay: function(options){
+
+        new OverlayView({
+            model: new OverlayModel(),
+            template: $("#template_overlay").html(),
+            contentView: options.contentView,
+            onClose: options.onClose
+        });
+
+        $("#overlayContainer").show();
+    },
+
+    _selectItemById: function(id){
+        adminApp.views.nav.selectItemById(id);
+    },
+
+    _highlightElement: function($element){
 
         if ($element.length){
 
@@ -118,6 +159,10 @@ module.exports = Backbone.Router.extend({
                 }, 2000);
             }
         }
+    },
+
+    _pausePlayback: function(){
+        adminApp.views.player.pause();
     }
 
 });

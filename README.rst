@@ -1,6 +1,6 @@
-=====================
+====================
 X71 (Free The Music)
-=====================
+====================
 This is a **web content management system** for anyone who owns a library or archive of original audio recordings that
 they wish to self-publish in a curated way. It's something between Spotify and Soundcloud. I think of it as my personal
 Soundcloud with metadata, but it looks more like Spotify.
@@ -106,9 +106,9 @@ Features Completed
 - Play queue persisted in browser local storage
 
 
-============================
-Feature Roadmap in order of priority
-============================
+======================================
+Feature Roadmap (in order of priority)
+======================================
 (See the issues for this repo for an up to date list of planned features)
 
 - Authentication for administrators
@@ -159,19 +159,16 @@ Using a Bash shell (tested on Ubuntu Server 14.04LTS only):
 1. Create a clean installation of a Debian type OS
 2. Log in via SSH
 3. Get the setup script
-
 ::
 
   $ wget https://bitbucket.org/xoundboy/x7.1/src/c25abe51167b250064856e3bcb107b81650dc940/setup.sh?at=master
 
 4. Make the script executable
-
 ::
 
   $ chmod +x setup.sh
 
 5. Run the script using the source command
-
 ::
 
     $ source setup.sh
@@ -179,7 +176,6 @@ Using a Bash shell (tested on Ubuntu Server 14.04LTS only):
 6. Follow the instructions. Installation should take around about 10 minutes and you will have to provide input
    at various stages throughout that process.
 7. Once the script has completed you can start the node service with:
-
 ::
 
     $ cd ~/x7.1 && npm start

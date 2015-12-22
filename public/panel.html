@@ -25,19 +25,26 @@
 </head>
 <body>
     <div id="loading">Loading...</div>
-    <div id="notificationContainer"></div>
+    <div id="notificationContainer" class="fullscreenContainer"></div>
+    <div id="overlayContainer" class="fullscreenContainer"></div>
     <div id="navContainer"></div>
     <div id="mainContent"></div>
     <div id="playerContainer"></div>
+
     <script src="/assets/js/shared.js" charset="utf-8"></script>
     <script src="/assets/js/backend.js" charset="utf-8"></script>
 
 </body>
 </html>
 
+<script type="text/template" id="template_overlay">
+    <button class="closeButton">close</button>
+    <div id="overlayContent" class="inner"></div>
+</script>
+
 <script type="text/template" id="template_notification">
-    <div id="notificationInner" class="{{type}}">
-        <div id="messageBox">
+    <div class="inner centered {{type}}">
+        <div class="messageBox">
             <p>{{{message}}}</p>
             {{#showOkButton}}
                 <p><button id="okButton">{{okButtonText}}</button></p>
@@ -102,45 +109,50 @@
 </script>
 
 <script type="text/template" id="template_audioUpload">
+    <div class="breadcrumbs">
+        <span id="bc_step1" {{#step1}}class="current"{{/step1}}>Upload</span>&nbsp;&gt;&nbsp;
+        <span id="bc_step2" {{#step2}}class="current"{{/step2}}>Preview</span>&nbsp;&gt;&nbsp;
+        <span id="bc_step3" {{#step3}}class="current"{{/step3}}>Metadata</span>&nbsp;&gt;&nbsp;
+        <span id="bc_step4" {{#step4}}class="current"{{/step4}}>Confirm</span>
+    </div>
+
+
     {{#step1}}
-    <div id="step1" class="steps">
-        <h2>Step 1: Upload Audio File</h2>
-        <p>
+    <div id="step1" class="steps tall">
+        <p class="uploadFileButton centered">
+            <button>Select MP3 file to upload</button>
             <input type="file" size="60" name="uploadFile" id="uploadFile" accept=".mp3" />
         </p>
     </div>
     {{/step1}}
     {{#step2}}
-    <div id="step2" class="steps">
-        <h2>Step 2: Preview Upload</h2>
-        <p>Check that the file uploaded correctly by playing it.</p>
-        <audio id="uploadedFile" controls>
-            <source src="/uploads/{{tempName}}.mp3" type="audio/mpeg">
-        </audio>
-        <p class="small">File size: {{size}} bytes</p>
-        <p class="small">Duration: {{duration}}</p>
-        <p class="buttons">
-            <button id="step2BackBtn" class="backBtn">Upload again</button>
-            <button id="step2NextBtn" class="nextBtn">Plays fine</button>
+    <div id="step2" class="steps medium">
+        <p class="centered tall sidePadding">Check that the file uploaded correctly by playing it.</p>
+        <p class="centered tall">
+            <audio id="uploadedFile" controls>
+                <source src="/uploads/{{tempName}}.mp3" type="audio/mpeg">
+            </audio>
+        </p>
+        <p class="smallFont centered">File size: {{size}} bytes</p>
+        <p class="buttons tall">
+            <button id="step2BackBtn" class="backBtn floatl">Upload again</button>
+            <button id="step2NextBtn" class="nextBtn floatr">Plays fine</button>
         </p>
     </div>
     {{/step2}}
     {{#step3}}
-    <div id="step3" class="steps">
-        <h2>Step 3: Provide Info</h2>
-        <p>Now enter some details about the recording so that it can be saved permanently</p>
+    <div id="step3" class="steps addOrEditPanel">
         <form id="newRecordingInfo">
             <div class="newRecordingInfoFormContainer"></div>
             <p class="buttons">
-                <button id="step3BackBtn">Back</button>
-                <button id="step3NextBtn">Next</button>
+                <button id="step3BackBtn" class="floatl">Back</button>
+                <button id="step3NextBtn" class="floatr">Next</button>
             </p>
         </form>
     </div>
     {{/step3}}
     {{#step4}}
-    <div id="step4" class="steps">
-        <h2>Step 4: Confirmation</h2>
+    <div id="step4" class="steps addOrEditPanel">
         <p><span class="label">Title:</span> {{{title}}}</p>
         <p><span class="label">Artist:</span> {{{actName}}}</p>
         <p><span class="label">Tags:</span> {{{tags}}}{{^tags}}-{{/tags}}</p>
@@ -150,8 +162,8 @@
         <p><span class="label">Duration:</span> {{duration}}</p>
         <p><span class="label">Size:</span> {{size}} bytes</p>
         <p class="buttons">
-            <button id="step4BackBtn" class="backBtn">Back</button>
-            <button id="step4NextBtn">Confirm</button>
+            <button id="step4BackBtn" class="backBtn floatl">Back</button>
+            <button id="step4NextBtn" class="floatr">Save</button>
         </p>
     </div>
     {{/step4}}
@@ -201,17 +213,17 @@
 <script type="text/template" id="template_recordingAddEdit" >
 
 
-    {{#tempName}}
+    {{#isUploadFlow}}
         <!-- when form content used for audioUpload -->
         <input type="hidden" name="audioFile" value="{{tempName}}" />
-    {{/tempName}}
+    {{/isUploadFlow}}
 
 
-    {{^tempName}}
+    {{^isUploadFlow}}
         <!-- when form content used for recording edit panel -->
         <h2>Edit Recording Details</h2>
         <input type="hidden" name="audioFile" value="{{audioFile}}" />
-    {{/tempName}}
+    {{/isUploadFlow}}
 
     <input type="hidden" name="size" value="{{size}}" />
     <p>
@@ -231,7 +243,7 @@
 
     </p>
     <p>
-        <label for="tags">Tags (csv)</label>
+        <label for="tags">Tags</label>
         <input type="text" name="tags" id="tags" maxlength="254" value="{{{tags}}}" />
     </p>
     <p>

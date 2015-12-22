@@ -18,9 +18,6 @@ var RecordingModel          = require('./models/recording.js');
 var RecordingsCollection    = require('./collections/recordings.js');
 var RecordingsView          = require('./views/admin/recordings.js');
 
-var AudioUploadModel        = require('./models/audioUpload.js');
-var AudioUploadView         = require('./views/admin/audioUpload.js');
-
 var PlaylistsCollection     = require('./collections/playlists.js');
 var PlaylistsView           = require('./views/admin/playlists.js');
 
@@ -61,13 +58,6 @@ $(function(){
     adminApp.views.recordings = new RecordingsView({
         collection: adminApp.collections.recordings,
         template: $("#template_recordings").html()
-    });
-
-    // uploads tab
-    adminApp.models.audioUpload = new AudioUploadModel();
-    adminApp.views.audioUpload = new AudioUploadView({
-        model: adminApp.models.audioUpload,
-        template: $("#template_audioUpload").html()
     });
 
     // playlists tab

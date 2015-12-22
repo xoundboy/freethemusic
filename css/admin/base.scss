@@ -10,6 +10,7 @@ $warning-background: orange;
 $warning-foreground: black;
 $error-background: red;
 $error-foreground: white;
+$overlay-background: rgb(5, 33, 5);
 
 $cta-link-text: #76a01b;
 
@@ -39,45 +40,157 @@ body, html, input, select, textarea {
     font-size: $font-size;
 }
 
-#notificationContainer {
+p {
+    &.centered {
+        text-align: center;
+    }
+    &.short {
+        padding-top: 10px;
+    }
+    &.tall {
+        padding-top: 40px;
+    }
+    &.sidePadding {
+        padding: 0 20px;
+    }
+}
+
+div {
+    &.tall {
+        padding-top: 100px;
+    }
+    &.medium {
+        padding-top: 75px;
+    }
+    &.short {
+        padding-top: 50px;
+    }
+}
+
+select {
+    -webkit-appearance: none;
+}
+
+.uploadFileButton {
+    width: 100%;
+    text-align: center;
+    button {
+        position: relative;
+        top: 40px;
+    }
+    #uploadFile {
+        opacity: 0;
+        background: red;
+        height: 40px;
+        cursor: pointer;
+    }
+}
+
+.floatl {
+    float: left;
+}
+.floatr {
+    float: right;
+}
+
+.fullscreenContainer {
     position: fixed;
+    top: 0;
+
+    &#notificationContainer {
+        z-index: 100;
+
+        .inner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 15px;
+
+            .messageBox {
+                flex: none;
+                max-width: 70%;
+            }
+
+            div{
+                flex: none;
+                display: block;
+                font-size: 18px;
+            }
+            &.info {
+                background: $info-background;
+                color: $info-foreground;
+            }
+            &.warning {
+                background: $warning-background;
+                color: $warning-foreground;
+            }
+            &.error {
+                background: $error-background;
+                color: $error-foreground;
+            }
+
+        }
+    }
+    &#overlayContainer {
+        z-index: 50;
+        background-color: $overlay-background;
+
+        button.closeButton {
+            position: fixed;
+            right: 0;
+            top: 0;
+        }
+        .inner {
+
+            height: 100%;
+            padding: 8px;
+
+            div:not(.steps) {
+                display: block;
+                font-size: 18px;
+                .breadcrumbs {
+                    font-size: 13px;
+                    color: #b6b6b6;
+                    box-sizing: border-box;
+                    span {
+                        font-weight: 300;
+                        font-size: 13px;
+                        padding: 0 2px;
+                        &:hover {
+                            text-decoration: underline;
+                            cursor: pointer;
+                        }
+                        &.current {
+                            color: white;
+                            font-weight: 600;
+                            &:hover {
+                                text-decoration: none;
+                                cursor: auto;
+                            }
+                        }
+                    }
+                }
+            }
+            &.info {
+                background: $info-background;
+                color: $info-foreground;
+            }
+            &.warning {
+                background: $warning-background;
+                color: $warning-foreground;
+            }
+            &.error {
+                background: $error-background;
+                color: $error-foreground;
+            }
+        }
+    }
+
     height: 100vh;
     width: 100vw;
-    opacity: 0.9;
-    z-index: 100;
+    opacity: 1;
     display: none;
-
-    #notificationInner {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-
-        #messageBox {
-            flex: none;
-            max-width: 70%;
-        }
-
-        div {
-            flex: none;
-            display: block;
-            font-size: 18px;
-            text-align: center;
-        }
-        &.info {
-            background: $info-background;
-            color: $info-foreground;
-        }
-        &.warning {
-            background: $warning-background;
-            color: $warning-foreground;
-        }
-        &.error {
-            background: $error-background;
-            color: $error-foreground;
-        }
-
-    }
 }
 
 #navContainer {
@@ -150,18 +263,14 @@ body, html, input, select, textarea {
     padding: 3px;
 }
 
-select {
-    -webkit-appearance: none;
-}
-
 .highlighted {
     background: $success-background;
     color: $success-foreground;
 }
 
+
 h2 {
     line-height: 2em;
-    font-size: 18px;
 }
 .ui-widget {
     font-size: 1em !important;
@@ -205,7 +314,7 @@ input[type=file] {
 }
 
 p {
-    margin: 10px 0;
+    //padding: 10px;
     line-height: 22px;
     font-weight: 300;
 
@@ -213,7 +322,7 @@ p {
         font-weight: 900;
     }
 
-    &.small {
+    &.smallFont {
         font-size: 12px;
     }
 
@@ -261,19 +370,22 @@ p {
 
 .addOrEditPanel {
 
-
-    input, select, textarea {
-        width: 70%;
-        padding-left: 5px;
+    p {
+        padding-top: 10px;
+        &.buttons {
+            text-align: right;
+        }
+        label, span.label {
+            font-size: 15px;
+        }
+        input, select, textarea {
+            width: 70%;
+            padding-left: 5px;
+        }
+        textarea {
+            height: 100px;
+        }
     }
-
-    textarea {
-        height: 100px;
-    }
-    p.buttons {
-        text-align: right;
-    }
-
 }
 
 table.benGrid {

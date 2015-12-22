@@ -11,7 +11,7 @@ module.exports = Backbone.Model.extend({
         autohide: false,
         duration: 4000, // length of time in ms before auto hide kicks in
 
-        showOkButton: true,
+        showOkButton: false,
         showCancelButton: false,
 
         okCallback: function(){},

@@ -52,6 +52,10 @@ module.exports = Backbone.View.extend({
         this.$el.find("audio").trigger('play');
     },
 
+    pause: function(){
+        this.$el.find("audio").trigger('pause');
+    },
+
     loadQueueHeadButDontPlay: function(){
         this.changeModel();
     },

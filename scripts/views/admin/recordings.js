@@ -9,14 +9,12 @@ module.exports = Backbone.View.extend({
     tagName: "div",
     id: "recordingsContent",
     className: "recordings",
-    audio: new Audio(),
     nowPlayingId: null,
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
         this.listenTo(this.collection, 'reset sort change remove', this.render);
         this.collection.fetch({reset:true});
-        this.audio.addEventListener('error', $.proxy(this.handleAudioLoadError, this));
     },
 
     events: {
@@ -30,7 +28,7 @@ module.exports = Backbone.View.extend({
     },
 
     add: function(){
-        adminApp.routers.main.navigate("/recording/add", {trigger: true});
+        adminApp.routers.main.navigate("recording/add", {trigger: true});
     },
 
     edit: function(e) {
@@ -74,16 +72,9 @@ module.exports = Backbone.View.extend({
 
     sort: function(e) {
         var field = $(e.target).attr("bengrid-key");
-
         if (field) {
             this.collection.sortByField(field);
         }
-    },
-
-    handleAudioLoadError: function (e) {
-        $("#recordingId-" + this.nowPlayingId).addClass("loadError");
-        $(".previewButton").removeClass("nowPlaying");
-        // todo should set a flag in the db that audio is broken
     },
 
     styleButtons: function() {

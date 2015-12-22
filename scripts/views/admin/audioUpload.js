@@ -12,7 +12,6 @@ module.exports = Backbone.View.extend({
 
     tagName: "div",
     id: "audioUploadContent",
-    className: "addOrEditPanel",
     model: {},
 
     initialize: function (options) {
@@ -29,8 +28,15 @@ module.exports = Backbone.View.extend({
         "click .nextBtn": "stepForward",
         "click #step3BackBtn": "backToStepTwo",
         "click #step3NextBtn": "onToStepFour",
-        "click #step4NextBtn": "confirmUpload",
-        "change #actID": "selectArtist"
+        "click #step4NextBtn": "save",
+        "change #actID": "selectArtist",
+        "click .breadcrumbs span": "breadcrumbNav"
+    },
+
+    breadcrumbNav: function(e){
+        var targetStep = $(e.currentTarget).index() + 1;
+        this.stashFormData();
+        this.model.setStep(targetStep);
     },
 
     initiateUpload: function (e) {
@@ -71,31 +77,37 @@ module.exports = Backbone.View.extend({
         xhr_removeuploads.send();
     },
 
-    confirmUpload: function() {
+    save: function() {
 
         var recording = new RecordingModel(),
             that = this;
 
-        recording.save(this.model.getSaveProps(), {
-            success: function(data) {
-                adminApp.collections.recordings.fetch({
-                    reset: true,
-                    success: function(){
-                        that.model.clear().set(that.model.defaults);
-                        that.model.setStep(1);
-                        adminApp.routers.main.navigate('/recordings/highlight/' + data.id, {trigger: true});
-                    },
-                    error: function(err){
-                        console.log(err);
-                    }
-                });
-            },
-            error: function(model, response, options) {
-                console.log(model);
-                console.log(response);
-                console.log(options);
-            }
-        });
+        var modelCheck = this.model.validate();
+
+        if (modelCheck.isReadyToSave){
+            recording.save(this.model.getSaveProps(), {
+                success: function(data) {
+                    adminApp.collections.recordings.fetch({
+                        reset: true,
+                        success: function(){
+                            that.model.clear().set(that.model.defaults);
+                            that.model.setStep(1);
+                            adminApp.routers.main.navigate('/recordings/highlight/' + data.id, {trigger: true});
+                        },
+                        error: function(err){
+                            console.log(err);
+                        }
+                    });
+                },
+                error: function(model, response, options) {
+                    console.log(model);
+                    console.log(response);
+                    console.log(options);
+                }
+            });
+        } else {
+            alert(modelCheck.errorMessage);
+        }
     },
 
     backToStepTwo: function(){
@@ -134,7 +146,7 @@ module.exports = Backbone.View.extend({
 
         var that = this;
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
-        this.$el.html(compiledTemplate);
+        this.$el.html(compiledTemplate).show();
 
 
         // only for step 2
@@ -151,6 +163,7 @@ module.exports = Backbone.View.extend({
 
         // only for step 3
         if(this.model.get("step3")){
+            this.model.set("isUploadFlow", true);
             var recordingInfoForm = new RecordingAddEdit({
                 model: this.model,
                 template: $("#template_recordingAddEdit").html()
