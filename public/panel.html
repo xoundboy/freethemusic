@@ -135,8 +135,8 @@
         </p>
         <p class="smallFont centered">File size: {{size}} bytes</p>
         <p class="buttons tall">
-            <button id="step2BackBtn" class="backBtn floatl">Upload again</button>
-            <button id="step2NextBtn" class="nextBtn floatr">Plays fine</button>
+            <button class="backBtn floatl">Upload again</button>
+            <button class="nextBtn floatr">Plays fine</button>
         </p>
     </div>
     {{/step2}}
@@ -145,8 +145,8 @@
         <form id="newRecordingInfo">
             <div class="newRecordingInfoFormContainer"></div>
             <p class="buttons">
-                <button id="step3BackBtn" class="floatl">Back</button>
-                <button id="step3NextBtn" class="floatr">Next</button>
+                <button class="backBtn floatl">Back</button>
+                <button class="nextBtn floatr">Next</button>
             </p>
         </form>
     </div>
@@ -162,8 +162,8 @@
         <p><span class="label">Duration:</span> {{duration}}</p>
         <p><span class="label">Size:</span> {{size}} bytes</p>
         <p class="buttons">
-            <button id="step4BackBtn" class="backBtn floatl">Back</button>
-            <button id="step4NextBtn" class="floatr">Save</button>
+            <button class="backBtn floatl">Back</button>
+            <button class="finishBtn floatr">Finish</button>
         </p>
     </div>
     {{/step4}}
@@ -266,8 +266,8 @@
     <form id="recordingInfo">
         <div class="recordingInfoFormContainer"></div>
         <p class="buttons">
-            <button id="cancelEditButton">Cancel</button>
-            <button id="updateRecordingButton">Update</button>
+            <button id="cancelEditButton" class="floatl">Cancel</button>
+            <button id="updateRecordingButton" class="floatr">Update</button>
         </p>
     </form>
 </script>
@@ -335,8 +335,8 @@
             <textarea name="biog" id="biog" cols="30" rows="10" >{{{biog}}}</textarea>
         </p>
         <p class="buttons">
-            <button id="cancelEditButton">Cancel</button>
-            <button id="addOrUpdateArtist">
+            <button class="floatl" id="cancelEditButton">Cancel</button>
+            <button class="floatr" id="addOrUpdateArtist">
                 {{#id}}Update{{/id}}
                 {{^id}}Add{{/id}}
             </button>

@@ -15,6 +15,7 @@ module.exports = Backbone.View.extend({
 
     initialize: function(options) {
         _.extend(this, _.pick(options, "template"));
+        _.extend(this, _.pick(options, "returnUrl"));
         this.model.bind('change', this.render, this);
     },
 
@@ -42,7 +43,11 @@ module.exports = Backbone.View.extend({
                     success: function() {
                         adminApp.collections.artists.fetch({
                             reset: true,
-                            success: function(){
+                            success: function(data){
+                                if (that.returnUrl){
+                                    adminApp.routers.main.navigate(that.returnUrl + '?actId='+ data.id, {trigger:true});
+                                    return;
+                                }
                                 that.closePanel();
                             }
                         });

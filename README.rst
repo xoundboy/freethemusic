@@ -198,7 +198,7 @@ Installation - Development Environment
 ======================================
 I would warmly welcome anyone who is interested in helping develop this idea and would like to submit pull requests. To
 make the prospect of that more attractive to you, I've created a special script that will automatically install your development
-environment. Just run the bash script called *deploy_latest_macdev.sh* which you'll find in the scripts folder. Make
+environment. Just run the bash script called *deploy_latest_macdev.sh* which you'll find in the 'sh' folder. Make
 sure you read the instructions in comments at the top of the script first.
 
 =======

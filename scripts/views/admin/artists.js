@@ -22,7 +22,7 @@ module.exports = Backbone.View.extend({
     },
 
     add: function(){
-        adminApp.routers.main.navigate("/artist/add", {trigger: true});
+        adminApp.routers.main.navigate("artist/add", {trigger: true});
     },
 
     edit: function(e){

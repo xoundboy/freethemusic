@@ -1,12 +1,10 @@
 ﻿var $ = require('jquery');
 var Backbone = require('backbone');
+var qs = require('query-string');
 
 var RecordingEditPanelView      = require('../views/admin/recordingEditPanel.js');
 var ArtistAddOrEditPanelView    = require('../views/admin/artistAddOrEditPanel.js');
 var ArtistModel                 = require('../models/artist.js');
-
-var AudioUploadModel            = require('../models/audioUpload.js');
-var AudioUploadView             = require('../views/admin/audioUpload.js');
 
 var OverlayModel                = require('../models/overlay.js');
 var OverlayView                 = require('../views/admin/overlay.js');
@@ -15,22 +13,23 @@ module.exports = Backbone.Router.extend({
 
     routes: {
 
-        ''                          : 'recordings',
-        'recordings'                : 'recordings',
-        'recordings/highlight/:id'  : 'recordingHighlight',
-        'recording/edit/:id'        : 'recordingEdit',
-        'recording/add'             : 'recordingAdd',
+        ''                                  : 'recordings',
+        'recordings'                        : 'recordings',
+        'recordings/highlight/:id'          : 'recordingHighlight',
+        'recording/edit/:id'                : 'recordingEdit',
+        'recording/add/:step(?*qs)'         : 'recordingAdd',
 
-        'queue'                     : 'queue',
 
-        'artists'                   : 'artists',
-        'artists/highlight/:id'     : 'artistHighlight',
-        'artist/edit/:id'           : 'artistEdit',
-        'artist/add'                : 'artistAdd',
+        'queue'                             : 'queue',
 
-        'playlists'                 : 'playlists',
+        'artists'                           : 'artists',
+        'artists/highlight/:id'             : 'artistHighlight',
+        'artist/edit/:id'                   : 'artistEdit',
+        'artist/add'                        : 'artistAdd',
 
-        'tags'                      : 'tags'
+        'playlists'                         : 'playlists',
+
+        'tags'                              : 'tags'
     },
 
     /**
@@ -48,7 +47,7 @@ module.exports = Backbone.Router.extend({
         this._selectItemById("navRecordings");
     },
 
-    recordingEdit: function(id){
+    recordingEdit: function(id, qs){
         var recordingEditPanel = new RecordingEditPanelView({
             model: adminApp.collections.recordings.get(id),
             template: $('#template_recordingEditPanel').html()
@@ -57,14 +56,14 @@ module.exports = Backbone.Router.extend({
         this._selectItemById("navRecordings");
     },
 
-    recordingAdd: function() {
+    recordingAdd: function(step, queryString) {
         var that = this;
         this._pausePlayback();
+
+        adminApp.models.audioUpload.setStep(step ? parseInt(step) : 1);
+
         this._showInOverlay({
-            contentView: new AudioUploadView({
-                model: new AudioUploadModel(),
-                template: $("#template_audioUpload").html()
-            }),
+            contentView: adminApp.views.audioUpload,
             onClose: function(){
                 that.navigate('recordings', {trigger: true});
             }
@@ -97,10 +96,16 @@ module.exports = Backbone.Router.extend({
         this._selectItemById("navArtists");
     },
 
-    artistAdd: function() {
+    artistAdd: function(e) {
+
+        e = e || {};
+        var options = qs.parse(e);
+        var returnUrl = options.returnUrl ? options.returnUrl : null;
+
         var artistAddPanel = new ArtistAddOrEditPanelView({
             model: new ArtistModel(),
-            template: $('#template_artistAddOrEditPanel').html()
+            template: $('#template_artistAddOrEditPanel').html(),
+            returnUrl: returnUrl
         });
         this._showInMainContent(artistAddPanel);
         this._selectItemById("navArtists");

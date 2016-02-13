@@ -26,9 +26,7 @@ module.exports = Backbone.View.extend({
         "change #uploadFile": "initiateUpload",
         "click .backBtn": "stepBack",
         "click .nextBtn": "stepForward",
-        "click #step3BackBtn": "backToStepTwo",
-        "click #step3NextBtn": "onToStepFour",
-        "click #step4NextBtn": "save",
+        "click .finishBtn": "finish",
         "change #actID": "selectArtist",
         "click .breadcrumbs span": "breadcrumbNav"
     },
@@ -36,7 +34,11 @@ module.exports = Backbone.View.extend({
     breadcrumbNav: function(e){
         var targetStep = $(e.currentTarget).index() + 1;
         this.stashFormData();
-        this.model.setStep(targetStep);
+        this.goToStep(targetStep);
+    },
+
+    goToStep: function(step){
+        adminApp.routers.main.navigate('recording/add/' + step, {trigger: true});
     },
 
     initiateUpload: function (e) {
@@ -63,7 +65,7 @@ module.exports = Backbone.View.extend({
                 that.model.set("tempName", response.tempName);
                 that.model.set("size", response.size);
                 loadingMessage.close();
-                that.model.setStep(2);
+                that.goToStep(2);
             };
             xhr_upload.onerror = function (data) {
                 alert("error uploading the file");
@@ -77,7 +79,7 @@ module.exports = Backbone.View.extend({
         xhr_removeuploads.send();
     },
 
-    save: function() {
+    finish: function() {
 
         var recording = new RecordingModel(),
             that = this;
@@ -110,35 +112,37 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    backToStepTwo: function(){
-        this.stashFormData();
-        this.stepBack();
-    },
-
-    onToStepFour: function () {
-        this.stashFormData();
-        if (this.$el.find("#newRecordingInfo").validate().form()) {
-            this.model.stepForward();
-        }
-    },
-
     stashFormData: function(){
         this.model.set(this.$el.find("#newRecordingInfo").serializeJSON());
         this.model.set("actName", this.$el.find("select[name=actID] option:selected").html());
     },
 
     stepBack: function() {
-        this.model.stepBack();
+        this.stashFormData();
+        var cs = this.model.get("currentStep");
+        if (cs > 1) {
+            this.goToStep(cs - 1);
+        }
     },
 
     stepForward: function() {
-        this.model.stepForward();
+        this.stashFormData();
+        if (this.model.get("currentStep") === 3 && !this.$el.find("#newRecordingInfo").validate().form()) {
+            return;
+        }
+
+        var cs = this.model.get("currentStep"),
+            sc = this.model.get("stepCount");
+        if (cs < sc) {
+            this.goToStep(cs + 1);
+        }
     },
 
     selectArtist: function(e){
         if(e.target.value === "new"){
             this.stashFormData();
-            adminApp.routers.main.navigate("/artist/add", {trigger:true});
+            var returnUrl = encodeURIComponent('recording/add/3');
+            adminApp.routers.main.navigate("/artist/add?returnUrl=" + returnUrl , {trigger:true});
         }
     },
 
@@ -155,9 +159,11 @@ module.exports = Backbone.View.extend({
             // get the audio file's duration from the audio object
             if (!this.model.get('duration')){
                 var audioTag = document.getElementById("uploadedFile");
-                audioTag.addEventListener('loadedmetadata', function(e){
-                    that.model.set('duration', utils.formattedDuration(audioTag.duration));
-                }, false);
+                if (audioTag) {
+                    audioTag.addEventListener('loadedmetadata', function (e) {
+                        that.model.set('duration', utils.formattedDuration(audioTag.duration));
+                    }, false);
+                }
             }
         }
 

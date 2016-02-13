@@ -34,6 +34,9 @@ var QueueHistoryCollection  = require('./collections/queueHistory.js');
 
 var NavView                 = require('./views/admin/nav.js');
 
+var AudioUploadModel        = require('./models/audioUpload.js');
+var AudioUploadView         = require('./views/admin/audioUpload.js');
+
 
 // Global App Object
 global.adminApp = {
@@ -94,6 +97,13 @@ $(function(){
     // Navigation
     adminApp.views.nav = new NavView({
         template: $("#template_nav").html()
+    });
+
+    // Audio Upload Wizard
+    adminApp.models.audioUpload = new AudioUploadModel();
+    adminApp.views.audioUpload = new AudioUploadView({
+        model: adminApp.models.audioUpload,
+        template: $("#template_audioUpload").html()
     });
 
     // Bootstrap the application
