@@ -92,6 +92,7 @@ select {
 .floatl {
     float: left;
 }
+
 .floatr {
     float: right;
 }
@@ -271,7 +272,6 @@ select {
     color: $success-foreground;
 }
 
-
 h2 {
     line-height: 2em;
 }
@@ -310,6 +310,12 @@ button {
     &.ui-widget {
         border: none;
     }
+}
+
+span.matchButtonStyle {
+    display: inline-block;
+    text-align: center;
+    width: 30px;
 }
 
 input[type=file] {
@@ -441,10 +447,14 @@ table.benGrid {
                 background: #852C09;
             }
 
+            &.selectedItem {
+                background: #1c5d10;
+            }
+
             &:hover{
-                background: black;
+                background: #195613;
                 opacity: 0.75;
-                color: $success-background;
+                color: #ffffff;
                 cursor: pointer;
             }
 

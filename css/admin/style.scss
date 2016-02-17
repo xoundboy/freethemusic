@@ -10,3 +10,45 @@ h1,h2,h3,h4 {
         }
     }
 }
+
+#queueContent {
+    table {
+        tr {
+            td.queueItemPlayPause {
+                button {
+                    display: none;
+                }
+            }
+            &.currentlyPlaying {
+                background: #024500;
+                td.queueItemPlayPause {
+                    button.queueItemPlayingButton {
+                        display: inline-block;
+                    }
+                    &:hover {
+                        button.queueItemPlayingButton {
+                            display: none;
+                        }
+                        button.queueItemPauseButton {
+                            display: inline-block;
+                        }
+                    }
+                    span.queuePositionIndex {
+                        display: none;
+                    }
+                }
+            }
+
+            &:hover:not(.currentlyPlaying) {
+                td.queueItemPlayPause {
+                    button.queueItemPlayButton {
+                        display: inline-block;
+                    }
+                    span.queuePositionIndex {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

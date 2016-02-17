@@ -2,8 +2,7 @@ var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
 var utils = require('../../utils.js');
-
-var indexKey = "x71-queue-index";
+var config = require('../../config.js');
 
 module.exports = Backbone.View.extend({
 
@@ -14,7 +13,9 @@ module.exports = Backbone.View.extend({
         var that = this;
 
         _.extend(this, _.pick(options, "template"));
-        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'change', function(e){
+            this.render();
+        });
 
         // initialize the queue index at zero ready for the first track to be queued
         if (!this.getQueueIndex()){
@@ -36,25 +37,32 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
+        "click #playPauseButton": "playPause",
         "click #nextButton": "skipForward",
         "click #prevButton": "skipBack"
     },
 
     getQueueIndex: function(){
-        return parseInt(window.localStorage.getItem(indexKey));
+        return parseInt(window.localStorage.getItem(config.LS_CURRENTLY_PLAYING_INDEX));
     },
 
     setQueueIndex: function(index){
-        window.localStorage.setItem(indexKey, index);
+        window.localStorage.setItem(config.LS_CURRENTLY_PLAYING_INDEX, index);
     },
 
-    play: function(){
-        this.$el.find("audio").trigger('play');
+    playPause: function(){
+        this.model.playPause();
     },
 
-    pause: function(){
-        this.$el.find("audio").trigger('pause');
-    },
+    //play: function(){
+    //    this.$el.find("audio").trigger('play');
+    //    this.model.set("isPlaying", true);
+    //},
+//
+    //pause: function(){
+    //    this.$el.find("audio").trigger('pause');
+    //    this.model.set("isPlaying", false);
+    //},
 
     loadQueueHeadButDontPlay: function(){
         this.changeModel();
@@ -78,17 +86,22 @@ module.exports = Backbone.View.extend({
 
     changeModel: function(){
         // TODO unbind stuff first
-        this.model.set(adminApp.collections.queue.at(this.getQueueIndex()).attributes);
+
+
+        this.model.loadRecordingModel(adminApp.collections.queue.at(this.getQueueIndex()).attributes);
+        // re-render the queue so that the currently playing item gets highlighted
+        adminApp.views.queue.render();
     },
 
     styleButtons: function(){
-
+        var playPauseButtonIcon = (this.model.get("isPlaying")) ? "ui-icon-pause" : "ui-icon-play";
         var nextButtonDisabled = false,//(adminApp.collections.queue.length < 2),
             prevButtonDisabled = false;//(adminApp.collections.queueHistory.length == 0);
 
         utils.styleButton(this.$el.find("#nextButton"), "ui-icon-arrowthickstop-1-e", false, nextButtonDisabled);
         utils.styleButton(this.$el.find("#prevButton"), "ui-icon-arrowthickstop-1-w", false, prevButtonDisabled);
         utils.styleButton(this.$el.find(".dummyPlus"), "ui-icon-plusthick");
+        utils.styleButton(this.$el.find("#playPauseButton"), playPauseButtonIcon);
     },
 
     render: function(){
@@ -103,9 +116,13 @@ module.exports = Backbone.View.extend({
         this.delegateEvents();
 
         this.$el.find("audio").bind('ended', function(){
-            console.log("playback ended");
             that.model.loadNextTrackFromQueue();
+            that.model.set("isPlaying", false);
         });
+
+        if (this.model.get("isPlaying")){
+           this.$el.find("audio").trigger("play");
+        }
 
         return this;
     }
