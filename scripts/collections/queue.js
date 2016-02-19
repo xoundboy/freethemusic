@@ -109,6 +109,6 @@ module.exports = Backbone.Collection.extend({
 
     forcePlay: function(index, modelId) {
         this.setQueueIndex(index);
-        //adminApp.models.player.play();
+        adminApp.models.player.play();
     }
 });

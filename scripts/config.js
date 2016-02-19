@@ -9,5 +9,6 @@ module.exports = {
     DB_PASS:            process.env.X71_DB_PASS,
 
     LS_QUEUE: "X71_queue",
-    LS_CURRENTLY_PLAYING_INDEX: "X71_currently_playing_index"
+    LS_CURRENTLY_PLAYING_INDEX: "X71_currently_playing_index",
+    LS_PLAYER_LOADED_ID: "X71_player_loaded_id"
 };

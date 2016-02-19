@@ -26,9 +26,9 @@ module.exports = Backbone.View.extend({
 
     playTrackNow: function(e){
         var $row = $(e.currentTarget).closest("tr");
-        var id = $row.attr("data-id");
         var index = $row.index();
-        this.collection.forcePlay(index, id);
+        adminApp.models.player.loadQueueIndex(index);
+        adminApp.models.player.play();
     },
 
     selectItem: function(e){
