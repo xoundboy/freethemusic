@@ -52,7 +52,7 @@ adminApp.collections.playlists = new PlaylistsCollection();
 adminApp.collections.tags = new TagsCollection();
 adminApp.collections.queue = new QueueCollection();
 adminApp.collections.queueHistory = new QueueHistoryCollection();
-adminApp.models.player = new PlayerModel();
+adminApp.models.player = new PlayerModel(adminApp.collections.queue);
 adminApp.models.audioUpload = new AudioUploadModel();
 
 $(function(){

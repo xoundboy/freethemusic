@@ -66,12 +66,12 @@
 
 <script type="text/template" id="template_player">
     <div id="playerPanel">
-        {{^audioFile}}
+        {{^loadedModel}}
             <div>
                 Hit the <button class="dummyPlus">add</button> buttons to add tracks to your own personal playlist
             </div>
-        {{/audioFile}}
-        {{#audioFile}}
+        {{/loadedModel}}
+        {{#loadedModel}}
             <div>
                 <audio id="nowPlaying" preload="auto">
                     <source src="assets/audio/{{{audioFile}}}.mp3" type="audio/mpeg">
@@ -83,7 +83,7 @@
                 <button id="nextButton">Next</button>
                 &nbsp;&nbsp;{{{title}}}<span id="byline"> by {{{actName}}}</span>
             </div>
-        {{/audioFile}}
+        {{/loadedModel}}
     </div>
 </script>
 

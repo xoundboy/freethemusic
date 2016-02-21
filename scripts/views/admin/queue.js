@@ -12,8 +12,8 @@ module.exports = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
-        this.listenTo(this.collection, 'update queueReordered', this.render);
-        this.listenTo(adminApp.models.player, 'change', this.render);
+        this.listenTo(this.collection, 'update', this.render);
+        this.listenTo(adminApp.models.player, 'loaded', this.render);
         this.collection.fetch();
     },
 
@@ -26,8 +26,8 @@ module.exports = Backbone.View.extend({
 
     playTrackNow: function(e){
         var $row = $(e.currentTarget).closest("tr");
-        var index = $row.index();
-        adminApp.models.player.loadQueueIndex(index);
+        var id = $row.attr("data-id");
+        adminApp.models.player.load(this.collection.get(id));
         adminApp.models.player.play();
     },
 
@@ -37,7 +37,7 @@ module.exports = Backbone.View.extend({
     },
 
     pausePlayer: function(){
-        adminApp.models.player.playPause();
+        adminApp.models.player.pause();
     },
 
     remove: function(e) {
@@ -75,7 +75,7 @@ module.exports = Backbone.View.extend({
     highlightCurrentlyPlayingItem: function(){
         if (adminApp.models.player.get("isPlaying")){
             this.$el.find("tr").removeClass("currentlyPlaying");
-            this.$el.find("tr:eq("+this.collection.getQueueIndex()+")").addClass("currentlyPlaying");
+            this.$el.find("tr:eq(" + this.collection.getCurrentModelIndex() + ")").addClass("currentlyPlaying");
         }
     },
 
