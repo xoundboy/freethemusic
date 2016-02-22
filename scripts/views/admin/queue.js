@@ -13,7 +13,7 @@ module.exports = Backbone.View.extend({
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
         this.listenTo(this.collection, 'update', this.render);
-        this.listenTo(adminApp.models.player, 'loaded', this.render);
+        this.listenTo(adminApp.models.player, 'change loaded', this.render);
         this.collection.fetch();
     },
 
@@ -37,7 +37,7 @@ module.exports = Backbone.View.extend({
     },
 
     pausePlayer: function(){
-        adminApp.models.player.pause();
+        adminApp.models.player.playPause();
     },
 
     remove: function(e) {
