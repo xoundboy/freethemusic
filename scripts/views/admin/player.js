@@ -47,27 +47,51 @@ module.exports = Backbone.View.extend({
         utils.styleButton(this.$el.find("#playPauseButton"), playPauseButtonIcon);
     },
 
-    render: function(){
+    getCurrentTime: function(){
+        return this.$el.find("audio")[0].currentTime;
+    },
+
+    setCurrentTime: function(time){
+        this.$el.find("#nowPlaying").currentTime = time;
+    },
+
+    renderAudioElement: function(){
 
         var that = this;
+        var audioElem = this.$el.find("#nowPlaying");
+
+        audioElem.bind('ended', function(){
+            that.model.loadNextTrackFromQueue();
+            that.model.set("isPlaying", false);
+        }).bind('canplay', function(e){
+            var position = that.model.getPlaybackPosition();
+            audioElem.unbind('canplay');
+            this.currentTime = position;
+        });
+
+        audioElem.currentTime = this.model.getPlaybackPosition();
+        if (this.model.get("isPlaying")){
+            audioElem.trigger("play");
+        } else {
+            audioElem.trigger("pause");
+        }
+    },
+
+    render: function(){
+
         var model = this.model.get("loadedModel") || null;
         var attributes = (model) ? model.attributes : null;
         var compiledTemplate = Mustache.to_html(this.template, {loadedModel: attributes});
         this.$el.html(compiledTemplate);
 
+        this.renderAudioElement();
+
         this.styleButtons();
 
         // sub-views need this
         this.delegateEvents();
+console.log("rendering player");
 
-        this.$el.find("audio").bind('ended', function(){
-            that.model.loadNextTrackFromQueue();
-            that.model.set("isPlaying", false);
-        });
-
-        if (this.model.get("isPlaying")){
-           this.$el.find("audio").trigger("play");
-        }
 
         return this;
     }

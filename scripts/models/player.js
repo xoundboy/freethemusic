@@ -24,6 +24,10 @@ module.exports = Backbone.Model.extend({
         } else {
             this.waitForTrackToBeAdded();
         }
+
+        if(!this.getPlaybackPosition()){
+            this.setPlaybackPosition(0);
+        }
     },
 
     connectToPlaylist: function(playlist){
@@ -54,9 +58,18 @@ module.exports = Backbone.Model.extend({
         return window.localStorage.getItem(config.LS_PLAYER_LOADED_ID);
     },
 
+    setPlaybackPosition: function(position){
+        window.localStorage.setItem(config.LS_PLAYBACK_POSITION, position);
+    },
+
+    getPlaybackPosition: function(){
+        return window.localStorage.getItem(config.LS_PLAYBACK_POSITION);
+    },
+
     load: function(model){
         this.set("loadedModel", model);
         this.setLoadedModelId(model.id);
+        this.setPlaybackPosition(0);
         this.trigger("loaded");
     },
 
@@ -85,10 +98,17 @@ module.exports = Backbone.Model.extend({
     },
 
     pause: function() {
+        var currentTime = adminApp.views.player.getCurrentTime();
+        this.setPlaybackPosition(currentTime);
         this.set("isPlaying", false);
     },
 
     playPause: function(){
-        this.set("isPlaying", !this.get("isPlaying"));
+
+        if (this.get("isPlaying")){
+            this.pause();
+        } else {
+            this.play();
+        }
     }
 });
