@@ -52,7 +52,6 @@ adminApp.collections.playlists = new PlaylistsCollection();
 adminApp.collections.tags = new TagsCollection();
 adminApp.collections.queue = new QueueCollection();
 adminApp.collections.queueHistory = new QueueHistoryCollection();
-adminApp.models.player = new PlayerModel(adminApp.collections.queue);
 adminApp.models.audioUpload = new AudioUploadModel();
 
 $(function(){
@@ -87,14 +86,6 @@ $(function(){
         template: $("#template_queue").html()
     });
 
-    // queue history
-
-    // player
-    adminApp.views.player = new PlayerView({
-        model: adminApp.models.player,
-        template: $("#template_player").html()
-    });
-
     // Navigation
     adminApp.views.nav = new NavView({
         template: $("#template_nav").html()
@@ -106,10 +97,18 @@ $(function(){
         template: $("#template_audioUpload").html()
     });
 
-    // Bootstrap the application
+    // Bootstrap the application after syncing models with server
     $( document ).ajaxStop(function() {
         $(this).unbind("ajaxStop");
         $("#loading").remove();
+
+        // player
+        adminApp.models.player = new PlayerModel(adminApp.collections.queue);
+        adminApp.views.player = new PlayerView({
+            model: adminApp.models.player,
+            template: $("#template_player").html()
+        });
+
         adminApp.views.nav.render();
         adminApp.views.player.render();
         adminApp.routers.main = new AdminRouter();

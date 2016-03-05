@@ -72,16 +72,14 @@
             </div>
         {{/loadedModel}}
         {{#loadedModel}}
-            <div>
-                <audio id="nowPlaying" preload="auto">
-                    <source src="assets/audio/{{{audioFile}}}.mp3" type="audio/mpeg">
-                </audio>
-            </div>
-            <div>
+            <div id="buttons">
                 <button id="prevButton">Previous</button>
                 <button id="playPauseButton">Play</button>
                 <button id="nextButton">Next</button>
                 &nbsp;&nbsp;{{{title}}}<span id="byline"> by {{{actName}}}</span>
+            </div>
+            <div id="progressBar">
+                <div id="mercury"></div>
             </div>
         {{/loadedModel}}
     </div>

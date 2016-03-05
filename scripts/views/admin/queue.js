@@ -73,7 +73,7 @@ module.exports = Backbone.View.extend({
     },
 
     highlightCurrentlyPlayingItem: function(){
-        if (adminApp.models.player.get("isPlaying")){
+        if (adminApp.models.player && adminApp.models.player.isPlaying()){
             this.$el.find("tr").removeClass("currentlyPlaying");
             this.$el.find("tr:eq(" + this.collection.getCurrentModelIndex() + ")").addClass("currentlyPlaying");
         }

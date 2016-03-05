@@ -8,6 +8,8 @@ module.exports = Backbone.View.extend({
 
     el: "#playerContainer",
 
+    canPlay: false,
+
     initialize: function (options) {
 
         _.extend(this, _.pick(options, "template"));
@@ -37,7 +39,7 @@ module.exports = Backbone.View.extend({
     },
 
     styleButtons: function(){
-        var playPauseButtonIcon = (this.model.get("isPlaying")) ? "ui-icon-pause" : "ui-icon-play";
+        var playPauseButtonIcon = (this.model.isPlaying()) ? "ui-icon-pause" : "ui-icon-play";
         var nextButtonDisabled = false,//(adminApp.collections.queue.length < 2),
             prevButtonDisabled = false;//(adminApp.collections.queueHistory.length == 0);
 
@@ -48,34 +50,53 @@ module.exports = Backbone.View.extend({
     },
 
     getCurrentTime: function(){
-        return this.$el.find("audio")[0].currentTime;
+        return this.model.audioElement.elem.currentTime;
     },
 
     setCurrentTime: function(time){
         this.$el.find("#nowPlaying").currentTime = time;
     },
 
+    updateProgressBar: function(){
+
+    },
+
     renderAudioElement: function(){
-
+console.log("rendering player remote");
         var that = this;
-        var audioElem = this.$el.find("#nowPlaying");
 
-        audioElem.bind('ended', function(){
+
+        $audioElem.bind('ended', function(){
             that.model.loadNextTrackFromQueue();
-            that.model.set("isPlaying", false);
+            that.model.pause();
+
         }).bind('canplay', function(e){
+            $audioElem.unbind('canplay');
+
+            that.canPlay = true;
+
+            that.model.set("duration", e.target.duration);
+
             var position = that.model.getPlaybackPosition();
-            audioElem.unbind('canplay');
             this.currentTime = position;
+
+            //$audioElem.currentTime = this.model.getPlaybackPosition();
+            if (that.model.isPlaying()){
+                $audioElem.trigger("play");
+            } else {
+                $audioElem.trigger("pause");
+            }
+
+
         });
 
-        audioElem.currentTime = this.model.getPlaybackPosition();
-        if (this.model.get("isPlaying")){
-            audioElem.trigger("play");
-        } else {
-            audioElem.trigger("pause");
+        if (!that.canPlay){
+            console.log("triggering audio load");
+            $audioElem.trigger("load");
         }
     },
+
+
 
     render: function(){
 
@@ -84,15 +105,10 @@ module.exports = Backbone.View.extend({
         var compiledTemplate = Mustache.to_html(this.template, {loadedModel: attributes});
         this.$el.html(compiledTemplate);
 
-        this.renderAudioElement();
-
         this.styleButtons();
 
         // sub-views need this
         this.delegateEvents();
-console.log("rendering player");
-
-
         return this;
     }
 });
