@@ -243,6 +243,7 @@ select {
     background: $background-header-footer;
 
     #playerPanel {
+        box-sizing: border-box;
         vertical-align: middle;
         line-height: 30px;
         padding: 6px 0;
@@ -255,18 +256,51 @@ select {
             }
         }
         #progressBar {
+            box-sizing: border-box;
             display: inline-block;
-            margin: 15px 0;
+            margin: 15px;
             height: 10px;
             min-width: 300px;
             width: 100%;
             background-color: #2b2b2b;
             text-align: left;
+            position: relative;
 
             #mercury {
                 height: 100%;
-                width: 100px;
+                width: 0;
                 background: #39c419;
+                text-align: right;
+                position: relative;
+                #playHeadContainer {
+                    position: relative;
+                    #playHead {
+                        display: none;
+                    }
+                }
+            }
+
+
+            &:hover {
+                #mercury {
+                    background: #4eff19;
+                    height: 130%;
+                    position: relative;
+                    top: -25%;
+                    #playHeadContainer {
+                        position: relative;
+                        #playHead {
+                            position: absolute;
+                            display: inline-block;
+                            height: 20px;
+                            width: 20px;
+                            //border-radius: 15px;
+                            //left: 10px;
+                            top: -5px;
+                            background: #fffff7;
+                        }
+                    }
+                }
             }
         }
     }

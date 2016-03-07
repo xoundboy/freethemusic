@@ -3,8 +3,11 @@
  */
 var config = require('../config.js');
 var AudioElement = require('../helpers/AudioElement.js');
+var $ = require('jquery');
 
 module.exports = Backbone.Model.extend({
+
+    updateCurrentTimeInterval: null,
 
     defaults: {
         isPlaying: false,
@@ -74,8 +77,12 @@ module.exports = Backbone.Model.extend({
         return window.localStorage.getItem(config.LS_PLAYBACK_POSITION) || 0;
     },
 
+    updatePlaybackPosition: function(){
+        this.setPlaybackPosition(this.audioElement.elem.currentTime);
+    },
+
     load: function(model){
-        this.audioElement.load(model);
+        this.audioElement.load(model, this.getPlaybackPosition());
         this.set("loadedModel", model);
         this.setLoadedModelId(model.id);
         this.trigger("loaded");
@@ -109,14 +116,17 @@ module.exports = Backbone.Model.extend({
     },
 
     play: function(){
+        var that = this;
         this.set("isPlaying", true);
         this.audioElement.play(this.getPlaybackPosition(), this.onTrackFinished);
+        this.updateCurrentTimeInterval = setInterval($.proxy(this.updatePlaybackPosition, this), 50);
     },
 
     pause: function() {
         this.setPlaybackPosition(this.audioElement.elem.currentTime);
         this.set("isPlaying", false);
         this.audioElement.pause();
+        clearInterval(this.updateCurrentTimeInterval);
     },
 
     playPause: function(){

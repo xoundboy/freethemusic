@@ -26,10 +26,10 @@ module.exports = function(){
         document.body.appendChild(this.elem);
     };
 
-    this.load = function(model){
+    this.load = function(model, currentTime){
         this.model = model;
+        this.elem.currentTime = parseFloat(currentTime);
         this.elem.addEventListener("canplay", this.onLoaded);
-
         this.src = "assets/audio/" + model.get("audioFile") + ".mp3";
         this.elem.setAttribute("src", this.src);
     };
@@ -46,11 +46,6 @@ module.exports = function(){
 
     this.onLoaded = function(e){
         this.duration = e.target.duration;
-        console.log(this.duration);
+        adminApp.views.player.render();
     };
 };
-
-
-//<audio id="nowPlaying" preload="none">
-//    <source src="assets/audio/{{{audioFile}}}.mp3" type="audio/mpeg">
-//    </audio>

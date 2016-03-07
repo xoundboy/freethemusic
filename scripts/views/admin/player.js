@@ -3,12 +3,13 @@ var $ = require('jquery');
 var Mustache = require('mustache');
 var utils = require('../../utils.js');
 var config = require('../../config.js');
+require('jquery-ui/slider');
 
 module.exports = Backbone.View.extend({
 
     el: "#playerContainer",
 
-    canPlay: false,
+    interval: null,
 
     initialize: function (options) {
 
@@ -57,46 +58,37 @@ module.exports = Backbone.View.extend({
         this.$el.find("#nowPlaying").currentTime = time;
     },
 
-    updateProgressBar: function(){
-
-    },
-
-    renderAudioElement: function(){
-console.log("rendering player remote");
-        var that = this;
-
-
-        $audioElem.bind('ended', function(){
-            that.model.loadNextTrackFromQueue();
-            that.model.pause();
-
-        }).bind('canplay', function(e){
-            $audioElem.unbind('canplay');
-
-            that.canPlay = true;
-
-            that.model.set("duration", e.target.duration);
-
-            var position = that.model.getPlaybackPosition();
-            this.currentTime = position;
-
-            //$audioElem.currentTime = this.model.getPlaybackPosition();
-            if (that.model.isPlaying()){
-                $audioElem.trigger("play");
-            } else {
-                $audioElem.trigger("pause");
-            }
-
-
-        });
-
-        if (!that.canPlay){
-            console.log("triggering audio load");
-            $audioElem.trigger("load");
+    initProgressBar: function(){
+        if (this.model.isPlaying()){
+            this.interval = setInterval($.proxy(this.updateProgress, this), 50);
+        } else {
+            clearInterval(this.interval);
         }
     },
 
+    updateProgress: function(dragPosition){
+        if (!dragPosition){
+            var audioEl = this.model.audioElement.elem;
+            var ratioDone = audioEl.currentTime / audioEl.duration;
+            var $progress = this.$el.find("#progressBar");
+            var fullWidth = parseInt($progress.css("width"));
+            $progress.find("#mercury").css("width", (fullWidth * ratioDone) + "px");
+        } else {
+            // override because playhead is being dragged
+            console.log(dragPosition);
+        }
+    },
 
+    activateProgressBar: function(){
+        this.$el.find("#playHead").draggable({
+            axis: "x",
+            drag: $.proxy(this.onDrag, this)
+        });
+    },
+
+    onDrag: function(e, ui){
+        this.updateProgress(ui.position.left);
+    },
 
     render: function(){
 
@@ -106,6 +98,12 @@ console.log("rendering player remote");
         this.$el.html(compiledTemplate);
 
         this.styleButtons();
+        this.initProgressBar();
+        this.updateProgress();
+
+        this.$el.find("#progressBar").slider();
+
+        //this.activateProgressBar();
 
         // sub-views need this
         this.delegateEvents();
