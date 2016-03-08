@@ -51,28 +51,20 @@ module.exports = Backbone.View.extend({
     },
 
     initProgressBar: function(){
-
-    },
-
-    render: function(){
-        var model = this.model.get("loadedModel") || null;
         var that = this;
-        var attributes = (model) ? model.attributes : null;
-        var compiledTemplate = Mustache.to_html(this.template, {loadedModel: attributes});
-        this.$el.html(compiledTemplate);
-        this.styleButtons();
-
+        var $sliderEl = this.$el.find("#progressBar");
         var audioEl = this.model.audioElement.elem;
 
-        clearInterval(this.interval);
-
-        var $sliderEl = this.$el.find("#progressBar");
+        stopUpdating();
+        if(that.model.isPlaying()){
+            startUpdatingProgress();
+        }
 
         $sliderEl.slider({
             max: audioEl.duration,
             value: that.model.audioElement.elem.currentTime,
             start: function(){
-                clearInterval(that.interval);
+                stopUpdating();
             },
             stop: function(e, ui){
                 that.model.audioElement.play(ui.value);
@@ -80,18 +72,26 @@ module.exports = Backbone.View.extend({
             }
         });
 
+        function stopUpdating(){
+            clearInterval(that.interval);
+        }
+
         function startUpdatingProgress(){
             that.interval = setInterval(function(){
                 $sliderEl.slider("value", that.model.audioElement.elem.currentTime);
             }, 200);
         }
-        if(that.model.isPlaying()){
-            startUpdatingProgress();
-        } else {
-            clearInterval(that.interval);
-        }
+    },
 
+    render: function(){
+        var model = this.model.get("loadedModel") || null;
 
+        var attributes = (model) ? model.attributes : null;
+        var compiledTemplate = Mustache.to_html(this.template, {loadedModel: attributes});
+        this.$el.html(compiledTemplate);
+        this.styleButtons();
+
+        this.initProgressBar();
 
         // sub-views need this
         this.delegateEvents();
