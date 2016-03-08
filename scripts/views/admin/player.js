@@ -50,60 +50,48 @@ module.exports = Backbone.View.extend({
         utils.styleButton(this.$el.find("#playPauseButton"), playPauseButtonIcon);
     },
 
-    getCurrentTime: function(){
-        return this.model.audioElement.elem.currentTime;
-    },
-
-    setCurrentTime: function(time){
-        this.$el.find("#nowPlaying").currentTime = time;
-    },
-
     initProgressBar: function(){
-        if (this.model.isPlaying()){
-            this.interval = setInterval($.proxy(this.updateProgress, this), 50);
-        } else {
-            clearInterval(this.interval);
-        }
-    },
 
-    updateProgress: function(dragPosition){
-        if (!dragPosition){
-            var audioEl = this.model.audioElement.elem;
-            var ratioDone = audioEl.currentTime / audioEl.duration;
-            var $progress = this.$el.find("#progressBar");
-            var fullWidth = parseInt($progress.css("width"));
-            $progress.find("#mercury").css("width", (fullWidth * ratioDone) + "px");
-        } else {
-            // override because playhead is being dragged
-            console.log(dragPosition);
-        }
-    },
-
-    activateProgressBar: function(){
-        this.$el.find("#playHead").draggable({
-            axis: "x",
-            drag: $.proxy(this.onDrag, this)
-        });
-    },
-
-    onDrag: function(e, ui){
-        this.updateProgress(ui.position.left);
     },
 
     render: function(){
-
         var model = this.model.get("loadedModel") || null;
+        var that = this;
         var attributes = (model) ? model.attributes : null;
         var compiledTemplate = Mustache.to_html(this.template, {loadedModel: attributes});
         this.$el.html(compiledTemplate);
-
         this.styleButtons();
-        this.initProgressBar();
-        this.updateProgress();
 
-        this.$el.find("#progressBar").slider();
+        var audioEl = this.model.audioElement.elem;
 
-        //this.activateProgressBar();
+        clearInterval(this.interval);
+
+        var $sliderEl = this.$el.find("#progressBar");
+
+        $sliderEl.slider({
+            max: audioEl.duration,
+            value: that.model.audioElement.elem.currentTime,
+            start: function(){
+                clearInterval(that.interval);
+            },
+            stop: function(e, ui){
+                that.model.audioElement.play(ui.value);
+                startUpdatingProgress();
+            }
+        });
+
+        function startUpdatingProgress(){
+            that.interval = setInterval(function(){
+                $sliderEl.slider("value", that.model.audioElement.elem.currentTime);
+            }, 200);
+        }
+        if(that.model.isPlaying()){
+            startUpdatingProgress();
+        } else {
+            clearInterval(that.interval);
+        }
+
+
 
         // sub-views need this
         this.delegateEvents();

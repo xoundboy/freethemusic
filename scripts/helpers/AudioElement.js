@@ -7,15 +7,11 @@ module.exports = function(){
     this.elem = null;
     this.model = null;
 
-    // properties
     this.id = "playerAudioElement";
     this.src = null;
     this.type = "audio/mpeg";
     this.controls = false;
     this.preload = "auto"; // possible: 'auto', 'metadata', 'none'
-    this.currentTime = 0;
-    this.duration = 0;
-
 
     this.init = function(){
         this.elem = document.createElement("AUDIO");
@@ -45,7 +41,8 @@ module.exports = function(){
     };
 
     this.onLoaded = function(e){
+        this.elem.removeEventListener("canplay", this.onLoaded);
         this.duration = e.target.duration;
         adminApp.views.player.render();
-    };
+    }.bind(this);
 };
