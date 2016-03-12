@@ -250,11 +250,20 @@ select {
 
         #buttons {
             display: inline-block;
+        }
+
+        #titleAndActText {
+            padding-left: 10px;
+            display: inline-block;
+            line-height: 19px;
+            padding-top: 7px;
             span#byline {
-               font-weight: 300;
+                font-weight: 300;
                 color: grey;
+                padding-left: 5px;
             }
         }
+
         #progressBar {
             box-sizing: border-box;
             display: inline-block;

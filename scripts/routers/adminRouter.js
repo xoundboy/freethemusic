@@ -12,13 +12,11 @@ var OverlayView                 = require('../views/admin/overlay.js');
 module.exports = Backbone.Router.extend({
 
     routes: {
-
         ''                                  : 'recordings',
         'recordings'                        : 'recordings',
         'recordings/highlight/:id'          : 'recordingHighlight',
         'recording/edit/:id'                : 'recordingEdit',
         'recording/add/:step(?*qs)'         : 'recordingAdd',
-
 
         'queue'                             : 'queue',
 
@@ -167,7 +165,7 @@ module.exports = Backbone.Router.extend({
     },
 
     _pausePlayback: function(){
-        adminApp.views.player.pause();
+        adminApp.models.player.pause();
     }
 
 });
