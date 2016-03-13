@@ -5,4 +5,5 @@ npm-debug.log
 public/assets/audio
 public/assets/images
 public/assets/js
+public/uploads
 sql/x7db.sql
