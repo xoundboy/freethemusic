@@ -8,6 +8,7 @@ var ArtistModel                 = require('../models/artist.js');
 
 var OverlayModel                = require('../models/overlay.js');
 var OverlayView                 = require('../views/admin/overlay.js');
+var ArtistView                  = require('../views/admin/artist.js');
 
 module.exports = Backbone.Router.extend({
 
@@ -21,6 +22,7 @@ module.exports = Backbone.Router.extend({
         'queue'                             : 'queue',
 
         'artists'                           : 'artists',
+        'artist/:id'                        : 'artist',
         'artists/highlight/:id'             : 'artistHighlight',
         'artist/edit/:id'                   : 'artistEdit',
         'artist/add'                        : 'artistAdd',
@@ -79,13 +81,21 @@ module.exports = Backbone.Router.extend({
         this._selectItemById("navArtists");
     },
 
-    artistHighlight: function(id){
+    artist: function(id) {
+        var artistView = new ArtistView({
+            model: adminApp.collections.artists.get(id),
+            template: $("#template_artist").html()
+        });
+        this._showInMainContent(artistView);
+    },
+
+    artistHighlight: function(id) {
         this._showInMainContent(adminApp.views.artists);
         this._highlightElement($("#actID-" + id));
         this._selectItemById("navArtists");
     },
 
-    artistEdit: function(id){
+    artistEdit: function(id) {
         var artistEditPanel = new ArtistAddOrEditPanelView({
             model: adminApp.collections.artists.get(id),
             template: $('#template_artistAddOrEditPanel').html()

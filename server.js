@@ -23,6 +23,20 @@ var pathToUploadDir = './public/uploads/';
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+var stormpath = require('stormpath');
+
+var apiKey = new stormpath.ApiKey(
+    process.env['STORMPATH_CLIENT_APIKEY_ID'],
+    process.env['STORMPATH_CLIENT_APIKEY_SECRET']
+);
+
+var client = new stormpath.Client({ apiKey: apiKey });
+
+var applicationHref = process.env['STORMPATH_APPLICATION_HREF'];
+
+client.getApplication(applicationHref, function(err, application) {
+    console.log('Application:', application);
+});
 
 /**
  * UPLOAD

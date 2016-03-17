@@ -8,12 +8,14 @@ module.exports = Backbone.Collection.extend({
     sort_key: "title",
 
     initialize: function() {
-        this.bind("remove", function (model) {
-            model.destroy({wait: true});
-            utils.createNotification({
-                message: "RECORDING DELETED<br />'" + model.get("title") + "' by " + model.get("actName"),
-                autohide: true
-            });
+        this.bind("remove", this.onRemove);
+    },
+
+    onRemove: function(model){
+        model.destroy({wait: true});
+        utils.createNotification({
+            message: "RECORDING DELETED<br />'" + model.get("title") + "' by " + model.get("actName"),
+            autohide: true
         });
     },
 

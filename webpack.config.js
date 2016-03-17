@@ -12,8 +12,7 @@ var uglifyPlugin = new webpack.optimize.UglifyJsPlugin({
 module.exports = {
     context: path.resolve('scripts'),
     entry: {
-        //frontend: './app.js',
-        backend: './adminApp.js'
+        app: './app.js'
     },
     output: {
         path: path.resolve('public/assets/js'),

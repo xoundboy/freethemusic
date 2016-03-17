@@ -9,7 +9,7 @@ module.exports = Backbone.Model.extend({
         okButtonText: "OK",
 
         autohide: false,
-        duration: 4000, // length of time in ms before auto hide kicks in
+        duration: 1000, // length of time in ms before auto hide kicks in
 
         showOkButton: false,
         showCancelButton: false,
