@@ -56,9 +56,22 @@ module.exports = Backbone.View.extend({
         }
     },
 
+    renderImages: function(images){
+        this.$el.find("#imagesContainer").html(Mustache.to_html(
+            $("#template_artistImages").html(),
+            {images: images.toJSON()}
+        ));
+    },
+
     render: function () {
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
+
+        var images = this.model.get("images");
+        if (images.length){
+            this.renderImages(images);
+        }
+
         this.$el.find("button").button();
         return this;
     }

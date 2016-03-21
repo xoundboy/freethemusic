@@ -55,6 +55,17 @@ p {
     }
 }
 
+a {
+    &:link, &:visited {
+        text-decoration: none;
+        color: #dddddd;
+        &:hover {
+            text-decoration: underline;
+            color: white;
+        }
+    }
+}
+
 div {
     &.tall {
         padding-top: 100px;
@@ -432,13 +443,16 @@ p {
 
 .addOrEditPanel {
 
-    p {
+    div {
         padding-top: 10px;
+        width: 100%;
         &.buttons {
             text-align: right;
         }
         label, span.label {
+            width: 20%;
             font-size: 15px;
+            display: inline-block;
         }
         input, select, textarea {
             width: 70%;
@@ -447,6 +461,17 @@ p {
         textarea {
             height: 100px;
         }
+        &#imagesContainer img {
+            width: 100px;
+        }
+    }
+}
+
+#artistImagesContainer {
+    vertical-align: top;
+    img {
+        vertical-align: top;
+        width: 40%;
     }
 }
 
@@ -506,7 +531,6 @@ table.benGrid {
 
             &:hover{
                 background: #195613;
-                opacity: 0.75;
                 color: #ffffff;
                 cursor: pointer;
             }

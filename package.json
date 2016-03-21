@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "backbone": "^1.2.3",
+    "backbone-deep-model": "^0.11.0",
     "backbone-nested-model": "^1.0.0-prerelease",
     "backbone.localstorage": "^1.1.16",
     "backgrid": "^0.3.5",
@@ -25,7 +26,9 @@
     "path": "^0.12.7",
     "query-string": "^3.0.0",
     "stormpath": "^0.17.5",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "underscore-deep-extend": "0.0.5",
+    "underscore.deepclone": "^0.1.1"
   },
   "devDependencies": {
     "css-loader": "^0.22.0",

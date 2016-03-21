@@ -97,10 +97,16 @@
                         <button class="queueItemPauseButton">Pause</button>
                         <span class="queuePositionIndex matchButtonStyle">{{position}}</span>
                     </td>
-                    <td id="queuedRecId-{{id}}" class="queuedRecordingTitle">{{{title}}}</td>
-                    <td id="queuedActId-{{id}}" data-actID="{{actID}}" class="queuedActName">{{{actName}}}</td>
+                    <td id="queuedRecId-{{id}}" class="queuedRecordingTitle">
+                        <a href="#recording/{{id}}">{{{title}}}</a>
+                    </td>
+                    <td id="queuedActId-{{id}}" data-actID="{{actID}}" class="queuedActName">
+                        <a href="#artist/{{actID}}">{{{actName}}}</a>
+                    </td>
                     <td id="queuedDuration-{{id}}">{{{duration}}}</td>
-                    <td class="buttonColumn"><button class="removeTrackFromQueueButton" data-recID="{{id}}">remove track from queue</button></td>
+                    <td class="buttonColumn">
+                        <button class="removeTrackFromQueueButton" data-recID="{{id}}">remove track from queue</button>
+                    </td>
                 </tr>
             {{/queue}}
             {{^queue}}
@@ -198,7 +204,7 @@
         <tr id="recordingId-{{id}}" class="recordingRow" data-recordingid="{{id}}">
             <td><button class="playButton" data-filename="{{audioFile}}.mp3">Play now</button></td>
             <td><button class="plusButton" data-filename="{{audioFile}}.mp3">Add to queue</button></td>
-            <td>{{{title}}}</td>
+            <td><a href="#recording/{{id}}">{{{title}}}</a></td>
             <td data-artistid="{{actID}}">{{{actName}}}</td>
             <td class="rightAlign">{{duration}}</td>
             <td><button class="editRecordingButton">edit</button></td>
@@ -214,6 +220,10 @@
         {{/recordings}}
         </tbody>
     </table>
+</script>
+
+<script type="text/template" id="template_recordingDetails">
+    <p>This is the recording details page for id: {{id}}</p>
 </script>
 
 <script type="text/template" id="template_recordingAddEdit" >
@@ -310,42 +320,6 @@
     </table>
 </script>
 
-<script type="text/template" id="template_artist">
-    <table>
-        <tr>
-            <td>Name</td>
-            <td>{{{actName}}}</td>
-        </tr>
-        <tr>
-            <td>Country</td>
-            <td>{{actCountry}}</td>
-        </tr>
-        <tr>
-            <td>Notes</td>
-            <td>{{{actNotes}}}</td>
-        </tr>
-        <tr>
-            <td>Town</td>
-            <td>{{actTown}}</td>
-        </tr>
-        <tr>
-            <td>Biography</td>
-            <td>{{{biog}}}</td>
-        </tr>
-        <tr>
-            <td>Label</td>
-            <td>{{label}}</td>
-        </tr>
-        <tr>
-            <td>tags</td>
-            <td>{{tags}}</td>
-        </tr>
-        <tr>
-            <td>Web site</td>
-            <td>{{website}}</td>
-        </tr>
-    </table>
-</script>
 
 <script type="text/template" id="template_artistAddOrEditPanel">
     <form id="artistInfo">
@@ -353,30 +327,36 @@
         {{#id}}
             <input type="hidden" id="actID" name="id" value="{{id}}" />
         {{/id}}
-        <p>
+        <div>
             <label for="actName">Artist</label>
             <input type="text" name="actName" id="actName" maxlength="50" value="{{{actName}}}" required />
-        </p>
-        <p>
+        </div>
+        <div>
             <label for="actTown">Town</label>
             <input type="text" name="actTown" id="actTown" maxlength="50" value="{{{actTown}}}" />
-        </p>
-        <p>
+        </div>
+        <div>
             <label for="actCountry">Country</label>
             <input type="text" name="actCountry" id="actCountry" maxlength="50" value="{{{actCountry}}}" />
-        </p>
-        <p>
+        </div>
+        <div>
             <label for="website">Website</label>
             <input type="text" name="website" id="website" maxlength="254" value="{{{website}}}" />
-        </p>
-        <p>
+        </div>
+        <div>
             <label for="tags">Tags</label>
             <input type="text" name="tags" id="tags" maxlength="254" value="{{{tags}}}" />
-        </p>
-        <p>
+        </div>
+        <div>
             <label for="biog">Biog</label>
             <textarea name="biog" id="biog" cols="30" rows="10" >{{{biog}}}</textarea>
-        </p>
+        </div>
+        <div>
+            <label for="imageUpload">Upload image</label>
+            <input type="file" id="imageUpload" />
+        </div>
+        <div id="imagesContainer"></div>
+
         <p class="buttons">
             <button class="floatl" id="cancelEditButton">Cancel</button>
             <button class="floatr" id="addOrUpdateArtist">
@@ -393,4 +373,63 @@
 
 <script type="text/template" id="template_tags">
     this is the tags template
+</script>
+
+<script type="text/template" id="template_artist">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>{{{actName}}}</td>
+        </tr>
+        {{#actCountry}}
+        <tr>
+            <td>Country</td>
+            <td>{{actCountry}}</td>
+        </tr>
+        {{/actCountry}}
+        {{#actNotes}}
+        <tr>
+            <td>Notes</td>
+            <td>{{{actNotes}}}</td>
+        </tr>
+        {{/actNotes}}
+
+        {{#actTown}}
+        <tr>
+            <td>Town</td>
+            <td>{{actTown}}</td>
+        </tr>
+        {{/actTown}}
+        {{#biog}}
+        <tr>
+            <td>Biography</td>
+            <td>{{{biog}}}</td>
+        </tr>
+        {{/biog}}
+        {{#label}}
+        <tr>
+            <td>Label</td>
+            <td>{{label}}</td>
+        </tr>
+        {{/label}}
+        {{#tags}}
+        <tr>
+            <td>tags</td>
+            <td>{{tags}}</td>
+        </tr>
+        {{/tags}}
+        {{#website}}
+        <tr>
+            <td>Web site</td>
+            <td>{{website}}</td>
+        </tr>
+        {{/website}}
+    </table>
+    <div id="artistImagesContainer"></div>
+</script>
+
+<script type="text/template" id="template_artistImages">
+    {{#images}}
+    <img src="/assets/images/{{src}}" class="artistImage" alt="{{{alt}}}" />
+    {{/images}}
 </script>

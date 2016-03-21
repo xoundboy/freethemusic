@@ -2,6 +2,7 @@
 var Backbone = require('backbone');
 var qs = require('query-string');
 
+var RecordingDetailsView        = require('../views/admin/recording.js');
 var RecordingEditPanelView      = require('../views/admin/recordingEditPanel.js');
 var ArtistAddOrEditPanelView    = require('../views/admin/artistAddOrEditPanel.js');
 var ArtistModel                 = require('../models/artist.js');
@@ -16,6 +17,7 @@ module.exports = Backbone.Router.extend({
         ''                                  : 'recordings',
         'recordings'                        : 'recordings',
         'recordings/highlight/:id'          : 'recordingHighlight',
+        'recording/:id'                     : 'recordingDetails',
         'recording/edit/:id'                : 'recordingEdit',
         'recording/add/:step(?*qs)'         : 'recordingAdd',
 
@@ -47,7 +49,16 @@ module.exports = Backbone.Router.extend({
         this._selectItemById("navRecordings");
     },
 
-    recordingEdit: function(id, qs){
+    recordingDetails: function(id){
+        console.log(id);
+        var recordingDetailsView = new RecordingDetailsView({
+            model: adminApp.collections.recordings.get(id),
+            template: $('#template_recordingDetails').html()
+        });
+        this._showInMainContent(recordingDetailsView);
+    },
+
+    recordingEdit: function(id){
         var recordingEditPanel = new RecordingEditPanelView({
             model: adminApp.collections.recordings.get(id),
             template: $('#template_recordingEditPanel').html()
@@ -56,7 +67,7 @@ module.exports = Backbone.Router.extend({
         this._selectItemById("navRecordings");
     },
 
-    recordingAdd: function(step, queryString) {
+    recordingAdd: function(step) {
         var that = this;
         this._pausePlayback();
 

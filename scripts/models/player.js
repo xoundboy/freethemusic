@@ -30,7 +30,7 @@ module.exports = Backbone.Model.extend({
         }
 
         if (playlist.length) {
-            var modelId = window.localStorage.getItem(config.LS_PLAYER_LOADED_ID)
+            var modelId = window.localStorage.getItem(config.LS_PLAYER_LOADED_ID);
             this.load(adminApp.collections.queue.get(modelId));
         } else {
             this.waitForTrackToBeAdded();
