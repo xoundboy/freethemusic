@@ -40,6 +40,26 @@ client.getApplication(applicationHref, function(err, application) {
     //console.log('Application:', application);
 });
 
+function handleError(err, res) {
+    if (err) {
+        console.log(err);
+        res.status(400).send(err.msg);
+        return true;
+    }
+    return false;
+}
+
+function getLastId(res, callback){
+    connection.query('SELECT last_insert_id() AS id;', function (err, rows) {
+        if (err) {
+            console.log(err);
+            res.status(400).send("can't get the latest insert ID from the database");
+        } else {
+            callback(rows[0].id)
+        }
+    });
+}
+
 /**
  * UPLOAD
  */
@@ -260,7 +280,7 @@ app.put('/api/recording/:id', function(req, res){
  * GALLERIES
  */
 
-// GET /api/recording/id
+// GET /api/gallery/id
 app.get('/api/gallery/:id', function(req, res){
     var query = "CALL GetGalleryById(" + utils.htmlEscape(req.params.id) + ");";
     connection.query(query, function(err, rows){
@@ -269,11 +289,13 @@ app.get('/api/gallery/:id', function(req, res){
             res.status(400).send("error retrieving gallery from the database");
             return;
         }
-
-        res.json(JSON.parse(rows[0][0].images));
+        if (rows[0][0] && rows[0][0].images !== ""){
+            res.json(JSON.parse(rows[0][0].images));
+        } else {
+            res.json([]);
+        }
     });
 });
-
 
 /**
  * ARTISTS
@@ -295,29 +317,27 @@ app.get('/api/artists', function(req, res){
 // POST /api/artist
 app.post('/api/artist', function(req, res){
 
-    var query = "CALL InsertAct('"
-        + utils.htmlEscape(req.body.actName) + "','"
-        + utils.htmlEscape(req.body.actTown) + "','"
-        + utils.htmlEscape(req.body.actCountry) + "','"
-        + utils.htmlEscape(req.body.website) + "','"
-        + utils.htmlEscape(req.body.tags) + "','"
-        + utils.htmlEscape(req.body.biog) + "');";
+    var output = {},
 
-    connection.query(query, function(err){
-        if (err) {
-            console.log(err);
-            res.status(400).send("error inserting the artist record into the database");
-        } else {
-            connection.query('SELECT last_insert_id() AS id;', function(err, rows){
-                if (err){
-                    console.log(err);
-                    res.status(400).send("can't get the new artist record insert ID from the database");
-                } else {
-                    res.json({id: rows[0].id});
-                }
-            });
-        }
-    });
+    onInsertGallery = function(err, res){
+        handleError(err, res) || getLastId(res, onGetGalleryInsertId);
+    },
+
+    onGetGalleryInsertId = function(id){
+        output.galleryID = id;
+        connection.query("CALL InsertAct(" + id + ");", onInsertArtist)
+    },
+
+    onInsertArtist = function(err, res) {
+        handleError(err, res) || getLastId(res, onGetArtistInsertId);
+    },
+
+    onGetArtistInsertId = function(id){
+        output.id = id;
+        res.json(output);
+    };
+
+    connection.query("CALL InsertGallery();", onInsertGallery);
 });
 
 // PUT /api/artist/id

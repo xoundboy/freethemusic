@@ -24,10 +24,10 @@ module.exports = Backbone.Router.extend({
         'queue'                             : 'queue',
 
         'artists'                           : 'artists',
-        'artist/:id'                        : 'artist',
         'artists/highlight/:id'             : 'artistHighlight',
         'artist/edit/:id'                   : 'artistEdit',
         'artist/add'                        : 'artistAdd',
+        'artist/:id'                        : 'artist',
 
         'playlists'                         : 'playlists',
 

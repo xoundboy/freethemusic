@@ -19,12 +19,31 @@ module.exports = Backbone.View.extend({
     initialize: function(options) {
         _.extend(this, _.pick(options, "template"));
         _.extend(this, _.pick(options, "returnUrl"));
-        //this.model.bind('change', this.render, this);
+
+        // new artist
+        if (this.model.id === undefined){
+            this.createEmptyDbRecords();
+        }
     },
 
     events: {
         "click #cancelEditButton": "closePanel",
         "click #addOrUpdateArtist": "addOrUpdateArtist"
+    },
+
+    createEmptyDbRecords: function(){
+        this.loadingMessage = utils.createNotification({
+            message: "Initialising artist, please wait..."
+        });
+        this.model.save(null, {
+            success: $.proxy(this.onIdsCreated, this),
+            wait:true
+        });
+    },
+
+    onIdsCreated: function(){
+        this.loadingMessage.close();
+        this.render();
     },
 
     closePanel: function() {
@@ -35,33 +54,36 @@ module.exports = Backbone.View.extend({
 
         e.preventDefault();
 
-        var that = this,
-            $infoForm = this.$el.find("#artistInfo"),
+        var $infoForm = this.$el.find("#artistInfo"),
             validator = $infoForm.validate();
 
         if (validator.form()) {
-            this.model
-                .set($infoForm.serializeJSON())
-                .save(null, {
-                    success: function() {
-                        adminApp.collections.artists.fetch({
-                            reset: true,
-                            success: function(data){
-                                if (that.returnUrl){
-                                    adminApp.routers.main.navigate(that.returnUrl + '?actId='+ data.id, {trigger:true});
-                                    return;
-                                }
-                                that.closePanel();
-                            }
-                        });
-                    }
-                });
+            this.model.set($infoForm.serializeJSON());
+            this.model.save(null, {
+                success: $.proxy(this.onArtistSaveSuccess, this)
+            });
         }
+    },
+
+    onArtistSaveSuccess: function(){
+        adminApp.collections.artists.fetch({
+            reset: true,
+            success: $.proxy(this.onArtistsFetchSuccess, this)
+        });
+    },
+
+    onArtistsFetchSuccess: function(data){
+        if (this.returnUrl){
+            adminApp.routers.main.navigate(this.returnUrl + '?actId='+ data.id, {trigger:true});
+            return;
+        }
+        this.closePanel();
     },
 
     render: function () {
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
+
         this.renderGallerySection();
 
         this.$el.find("button").button();

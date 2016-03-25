@@ -326,6 +326,9 @@
         {{#id}}
             <input type="hidden" id="actID" name="id" value="{{id}}" />
         {{/id}}
+        {{#galleryID}}
+            <input type="hidden" id="galleryID" name="id" value="{{galleryID}}" />
+        {{/galleryID}}
         <div>
             <label for="actName">Artist</label>
             <input type="text" name="actName" id="actName" maxlength="50" value="{{{actName}}}" required />
@@ -374,6 +377,9 @@
 <script type="text/template" id="template_galleryImages">
     {{#images}}
     <div class="center-cropped" style="background-image: url('/assets/images/{{src}}');"></div>
+    {{/images}}
+    {{^images}}
+    <div>No images added yet</div>
     {{/images}}
 </script>
 
