@@ -63,6 +63,13 @@ module.exports = {
         return longName.substring(0,46);
     },
 
+    getUniqueArtistImageFileName: function (artistName, extension){
+        var strippedArtist = artistName.replace(/[^a-zA-Z0-9.]+/g,'');
+        var random = Math.random()*100000000000000000;
+        var longName = strippedArtist + '-' + random + extension;
+        return longName.substring(0,46);
+    },
+
     htmlEscape: function (str) {
         return String(str)
             .replace(/&/g, '&amp;')
@@ -89,6 +96,21 @@ module.exports = {
                 primary: icon
             }
         });
-    }
+    },
 
+    getExtFromMimeType: function(mimeType){
+        switch(mimeType){
+            case "image/jpg":
+            case "image/jpeg":
+                return ".jpg";
+            case "image/png":
+                return ".png";
+            case "image/bmp":
+                return ".bmp";
+            case "image/gif":
+                return ".gif";
+            default:
+                return null;
+        }
+    }
 };

@@ -1,1 +1,3 @@
-module.exports = Backbone.Model.extend({});
+module.exports = Backbone.Model.extend({
+    urlRoot: 'api/image'
+});

@@ -1,6 +1,9 @@
 require('jquery-validation');
 require('jquery-serializejson');
 
+var GalleryModel = require('../../models/gallery.js');
+var GalleryView = require('./gallery.js');
+
 var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
@@ -16,7 +19,7 @@ module.exports = Backbone.View.extend({
     initialize: function(options) {
         _.extend(this, _.pick(options, "template"));
         _.extend(this, _.pick(options, "returnUrl"));
-        this.model.bind('change', this.render, this);
+        //this.model.bind('change', this.render, this);
     },
 
     events: {
@@ -56,24 +59,26 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    renderImages: function(images){
-        this.$el.find("#imagesContainer").html(Mustache.to_html(
-            $("#template_artistImages").html(),
-            {images: images.toJSON()}
-        ));
-    },
-
     render: function () {
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
-
-        var images = this.model.get("images");
-        if (images.length){
-            this.renderImages(images);
-        }
+        this.renderGallerySection();
 
         this.$el.find("button").button();
         return this;
-    }
+    },
 
+    renderGallerySection: function() {
+
+        var galleryModel = new GalleryModel({
+            galleryID: this.model.get("galleryID"),
+            actName: this.$el.find("#actName").val()
+        });
+
+        var gallerySection = new GalleryView({
+            model: galleryModel,
+            template: $("#template_gallery").html()
+        });
+        this.$el.find("#artistGalleryContainer").html(gallerySection.render().el);
+    }
 });

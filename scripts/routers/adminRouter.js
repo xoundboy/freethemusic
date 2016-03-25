@@ -50,7 +50,6 @@ module.exports = Backbone.Router.extend({
     },
 
     recordingDetails: function(id){
-        console.log(id);
         var recordingDetailsView = new RecordingDetailsView({
             model: adminApp.collections.recordings.get(id),
             template: $('#template_recordingDetails').html()
@@ -98,6 +97,7 @@ module.exports = Backbone.Router.extend({
             template: $("#template_artist").html()
         });
         this._showInMainContent(artistView);
+        this._selectItemById("navArtists");
     },
 
     artistHighlight: function(id) {

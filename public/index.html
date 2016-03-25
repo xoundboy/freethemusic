@@ -142,7 +142,7 @@
         <p class="centered tall sidePadding">Check that the file uploaded correctly by playing it.</p>
         <p class="centered tall">
             <audio id="uploadedFile" controls>
-                <source src="/uploads/{{tempName}}.mp3" type="audio/mpeg">
+                <source src="/uploads/audio/{{tempName}}.mp3" type="audio/mpeg">
             </audio>
         </p>
         <p class="smallFont centered">File size: {{size}} bytes</p>
@@ -205,7 +205,7 @@
             <td><button class="playButton" data-filename="{{audioFile}}.mp3">Play now</button></td>
             <td><button class="plusButton" data-filename="{{audioFile}}.mp3">Add to queue</button></td>
             <td><a href="#recording/{{id}}">{{{title}}}</a></td>
-            <td data-artistid="{{actID}}">{{{actName}}}</td>
+            <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
             <td class="rightAlign">{{duration}}</td>
             <td><button class="editRecordingButton">edit</button></td>
             <td><button class="deleteRecordingButton">delete</button></td>
@@ -320,7 +320,6 @@
     </table>
 </script>
 
-
 <script type="text/template" id="template_artistAddOrEditPanel">
     <form id="artistInfo">
 
@@ -351,20 +350,31 @@
             <label for="biog">Biog</label>
             <textarea name="biog" id="biog" cols="30" rows="10" >{{{biog}}}</textarea>
         </div>
-        <div>
-            <label for="imageUpload">Upload image</label>
-            <input type="file" id="imageUpload" />
-        </div>
-        <div id="imagesContainer"></div>
-
-        <p class="buttons">
+        <p class="buttons clearfix">
             <button class="floatl" id="cancelEditButton">Cancel</button>
             <button class="floatr" id="addOrUpdateArtist">
                 {{#id}}Update{{/id}}
                 {{^id}}Add{{/id}}
             </button>
         </p>
+
     </form>
+    <div id="artistGalleryContainer"></div>
+</script>
+
+<script type="text/template" id="template_gallery">
+    <div class="imagesHeader">Images</div>
+    <div id="imagesContainer"></div>
+    <div class="imagesFooter">
+        <label for="artistImageUpload">Upload</label>
+        <input type="file" id="artistImageUpload" />
+    </div>
+</script>
+
+<script type="text/template" id="template_galleryImages">
+    {{#images}}
+    <div class="center-cropped" style="background-image: url('/assets/images/{{src}}');"></div>
+    {{/images}}
 </script>
 
 <script type="text/template" id="template_playlists">

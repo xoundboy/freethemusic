@@ -18,7 +18,9 @@ var connection = mysql.createConnection({
     database : config.DB_NAME
 });
 
-var pathToUploadDir = './public/uploads/';
+var pathToAudioUploadDir = './public/uploads/audio';
+var pathToImageUploadDir = './public/uploads/images';
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -35,7 +37,7 @@ var client = new stormpath.Client({ apiKey: apiKey });
 var applicationHref = process.env['STORMPATH_APPLICATION_HREF'];
 
 client.getApplication(applicationHref, function(err, application) {
-    console.log('Application:', application);
+    //console.log('Application:', application);
 });
 
 /**
@@ -46,14 +48,14 @@ client.getApplication(applicationHref, function(err, application) {
 app.delete('/api/removetempuploads', function(req, res){
 
     // remove the uploads directory
-    rimraf(pathToUploadDir, function(err){
+    rimraf(pathToAudioUploadDir, function(err){
         if (err){
             res.status(400).send("Temporary uploads folder cannot be removed");
             return;
         }
 
         // recreate the uploads directory
-        fs.mkdir(pathToUploadDir, 0755, function(err){
+        fs.mkdir(pathToAudioUploadDir, 0755, function(err){
             if(err){
                 res.status(400).send("Temporary uploads folder cannot be recreated");
                 return;
@@ -64,7 +66,7 @@ app.delete('/api/removetempuploads', function(req, res){
 });
 
 // POST /api/upload - initial file upload
-app.post('/api/upload', multer({ dest: pathToUploadDir}).single('uploadFile'), function(req, res){
+app.post('/api/upload', multer({ dest: pathToAudioUploadDir}).single('uploadFile'), function(req, res){
 
     // add the .mp3 extension to the uploaded file
     fs.rename(req.file.path, req.file.path + ".mp3");
@@ -72,6 +74,26 @@ app.post('/api/upload', multer({ dest: pathToUploadDir}).single('uploadFile'), f
     res.json({
         tempName: req.file.filename,
         size: req.file.size
+    });
+});
+
+// POST /api/image/upload - initial file upload
+app.post('/api/image/upload', multer({ dest: pathToImageUploadDir}).single('uploadFile'), function(req, res){
+
+    var acceptedFileTypes = ["image/png", "image/jpg", "image/jpeg", "image/bmp", "image/jpg", "image/gif"];
+    var mimetype = req.file.mimetype;
+
+    if (acceptedFileTypes.indexOf(mimetype) != -1){
+        var finalFileName = utils.getUniqueArtistImageFileName(req.body.actName, utils.getExtFromMimeType(mimetype));
+        fs.rename(pathToImageUploadDir + "/" + req.file.filename, config.IMAGE_LIBRARY_PATH + finalFileName);
+    } else {
+        res.status(400).send("illegal file extension");
+    }
+
+    res.json({
+        tempName: req.file.filename,
+        size: req.file.size,
+        finalImageFileName: finalFileName
     });
 });
 
@@ -135,7 +157,7 @@ app.get('/api/recording/:id', function(req, res){
 app.post('/api/recording', function(req, res){
 
     // check if the tempfile exists as an mp3 in the uploads folder
-    var tempFilePath = "./public/uploads/"  + req.body.tempName + ".mp3";
+    var tempFilePath = "./public/uploads/audio/"  + req.body.tempName + ".mp3";
     if(fs.existsSync(tempFilePath)){
 
         // rename the audio file to something more meaningful
@@ -234,6 +256,23 @@ app.put('/api/recording/:id', function(req, res){
     });
 });
 
+/**
+ * GALLERIES
+ */
+
+// GET /api/recording/id
+app.get('/api/gallery/:id', function(req, res){
+    var query = "CALL GetGalleryById(" + utils.htmlEscape(req.params.id) + ");";
+    connection.query(query, function(err, rows){
+        if (err) {
+            console.log(err);
+            res.status(400).send("error retrieving gallery from the database");
+            return;
+        }
+
+        res.json(JSON.parse(rows[0][0].images));
+    });
+});
 
 
 /**
