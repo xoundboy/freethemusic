@@ -1,4 +1,4 @@
-﻿var utils = require('../utils.js');
+var utils = require('../helpers/commonUtils.js');
 
 module.exports = Backbone.Model.extend({
 

@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
-var utils = require('../../utils.js');
+var viewUtils = require('../../helpers/viewUtils.js');
 var config = require('../../config.js');
 require('jquery-ui/slider');
 
@@ -44,10 +44,10 @@ module.exports = Backbone.View.extend({
         var nextButtonDisabled = false,//(adminApp.collections.queue.length < 2),
             prevButtonDisabled = false;//(adminApp.collections.queueHistory.length == 0);
 
-        utils.styleButton(this.$el.find("#nextButton"), "ui-icon-arrowthickstop-1-e", false, nextButtonDisabled);
-        utils.styleButton(this.$el.find("#prevButton"), "ui-icon-arrowthickstop-1-w", false, prevButtonDisabled);
-        utils.styleButton(this.$el.find(".dummyPlus"), "ui-icon-plusthick");
-        utils.styleButton(this.$el.find("#playPauseButton"), playPauseButtonIcon);
+        viewUtils.styleButton(this.$el.find("#nextButton"), "ui-icon-arrowthickstop-1-e", false, nextButtonDisabled);
+        viewUtils.styleButton(this.$el.find("#prevButton"), "ui-icon-arrowthickstop-1-w", false, prevButtonDisabled);
+        viewUtils.styleButton(this.$el.find(".dummyPlus"), "ui-icon-plusthick");
+        viewUtils.styleButton(this.$el.find("#playPauseButton"), playPauseButtonIcon);
     },
 
     initProgressBar: function(){

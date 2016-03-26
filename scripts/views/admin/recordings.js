@@ -2,7 +2,7 @@
 var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
-var utils = require('../../utils.js');
+var viewUtils = require('../../helpers/viewUtils.js');
 
 module.exports = Backbone.View.extend({
 
@@ -63,7 +63,7 @@ module.exports = Backbone.View.extend({
         // show onboarding help for first time a user adds a track to the queue
         //console.log(adminApp.collections.queue.length);
         //if (!adminApp.collections.queue.length){
-        //    utils.createNotification({
+        //    viewUviewUtils.createNotification({
         //        message: "Thank queue!<br />You can queue up as many tracks as you like",
         //        okButtonText: "Take me to the queue"
         //    });
@@ -78,11 +78,11 @@ module.exports = Backbone.View.extend({
     },
 
     styleButtons: function() {
-        utils.styleButton(this.$el.find(".playButton"), "ui-icon-play");
-        utils.styleButton(this.$el.find(".plusButton"), "ui-icon-plusthick");
-        utils.styleButton(this.$el.find(".editRecordingButton"), "ui-icon-pencil");
-        utils.styleButton(this.$el.find(".deleteRecordingButton"), "ui-icon-trash");
-        utils.styleButton(this.$el.find(".addRecordingButton"), "ui-icon-plusthick", true);
+        viewUtils.styleButton(this.$el.find(".playButton"), "ui-icon-play");
+        viewUtils.styleButton(this.$el.find(".plusButton"), "ui-icon-plusthick");
+        viewUtils.styleButton(this.$el.find(".editRecordingButton"), "ui-icon-pencil");
+        viewUtils.styleButton(this.$el.find(".deleteRecordingButton"), "ui-icon-trash");
+        viewUtils.styleButton(this.$el.find(".addRecordingButton"), "ui-icon-plusthick", true);
     },
 
     render: function () {

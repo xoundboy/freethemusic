@@ -1,29 +1,39 @@
 require('jquery-validation');
 require('jquery-serializejson');
 
-var GalleryModel = require('../../models/gallery.js');
-var GalleryView = require('./gallery.js');
-
 var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
-
-var utils = require('../../utils.js');
+var ArtistModel = require('../../models/artist.js');
+var viewUtils = require('../../helpers/viewUtils.js');
 
 module.exports = Backbone.View.extend({
 
     tagName: "div",
     id: "artistEditPanel",
     className: "addOrEditPanel",
+    containerElSelector: "#mainContent",
 
     initialize: function(options) {
-        _.extend(this, _.pick(options, "template"));
+
         _.extend(this, _.pick(options, "returnUrl"));
+        this.template = $('#template_artistAddOrEditPanel').html();
 
         // new artist
-        if (this.model.id === undefined){
+        if (options.id){
+            this.model = adminApp.collections.artists.get(options.id);
+            this.createGallery();
+
+        // existing artist
+        } else {
+            this.model = new ArtistModel();
             this.createEmptyDbRecords();
         }
+    },
+
+    createGallery: function(){
+        var galleryID = this.model.get("galleryID");
+        this.galleryView = viewUtils.createGalleryView(galleryID, "#artistGalleryContainer");
     },
 
     events: {
@@ -32,7 +42,7 @@ module.exports = Backbone.View.extend({
     },
 
     createEmptyDbRecords: function(){
-        this.loadingMessage = utils.createNotification({
+        this.loadingMessage = viewUtils.createNotification({
             message: "Initialising artist, please wait..."
         });
         this.model.save(null, {
@@ -43,6 +53,7 @@ module.exports = Backbone.View.extend({
 
     onIdsCreated: function(){
         this.loadingMessage.close();
+        this.createGallery();
         this.render();
     },
 
@@ -84,23 +95,14 @@ module.exports = Backbone.View.extend({
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate);
 
-        this.renderGallerySection();
+        // first render self into #mainContent
+        $(this.containerElSelector).html(this.$el);
+
+        // now render the gallery section if its available
+        this.galleryView && this.galleryView.render();
 
         this.$el.find("button").button();
         return this;
-    },
-
-    renderGallerySection: function() {
-
-        var galleryModel = new GalleryModel({
-            galleryID: this.model.get("galleryID"),
-            actName: this.$el.find("#actName").val()
-        });
-
-        var gallerySection = new GalleryView({
-            model: galleryModel,
-            template: $("#template_gallery").html()
-        });
-        this.$el.find("#artistGalleryContainer").html(gallerySection.render().el);
     }
+
 });

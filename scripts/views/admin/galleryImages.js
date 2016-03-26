@@ -5,8 +5,6 @@ var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
 
-var utils = require('../../utils.js');
-
 module.exports = Backbone.View.extend({
 
     tagName: "div",
@@ -14,7 +12,6 @@ module.exports = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
-        _.extend(this, _.pick(options, "galleryID"));
     },
 
     render: function() {

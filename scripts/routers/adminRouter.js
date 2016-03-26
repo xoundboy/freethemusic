@@ -107,26 +107,17 @@ module.exports = Backbone.Router.extend({
     },
 
     artistEdit: function(id) {
-        var artistEditPanel = new ArtistAddOrEditPanelView({
-            model: adminApp.collections.artists.get(id),
-            template: $('#template_artistAddOrEditPanel').html()
-        });
-        this._showInMainContent(artistEditPanel);
+        new ArtistAddOrEditPanelView({
+            id:id,
+            containerElSelector: "#mainContent"
+        }).render();
         this._selectItemById("navArtists");
     },
 
     artistAdd: function(e) {
+        new ArtistAddOrEditPanelView({returnUrl: this._getReturnUrlFromQs(e),
 
-        e = e || {};
-        var options = qs.parse(e);
-        var returnUrl = options.returnUrl ? options.returnUrl : null;
-
-        var artistAddPanel = new ArtistAddOrEditPanelView({
-            model: new ArtistModel(),
-            template: $('#template_artistAddOrEditPanel').html(),
-            returnUrl: returnUrl
-        });
-        this._showInMainContent(artistAddPanel);
+        }).render();
         this._selectItemById("navArtists");
     },
 
@@ -140,6 +131,12 @@ module.exports = Backbone.Router.extend({
     /**
      * PRIVATE METHODS
      */
+
+    _getReturnUrlFromQs: function(e){
+        e = e || {};
+        var options = qs.parse(e);
+        return options.returnUrl ? options.returnUrl : null;
+    },
 
     _showInMainContent: function(view){
         $("#mainContent").empty().html(view.render().el);

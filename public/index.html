@@ -305,7 +305,7 @@
         <tbody>
         {{#artists}}
         <tr id="actID-{{id}}" class="artistRow" data-actid="{{id}}">
-            <td><div class="imgMask"><img src="/assets/images/lg_{{imgFile}}" alt="" /></div></td>
+            <td><div class="imgMask">TODO: img</div></td>
             <td data-artistid="{{id}}"><a href="#artist/{{id}}">{{actName}}</a></td>
             <td><button class="editArtistButton">edit</button></td>
             <td><button class="deleteArtistButton">delete</button></td>
@@ -376,7 +376,9 @@
 
 <script type="text/template" id="template_galleryImages">
     {{#images}}
-    <div class="center-cropped" style="background-image: url('/assets/images/{{src}}');"></div>
+        {{#src}}
+        <div class="center-cropped" style="background-image: url('assets/images/{{src}}');"></div>
+        {{/src}}
     {{/images}}
     {{^images}}
     <div>No images added yet</div>
@@ -444,8 +446,8 @@
     <div id="artistImagesContainer"></div>
 </script>
 
-<script type="text/template" id="template_artistImages">
-    {{#images}}
-    <img src="/assets/images/{{src}}" class="artistImage" alt="{{{alt}}}" />
-    {{/images}}
-</script>
+<!--<script type="text/template" id="template_artistImages">-->
+    <!--{{#images}}-->
+    <!--<img src="/assets/images/{{src}}" class="artistImage" alt="{{{alt}}}" />-->
+    <!--{{/images}}-->
+<!--</script>-->

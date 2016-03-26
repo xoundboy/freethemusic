@@ -35,18 +35,17 @@ module.exports = Backbone.View.extend({
             actID = parseInt($btn.closest("tr").attr("data-actid"));
 
         var thisArtistsRecordings = adminApp.collections.recordings.where({actID: actID});
-        console.log(thisArtistsRecordings);
         var recordingList = "";
 
         thisArtistsRecordings.map(function(recording){
             recordingList += recording.get("title") + "\n";
         });
 
-        if (confirm("WARNING: If you delete this artist then the following recordings will also be deleted:\n" + recordingList)){
-            if (confirm("Really really really sure?")){
+        //if (confirm("WARNING: If you delete this artist then the following recordings will also be deleted:\n" + recordingList)){
+        //    if (confirm("Really really really sure?")){
                 this.collection.remove(this.collection.get(actID));
-            }
-        }
+        //    }
+        //}
     },
 
     styleButtons: function() {

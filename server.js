@@ -5,7 +5,7 @@ var app = express();
 var http = require('http').Server(app);
 var multer  = require('multer');
 var config = require('./scripts/config.js');
-var utils = require('./scripts/utils.js');
+var utils = require('./scripts/helpers/commonUtils.js');
 var fs = require('fs');
 var rimraf = require('rimraf');
 var mysql = require('mysql');
@@ -297,6 +297,25 @@ app.get('/api/gallery/:id', function(req, res){
     });
 });
 
+// PUT /api/gallery/id
+app.put('/api/gallery/:id', function(req, res){
+
+    var images = JSON.stringify(req.body.images);
+
+    var query = "CALL UpdateGallery("
+        + utils.htmlEscape(req.params.id) + ",'"
+        + images + "','"
+        + utils.htmlEscape(req.body.actName) + "','"
+        + utils.htmlEscape(req.body.playlistName) + "','"
+        + utils.htmlEscape(req.body.trackName) + "');";
+
+    var onGalleryUpdated = function(err){
+        handleError(err, res) || res.json({msg: "success"});
+    };
+
+    connection.query(query, onGalleryUpdated);
+});
+
 /**
  * ARTISTS
  */
@@ -313,29 +332,28 @@ app.get('/api/artists', function(req, res){
     });
 });
 
-
 // POST /api/artist
 app.post('/api/artist', function(req, res){
 
     var output = {},
 
-    onInsertGallery = function(err, res){
-        handleError(err, res) || getLastId(res, onGetGalleryInsertId);
-    },
+        onInsertGallery = function(err, res){
+            handleError(err, res) || getLastId(res, onGetGalleryInsertId);
+        },
 
-    onGetGalleryInsertId = function(id){
-        output.galleryID = id;
-        connection.query("CALL InsertAct(" + id + ");", onInsertArtist)
-    },
+        onGetGalleryInsertId = function(id){
+            output.galleryID = id;
+            connection.query("CALL InsertAct(" + id + ");", onInsertArtist)
+        },
 
-    onInsertArtist = function(err, res) {
-        handleError(err, res) || getLastId(res, onGetArtistInsertId);
-    },
+        onInsertArtist = function(err, res) {
+            handleError(err, res) || getLastId(res, onGetArtistInsertId);
+        },
 
-    onGetArtistInsertId = function(id){
-        output.id = id;
-        res.json(output);
-    };
+        onGetArtistInsertId = function(id){
+            output.id = id;
+            res.json(output);
+        };
 
     connection.query("CALL InsertGallery();", onInsertGallery);
 });
@@ -370,9 +388,9 @@ app.delete('/api/artist/:id', function(req, res){
             console.log(err);
             res.sendStatus(200);
 
-        } else if(rows && rows.length) {
+        } else if (rows && rows.length) {
 
-            // first delete all of the artist's recordings (one by one)
+            // delete all of the artist's recordings (one by one)
             rows[0].map(function (recording) {
 
                 // delete the mp3 file
@@ -392,19 +410,20 @@ app.delete('/api/artist/:id', function(req, res){
                 });
             });
 
-            // next, delete the artist from the database
-            connection.query("CALL DeleteAct(" + utils.htmlEscape(req.params.id) + ");", function (err) {
-                if (err) {
-                    res.status(400).send("the artist could not be deleted from the database");
-                }
-                res.sendStatus(200);
-            });
+
 
         } else {
             res.status(200).send("no recordings found for the artist");
         }
     });
 
+    // next, delete the artist from the database
+    connection.query("CALL DeleteAct(" + utils.htmlEscape(req.params.id) + ");", function (err) {
+        if (err) {
+            res.status(400).send("the artist could not be deleted from the database");
+        }
+        res.sendStatus(200);
+    });
 
 });
 

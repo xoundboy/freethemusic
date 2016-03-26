@@ -1,6 +1,6 @@
-var $ = require('jquery');
-var NotificationModel = require('./models/notification.js');
-var NotificationView = require('./views/admin/notification.js');
+/**
+ * Created by xoundboy on 26/03/16.
+ */
 
 var _getMonthFormatted = function (dateObj) {
     var month = dateObj.getMonth() + 1;
@@ -30,8 +30,8 @@ var _secondsToHoursMinsSeconds = function(durationInSeconds){
 
 };
 
-module.exports = {
 
+module.exports = {
     formattedDate: function (date) {
         var dateObj = new Date(date);
         return _getMonthFormatted(dateObj) + "/" + _getDayFormatted(dateObj) + '/' + dateObj.getFullYear();
@@ -77,25 +77,6 @@ module.exports = {
             .replace(/'/g, '&#39;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;');
-    },
-
-    createNotification: function(options){
-        return new NotificationView({
-            model: new NotificationModel(options),
-            template: $("#template_notification").html()
-        });
-    },
-
-    styleButton: function($el, icon, showText, disabled){
-        showText = !!showText;
-        disabled = !!disabled;
-        $el.button({
-            text: showText,
-            disabled: disabled,
-            icons: {
-                primary: icon
-            }
-        });
     },
 
     getExtFromMimeType: function(mimeType){

@@ -1,4 +1,4 @@
-﻿var utils = require('../utils.js');
+var viewUtils = require('../helpers/viewUtils.js');
 var RecordingModel = require('../models/recording.js');
 
 module.exports = Backbone.Collection.extend({
@@ -13,7 +13,7 @@ module.exports = Backbone.Collection.extend({
 
     onRemove: function(model){
         model.destroy({wait: true});
-        utils.createNotification({
+        viewUtils.createNotification({
             message: "RECORDING DELETED<br />'" + model.get("title") + "' by " + model.get("actName"),
             autohide: true
         });

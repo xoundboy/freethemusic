@@ -6,7 +6,6 @@ var $ = require('jquery');
 var Mustache = require('mustache');
 
 var RecordingAddEditView = require("./recordingAddEdit.js");
-var utils = require('../../utils.js');
 
 module.exports = Backbone.View.extend({
 

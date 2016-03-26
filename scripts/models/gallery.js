@@ -6,6 +6,9 @@ module.exports = Backbone.Model.extend({
         galleryID: null,
         actName: "",
         playlistName: "",
-        trackName: ""
-    }
+        trackName: "",
+        images: []
+    },
+
+    urlRoot: 'api/gallery'
 });
