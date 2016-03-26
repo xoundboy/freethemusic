@@ -494,10 +494,16 @@ form#artistInfo {
     #imagesContainer {
         height: 200px;
         overflow-y: auto;
-        div {
+        div.galleryImage {
             display: inline-block;
             margin: 10px;
+            border: 5px solid transparent;
+            &.selected {
+                border-color: red;
+                opacity: .5;
+            }
         }
+
     }
 }
 

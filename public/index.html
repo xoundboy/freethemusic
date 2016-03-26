@@ -366,7 +366,10 @@
 </script>
 
 <script type="text/template" id="template_gallery">
-    <div class="imagesHeader">Images</div>
+    <div class="imagesHeader clearfix">
+        <span class="floatl">Images</span>
+        <button class="floatr" id="deleteSelectedImages">Delete</button>
+    </div>
     <div id="imagesContainer"></div>
     <div class="imagesFooter">
         <label for="artistImageUpload">Upload</label>
@@ -377,7 +380,7 @@
 <script type="text/template" id="template_galleryImages">
     {{#images}}
         {{#src}}
-        <div class="center-cropped" style="background-image: url('assets/images/{{src}}');"></div>
+        <div class="galleryImage center-cropped {{#selected}}selected{{/selected}}" style="background-image: url('assets/images/{{src}}');"></div>
         {{/src}}
     {{/images}}
     {{^images}}

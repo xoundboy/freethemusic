@@ -282,6 +282,7 @@ app.put('/api/recording/:id', function(req, res){
 
 // GET /api/gallery/id
 app.get('/api/gallery/:id', function(req, res){
+
     var query = "CALL GetGalleryById(" + utils.htmlEscape(req.params.id) + ");";
     connection.query(query, function(err, rows){
         if (err) {

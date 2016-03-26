@@ -10,6 +10,7 @@
     "backbone-deep-model": "^0.11.0",
     "backbone-nested-model": "^1.0.0-prerelease",
     "backbone.localstorage": "^1.1.16",
+    "backbone.select": "^1.5.3",
     "backgrid": "^0.3.5",
     "body-parser": "^1.14.1",
     "es6-promise": "^3.0.2",

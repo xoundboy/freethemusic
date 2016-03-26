@@ -4,6 +4,7 @@
 var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
+var ImageModel = require("../../models/image.js");
 
 module.exports = Backbone.View.extend({
 
@@ -12,6 +13,7 @@ module.exports = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, _.pick(options, "template"));
+        this.listenTo(this.collection, 'reset add change', this.render);
     },
 
     render: function() {
