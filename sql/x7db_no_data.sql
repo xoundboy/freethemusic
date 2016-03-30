@@ -48,12 +48,11 @@ CREATE TABLE `acts` (
   `featured` enum('yes','no') DEFAULT 'no',
   `biog` text,
   `actNotes` longtext,
-  `imgID` smallint(5) unsigned DEFAULT NULL,
   `website` varchar(254) DEFAULT NULL,
-  `tags` varchar(254) NOT NULL,
+  `tags` varchar(254) NOT NULL DEFAULT '',
   `galleryID` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=139 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=227 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,9 +129,12 @@ DROP TABLE IF EXISTS `galleries`;
 CREATE TABLE `galleries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `images` text,
+  `actName` varchar(255) DEFAULT NULL,
+  `trackName` varchar(255) DEFAULT NULL,
+  `playlistName` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `galleries_id_uindex` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,13 +376,15 @@ CREATE TABLE `users` (
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteAct`(IN idToDelete VARCHAR(50))
 BEGIN
-	DELETE FROM acts
-    WHERE id = idToDelete;
-END ;;
+    DELETE acts, galleries
+    FROM acts, galleries
+    WHERE acts.id = idToDelete
+    AND galleries.id = acts.galleryID;
+  END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -593,33 +597,37 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertAct`(
-  IN actName VARCHAR(50),
-  IN actTown VARCHAR(50),
-  IN actCountry VARCHAR(50),
-  IN website VARCHAR(254),
-  IN tags VARCHAR(254),
-  IN biog LONGTEXT
+  IN galleryIdToInsert SMALLINT
 )
 BEGIN
-INSERT INTO acts (
-    actName,
-    actTown,
-    actCountry,
-    website,
-    tags,
-    biog
-  )
-  VALUES (
-    actName,
-    actTown,
-    actCountry,
-    website,
-    tags,
-    biog
-  );
+    INSERT INTO acts (
+      galleryID
+    )
+    VALUES (
+      galleryIdToInsert
+    );
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `InsertGallery` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertGallery`()
+BEGIN
+    INSERT INTO galleries (images) VALUES ('');
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -710,6 +718,36 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `UpdateGallery` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateGallery`(
+  IN idToUpdate SMALLINT,
+  IN images TEXT,
+  IN actName VARCHAR(50),
+  IN playlistName VARCHAR(50),
+  IN trackName VARCHAR(50)
+)
+BEGIN
+    UPDATE galleries g
+    SET g.images = images,
+      g.actName = actName,
+      g.playlistName = playlistName,
+      g.trackName = trackName
+    WHERE g.id = idToUpdate;
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `UpdateRecording` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -755,4 +793,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-25 19:24:00
+-- Dump completed on 2016-03-27 13:08:10

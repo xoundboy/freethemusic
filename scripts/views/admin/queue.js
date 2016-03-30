@@ -3,7 +3,7 @@ var $ = jQuery = require('jquery');
 var Mustache = require('mustache');
 require('jquery-ui/sortable');
 require('jquery-ui-touch-punch');
-var viewUtils = require('../../helpers/viewUtils.js');
+var button = require('../../helpers/button.js');
 
 module.exports = Backbone.View.extend({
 
@@ -46,10 +46,10 @@ module.exports = Backbone.View.extend({
     },
 
     styleButtons: function() {
-        viewUtils.styleButton(this.$el.find(".removeTrackFromQueueButton"), "ui-icon-close");
-        viewUtils.styleButton(this.$el.find(".queueItemPlayingButton"), "ui-icon-volume-on");
-        viewUtils.styleButton(this.$el.find(".queueItemPauseButton"), "ui-icon-pause");
-        viewUtils.styleButton(this.$el.find(".queueItemPlayButton"), "ui-icon-play");
+        button.style(this.$el.find(".removeTrackFromQueueButton"), "ui-icon-close");
+        button.style(this.$el.find(".queueItemPlayingButton"), "ui-icon-volume-on");
+        button.style(this.$el.find(".queueItemPauseButton"), "ui-icon-pause");
+        button.style(this.$el.find(".queueItemPlayButton"), "ui-icon-play");
     },
 
     sortablize: function(){

@@ -2,7 +2,7 @@ var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 var Mustache = require('mustache');
-var viewUtils = require('../../helpers/viewUtils.js');
+var button = require('../../helpers/button.js');
 
 module.exports = Backbone.View.extend({
 
@@ -32,7 +32,7 @@ module.exports = Backbone.View.extend({
     render: function(){
         var compiledTemplate = Mustache.to_html(this.template, this.model.attributes);
         this.$el.html(compiledTemplate).show();
-        viewUtils.styleButton(this.$el.find(".closeButton"), "ui-icon-closethick");
+        button.style(this.$el.find(".closeButton"), "ui-icon-closethick");
 
         // render content into the overlay
         this.$el.find("#overlayContent").html(this.contentView.render().el);

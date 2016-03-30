@@ -3,7 +3,7 @@ var $ = require('jquery');
 var _ = require('underscore');
 var Mustache = require('mustache');
 var Backbone = require('backbone');
-var viewUtils = require('../../helpers/viewUtils.js');
+var notification = require('../../helpers/notification.js');
 var utils = require('../../helpers/commonUtils.js');
 
 var RecordingAddEdit = require('./recordingAddEdit.js');
@@ -51,7 +51,7 @@ module.exports = Backbone.View.extend({
             xhr_upload = new XMLHttpRequest();
 
         // show the "uploading" message
-        var loadingMessage = viewUtils.createNotification({
+        var loadingMessage = notification.create({
             message: "Uploading file to server, please wait..."
         });
 

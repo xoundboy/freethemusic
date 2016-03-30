@@ -4,8 +4,7 @@
 var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
-
-var viewUtils = require('../../helpers/viewUtils.js');
+var notification = require('../../helpers/notification.js');
 var GalleryModel = require('../../models/gallery.js');
 var GalleryImagesCollection = require('../../collections/galleryImages.js');
 var GalleryImagesView = require('./galleryImages.js');
@@ -35,29 +34,33 @@ module.exports = Backbone.View.extend({
 
     initialize: function (options) {
 
-        this.galleryImagesCollection = new GalleryImagesCollection();
-        this.model = new GalleryModel({
-            id: options.galleryID,
-            galleryImagesCollection: this.galleryImagesCollection
-        });
         this.containerElSelector = options.containerElSelector;
         this.template = $("#template_gallery").html();
-        this.formData = new FormData();
+        this.initializeForm();
+
+        this.model = new GalleryModel({
+            id: options.galleryID,
+            images: new GalleryImagesCollection()
+        });
 
         // sub-view
         this.galleryImagesView = new GalleryImagesView({
             template: $("#template_galleryImages").html(),
-            collection: this.galleryImagesCollection
+            collection: this.model.get("images")
         });
 
         this.model.fetch({success: $.proxy(this.onGalleryModelFetched, this)});
+    },
+
+    initializeForm: function() {
+        this.formData = new FormData();
     },
 
     onGalleryModelFetched: function(model, response){
 
         // populate the gallery images collection with the JSON strinjg from
         // the galleries.image field iin the db
-        this.galleryImagesCollection.reset(response);
+        this.model.get("images").reset(response);
     },
 
     events: {
@@ -66,30 +69,47 @@ module.exports = Backbone.View.extend({
         "click .galleryImage": "selectImage"
     },
 
+    openFileUpload: function(e){
+        this.$el.find("artistImageUpload").click();
+    },
+
     selectImage: function(e){
         $(e.target).toggleClass("selected");
+        this.showHideDeleteButton();
+    },
+
+    showHideDeleteButton: function(){
+        var deleteButton = this.$el.find("#deleteSelectedImages");
+        if ($(".galleryImage.selected").length) {
+            deleteButton.show()
+        } else {
+            deleteButton.hide();
+        }
     },
 
     deleteSelected: function(){
 
-        var deleteList = [], that = this;
+        var deleteList = [],
+            images = this.model.get("images");
 
         this.$el.find(".galleryImage.selected").each(function(i,el){
             var index = $(el).index();
-            deleteList.push(that.galleryImagesCollection.at(index));
+            deleteList.push(images.at(index));
         });
         _.each(deleteList, function(item){
-            that.galleryImagesCollection.remove(item);
+            images.remove(item);
         });
         this.model.save();
         this.renderGalleryImages();
+        this.showHideDeleteButton();
     },
 
     uploadImage: function(e){
+
         var file = e.target.files[0],
             xhr_upload = new XMLHttpRequest();
 
-        //this.showLoadingMessage();
+        this.showLoadingMessage();
         this.setFormData(file);
 
         xhr_upload.open('POST', "/api/image/upload", true);
@@ -104,10 +124,10 @@ module.exports = Backbone.View.extend({
             src: response.finalImageFileName,
             size: response.size
         });
-        this.galleryImagesCollection.add(newImage);
-        //this.model.set({images:this.galleryImagesCollection.toJSON()});
+        this.model.get("images").add(newImage);
         this.model.save();
-        //this.loadingMessage.close();
+        this.initializeForm();
+        this.loadingMessage.close();
     },
 
     onUploadImageError: function (data){
@@ -116,7 +136,7 @@ module.exports = Backbone.View.extend({
     },
 
     showLoadingMessage: function(){
-        this.loadingMessage = viewUtils.createNotification({
+        this.loadingMessage = notification.create({
             message: "Uploading file to server, please wait..."
         });
     },
@@ -125,16 +145,25 @@ module.exports = Backbone.View.extend({
         this.formData.append('uploadFile', uploadFile);
         this.formData.append('actName', this.model.get("actName"));
         this.formData.append('playlistName', this.model.get("playlistName"));
-        this.formData.append('trtackName', this.model.get("trackName"));
+        this.formData.append('trackName', this.model.get("trackName"));
     },
 
     render: function() {
-
+        console.log("rendering gallery");
+        var that = this;
         this.$el.html(Mustache.to_html(this.template, this.model.attributes));
         this.renderGalleryImages();
 
         // gallery renders itself into its assigned container Element
         $(this.containerElSelector).html(this.$el);
+
+        // upload button click cannot be triggered using a remote button
+        // using backbone events
+        this.$el.find("#uploadImageFacade").click(function(){
+            that.$el.find("#artistImageUpload").click();
+        });
+
+        this.$el.find("#deleteSelectedImages").hide();
 
         // sub-views need this
         this.delegateEvents();

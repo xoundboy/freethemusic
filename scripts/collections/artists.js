@@ -1,4 +1,4 @@
-var viewUtils = require('../helpers/viewUtils.js');
+var notification = require('../helpers/notification.js');
 var ArtistModel = require('../models/artist.js');
 
 module.exports = Backbone.Collection.extend({
@@ -10,7 +10,7 @@ module.exports = Backbone.Collection.extend({
     initialize: function() {
         this.bind("remove", function (model) {
             model.destroy({wait: true});
-            viewUtils.createNotification({
+            notification.create({
                 message: "ARTIST DELETED<br />" + model.get("actName"),
                 autohide: true
             });

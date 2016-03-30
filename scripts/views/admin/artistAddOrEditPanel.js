@@ -5,7 +5,8 @@ var _ = require('underscore');
 var $ = require('jquery');
 var Mustache = require('mustache');
 var ArtistModel = require('../../models/artist.js');
-var viewUtils = require('../../helpers/viewUtils.js');
+var notification = require('../../helpers/notification.js');
+var gallery = require('../../helpers/gallery.js');
 
 module.exports = Backbone.View.extend({
 
@@ -33,7 +34,7 @@ module.exports = Backbone.View.extend({
 
     createGallery: function(){
         var galleryID = this.model.get("galleryID");
-        this.galleryView = viewUtils.createGalleryView(galleryID, "#artistGalleryContainer");
+        this.galleryView = gallery.create(galleryID, "#artistGalleryContainer");
     },
 
     events: {
@@ -42,7 +43,7 @@ module.exports = Backbone.View.extend({
     },
 
     createEmptyDbRecords: function(){
-        this.loadingMessage = viewUtils.createNotification({
+        this.loadingMessage = notification.create({
             message: "Initialising artist, please wait..."
         });
         this.model.save(null, {

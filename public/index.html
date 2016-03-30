@@ -366,14 +366,15 @@
 </script>
 
 <script type="text/template" id="template_gallery">
-    <div class="imagesHeader clearfix">
-        <span class="floatl">Images</span>
-        <button class="floatr" id="deleteSelectedImages">Delete</button>
+    <div class="imagesHeader">
+        <span>Images</span>
+
     </div>
     <div id="imagesContainer"></div>
     <div class="imagesFooter">
-        <label for="artistImageUpload">Upload</label>
-        <input type="file" id="artistImageUpload" />
+        <input type="file" id="artistImageUpload" accept="image/gif,image/png,image/jpeg" />
+        <button id="uploadImageFacade">Upload Image</button>
+        <button id="deleteSelectedImages">Delete</button>
     </div>
 </script>
 

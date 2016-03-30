@@ -100,6 +100,10 @@ select {
     -webkit-appearance: none;
 }
 
+.hidden {
+    display:none;
+}
+
 .uploadFileButton {
     position: relative;
     width: 100%;
@@ -486,6 +490,13 @@ form#artistInfo {
     .imagesHeader,
     .imagesFooter {
         display: block;
+        position: relative;
+        #artistImageUpload {
+            width: 123px;
+            height: 29px;
+            opacity: 0;
+            position: absolute;
+        }
     }
     margin-top: 30px;
     background: $fieldBgColor;
