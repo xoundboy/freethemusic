@@ -487,6 +487,13 @@ form#artistInfo {
 }
 
 #gallery {
+    .imagesHeader {
+        margin-bottom: 20px;
+    }
+    .imagesFooter {
+        margin-top: 20px;
+    }
+
     .imagesHeader,
     .imagesFooter {
         display: block;
@@ -505,6 +512,7 @@ form#artistInfo {
     #imagesContainer {
         height: 200px;
         overflow-y: auto;
+        background-color: #2d2d2d;
         div.galleryImage {
             display: inline-block;
             margin: 10px;

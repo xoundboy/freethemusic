@@ -69,10 +69,6 @@ module.exports = Backbone.View.extend({
         "click .galleryImage": "selectImage"
     },
 
-    openFileUpload: function(e){
-        this.$el.find("artistImageUpload").click();
-    },
-
     selectImage: function(e){
         $(e.target).toggleClass("selected");
         this.showHideDeleteButton();
