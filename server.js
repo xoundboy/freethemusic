@@ -280,6 +280,17 @@ app.put('/api/recording/:id', function(req, res){
  * GALLERIES
  */
 
+// POST /api/gallery
+app.post('/api/gallery', function(req, res){
+    var onInsertGallery = function(err, res){
+            handleError(err, res) || getLastId(res, onGetGalleryInsertId);
+        },
+        onGetGalleryInsertId = function(id){
+            res.json({id:id});
+        };
+    connection.query("CALL InsertGallery();", onInsertGallery);
+});
+
 // GET /api/gallery/id
 app.get('/api/gallery/:id', function(req, res){
 
@@ -305,10 +316,7 @@ app.put('/api/gallery/:id', function(req, res){
 
     var query = "CALL UpdateGallery("
         + utils.htmlEscape(req.params.id) + ",'"
-        + images + "','"
-        + utils.htmlEscape(req.body.actName) + "','"
-        + utils.htmlEscape(req.body.playlistName) + "','"
-        + utils.htmlEscape(req.body.trackName) + "');";
+        + images + "');";
 
     var onGalleryUpdated = function(err){
         handleError(err, res) || res.json({msg: "success"});
@@ -328,7 +336,15 @@ app.get('/api/artists', function(req, res){
             console.log(err);
             res.sendStatus(500);
         } else {
-            res.json(rows);
+            res.json(rows[0].map(function(row){
+                if(row.images !== ""){
+                    var parsedImagesString = JSON.parse(row.images);
+                    if (Array.isArray(parsedImagesString)){
+                        row.avatar = parsedImagesString[0];
+                    }
+                }
+                return row;
+            }));
         }
     });
 });
@@ -362,7 +378,8 @@ app.post('/api/artist', function(req, res){
 // PUT /api/artist/id
 app.put('/api/artist/:id', function(req, res){
     var query = "CALL UpdateArtist("
-        + utils.htmlEscape(req.params.id) + ",'"
+        + utils.htmlEscape(req.params.id) + ","
+        + utils.htmlEscape(req.body.galleryID) + ",'"
         + utils.htmlEscape(req.body.actName) + "','"
         + utils.htmlEscape(req.body.actTown) + "','"
         + utils.htmlEscape(req.body.actCountry) + "','"
@@ -410,11 +427,6 @@ app.delete('/api/artist/:id', function(req, res){
                     });
                 });
             });
-
-
-
-        } else {
-            res.status(200).send("no recordings found for the artist");
         }
     });
 

@@ -4,9 +4,6 @@
 module.exports = Backbone.Model.extend({
 
     defaults: {
-        actName: "",
-        playlistName: "",
-        trackName: "",
         images: null
     },
 

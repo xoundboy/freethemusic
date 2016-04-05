@@ -77,7 +77,7 @@ module.exports = Backbone.View.extend({
     showHideDeleteButton: function(){
         var deleteButton = this.$el.find("#deleteSelectedImages");
         if ($(".galleryImage.selected").length) {
-            deleteButton.show()
+            deleteButton.show();
         } else {
             deleteButton.hide();
         }

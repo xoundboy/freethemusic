@@ -52,7 +52,7 @@ CREATE TABLE `acts` (
   `tags` varchar(254) NOT NULL DEFAULT '',
   `galleryID` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=227 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=239 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,12 +129,9 @@ DROP TABLE IF EXISTS `galleries`;
 CREATE TABLE `galleries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `images` text,
-  `actName` varchar(255) DEFAULT NULL,
-  `trackName` varchar(255) DEFAULT NULL,
-  `playlistName` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `galleries_id_uindex` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -378,13 +375,14 @@ CREATE TABLE `users` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteAct`(IN idToDelete VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteAct`(IN idToDelete SMALLINT)
 BEGIN
     DELETE acts, galleries
-    FROM acts, galleries
-    WHERE acts.id = idToDelete
-    AND galleries.id = acts.galleryID;
-  END ;;
+    FROM acts
+      LEFT JOIN galleries
+        ON galleries.id = acts.galleryID
+    WHERE acts.id = idToDelete;
+END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -422,9 +420,11 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllArtists`()
 BEGIN
-SELECT   *
-FROM     acts a
-ORDER BY a.actName;
+  SELECT *, acts.id AS id 
+  FROM acts 
+    LEFT JOIN galleries 
+      ON acts.galleryID = galleries.id
+  ORDER BY actName;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -692,10 +692,11 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateArtist`(
   IN idToUpdate SMALLINT,
+  IN galleryID SMALLINT,
   IN actName VARCHAR(50),
   IN actTown VARCHAR(50),
   IN actCountry VARCHAR(50),
@@ -705,7 +706,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateArtist`(
 )
 BEGIN
 UPDATE acts a
-  SET a.actName = actName,
+  SET a.galleryID = galleryID,
+      a.actName = actName,
       a.actTown = actTown,
       a.actCountry = actCountry,
       a.website = website,
@@ -730,17 +732,11 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateGallery`(
   IN idToUpdate SMALLINT,
-  IN images TEXT,
-  IN actName VARCHAR(50),
-  IN playlistName VARCHAR(50),
-  IN trackName VARCHAR(50)
+  IN images TEXT
 )
 BEGIN
     UPDATE galleries g
-    SET g.images = images,
-      g.actName = actName,
-      g.playlistName = playlistName,
-      g.trackName = trackName
+    SET g.images = images
     WHERE g.id = idToUpdate;
   END ;;
 DELIMITER ;
@@ -793,4 +789,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-27 13:08:10
+-- Dump completed on 2016-04-05 23:21:05

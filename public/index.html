@@ -305,7 +305,7 @@
         <tbody>
         {{#artists}}
         <tr id="actID-{{id}}" class="artistRow" data-actid="{{id}}">
-            <td><div class="imgMask">TODO: img</div></td>
+            <td><div class="imgMask">{{#avatar}}<img src="assets/images/{{avatar.src}}" />{{/avatar}}</div></td>
             <td data-artistid="{{id}}"><a href="#artist/{{id}}">{{actName}}</a></td>
             <td><button class="editArtistButton">edit</button></td>
             <td><button class="deleteArtistButton">delete</button></td>

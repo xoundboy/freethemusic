@@ -5,7 +5,7 @@ var GalleryView = require('../views/admin/gallery.js');
 
 module.exports = {
 
-    create: function(galleryID, containerElSelector){
+    createView: function(galleryID, containerElSelector){
         return new GalleryView({
             galleryID: galleryID,
             containerElSelector: containerElSelector

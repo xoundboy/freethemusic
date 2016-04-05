@@ -43,7 +43,6 @@ module.exports = Backbone.View.extend({
         var playPauseButtonIcon = (this.model.isPlaying()) ? "ui-icon-pause" : "ui-icon-play";
         var nextButtonDisabled = false,//(adminApp.collections.queue.length < 2),
             prevButtonDisabled = false;//(adminApp.collections.queueHistory.length == 0);
-
         button.style(this.$el.find("#nextButton"), "ui-icon-arrowthickstop-1-e", false, nextButtonDisabled);
         button.style(this.$el.find("#prevButton"), "ui-icon-arrowthickstop-1-w", false, prevButtonDisabled);
         button.style(this.$el.find(".dummyPlus"), "ui-icon-plusthick");

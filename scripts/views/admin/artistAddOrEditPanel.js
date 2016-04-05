@@ -7,6 +7,7 @@ var Mustache = require('mustache');
 var ArtistModel = require('../../models/artist.js');
 var notification = require('../../helpers/notification.js');
 var gallery = require('../../helpers/gallery.js');
+var GalleryModel = require('../../models/gallery.js');
 
 module.exports = Backbone.View.extend({
 
@@ -15,46 +16,49 @@ module.exports = Backbone.View.extend({
     className: "addOrEditPanel",
     containerElSelector: "#mainContent",
 
-    initialize: function(options) {
-
-        _.extend(this, _.pick(options, "returnUrl"));
-        this.template = $('#template_artistAddOrEditPanel').html();
-
-        // new artist
-        if (options.id){
-            this.model = adminApp.collections.artists.get(options.id);
-            this.createGallery();
-
-        // existing artist
-        } else {
-            this.model = new ArtistModel();
-            this.createEmptyDbRecords();
-        }
-    },
-
-    createGallery: function(){
-        var galleryID = this.model.get("galleryID");
-        this.galleryView = gallery.create(galleryID, "#artistGalleryContainer");
-    },
-
     events: {
         "click #cancelEditButton": "closePanel",
         "click #addOrUpdateArtist": "addOrUpdateArtist"
     },
 
-    createEmptyDbRecords: function(){
-        this.loadingMessage = notification.create({
-            message: "Initialising artist, please wait..."
-        });
-        this.model.save(null, {
-            success: $.proxy(this.onIdsCreated, this),
-            wait:true
-        });
+    initialize: function(options) {
+
+        var that = this;
+
+        _.extend(this, _.pick(options, "returnUrl"));
+        this.template = $('#template_artistAddOrEditPanel').html();
+
+        // existing artist
+        if (options.id){
+            this.model = adminApp.collections.artists.get(options.id);
+            var galleryID = this.model.get("galleryID");
+            if (!galleryID){
+                var newGallery = new GalleryModel();
+                newGallery.save(null, {
+                    success: function(data){
+                        that.model.set("galleryID", data.id);
+                        that.model.save(null, {
+                            success: function(){
+                                that.galleryView = gallery.createView(data.id, "#artistGalleryContainer");
+                                that.render();
+                            }
+                        });
+                    }
+                });
+            }
+        //  new artist
+        } else {
+            this.model = new ArtistModel();
+            this.model.save(null, {
+                success: $.proxy(this.onIdsCreated, this),
+                wait:true
+            });
+        }
     },
 
     onIdsCreated: function(){
         this.loadingMessage.close();
-        this.createGallery();
+        this.initGallery();
         this.render();
     },
 

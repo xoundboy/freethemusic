@@ -15,9 +15,5 @@ module.exports = Backbone.Collection.extend({
                 autohide: true
             });
         });
-    },
-
-    parse: function(response){
-        return response[0];
     }
 });
