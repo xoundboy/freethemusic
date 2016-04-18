@@ -359,8 +359,15 @@ app.post('/api/artist', function(req, res){
         },
 
         onGetGalleryInsertId = function(id){
-            output.galleryID = id;
-            connection.query("CALL InsertAct(" + id + ");", onInsertArtist)
+            var query = "CALL InsertAct('"
+                + utils.htmlEscape(req.body.actName) + "','"
+                + utils.htmlEscape(req.body.actTown) + "','"
+                + utils.htmlEscape(req.body.actCountry) + "','"
+                + utils.htmlEscape(req.body.website) + "','"
+                + utils.htmlEscape(req.body.tags) + "','"
+                + utils.htmlEscape(req.body.biog) + "',"
+                + id + ");";
+            connection.query(query, onInsertArtist);
         },
 
         onInsertArtist = function(err, res) {

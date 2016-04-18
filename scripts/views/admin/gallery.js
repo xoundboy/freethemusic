@@ -101,17 +101,18 @@ module.exports = Backbone.View.extend({
     },
 
     uploadImage: function(e){
-
         var file = e.target.files[0],
             xhr_upload = new XMLHttpRequest();
 
-        this.showLoadingMessage();
-        this.setFormData(file);
+        if (file){
+            this.showLoadingMessage();
+            this.setFormData(file);
 
-        xhr_upload.open('POST', "/api/image/upload", true);
-        xhr_upload.onload = $.proxy(this.onUploadImageSuccess, this);
-        xhr_upload.onerror = $.proxy(this.onUploadImageError, this);
-        xhr_upload.send(this.formData);
+            xhr_upload.open('POST', "/api/image/upload", true);
+            xhr_upload.onload = $.proxy(this.onUploadImageSuccess, this);
+            xhr_upload.onerror = $.proxy(this.onUploadImageError, this);
+            xhr_upload.send(this.formData);
+        }
     },
 
     onUploadImageSuccess: function (data) {

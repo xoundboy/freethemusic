@@ -6,8 +6,7 @@ var $ = require('jquery');
 var Mustache = require('mustache');
 var ArtistModel = require('../../models/artist.js');
 var notification = require('../../helpers/notification.js');
-var gallery = require('../../helpers/gallery.js');
-var GalleryModel = require('../../models/gallery.js');
+var GalleryView = require('./gallery.js');
 
 module.exports = Backbone.View.extend({
 
@@ -18,55 +17,39 @@ module.exports = Backbone.View.extend({
 
     events: {
         "click #cancelEditButton": "closePanel",
-        "click #addOrUpdateArtist": "addOrUpdateArtist"
+        "submit #artistInfo": "addOrUpdateArtist"
     },
 
     initialize: function(options) {
 
-        var that = this;
-
         _.extend(this, _.pick(options, "returnUrl"));
         this.template = $('#template_artistAddOrEditPanel').html();
 
-        // existing artist
         if (options.id){
+
+            // existing artist
             this.model = adminApp.collections.artists.get(options.id);
-            var galleryID = this.model.get("galleryID");
-            if (!galleryID){
-                var newGallery = new GalleryModel();
-                newGallery.save(null, {
-                    success: function(data){
-                        that.model.set("galleryID", data.id);
-                        that.model.save(null, {
-                            success: function(){
-                                that.galleryView = gallery.createView(data.id, "#artistGalleryContainer");
-                                that.render();
-                            }
-                        });
-                    }
-                });
-            }
-        //  new artist
+            this.setGalleryView(this.model.get("galleryID"));
+
         } else {
+
+            //  new artist
             this.model = new ArtistModel();
-            this.model.save(null, {
-                success: $.proxy(this.onIdsCreated, this),
-                wait:true
-            });
         }
     },
 
-    onIdsCreated: function(){
-        this.loadingMessage.close();
-        this.initGallery();
-        this.render();
+    setGalleryView: function(galleryID){
+        this.galleryView = new GalleryView({
+            galleryID: galleryID,
+            containerElSelector: "#artistGalleryContainer"
+        });
     },
 
     closePanel: function() {
         adminApp.routers.main.navigate('artists/highlight/' + this.model.id, {trigger: true});
     },
 
-    addOrUpdateArtist: function (e) {
+    addOrUpdateArtist: function(e) {
 
         e.preventDefault();
 
@@ -79,6 +62,7 @@ module.exports = Backbone.View.extend({
                 success: $.proxy(this.onArtistSaveSuccess, this)
             });
         }
+        return false;
     },
 
     onArtistSaveSuccess: function(){
@@ -107,7 +91,11 @@ module.exports = Backbone.View.extend({
         this.galleryView && this.galleryView.render();
 
         this.$el.find("button").button();
+
+        // Sub-views need this or events associated with
+        // previous renderings of the view will be lost.
+        this.delegateEvents();
+
         return this;
     }
-
 });

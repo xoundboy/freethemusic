@@ -327,7 +327,7 @@
             <input type="hidden" id="actID" name="id" value="{{id}}" />
         {{/id}}
         {{#galleryID}}
-            <input type="hidden" id="galleryID" name="id" value="{{galleryID}}" />
+            <input type="hidden" id="galleryID" name="galleryID" value="{{galleryID}}" />
         {{/galleryID}}
         <div>
             <label for="actName">Artist</label>
@@ -355,10 +355,12 @@
         </div>
         <p class="buttons clearfix">
             <button class="floatl" id="cancelEditButton">Cancel</button>
-            <button class="floatr" id="addOrUpdateArtist">
-                {{#id}}Update{{/id}}
-                {{^id}}Add{{/id}}
-            </button>
+            {{#id}}
+            <button class="floatr" id="updateArtist">Update</button>
+            {{/id}}
+            {{^id}}
+            <button class="floatr" id="addArtist">Add</button>
+            {{/id}}
         </p>
 
     </form>

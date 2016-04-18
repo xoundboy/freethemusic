@@ -115,8 +115,8 @@ module.exports = Backbone.Router.extend({
     },
 
     artistAdd: function(e) {
-        new ArtistAddOrEditPanelView({returnUrl: this._getReturnUrlFromQs(e),
-
+        new ArtistAddOrEditPanelView({
+            returnUrl: this._getReturnUrlFromQs(e)
         }).render();
         this._selectItemById("navArtists");
     },
