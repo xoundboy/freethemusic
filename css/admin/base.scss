@@ -1,6 +1,9 @@
 $background: #081108;
+$fieldForeground: #552e19;
+$labelForeground: #fff;
+$headingColor: #fff;
 $background-header-footer: rgb(0, 0, 0);
-$fieldBgColor: #023c00;
+$fieldBgColor: #d1cfc3;
 $success-background: #298d12;
 $success-foreground: #b3c5ff;
 $warning-text: orange;
@@ -32,13 +35,13 @@ linear-gradient(-45deg, hsla(0, 100%, 20%, 0) 49%, hsla(0, 100%, 0%, 1) 50%, hsl
 body, html, input, select, textarea {
     font-size: $font-size;
     background-color: $fieldBgColor;
-    color: white;
+    color: $labelForeground;
 }
 
 body, html {
     font-family: 'Open Sans', sans-serif;
     background: black;
-    color: white;
+    color: $labelForeground;
     min-width: 320px;
 }
 
@@ -49,6 +52,12 @@ body, html {
     content: " ";
     clear: both;
     height: 0;
+}
+h1 {
+    display: block;
+    padding: 10px;
+    color: $headingColor;
+    font-size: 20px;
 }
 p {
     &.centered {
@@ -65,6 +74,80 @@ p {
     }
 }
 
+.highlighted {
+    background: $success-background;
+    color: $success-foreground;
+}
+
+h2 {
+    line-height: 2em;
+}
+.ui-widget {
+    font-size: 1em !important;
+}
+span {
+
+    &.label {
+        width: 100px;
+        display: inline-block;
+        font-weight:800;
+    }
+    &.warningText {
+        font-size: 0.8em;
+        color: $warning-text
+    }
+}
+
+a, .ui-widget-content a {
+    &.link {
+        color: $cta-link-text;
+        text-decoration: underline;
+    }
+}
+
+.ui-sortable-helper {
+    display: table;
+}
+
+button {
+    &.ui-widget {
+        border: none;
+    }
+}
+
+span.matchButtonStyle {
+    display: inline-block;
+    text-align: center;
+    width: 30px;
+}
+
+input[type=file] {
+    font-size: 14px;
+}
+
+strong {
+    font-weight: 900;
+}
+smallFont {
+    font-size: 12px;
+}
+
+label {
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+    vertical-align: top;
+    margin-right: 10px;
+
+    &.error {
+        display: block;
+        width: auto;
+        text-align: left;
+        color: red;
+        margin-left: 79px;
+        font-size: 0.8125em;
+    }
+}
 a {
     &:link, &:visited {
         text-decoration: none;
@@ -86,14 +169,6 @@ div {
     &.short {
         padding-top: 50px;
     }
-}
-
-div.center-cropped {
-    width: 150px;
-    height: 150px;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 select {
@@ -190,6 +265,7 @@ select {
                     font-size: 13px;
                     color: #b6b6b6;
                     box-sizing: border-box;
+                    margin-bottom: 40px;
                     span {
                         font-weight: 300;
                         font-size: 13px;
@@ -261,7 +337,6 @@ select {
 
 #mainContent {
     box-sizing: border-box;
-    padding: 10px;
     overflow: auto;
     z-index: 5;
     height: calc(100% - 143px);
@@ -353,99 +428,10 @@ select {
     padding: 3px;
 }
 
-.highlighted {
-    background: $success-background;
-    color: $success-foreground;
-}
 
-h2 {
-    line-height: 2em;
-}
-.ui-widget {
-    font-size: 1em !important;
-}
-form {
-    margin: 30px 0;
-}
-
-span {
-
-    &.label {
-        width: 100px;
-        display: inline-block;
-        font-weight:800;
-    }
-    &.warningText {
-        font-size: 0.8em;
-        color: $warning-text
-    }
-}
-
-a, .ui-widget-content a {
-    &.link {
-        color: $cta-link-text;
-        text-decoration: underline;
-    }
-}
-
-.ui-sortable-helper {
-    display: table;
-}
-
-button {
-    &.ui-widget {
-        border: none;
-    }
-}
-
-span.matchButtonStyle {
-    display: inline-block;
-    text-align: center;
-    width: 30px;
-}
-
-input[type=file] {
-    font-size: 14px;
-}
-
-p {
-    //padding: 10px;
-    line-height: 22px;
-    font-weight: 300;
-
-    strong {
-        font-weight: 900;
-    }
-
-    &.smallFont {
-        font-size: 12px;
-    }
-
-    label {
-        display: inline-block;
-        width: 60px;
-        text-align: right;
-        vertical-align: top;
-        margin-right: 10px;
-
-        &.error {
-            display: block;
-            width: auto;
-            text-align: left;
-            color: red;
-            margin-left: 79px;
-            font-size: 0.8125em;
-        }
-    }
-
-    &.buttons {
-        margin-top: 20px;
-
-        .nextBtn, #step3NextBtn {
-            float: right;
-        }
-    }
-    
+.buttons {
+    margin: 10px 0;
+    padding: 10px;
 }
 
 .buttonBar {
@@ -463,41 +449,34 @@ p {
     }
 }
 
-form#artistInfo {
-
-    div {
-        padding-top: 10px;
-        &.buttons {
-            text-align: right;
-        }
-        label, span.label {
-            width: 20%;
-            font-size: 15px;
-            display: inline-block;
-        }
-        input, select, textarea {
-            width: 70%;
-            padding-left: 5px;
-        }
-        textarea {
-            height: 100px;
-        }
-
+.formRow {
+    padding: 5px 0;
+    &.buttons {
+        text-align: right;
     }
+    label, span.label {
+        width: 20%;
+        font-size: 15px;
+        display: inline-block;
+    }
+    input, select, textarea {
+        width: 70%;
+        padding: 5px;
+        border: none;
+        color: $fieldForeground;
+    }
+    textarea {
+        height: 100px;
+    }
+
 }
 
 #gallery {
-    .imagesHeader {
-        margin-bottom: 20px;
-    }
-    .imagesFooter {
-        margin-top: 20px;
-    }
-
-    .imagesHeader,
-    .imagesFooter {
+    .imagesButtonBar {
+        margin: 20px;
         display: block;
         position: relative;
+        text-align: center;
         #artistImageUpload {
             width: 123px;
             height: 29px;
@@ -505,24 +484,31 @@ form#artistInfo {
             position: absolute;
         }
     }
-    margin-top: 30px;
-    background: $fieldBgColor;
-    padding: 20px;
 
     #imagesContainer {
+        display: inline-block;
+        width: 70%;
         height: 200px;
         overflow-y: auto;
-        background-color: #2d2d2d;
-        div.galleryImage {
-            display: inline-block;
-            margin: 10px;
-            border: 5px solid transparent;
-            &.selected {
-                border-color: red;
-                opacity: .5;
+        background-color: $fieldBgColor;
+        #galleryImages {
+            color: $fieldForeground;
+            padding: 5px;
+            .galleryImage {
+                width: 60px;
+                height: 60px;
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                display: inline-block;
+                margin: 10px;
+                border: 5px solid transparent;
+                &.selected {
+                    border-color: red;
+                    opacity: .5;
+                }
             }
         }
-
     }
 }
 

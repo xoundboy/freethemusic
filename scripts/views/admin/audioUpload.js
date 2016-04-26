@@ -115,7 +115,8 @@ module.exports = Backbone.View.extend({
 
     stashFormData: function(){
         this.model.set(this.$el.find("#newRecordingInfo").serializeJSON());
-        this.model.set("actName", this.$el.find("select[name=actID] option:selected").html());
+        var actName = this.$el.find("select[name=actID] option:selected").html();
+        this.model.set("actName", actName);
     },
 
     stepBack: function() {

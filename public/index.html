@@ -165,14 +165,14 @@
     {{/step3}}
     {{#step4}}
     <div id="step4" class="steps addOrEditPanel">
-        <p><span class="label">Title:</span> {{{title}}}</p>
-        <p><span class="label">Artist:</span> {{{actName}}}</p>
-        <p><span class="label">Tags:</span> {{{tags}}}{{^tags}}-{{/tags}}</p>
-        <p><span class="label">Location:</span> {{{recLocation}}}</p>
-        <p><span class="label">Date:</span> {{recDate}}</p>
-        <p><span class="label">Notes:</span> {{{recNotes}}}{{^recNotes}}-{{/recNotes}}</p>
-        <p><span class="label">Duration:</span> {{duration}}</p>
-        <p><span class="label">Size:</span> {{size}} bytes</p>
+        <div class="formRow"><span class="label">Title:</span> {{{title}}}</div>
+        <div class="formRow"><span class="label">Artist:</span> {{{actName}}}</div>
+        <div class="formRow"><span class="label">Tags:</span> {{{tags}}}{{^tags}}-{{/tags}}</div>
+        <div class="formRow"><span class="label">Location:</span> {{{recLocation}}}</div>
+        <div class="formRow"><span class="label">Date:</span> {{recDate}}</div>
+        <div class="formRow"><span class="label">Notes:</span> {{{recNotes}}}{{^recNotes}}-{{/recNotes}}</div>
+        <div class="formRow"><span class="label">Duration:</span> {{duration}}</div>
+        <div class="formRow"><span class="label">Size:</span> {{size}} bytes</div>
         <p class="buttons">
             <button class="backBtn floatl">Back</button>
             <button class="finishBtn floatr">Finish</button>
@@ -242,11 +242,11 @@
     {{/isUploadFlow}}
 
     <input type="hidden" name="size" value="{{size}}" />
-    <p>
+    <div class="formRow">
         <label for="title">Title</label>
         <input type="text" name="title" id="title" maxlength="50" value="{{{title}}}" required />
-    </p>
-    <p>
+    </div>
+    <div class="formRow">
         <label for="actID">Artist</label>
 
         <select name="actID" id="actID" required>
@@ -257,23 +257,23 @@
             <option value="new">+ Add new artist</option>
         </select>
 
-    </p>
-    <p>
+    </div>
+    <div class="formRow">
         <label for="tags">Tags</label>
         <input type="text" name="tags" id="tags" maxlength="254" value="{{{tags}}}" />
-    </p>
-    <p>
+    </div>
+    <div class="formRow">
         <label for="recLocation">Location</label>
         <input type="text" name="recLocation" id="recLocation" maxlength="254" value="{{{recLocation}}}" required />
-    </p>
-    <p>
+    </div>
+    <div class="formRow">
         <label for="recDate">Date</label>
         <input class="datepicker" type="text" name="recDate" id="recDate" value="{{recDate}}" required />
-    </p>
-    <p>
+    </div>
+    <div class="formRow">
         <label for="recNotes">Notes</label>
         <textarea name="recNotes" id="recNotes">{{{recNotes}}}</textarea>
-    </p>
+    </div>
 
 
 </script>
@@ -323,37 +323,7 @@
 <script type="text/template" id="template_artistAddOrEditPanel">
     <form id="artistInfo">
 
-        {{#id}}
-            <input type="hidden" id="actID" name="id" value="{{id}}" />
-        {{/id}}
-        {{#galleryID}}
-            <input type="hidden" id="galleryID" name="galleryID" value="{{galleryID}}" />
-        {{/galleryID}}
-        <div>
-            <label for="actName">Artist</label>
-            <input type="text" name="actName" id="actName" maxlength="50" value="{{{actName}}}" required />
-        </div>
-        <div>
-            <label for="actTown">Town</label>
-            <input type="text" name="actTown" id="actTown" maxlength="50" value="{{{actTown}}}" />
-        </div>
-        <div>
-            <label for="actCountry">Country</label>
-            <input type="text" name="actCountry" id="actCountry" maxlength="50" value="{{{actCountry}}}" />
-        </div>
-        <div>
-            <label for="website">Website</label>
-            <input type="text" name="website" id="website" maxlength="254" value="{{{website}}}" />
-        </div>
-        <div>
-            <label for="tags">Tags</label>
-            <input type="text" name="tags" id="tags" maxlength="254" value="{{{tags}}}" />
-        </div>
-        <div>
-            <label for="biog">Biog</label>
-            <textarea name="biog" id="biog" cols="30" rows="10" >{{{biog}}}</textarea>
-        </div>
-        <p class="buttons clearfix">
+        <div class="buttons clearfix">
             <button class="floatl" id="cancelEditButton">Cancel</button>
             {{#id}}
             <button class="floatr" id="updateArtist">Update</button>
@@ -361,23 +331,58 @@
             {{^id}}
             <button class="floatr" id="addArtist">Add</button>
             {{/id}}
-        </p>
+        </div>
 
+        {{#id}}
+            <input type="hidden" id="actID" name="id" value="{{id}}" />
+        {{/id}}
+        {{#galleryID}}
+            <input type="hidden" id="galleryID" name="galleryID" value="{{galleryID}}" />
+            <h1>Update Artist</h1>
+        {{/galleryID}}
+        {{^galleryID}}
+            <h1>Add Artist</h1>
+        {{/galleryID}}
+
+        <div class="formRow">
+            <label for="actName">Artist</label>
+            <input type="text" name="actName" id="actName" maxlength="50" value="{{{actName}}}" required />
+        </div>
+        <div class="formRow">
+            <label for="actTown">Town</label>
+            <input type="text" name="actTown" id="actTown" maxlength="50" value="{{{actTown}}}" />
+        </div>
+        <div class="formRow">
+            <label for="actCountry">Country</label>
+            <input type="text" name="actCountry" id="actCountry" maxlength="50" value="{{{actCountry}}}" />
+        </div>
+        <div class="formRow">
+            <label for="website">Website</label>
+            <input type="text" name="website" id="website" maxlength="254" value="{{{website}}}" />
+        </div>
+        <div class="formRow">
+            <label for="tags">Tags</label>
+            <input type="text" name="tags" id="tags" maxlength="254" value="{{{tags}}}" />
+        </div>
+        <div class="formRow">
+            <label for="biog">Biog</label>
+            <textarea name="biog" id="biog" cols="30" rows="10" >{{{biog}}}</textarea>
+        </div>
     </form>
     <div id="artistGalleryContainer"></div>
 </script>
 
 <script type="text/template" id="template_gallery">
-    <div class="imagesHeader">
-        <span>Images</span>
-
-    </div>
-    <div id="imagesContainer"></div>
-    <div class="imagesFooter">
+    <div class="imagesButtonBar formRow">
         <input type="file" id="artistImageUpload" accept="image/gif,image/png,image/jpeg" />
         <button id="uploadImageFacade">Upload Image</button>
-        <button id="deleteSelectedImages">Delete</button>
+        <button id="deleteSelectedImages">Delete Image</button>
     </div>
+    <div class="formRow">
+        <label>Images</label>
+        <div id="imagesContainer"></div>
+    </div>
+
 </script>
 
 <script type="text/template" id="template_galleryImages">
@@ -451,9 +456,3 @@
     </table>
     <div id="artistImagesContainer"></div>
 </script>
-
-<!--<script type="text/template" id="template_artistImages">-->
-    <!--{{#images}}-->
-    <!--<img src="/assets/images/{{src}}" class="artistImage" alt="{{{alt}}}" />-->
-    <!--{{/images}}-->
-<!--</script>-->

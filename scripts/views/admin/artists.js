@@ -41,11 +41,9 @@ module.exports = Backbone.View.extend({
             recordingList += recording.get("title") + "\n";
         });
 
-        //if (confirm("WARNING: If you delete this artist then the following recordings will also be deleted:\n" + recordingList)){
-        //    if (confirm("Really really really sure?")){
-                this.collection.remove(this.collection.get(actID));
-        //    }
-        //}
+        if (confirm("WARNING: If you delete this artist then the following recordings will also be deleted:\n" + recordingList)){
+            this.collection.remove(this.collection.get(actID));
+        }
     },
 
     styleButtons: function() {

@@ -14,6 +14,7 @@ module.exports = Backbone.View.extend({
     id: "artistEditPanel",
     className: "addOrEditPanel",
     containerElSelector: "#mainContent",
+    newArtist: true,
 
     events: {
         "click #cancelEditButton": "closePanel",
@@ -28,6 +29,7 @@ module.exports = Backbone.View.extend({
         if (options.id){
 
             // existing artist
+            this.newArtist = false;
             this.model = adminApp.collections.artists.get(options.id);
             this.setGalleryView(this.model.get("galleryID"));
 
@@ -46,7 +48,13 @@ module.exports = Backbone.View.extend({
     },
 
     closePanel: function() {
+        this.remove();
         adminApp.routers.main.navigate('artists/highlight/' + this.model.id, {trigger: true});
+    },
+
+    reopenPanelWithGallery: function() {
+        this.remove();
+        adminApp.routers.main.navigate('artist/edit/' + this.model.id, {trigger: true});
     },
 
     addOrUpdateArtist: function(e) {
@@ -77,7 +85,11 @@ module.exports = Backbone.View.extend({
             adminApp.routers.main.navigate(this.returnUrl + '?actId='+ data.id, {trigger:true});
             return;
         }
-        this.closePanel();
+        if (this.newArtist){
+            this.reopenPanelWithGallery();
+        } else {
+            this.closePanel();
+        }
     },
 
     render: function () {
