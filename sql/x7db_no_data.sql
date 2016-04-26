@@ -52,7 +52,7 @@ CREATE TABLE `acts` (
   `tags` varchar(254) NOT NULL DEFAULT '',
   `galleryID` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=239 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=279 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +131,7 @@ CREATE TABLE `galleries` (
   `images` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `galleries_id_uindex` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -296,7 +296,7 @@ CREATE TABLE `recordings` (
   `tags` varchar(254) DEFAULT NULL,
   `duration` varchar(12) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=816 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=817 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -600,13 +600,31 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertAct`(
+  IN actName VARCHAR(50),
+  IN actTown VARCHAR(50),
+  IN actCountry Varchar(50),
+  IN website VARCHAR(254),
+  IN tags VARCHAR(254),
+  IN biog TEXT,
   IN galleryIdToInsert SMALLINT
 )
 BEGIN
     INSERT INTO acts (
+      actName,
+      actTown,
+      actCountry,
+      website,
+      tags,
+      biog,
       galleryID
     )
     VALUES (
+      actName,
+      actTown,
+      actCountry,
+      website,
+      tags,
+      biog,
       galleryIdToInsert
     );
   END ;;
@@ -789,4 +807,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-05 23:21:05
+-- Dump completed on 2016-04-26 18:08:49
