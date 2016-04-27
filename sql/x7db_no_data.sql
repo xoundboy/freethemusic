@@ -131,7 +131,7 @@ CREATE TABLE `galleries` (
   `images` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `galleries_id_uindex` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,9 +253,9 @@ CREATE TABLE `playlists` (
   `dateCreated` datetime DEFAULT NULL,
   `isAlbum` varchar(5) NOT NULL DEFAULT '0',
   `notes` text,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `galleryID` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -401,8 +401,11 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DeletePlaylist`(IN idToDelete SMALLINT)
 BEGIN
-    DELETE FROM playlists
-    WHERE id = idToDelete;
+    DELETE playlists, galleries
+      FROM playlists
+      LEFT JOIN galleries
+        ON galleries.id = playlists.galleryID
+    WHERE playlists.id = idToDelete;
   END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -709,16 +712,18 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPlaylist`(
   IN name VARCHAR(50),
   IN actID INT,
-  IN yearPublished SMALLINT,
+  IN galleryID SMALLINT,
+  IN yearPublished VARCHAR(50),
   IN label VARCHAR(50),
   IN dateCreated DATETIME,
-  IN notes LONGTEXT,
-  IN isAlbum TINYINT(1)
+  IN notes TEXT,
+  IN isAlbum VARCHAR(5)
 )
 BEGIN
     INSERT INTO playlists (
       name,
       actID,
+      galleryID,
       yearPublished,
       label,
       dateCreated,
@@ -728,6 +733,7 @@ BEGIN
     VALUES (
       name,
       actID,
+      galleryID,
       yearPublished,
       label,
       dateCreated,
@@ -864,16 +870,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePlaylist`(
   IN idToUpdate SMALLINT,
   IN name VARCHAR(50),
   IN actID INT,
-  IN yearPublished SMALLINT,
+  IN galleryID INT,
+  IN yearPublished VARCHAR(50),
   IN label VARCHAR(50),
   IN dateCreated DATETIME,
-  IN notes LONGTEXT,
-  IN isAlbum TINYINT(1)
+  IN notes TEXT,
+  IN isAlbum VARCHAR(5)
 )
 BEGIN
     UPDATE playlists p
     SET p.name = name,
       p.actID = actID,
+      p.galleryID = galleryID,
       p.yearPublished = yearPublished,
       p.label = label,
       p.dateCreated = dateCreated,
@@ -931,4 +939,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-26 18:27:24
+-- Dump completed on 2016-04-27 14:59:15
