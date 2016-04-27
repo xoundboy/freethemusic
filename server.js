@@ -52,10 +52,9 @@ function handleError(err, res) {
 function getLastId(res, callback){
     connection.query('SELECT last_insert_id() AS id;', function (err, rows) {
         if (err) {
-            console.log(err);
             res.status(400).send("can't get the latest insert ID from the database");
         } else {
-            callback(rows[0].id)
+            callback(rows[0].id);
         }
     });
 }
@@ -481,6 +480,78 @@ app.get('/api/playlists', function(req, res){
     });
 });
 
+// GET /api/playlist/id
+app.get('/api/playlist/:id', function(req, res){
+    connection.query("CALL GetPlaylistById(" + utils.htmlEscape(req.params.id) + ");", function(err, rows){
+        handleError(err, res) || res.json(rows);
+    });
+});
+
+// POST /api/playlist
+app.post('/api/playlist', function(req, res){
+
+    var output = {},
+
+        onInsertGallery = function(err, res){
+            handleError(err, res) || getLastId(res, onGetGalleryInsertId);
+        },
+
+        onGetGalleryInsertId = function(id){
+            var query = "CALL InsertPlaylist('"
+                + utils.htmlEscape(req.body.name) + "',"
+                + utils.htmlEscape(req.body.actID) + ","
+                + id + ",'"
+                + utils.htmlEscape(req.body.yearPublished) + "','"
+                + utils.htmlEscape(req.body.label) + "','"
+                + utils.htmlEscape(req.body.dateCreated) + "','"
+                + utils.htmlEscape(req.body.notes) + "','"
+                + utils.htmlEscape(req.body.isAlbum) + "');";
+            connection.query(query, onInsertPlaylist);
+        },
+
+        onInsertPlaylist = function(err, res) {
+            handleError(err, res) || getLastId(res, onGetPlaylistInsertId);
+        },
+
+        onGetPlaylistInsertId = function(id){
+            output.id = id;
+            res.json(output);
+        };
+
+    connection.query("CALL InsertGallery();", onInsertGallery);
+});
+
+// PUT /api/playlist/id
+app.put('/api/playlist/:id', function(req, res){
+    var query = "CALL UpdatePlaylist("
+        + utils.htmlEscape(req.params.id) + ",'"
+        + utils.htmlEscape(req.body.name) + "',"
+        + utils.htmlEscape(req.body.actID) + ","
+        + utils.htmlEscape(req.body.galleryID) + ",'"
+        + utils.htmlEscape(req.body.yearPublished) + "','"
+        + utils.htmlEscape(req.body.label) + "','"
+        + utils.htmlEscape(req.body.dateCreated) + "','"
+        + utils.htmlEscape(req.body.notes) + "','"
+        + utils.htmlEscape(req.body.isAlbum) + "');";
+
+    connection.query(query, function(err){
+        if(err){
+            console.log(err);
+            res.status(400).send("can't update the playlist in the database");
+        }
+        res.json({msg: "success"});
+    });
+});
+
+// DELETE /api/playlist/id
+app.delete('/api/playlist/:id', function(req, res){
+    connection.query("CALL DeletePlaylist(" + utils.htmlEscape(req.params.id) + ");", function (err) {
+        if (err) {
+            res.status(400).send("the artist could not be deleted from the database");
+        }
+        res.sendStatus(200);
+    });
+});
 
 /**
  * TAGS
@@ -497,6 +568,8 @@ app.get('/api/tags', function(req, res){
         res.json(rows);
     });
 });
+
+
 
 
 app.use(express.static('public'));
