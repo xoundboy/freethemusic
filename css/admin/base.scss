@@ -205,6 +205,23 @@ select {
     float: right;
 }
 
+.contextMenu {
+    position: absolute;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    div {
+        background: #272727;
+        color: #b4b4b4;
+        .listOption {
+            padding: 10px;
+            &:hover {
+                background: green;
+                color: white;
+            }
+        }
+    }
+}
+
 .fullscreenContainer {
     position: fixed;
     top: 0;
@@ -315,7 +332,7 @@ select {
     a {
         display: inline-block;
         color: #848484;
-        padding: 12px 11px;
+        padding: 12px 6px;
         font-size: 16px;
 
         &:hover {

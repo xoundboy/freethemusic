@@ -4,8 +4,11 @@ var qs = require('query-string');
 
 var RecordingDetailsView        = require('../views/admin/recording.js');
 var RecordingEditPanelView      = require('../views/admin/recordingEditPanel.js');
+
+var PlaylistDetailsView         = require('../views/admin/playlist.js');
+var PlaylistAddOrEditPanelView    = require('../views/admin/playlistAddOrEditPanel.js');
+
 var ArtistAddOrEditPanelView    = require('../views/admin/artistAddOrEditPanel.js');
-var ArtistModel                 = require('../models/artist.js');
 
 var OverlayModel                = require('../models/overlay.js');
 var OverlayView                 = require('../views/admin/overlay.js');
@@ -30,6 +33,10 @@ module.exports = Backbone.Router.extend({
         'artist/:id'                        : 'artist',
 
         'playlists'                         : 'playlists',
+        'playlists/highlight/:id'           : 'playlistHighlight',
+        'playlist/edit/:id'                 : 'playlistEdit',
+        'playlist/add'                      : 'playlistAdd',
+        'playlist/:id'                      : 'playlistDetails',
 
         'tags'                              : 'tags'
     },
@@ -126,6 +133,34 @@ module.exports = Backbone.Router.extend({
         this._selectItemById("navPlaylists");
     },
 
+    playlistHighlight: function(id) {
+        this._showInMainContent(adminApp.views.playlists);
+        this._highlightElement($("#playlistID-" + id));
+        this._selectItemById("navPlaylists");
+    },
+
+    playlistDetails: function(id){
+        var playlistDetailsView = new PlaylistDetailsView({
+            model: adminApp.collections.playlists.get(id),
+            template: $('#template_playlistDetails').html()
+        });
+        this._showInMainContent(playlistDetailsView);
+    },
+
+    playlistEdit: function(id){
+        new PlaylistAddOrEditPanelView({
+            id:id,
+            containerElSelector: "#mainContent"
+        }).render();
+        this._selectItemById("navPlaylists");
+    },
+
+    playlistAdd: function(e){
+        new PlaylistAddOrEditPanelView({
+            returnUrl: this._getReturnUrlFromQs(e)
+        }).render();
+        this._selectItemById("navPlaylists");
+    },
 
 
     /**

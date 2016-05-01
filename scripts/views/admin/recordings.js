@@ -4,6 +4,7 @@ var $ = require('jquery');
 var Mustache = require('mustache');
 var button = require('../../helpers/button.js');
 var notification = require('../../helpers/notification.js');
+var AddToListContextMenuView = require('./addToListContextMenu.js');
 
 module.exports = Backbone.View.extend({
 
@@ -21,7 +22,7 @@ module.exports = Backbone.View.extend({
     events: {
         "click th"                      : "sort",
         "click .playButton"             : "play",
-        "click .plusButton"             : "addToQueue",
+        "click .addToListButton"        : "addToListMenu",
         "click .editRecordingButton"    : "edit",
         "click .deleteRecordingButton"  : "delete",
         "click a[href=#uploads]"        : "add",
@@ -35,6 +36,10 @@ module.exports = Backbone.View.extend({
     edit: function(e) {
         var recID = $(e.currentTarget).closest("tr").attr("data-recordingId");
         adminApp.routers.main.navigate('recording/edit/' + recID, {trigger:true});
+    },
+
+    closeContextMenu: function(){
+        $(".listContextMenuContainer").html();
     },
 
     delete: function (e) {
@@ -51,16 +56,23 @@ module.exports = Backbone.View.extend({
 
     play: function (e) {
         var recordingId = $(e.currentTarget).closest("tr").attr("data-recordingId");
-        console.log(recordingId);
         adminApp.models.player.load(this.collection.get(recordingId), true);
     },
 
-    addToQueue: function(e){
+    addToListMenu: function(e){
+
+        e.stopPropagation();
 
         var $btn = $(e.currentTarget),
-            recordingId = $btn.closest("tr").attr("data-recordingId");
-        adminApp.collections.queue.addModel(this.collection.get(recordingId));
-//
+            $contextMenuContainer = $btn.parent().find(".listContextMenuContainer");
+
+        var contextMenuView = new AddToListContextMenuView({
+            collection: adminApp.collections.playlists,
+            recordingId: $btn.closest("tr").attr("data-recordingId")
+        });
+
+        $contextMenuContainer.html(contextMenuView.render().el);
+
         // show onboarding help for first time a user adds a track to the queue
         //console.log(adminApp.collections.queue.length);
         //if (!adminApp.collections.queue.length){
@@ -80,7 +92,7 @@ module.exports = Backbone.View.extend({
 
     styleButtons: function() {
         button.style(this.$el.find(".playButton"), "ui-icon-play");
-        button.style(this.$el.find(".plusButton"), "ui-icon-plusthick");
+        button.style(this.$el.find(".addToListButton"), "ui-icon-plusthick");
         button.style(this.$el.find(".editRecordingButton"), "ui-icon-pencil");
         button.style(this.$el.find(".deleteRecordingButton"), "ui-icon-trash");
         button.style(this.$el.find(".addRecordingButton"), "ui-icon-plusthick", true);

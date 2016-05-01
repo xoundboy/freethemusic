@@ -203,7 +203,10 @@
         {{#recordings}}
         <tr id="recordingId-{{id}}" class="recordingRow" data-recordingid="{{id}}">
             <td><button class="playButton" data-filename="{{audioFile}}.mp3">Play now</button></td>
-            <td><button class="plusButton" data-filename="{{audioFile}}.mp3">Add to queue</button></td>
+            <td>
+                <button class="addToListButton" data-filename="{{audioFile}}.mp3">Add to queue</button>
+                <div class="contextMenu listContextMenuContainer"></div>
+            </td>
             <td><a href="#recording/{{id}}">{{{title}}}</a></td>
             <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
             <td class="rightAlign">{{duration}}</td>
@@ -397,7 +400,109 @@
 </script>
 
 <script type="text/template" id="template_playlists">
-    this is the playlists template
+
+    <div class="buttonBar">
+        <button class="addPlaylistButton cta">Add Playlist</button>
+    </div>
+
+    <table id="playlists_table" class="benGrid">
+        <thead>
+        <tr>
+            <th bengrid-key="audioFile">List</th>
+            <th bengrid-key="actName">Artist</th>
+            <th bengrid-key="actName">Length</th>
+            <td class="buttonColumn"></td>
+            <td class="buttonColumn"></td>
+        </tr>
+        </thead>
+        <tbody>
+        {{#playlists}}
+        <tr id="playlistID-{{id}}" class="playlistRow" data-playlistid="{{id}}">
+            <td><a href="#playlist/{{id}}">{{{name}}}</a></td>
+            <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
+            <td class="rightAlign">{{duration}}</td>
+            <td><button class="editPlaylistButton">edit</button></td>
+            <td><button class="deletePlaylistButton">delete</button></td>
+        </tr>
+        {{/playlists}}
+        {{^playlists}}
+        <tr>
+            <td colspan="7" class="emptyTable">No playlists yet
+                <a href="#playlist/add" class="link">Add one now</a>
+            </td>
+        </tr>
+        {{/playlists}}
+        </tbody>
+    </table>
+
+</script>
+
+<script type="text/template" id="template_playlistDetails">
+    <p>This is the playlist details page for id: {{id}}</p>
+</script>
+
+<script type="text/template" id="template_playlistAddOrEditPanel">
+    <form id="playlistInfo">
+
+        <div class="buttons clearfix">
+            <button class="floatl" id="cancelEditButton">Cancel</button>
+            {{#id}}
+            <button class="floatr" id="updatePlaylist">Update</button>
+            {{/id}}
+            {{^id}}
+            <button class="floatr" id="addPlaylist">Add</button>
+            {{/id}}
+        </div>
+
+        {{#id}}
+        <input type="hidden" id="playlistID" name="id" value="{{id}}" />
+        {{/id}}
+        {{#galleryID}}
+        <input type="hidden" id="galleryID" name="galleryID" value="{{galleryID}}" />
+        <h1>Update Playlist</h1>
+        {{/galleryID}}
+        {{^galleryID}}
+        <h1>Add Playlist</h1>
+        {{/galleryID}}
+
+        <div class="formRow">
+            <label for="name">Title</label>
+            <input type="text" name="name" id="name" maxlength="50" value="{{{name}}}" required />
+        </div>
+        <div class="formRow">
+            <label for="isAlbum">Album</label>
+            <input type="checkbox" id="isAlbum" name="isAlbum" {{#isAlbum}} checked="checked"{{/isAlbum}} />
+        </div>
+
+        {{#isAlbum}}
+            <div class="formRow">
+                <label for="actID">Artist</label>
+                <select name="actID" id="actID">
+                    <option value="">Various artists</option>
+                    {{#artistOptions}}
+                    <option value="{{id}}">{{{actName}}}</option>
+                    {{/artistOptions}}
+                    <option value="new">+ Add new artist</option>
+                </select>
+            </div>
+
+            <div class="formRow">
+                <label for="yearPublished">Year published</label>
+                <input type="text" name="yearPublished" id="yearPublished" maxlength="50" value="{{yearPublished}}" />
+            </div>
+
+            <div class="formRow">
+                <label for="label">Label</label>
+                <input type="text" name="label" id="label" maxlength="50" value="{{label}}" />
+            </div>
+        {{/isAlbum}}
+
+        <div class="formRow">
+            <label for="notes">Notes</label>
+            <textarea name="notes" id="notes" cols="30" rows="10" >{{{notes}}}</textarea>
+        </div>
+    </form>
+    <div id="playlistGalleryContainer"></div>
 </script>
 
 <script type="text/template" id="template_tags">
@@ -455,4 +560,12 @@
         {{/website}}
     </table>
     <div id="artistImagesContainer"></div>
+</script>
+
+<script type="text/template" id="template_addToListContextMenu">
+    <div class="listOption addToQueueLink">Add to queue</div>
+    <hr>
+    {{#playlists}}
+        <div class="listOption addToListLink" data-id="{{id}}">{{{name}}}</div>
+    {{/playlists}}
 </script>

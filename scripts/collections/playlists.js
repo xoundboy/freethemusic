@@ -19,6 +19,9 @@ module.exports = Backbone.Collection.extend({
     sortByField: function(fieldName) {
         this.sort_key = fieldName;
         this.sort();
-    }
+    },
 
+    parse: function(response){
+        return response[0];
+    }
 });

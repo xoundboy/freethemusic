@@ -52,7 +52,7 @@ CREATE TABLE `acts` (
   `tags` varchar(254) NOT NULL DEFAULT '',
   `galleryID` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=279 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=283 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +131,7 @@ CREATE TABLE `galleries` (
   `images` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `galleries_id_uindex` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -255,7 +255,7 @@ CREATE TABLE `playlists` (
   `notes` text,
   `galleryID` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +297,7 @@ CREATE TABLE `recordings` (
   `tags` varchar(254) DEFAULT NULL,
   `duration` varchar(12) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=817 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=818 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -463,14 +463,16 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllPlaylists`()
 BEGIN
-SELECT   *
-FROM     playlists
-ORDER BY dateCreated DESC;
-END ;;
+    SELECT   *, p.id AS id, p.actID AS actID, p.galleryID AS galleryID
+    FROM     playlists p
+      LEFT JOIN acts a
+      ON p.actID = a.id
+    ORDER BY p.dateCreated DESC;
+  END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -715,7 +717,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPlaylist`(
   IN galleryID SMALLINT,
   IN yearPublished VARCHAR(50),
   IN label VARCHAR(50),
-  IN dateCreated DATETIME,
   IN notes TEXT,
   IN isAlbum VARCHAR(5)
 )
@@ -736,7 +737,7 @@ BEGIN
       galleryID,
       yearPublished,
       label,
-      dateCreated,
+      NOW(),
       notes,
       isAlbum
     );
@@ -870,10 +871,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePlaylist`(
   IN idToUpdate SMALLINT,
   IN name VARCHAR(50),
   IN actID INT,
-  IN galleryID INT,
   IN yearPublished VARCHAR(50),
   IN label VARCHAR(50),
-  IN dateCreated DATETIME,
   IN notes TEXT,
   IN isAlbum VARCHAR(5)
 )
@@ -881,10 +880,8 @@ BEGIN
     UPDATE playlists p
     SET p.name = name,
       p.actID = actID,
-      p.galleryID = galleryID,
       p.yearPublished = yearPublished,
       p.label = label,
-      p.dateCreated = dateCreated,
       p.notes = notes,
       p.isAlbum = isAlbum
       WHERE p.id = idToUpdate;
@@ -939,4 +936,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-27 14:59:15
+-- Dump completed on 2016-05-01 22:58:29

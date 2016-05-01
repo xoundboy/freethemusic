@@ -3,7 +3,6 @@ var _ = require('underscore');
 
 module.exports = Backbone.Collection.extend({
 
-
     model: ImageModel,
 
     initialize: function(options){

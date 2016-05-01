@@ -52,6 +52,9 @@ module.exports = {
             }
         ]
     },
+    jshint: {
+        boss: true
+    },
     resolve: {
         extensions: ['', '.js']
     },

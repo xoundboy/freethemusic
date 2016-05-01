@@ -58,8 +58,8 @@ module.exports = Backbone.View.extend({
 
     onGalleryModelFetched: function(model, response){
 
-        // populate the gallery images collection with the JSON strinjg from
-        // the galleries.image field iin the db
+        // Populate the gallery images collection with the JSON
+        // string from the galleries.image field in the db.
         this.model.get("images").reset(response);
     },
 
@@ -146,7 +146,6 @@ module.exports = Backbone.View.extend({
     },
 
     render: function() {
-        console.log("rendering gallery");
         var that = this;
         this.$el.html(Mustache.to_html(this.template, this.model.attributes));
         this.renderGalleryImages();

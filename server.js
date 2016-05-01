@@ -499,13 +499,12 @@ app.post('/api/playlist', function(req, res){
         onGetGalleryInsertId = function(id){
             var query = "CALL InsertPlaylist('"
                 + utils.htmlEscape(req.body.name) + "',"
-                + utils.htmlEscape(req.body.actID) + ","
+                + utils.htmlEscape(req.body.actID || null) + ","
                 + id + ",'"
-                + utils.htmlEscape(req.body.yearPublished) + "','"
-                + utils.htmlEscape(req.body.label) + "','"
-                + utils.htmlEscape(req.body.dateCreated) + "','"
+                + utils.htmlEscape(req.body.yearPublished || null) + "','"
+                + utils.htmlEscape(req.body.label || null) + "','"
                 + utils.htmlEscape(req.body.notes) + "','"
-                + utils.htmlEscape(req.body.isAlbum) + "');";
+                + utils.htmlEscape(req.body.isAlbum || false) + "');";
             connection.query(query, onInsertPlaylist);
         },
 
@@ -526,11 +525,9 @@ app.put('/api/playlist/:id', function(req, res){
     var query = "CALL UpdatePlaylist("
         + utils.htmlEscape(req.params.id) + ",'"
         + utils.htmlEscape(req.body.name) + "',"
-        + utils.htmlEscape(req.body.actID) + ","
-        + utils.htmlEscape(req.body.galleryID) + ",'"
+        + utils.htmlEscape(req.body.actID || null) + ",'"
         + utils.htmlEscape(req.body.yearPublished) + "','"
         + utils.htmlEscape(req.body.label) + "','"
-        + utils.htmlEscape(req.body.dateCreated) + "','"
         + utils.htmlEscape(req.body.notes) + "','"
         + utils.htmlEscape(req.body.isAlbum) + "');";
 
