@@ -43,6 +43,6 @@ module.exports = function(){
     this.onLoaded = function(e){
         this.elem.removeEventListener("canplay", this.onLoaded);
         this.duration = e.target.duration;
-        adminApp.views.player.render();
+        X7.views.player.render();
     }.bind(this);
 };

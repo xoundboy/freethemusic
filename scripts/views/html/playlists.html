@@ -1,0 +1,33 @@
+<div class="buttonBar">
+    <button class="addPlaylistButton cta">Add Playlist</button>
+</div>
+
+<table id="playlists_table" class="benGrid">
+    <thead>
+    <tr>
+        <th bengrid-key="audioFile">List</th>
+        <th bengrid-key="actName">Artist</th>
+        <th bengrid-key="actName">Length</th>
+        <td class="buttonColumn"></td>
+        <td class="buttonColumn"></td>
+    </tr>
+    </thead>
+    <tbody>
+    {{#playlists}}
+    <tr id="playlistID-{{id}}" class="playlistRow" data-playlistid="{{id}}">
+        <td><a href="#playlist/{{id}}">{{{name}}}</a></td>
+        <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
+        <td class="rightAlign">{{duration}}</td>
+        <td><button class="editPlaylistButton">edit</button></td>
+        <td><button class="deletePlaylistButton">delete</button></td>
+    </tr>
+    {{/playlists}}
+    {{^playlists}}
+    <tr>
+        <td colspan="7" class="emptyTable">No playlists yet
+            <a href="#playlist/add" class="link">Add one now</a>
+        </td>
+    </tr>
+    {{/playlists}}
+    </tbody>
+</table>

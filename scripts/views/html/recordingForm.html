@@ -1,0 +1,43 @@
+{{#isUploadFlow}}
+<!-- when form content used for audioUpload -->
+<input type="hidden" name="audioFile" value="{{tempName}}" />
+{{/isUploadFlow}}
+
+{{^isUploadFlow}}
+<!-- when form content used for recording edit panel -->
+<h2>Edit Recording Details</h2>
+<input type="hidden" name="audioFile" value="{{audioFile}}" />
+{{/isUploadFlow}}
+
+<input type="hidden" name="size" value="{{size}}" />
+<div class="formRow">
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" maxlength="50" value="{{{title}}}" required />
+</div>
+<div class="formRow">
+    <label for="actID">Artist</label>
+
+    <select name="actID" id="actID" required>
+        <option value="">Select an artist</option>
+        {{#artistOptions}}
+        <option value="{{id}}">{{{actName}}}</option>
+        {{/artistOptions}}
+        <option value="new">+ Add new artist</option>
+    </select>
+</div>
+<div class="formRow">
+    <label for="tags">Tags</label>
+    <input type="text" name="tags" id="tags" maxlength="254" value="{{{tags}}}" />
+</div>
+<div class="formRow">
+    <label for="recLocation">Location</label>
+    <input type="text" name="recLocation" id="recLocation" maxlength="254" value="{{{recLocation}}}" required />
+</div>
+<div class="formRow">
+    <label for="recDate">Date</label>
+    <input class="datepicker" type="text" name="recDate" id="recDate" value="{{recDate}}" required />
+</div>
+<div class="formRow">
+    <label for="recNotes">Notes</label>
+    <textarea name="recNotes" id="recNotes">{{{recNotes}}}</textarea>
+</div>

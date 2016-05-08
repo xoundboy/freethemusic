@@ -1,0 +1,58 @@
+<div class="breadcrumbs">
+    <span id="bc_step1" {{#step1}}class="current"{{/step1}}>Upload</span>&nbsp;&gt;&nbsp;
+    <span id="bc_step2" {{#step2}}class="current"{{/step2}}>Preview</span>&nbsp;&gt;&nbsp;
+    <span id="bc_step3" {{#step3}}class="current"{{/step3}}>Metadata</span>&nbsp;&gt;&nbsp;
+    <span id="bc_step4" {{#step4}}class="current"{{/step4}}>Confirm</span>
+</div>
+
+
+{{#step1}}
+<div id="step1" class="steps tall">
+    <p class="uploadFileButton centered">
+        <button>Select MP3 file to upload</button>
+        <input type="file" size="60" name="uploadFile" id="uploadFile" accept=".mp3" />
+    </p>
+</div>
+{{/step1}}
+{{#step2}}
+<div id="step2" class="steps medium">
+    <p class="centered tall sidePadding">Check that the file uploaded correctly by playing it.</p>
+    <p class="centered tall">
+        <audio id="uploadedFile" controls>
+            <source src="/uploads/audio/{{tempName}}.mp3" type="audio/mpeg">
+        </audio>
+    </p>
+    <p class="smallFont centered">File size: {{size}} bytes</p>
+    <p class="buttons tall">
+        <button class="backBtn floatl">Upload again</button>
+        <button class="nextBtn floatr">Plays fine</button>
+    </p>
+</div>
+{{/step2}}
+{{#step3}}
+<div id="step3" class="steps addOrEditPanel">
+    <form id="newRecordingInfo">
+        <div class="newRecordingInfoFormContainer"></div>
+        <p class="buttons">
+            <button class="backBtn floatl">Back</button>
+            <button class="nextBtn floatr">Next</button>
+        </p>
+    </form>
+</div>
+{{/step3}}
+{{#step4}}
+<div id="step4" class="steps addOrEditPanel">
+    <div class="formRow"><span class="label">Title:</span> {{{title}}}</div>
+    <div class="formRow"><span class="label">Artist:</span> {{{actName}}}</div>
+    <div class="formRow"><span class="label">Tags:</span> {{{tags}}}{{^tags}}-{{/tags}}</div>
+    <div class="formRow"><span class="label">Location:</span> {{{recLocation}}}</div>
+    <div class="formRow"><span class="label">Date:</span> {{recDate}}</div>
+    <div class="formRow"><span class="label">Notes:</span> {{{recNotes}}}{{^recNotes}}-{{/recNotes}}</div>
+    <div class="formRow"><span class="label">Duration:</span> {{duration}}</div>
+    <div class="formRow"><span class="label">Size:</span> {{size}} bytes</div>
+    <p class="buttons">
+        <button class="backBtn floatl">Back</button>
+        <button class="finishBtn floatr">Finish</button>
+    </p>
+</div>
+{{/step4}}

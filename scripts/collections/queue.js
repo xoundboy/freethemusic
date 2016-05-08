@@ -48,7 +48,7 @@ module.exports = Backbone.Collection.extend({
 
     removeTrackById: function(id){
 
-        var pm = adminApp.models.player;
+        var pm = X7.models.player;
 
         // removing the currently playing track
         if (pm.getLoadedModelId() === id) {

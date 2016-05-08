@@ -1,6 +1,6 @@
 var $ = require('jquery');
 var DashboardModel = require('../models/nav.js');
-var DashboardView = require('../views/admin/nav.js');
+var DashboardView = require('../views/nav.js');
 
 var admin = {};
 

@@ -1,0 +1,50 @@
+<form id="artistInfo">
+
+    <div class="buttons clearfix">
+        <button class="floatl" id="cancelEditButton">Cancel</button>
+        {{#id}}
+        <button class="floatr" id="updateArtist">Update</button>
+        {{/id}}
+        {{^id}}
+        <button class="floatr" id="addArtist">Add</button>
+        {{/id}}
+    </div>
+
+    {{#id}}
+    <input type="hidden" id="actID" name="id" value="{{id}}" />
+    {{/id}}
+    {{#galleryID}}
+    <input type="hidden" id="galleryID" name="galleryID" value="{{galleryID}}" />
+    <h1>Update Artist</h1>
+    {{/galleryID}}
+    {{^galleryID}}
+    <h1>Add Artist</h1>
+    {{/galleryID}}
+
+    <div class="formRow">
+        <label for="actName">Artist</label>
+        <input type="text" name="actName" id="actName" maxlength="50" value="{{{actName}}}" required />
+    </div>
+    <div class="formRow">
+        <label for="actTown">Town</label>
+        <input type="text" name="actTown" id="actTown" maxlength="50" value="{{{actTown}}}" />
+    </div>
+    <div class="formRow">
+        <label for="actCountry">Country</label>
+        <input type="text" name="actCountry" id="actCountry" maxlength="50" value="{{{actCountry}}}" />
+    </div>
+    <div class="formRow">
+        <label for="website">Website</label>
+        <input type="text" name="website" id="website" maxlength="254" value="{{{website}}}" />
+    </div>
+    <div class="formRow">
+        <label for="tags">Tags</label>
+        <input type="text" name="tags" id="tags" maxlength="254" value="{{{tags}}}" />
+    </div>
+    <div class="formRow">
+        <label for="biog">Biog</label>
+        <textarea name="biog" id="biog" cols="30" rows="10" >{{{biog}}}</textarea>
+    </div>
+</form>
+<div id="artistGalleryContainer"></div>
+<div id="artistGalleryContainer"></div>

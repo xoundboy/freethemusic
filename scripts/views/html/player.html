@@ -1,0 +1,19 @@
+<div id="playerPanel">
+    {{^loadedModel}}
+    <div>
+        Hit the <button class="dummyPlus">add</button> buttons to add tracks to your own personal playlist
+    </div>
+    {{/loadedModel}}
+    {{#loadedModel}}
+    <div id="buttons">
+        <button id="prevButton">Previous</button>
+        <button id="playPauseButton">Play</button>
+        <button id="nextButton">Next</button>
+    </div>
+    <div id="titleAndActText">
+        <span id="playerTitle">{{{title}}}</span>
+        <span id="byline">by {{{actName}}}</span>
+    </div>
+    <div id="progressBar"></div>
+    {{/loadedModel}}
+</div>

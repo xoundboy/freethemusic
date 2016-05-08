@@ -1,0 +1,41 @@
+
+<div class="buttonBar">
+    <button class="addRecordingButton cta">Upload recording</button>
+</div>
+
+<table id="recordings_table" class="benGrid">
+    <thead>
+    <tr>
+        <td class="buttonColumn"></td>
+        <td class="buttonColumn"></td>
+        <th bengrid-key="audioFile">Title</th>
+        <th bengrid-key="actName">Artist</th>
+        <th bengrid-key="actName">Duration</th>
+        <td class="buttonColumn"></td>
+        <td class="buttonColumn"></td>
+    </tr>
+    </thead>
+    <tbody>
+    {{#recordings}}
+    <tr id="recordingId-{{id}}" class="recordingRow" data-recordingid="{{id}}">
+        <td><button class="playButton" data-filename="{{audioFile}}.mp3">Play now</button></td>
+        <td>
+            <button class="addToListButton" data-filename="{{audioFile}}.mp3">Add to queue</button>
+            <div class="contextMenu listContextMenuContainer"></div>
+        </td>
+        <td><a href="#recording/{{id}}">{{{title}}}</a></td>
+        <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
+        <td class="rightAlign">{{duration}}</td>
+        <td><button class="editRecordingButton">edit</button></td>
+        <td><button class="deleteRecordingButton">delete</button></td>
+    </tr>
+    {{/recordings}}
+    {{^recordings}}
+    <tr>
+        <td colspan="7" class="emptyTable">No recordings yet
+            <a href="#recording/add" class="link">Upload one now</a>
+        </td>
+    </tr>
+    {{/recordings}}
+    </tbody>
+</table>

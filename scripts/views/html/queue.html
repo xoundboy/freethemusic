@@ -1,0 +1,31 @@
+<table class="benGrid">
+    <tbody>
+    {{#queue}}
+    <tr data-id="{{id}}">
+        <td id="queueItemPlayPause-{{id}}" class="queueItemPlayPause">
+            <button class="queueItemPlayingButton">Playing</button>
+            <button class="queueItemPlayButton">Play</button>
+            <button class="queueItemPauseButton">Pause</button>
+            <span class="queuePositionIndex matchButtonStyle">{{position}}</span>
+        </td>
+        <td id="queuedRecId-{{id}}" class="queuedRecordingTitle">
+            <a href="#recording/{{id}}">{{{title}}}</a>
+        </td>
+        <td id="queuedActId-{{id}}" data-actID="{{actID}}" class="queuedActName">
+            <a href="#artist/{{actID}}">{{{actName}}}</a>
+        </td>
+        <td id="queuedDuration-{{id}}">{{{duration}}}</td>
+        <td class="buttonColumn">
+            <button class="removeTrackFromQueueButton" data-recID="{{id}}">remove track from queue</button>
+        </td>
+    </tr>
+    {{/queue}}
+    {{^queue}}
+    <tr>
+        <td colspan="4" class="emptyCollection">
+            empty
+        </td>
+    </tr>
+    {{/queue}}
+    </tbody>
+</table>
