@@ -1,4 +1,5 @@
 var template = require('./html/notification.html');
+var $ = require('jquery');
 
 module.exports = Backbone.View.extend({
 
@@ -10,7 +11,7 @@ module.exports = Backbone.View.extend({
         this.render();
 
         if (this.model.get("autohide")){
-            setTimeout(this.close, this.model.get("duration"));
+            setTimeout($.proxy(this.close, this), this.model.get("duration"));
         }
     },
 

@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var template = require('./html/recordingAddMenu.html');
+var $ = require('jquery');
 
 module.exports = Backbone.View.extend({
 
@@ -21,8 +22,11 @@ module.exports = Backbone.View.extend({
     addToPlaylist: function(e){
         var playlistId = $(e.target).attr("data-id");
         var chosenPlaylistModel = X7.collections.playlists.get(playlistId);
-        var chosenTrack = X7.collections.recordings.get(this.recordingId);
-        chosenPlaylistModel.addTrack(chosenTrack);
+        chosenPlaylistModel.addTrack(this.recordingId, this.onTrackAddedToPlaylist);
+    },
+
+    onTrackAddedToPlaylist: function(){
+        console.log("callback called");
     },
 
     render: function(){

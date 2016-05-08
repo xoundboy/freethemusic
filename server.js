@@ -275,6 +275,7 @@ app.put('/api/recording/:id', function(req, res){
     });
 });
 
+
 /**
  * GALLERIES
  */
@@ -323,6 +324,7 @@ app.put('/api/gallery/:id', function(req, res){
 
     connection.query(query, onGalleryUpdated);
 });
+
 
 /**
  * ARTISTS
@@ -522,6 +524,7 @@ app.post('/api/playlist', function(req, res){
 
 // PUT /api/playlist/id
 app.put('/api/playlist/:id', function(req, res){
+
     var query = "CALL UpdatePlaylist("
         + utils.htmlEscape(req.params.id) + ",'"
         + utils.htmlEscape(req.body.name) + "',"
@@ -529,7 +532,8 @@ app.put('/api/playlist/:id', function(req, res){
         + utils.htmlEscape(req.body.yearPublished) + "','"
         + utils.htmlEscape(req.body.label) + "','"
         + utils.htmlEscape(req.body.notes) + "','"
-        + utils.htmlEscape(req.body.isAlbum) + "');";
+        + utils.htmlEscape(req.body.isAlbum) + "','"
+        + utils.htmlEscape(req.body.trackList) + "');";
 
     connection.query(query, function(err){
         if(err){
@@ -547,22 +551,6 @@ app.delete('/api/playlist/:id', function(req, res){
             res.status(400).send("the artist could not be deleted from the database");
         }
         res.sendStatus(200);
-    });
-});
-
-/**
- * TAGS
- */
-
-// GET /api/tags
-app.get('/api/tags', function(req, res){
-    connection.query("CALL GetAllTags();", function(err, rows){
-        if (err) {
-            console.log(err);
-            res.sendStatus(500);
-            return;
-        }
-        res.json(rows);
     });
 });
 

@@ -131,7 +131,7 @@ CREATE TABLE `galleries` (
   `images` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `galleries_id_uindex` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=231 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -254,24 +254,9 @@ CREATE TABLE `playlists` (
   `isAlbum` varchar(5) NOT NULL DEFAULT '0',
   `notes` text,
   `galleryID` smallint(6) DEFAULT NULL,
+  `trackList` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `playlisttracks`
---
-
-DROP TABLE IF EXISTS `playlisttracks`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `playlisttracks` (
-  `playlistID` int(11) DEFAULT NULL,
-  `recID` int(11) DEFAULT NULL,
-  `position` varchar(15) DEFAULT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +282,7 @@ CREATE TABLE `recordings` (
   `tags` varchar(254) DEFAULT NULL,
   `duration` varchar(12) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=818 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=822 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -874,7 +859,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePlaylist`(
   IN yearPublished VARCHAR(50),
   IN label VARCHAR(50),
   IN notes TEXT,
-  IN isAlbum VARCHAR(5)
+  IN isAlbum VARCHAR(5),
+  IN trackList TEXT
 )
 BEGIN
     UPDATE playlists p
@@ -883,7 +869,8 @@ BEGIN
       p.yearPublished = yearPublished,
       p.label = label,
       p.notes = notes,
-      p.isAlbum = isAlbum
+      p.isAlbum = isAlbum,
+      p.trackList = trackList
       WHERE p.id = idToUpdate;
   END ;;
 DELIMITER ;
@@ -936,4 +923,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-01 22:58:29
+-- Dump completed on 2016-05-08 23:13:37

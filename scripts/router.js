@@ -5,10 +5,10 @@ var qs = require('query-string');
 var RecordingDetailsView        = require('./views/recording.js');
 var RecordingEditPanelView      = require('./views/recordingEdit.js');
 
-var PlaylistDetailsView         = require('./views/playlist.js');
+var PlaylistView                = require('./views/playlist.js');
 var PlaylistAddOrEditPanelView  = require('./views/playlistForm.js');
 
-var ArtistAddOrEditPanelView    = require('./views/artistAddOrEditPanel.js');
+var ArtistAddOrEditPanelView    = require('./views/artistForm.js');
 
 var OverlayModel                = require('./models/overlay.js');
 var OverlayView                 = require('./views/overlay.js');
@@ -123,7 +123,7 @@ module.exports = Backbone.Router.extend({
     },
 
     playlist: function(id){
-        this._showInMainContent(new PlaylistDetailsView({id:id}));
+        this._showInMainContent(new PlaylistView({id:id}));
     },
 
     playlistEdit: function(id){
