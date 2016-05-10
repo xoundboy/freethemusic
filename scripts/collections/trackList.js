@@ -3,8 +3,8 @@
  */
 
 //var RecordingModel = require('../models/recording.js');
-var RecordingModel = require('../models/recording.js');
+var TrackModel = require('../models/track.js');
 
 module.exports = Backbone.Collection.extend({
-    model: RecordingModel
+    model: TrackModel
 });

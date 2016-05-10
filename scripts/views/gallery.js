@@ -44,7 +44,6 @@ module.exports = Backbone.View.extend({
 
         // sub-view
         this.galleryImagesView = new GalleryImagesView({
-            template: $("#template_galleryImages").html(),
             collection: this.model.get("images")
         });
 
