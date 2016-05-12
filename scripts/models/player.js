@@ -81,11 +81,14 @@ module.exports = Backbone.Model.extend({
         this.setPlaybackPosition(this.audioElement.elem.currentTime);
     },
 
-    load: function(model){
+    load: function(model, playWhenLoaded){
         this.audioElement.load(model, this.getPlaybackPosition());
         this.set("loadedModel", model);
         this.setLoadedModelId(model.id);
         this.trigger("loaded");
+        if (playWhenLoaded){
+            this.play();
+        }
     },
 
     unLoad: function(){
@@ -116,7 +119,6 @@ module.exports = Backbone.Model.extend({
     },
 
     play: function(){
-        var that = this;
         this.set("isPlaying", true);
         this.audioElement.play(this.getPlaybackPosition(), this.onTrackFinished);
         this.updateCurrentTimeInterval = setInterval($.proxy(this.updatePlaybackPosition, this), 50);

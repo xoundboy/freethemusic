@@ -1,3 +1,24 @@
-{{#trackList}}
-    <p>{{title}}</p>
-{{/trackList}}
+<table id="trackList_table" class="benGrid">
+    <thead>
+    <tr>
+        <th></th>
+        <th bengrid-key="audioFile">Title</th>
+        <th bengrid-key="actName">Artist</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#trackList}}
+    <tr id="recordingId-{{id}}" class="recordingRow" data-recordingid="{{id}}">
+        <td><button class="playButton" data-filename="{{audioFile}}.mp3">Play now</button></td>
+        <td><a href="#recording/{{id}}">{{{title}}}</a></td>
+        <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
+    </tr>
+    {{/trackList}}
+    {{^trackList}}
+    <tr>
+        <td colspan="2" class="emptyTable">Playlist empty
+        </td>
+    </tr>
+    {{/trackList}}
+    </tbody>
+</table>
