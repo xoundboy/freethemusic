@@ -11,8 +11,8 @@ module.exports = Backbone.View.extend({
     selectedId: null,
 
     initialize: function () {
-        this.listenTo(this.collection, 'reset sort remove fetch change', this.render);
         this.collection.fetch();
+        this.listenTo(this.collection, 'reset sort remove fetch change', this.render);
     },
 
     events: {
@@ -47,7 +47,8 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
-        this.$el.html(template({playlists:this.collection.toJSON()}));
+        var playlists = this.collection.toJSON();
+        this.$el.html(template({playlists: playlists}));
 
         this.styleButtons();
 

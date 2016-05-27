@@ -10,6 +10,9 @@ module.exports = Backbone.Model.extend({
 
     parse: function(response){
         response.isAlbum = response.isAlbum !== "false";
+        response.images = response.images == undefined
+            ? null
+            : JSON.parse(response.images);
         return response;
     },
 

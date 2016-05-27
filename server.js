@@ -465,7 +465,7 @@ app.get('/api/types', function(req, res){
     });
 });
 
-
+//
 
 /**
  * PLAYLISTS
@@ -476,16 +476,26 @@ app.get('/api/playlists', function(req, res){
         if (err) {
             console.log(err);
             res.sendStatus(500);
-            return;
+        } else {
+            res.json(rows[0].map(function(row){
+                if(row.images !== "" && row.images !== undefined){
+                    var parsedImagesString = JSON.parse(row.images);
+                    if (Array.isArray(parsedImagesString)){
+                        row.avatar = parsedImagesString[0];
+                    }
+                }
+                return row;
+            }));
         }
-        res.json(rows);
     });
 });
 
 // GET /api/playlist/id
 app.get('/api/playlist/:id', function(req, res){
     connection.query("CALL GetPlaylistById(" + utils.htmlEscape(req.params.id) + ");", function(err, rows){
-        handleError(err, res) || res.json(rows);
+        if (!handleError(err, res)){
+            res.json(rows[0][0]);
+        }
     });
 });
 
