@@ -131,7 +131,7 @@ CREATE TABLE `galleries` (
   `images` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `galleries_id_uindex` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=231 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=235 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -256,7 +256,7 @@ CREATE TABLE `playlists` (
   `galleryID` smallint(6) DEFAULT NULL,
   `trackList` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,7 +282,7 @@ CREATE TABLE `recordings` (
   `tags` varchar(254) DEFAULT NULL,
   `duration` varchar(12) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=822 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=823 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -452,10 +452,12 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllPlaylists`()
 BEGIN
-    SELECT   *, p.id AS id, p.actID AS actID, p.galleryID AS galleryID
+    SELECT   *, p.id AS id, 
+      p.actID AS actID, 
+      p.galleryID AS galleryID
     FROM     playlists p
       LEFT JOIN acts a
-      ON p.actID = a.id
+        ON p.actID = a.id
     ORDER BY p.dateCreated DESC;
   END ;;
 DELIMITER ;
@@ -588,8 +590,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPlaylistById`(
   IN playlistIdToFind SMALLINT
 )
 BEGIN
-    SELECT   *
+    SELECT   *, p.id AS id, g.id AS galleryID
     FROM     playlists p
+      LEFT JOIN galleries g
+        ON p.galleryID = g.id
     WHERE   p.id = playlistIdToFind;
   END ;;
 DELIMITER ;
@@ -923,4 +927,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-08 23:13:37
+-- Dump completed on 2016-06-07  8:14:22

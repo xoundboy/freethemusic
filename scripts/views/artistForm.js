@@ -98,7 +98,7 @@ module.exports = Backbone.View.extend({
         $(this.containerElSelector).html(this.$el);
 
         // now render the gallery section if its available
-        this.galleryView && this.galleryView.render();
+        if (this.galleryView) this.galleryView.render();
 
         this.$el.find("button").button();
 

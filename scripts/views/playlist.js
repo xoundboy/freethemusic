@@ -24,7 +24,7 @@ module.exports = Backbone.View.extend({
     },
 
     edit: function(){
-        X7.router.navigate("playlist/edit/" + this.model.get("playlistID"), {trigger: true});
+        X7.router.navigate("playlist/edit/" + this.model.get("id"), {trigger: true});
     },
 
     play: function(e){
@@ -34,7 +34,7 @@ module.exports = Backbone.View.extend({
 
     onPlaylistModelFetched: function(model, response){
         var modelFromDb = response;
-        modelFromDb.trackList = new TrackListCollection(this.collectionFromIdList(JSON.parse(modelFromDb["trackList"])));
+        modelFromDb.trackList = new TrackListCollection(this.collectionFromIdList(JSON.parse(modelFromDb.trackList)));
 
         this.model.set(modelFromDb);
 

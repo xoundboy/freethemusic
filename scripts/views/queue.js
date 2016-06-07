@@ -1,5 +1,6 @@
 var _ = require('underscore');
-var $ = jQuery = require('jquery');
+var $ = require('jquery');
+
 require('jquery-ui/sortable');
 require('jquery-ui-touch-punch');
 var button = require('../helpers/button.js');

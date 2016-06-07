@@ -6,6 +6,7 @@ require('../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.structure.m
 require('../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css');
 
 var $ = require('jquery');
+window.jQuery = $;
 var ArtistsCollection = require('./collections/artists.js');
 var ArtistsView = require('./views/artists.js');
 var AudioUploadModel = require('./models/audioUpload.js');
@@ -68,7 +69,7 @@ $(function(){
         // close any context menus if a click event bubbles up
         $("body").click(function(){
             $(".contextMenu").empty();
-        })
+        });
     });
 
 });

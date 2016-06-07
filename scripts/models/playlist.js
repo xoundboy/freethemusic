@@ -10,20 +10,31 @@ module.exports = Backbone.Model.extend({
 
     parse: function(response){
         response.isAlbum = response.isAlbum !== "false";
-        response.images = response.images == undefined
-            ? null
+        response.images = response.images === undefined || response.images === "" ? null
             : JSON.parse(response.images);
+
+        var tracklist = JSON.parse(response.trackList);
+        this.set("listLength", (tracklist) ? tracklist.length : 0);
         return response;
     },
 
     addTrack: function(recordingId, callback) {
-        var trackList = JSON.parse(this.get("trackList"));
+        trackList = this.getTrackList();
         trackList.push(parseInt(recordingId));
         this.set({trackList:JSON.stringify(trackList)},{silent:true});
         this.save({success:callback()},{silent:true});
     },
 
-    whiteList: ['id','name','actID','yearPublished','label','isAlbum','notes','trackList'],
+    getTrackList: function (){
+        var trackList = this.get("trackList");
+        if (trackList === "null"){
+            return [];
+        } else {
+            return JSON.parse(trackList);
+        }
+    },
+
+    whiteList: ['id','name','actID', 'actName', 'yearPublished','label','isAlbum','notes','trackList','listLength'],
 
     toJSON: function(){
         return _.pick(this.attributes, this.whiteList);

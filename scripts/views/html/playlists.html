@@ -16,8 +16,11 @@
     {{#playlists}}
     <tr id="playlistID-{{id}}" class="playlistRow" data-playlistid="{{id}}">
         <td><a href="#playlist/{{id}}">{{{name}}}</a></td>
-        <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
-        <td class="rightAlign">{{duration}}</td>
+        <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">
+            {{#actName}}{{actName}}{{/actName}}
+            {{^actName}}Various Artists{{/actName}}
+        </a></td>
+        <td>{{listLength}}</td>
         <td><button class="editPlaylistButton">edit</button></td>
         <td><button class="deletePlaylistButton">delete</button></td>
     </tr>
