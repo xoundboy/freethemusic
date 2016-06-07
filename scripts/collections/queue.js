@@ -74,13 +74,10 @@ module.exports = Backbone.Collection.extend({
     },
 
     reorder: function(id, oldIndex, newIndex){
-
         var modelToMove = this.remove(id, {silent: true});
-
         this.add(modelToMove, {
             at: newIndex
         });
-
         modelToMove.save();
     }
 });

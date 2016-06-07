@@ -1,4 +1,5 @@
 var $ = require('jquery');
+
 var template = require('./html/playlist.html');
 var PlaylistModel = require('../models/playlist.js');
 var TrackListCollection = require('../collections/trackList.js');
@@ -34,12 +35,15 @@ module.exports = Backbone.View.extend({
 
     onPlaylistModelFetched: function(model, response){
         var modelFromDb = response;
-        modelFromDb.trackList = new TrackListCollection(this.collectionFromIdList(JSON.parse(modelFromDb.trackList)));
+        modelFromDb.trackList = new TrackListCollection(
+            this.collectionFromIdList(JSON.parse(modelFromDb.trackList))
+        );
 
         this.model.set(modelFromDb);
 
         this.trackListCollectionView = new TrackListView({
-            collection: modelFromDb.trackList
+            collection: modelFromDb.trackList,
+            playlistModel: this.model
         });
 
         this.render();
