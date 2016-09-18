@@ -13,8 +13,8 @@ module.exports = Backbone.Model.extend({
         response.images = response.images === undefined || response.images === "" ? null
             : JSON.parse(response.images);
 
-        var tracklist = response.trackList ? JSON.parse(response.trackList) : [];
-        this.set("listLength", (tracklist) ? tracklist.length : 0);
+        var trackList = response.trackList ? JSON.parse(response.trackList) : [];
+        this.set("listLength", (trackList) ? trackList.length : 0);
         return response;
     },
 
@@ -36,6 +36,13 @@ module.exports = Backbone.Model.extend({
 
     setTrackList: function (trackList){
         this.set("trackList", JSON.stringify(trackList));
+        this.save();
+    },
+
+    removeTrackByIndex: function(index){
+        var trackList = this.getTrackList();
+        var modifiedTrackList = trackList.splice(index, 1);
+        this.setTrackList(modifiedTrackList);
         this.save();
     },
 

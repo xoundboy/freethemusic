@@ -1,6 +1,5 @@
 var _ = require('underscore');
 var $ = require('jquery');
-var Mustache = require('mustache');
 var button = require('../helpers/button.js');
 var config = require('../config.js');
 require('jquery-ui/slider');

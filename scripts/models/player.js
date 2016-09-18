@@ -18,18 +18,18 @@ module.exports = Backbone.Model.extend({
 
     audioElement: null,
 
-    initialize: function(playlist) {
+    initialize: function(tracklist) {
 
         this.audioElement = new AudioElement();
         this.audioElement.init();
 
-        if (playlist){
-            this.connectToPlaylist(playlist);
+        if (tracklist){
+            this.connectToTracklist(tracklist);
         } else {
-            throw "Missing playlist collection when initializing player";
+            throw "Missing tracklist collection when initializing player";
         }
 
-        if (playlist.length) {
+        if (tracklist.length) {
             var modelId = window.localStorage.getItem(config.LS_PLAYER_LOADED_ID);
             this.load(X7.collections.queue.get(modelId));
         } else {
@@ -41,8 +41,11 @@ module.exports = Backbone.Model.extend({
         }
     },
 
-    connectToPlaylist: function(playlist){
-        this.set("playlist", playlist);
+    connectToTracklist: function(trackList, playFromTop){
+        this.set("playlist", trackList);
+        if (playFromTop) {
+            this.load(trackList.at(0), true);
+        }
     },
 
     waitForTrackToBeAdded: function(){

@@ -20,17 +20,21 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        "click .playButton": "play",
-        "click #editPlaylist": "edit"
+        "click #editPlaylist": "edit",
+        "click #playPlaylist": "playFromTop"
+    },
+
+    play: function(e){
+        var recordingId = $(e.currentTarget).closest("tr").attr("data-recordingId");
+        X7.models.player.load(X7.collections.recordings.get(recordingId), true);
     },
 
     edit: function(){
         X7.router.navigate("playlist/edit/" + this.model.get("id"), {trigger: true});
     },
 
-    play: function(e){
-        var recordingId = $(e.currentTarget).closest("tr").attr("data-recordingId");
-        X7.models.player.load(X7.collections.recordings.get(recordingId), true);
+    playFromTop: function(){
+        X7.models.player.connectToTracklist(this.model.get("trackList"), true);
     },
 
     onPlaylistModelFetched: function(model, response){
@@ -57,7 +61,7 @@ module.exports = Backbone.View.extend({
     },
 
     styleButtons: function(){
-        button.style(this.$el.find(".playButton"), "ui-icon-play");
+        button.style(this.$el.find("#playPlaylist"), "ui-icon-play");
         button.style(this.$el.find("#editPlaylist"), "ui-icon-pencil");
     },
 

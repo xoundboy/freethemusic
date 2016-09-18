@@ -4,6 +4,7 @@
         <th></th>
         <th bengrid-key="audioFile">Title</th>
         <th bengrid-key="actName">Artist</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -12,6 +13,7 @@
         <td><button class="playButton" data-filename="{{audioFile}}.mp3">Play now</button></td>
         <td><a href="#recording/{{id}}">{{{title}}}</a></td>
         <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
+        <td class="alignr"><button class="removeTrackFromList">Remove</button></td>
     </tr>
     {{/trackList}}
     {{^trackList}}

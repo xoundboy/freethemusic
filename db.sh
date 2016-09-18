@@ -23,7 +23,8 @@ if [ "$1" == "dump" ]; then
 
 # Dump without data
 elif [ "$1" == "dumpnodata" ]; then
-    mysqldump -uroot -p --host=${X71_DB_HOST} --add-drop-table -d --routines ${X71_DB_NAME} >  ${DIR}/sql/${DUMPFILENODATA}
+    sudo mysqldump -uroot -p --host=${X71_DB_HOST} --add-drop-table -d --routines ${X71_DB_NAME} | \
+    sed 's/ AUTO_INCREMENT=[0-9]*//g' >  ${DIR}/sql/${DUMPFILENODATA}
 
 # Load database with data
 elif [ "$1" == "load" ]; then

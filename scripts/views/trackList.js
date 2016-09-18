@@ -3,6 +3,7 @@ var _ = require('underscore');
 var template = require('./html/trackList.html');
 require('jquery-ui/sortable');
 require('jquery-ui-touch-punch');
+var button = require('../helpers/button.js');
 
 module.exports = Backbone.View.extend({
 
@@ -11,6 +12,26 @@ module.exports = Backbone.View.extend({
 
     initialize: function(options){
         this.playlistModel = options.playlistModel;
+    },
+
+    events: {
+        "click .playButton": "play",
+        "click .removeTrackFromList": "remove"
+    },
+
+    play: function(){
+        // TODO call play method on parent playlist
+    },
+
+    remove: function(e){
+        var trackIndex = $(e.currentTarget).closest("tr").index();
+        console.log(trackIndex);
+        this.playlistModel.removeTrackByIndex(trackIndex);
+    },
+
+    styleButtons: function(){
+        button.style(this.$el.find(".playButton"), "ui-icon-play");
+        button.style(this.$el.find(".removeTrackFromList"), "ui-icon-close");
     },
 
     sortablize: function(){
@@ -36,6 +57,7 @@ module.exports = Backbone.View.extend({
     render: function(){
         this.$el.html(template({trackList: this.collection.toJSON()}));
         this.sortablize();
+        this.styleButtons();
         return this;
     }
 });
