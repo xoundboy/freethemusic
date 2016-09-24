@@ -2,7 +2,7 @@
     <button class="addPlaylistButton cta">Add Playlist</button>
 </div>
 
-<table id="playlists_table" class="benGrid">
+<table id="playlists_table" class="benGrid {{^playlists}}emptyTable{{/playlists}}">
     <thead>
     <tr>
         <th bengrid-key="audioFile">List</th>

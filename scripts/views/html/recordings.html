@@ -2,8 +2,7 @@
 <div class="buttonBar">
     <button class="addRecordingButton cta">Upload recording</button>
 </div>
-
-<table id="recordings_table" class="benGrid">
+<table id="recordings_table" class="benGrid {{^recordings}}emptyTable{{/recordings}}">
     <thead>
     <tr>
         <td class="buttonColumn"></td>
@@ -32,7 +31,7 @@
     {{/recordings}}
     {{^recordings}}
     <tr>
-        <td colspan="7" class="emptyTable">No recordings yet
+        <td colspan="7">No recordings yet
             <a href="#recording/add" class="link">Upload one now</a>
         </td>
     </tr>

@@ -544,92 +544,98 @@ table.benGrid {
     width: 100%;
     table-layout: fixed;
 
-    tr {
-        border-bottom: 1px solid #4A4040;
-    }
-
-    th, td {
-        &.rightAlign {
-            text-align: right;
-        }
-        &.buttonColumn {
-            width: 45px
-        }
-        &.emptyCollection {
-            text-align: center;
-        }
-    }
-
-    thead {
-        th {
-            text-transform: uppercase;
-            text-align: left;
-            color: #898989;
-            padding: 5px;
-            cursor: pointer;
-            font-size: 12px;
-
-            &:hover {
-                background: #585858;
-            }
-        }
-    }
-
-    tbody {
-
+    &:not(.emptyTable) {
         tr {
-            color: #E1E1E1;
+            border-bottom: 1px solid #4A4040;
+        }
 
-            //-webkit-//ition: all 0.25s ease;
-            //-moz-transition: all 0.25s ease;
-            //-o-transition: all 0.25s ease;
-            //transition: all 0.25s ease;
-
-            &.loadError {
-                background: #852C09;
+        th, td {
+            &.rightAlign {
+                text-align: right;
             }
-
-            &.selectedItem {
-                background: rgba(0, 52, 0, 0.77);
+            &.buttonColumn {
+                width: 45px
             }
+            &.emptyCollection {
+                text-align: center;
+            }
+        }
 
-            &:hover{
-                background: #195613;
-                color: #ffffff;
+        thead {
+            th {
+                text-transform: uppercase;
+                text-align: left;
+                color: #898989;
+                padding: 5px;
                 cursor: pointer;
+                font-size: 12px;
+
+                &:hover {
+                    background: #585858;
+                }
             }
+        }
 
-            td {
-                vertical-align: middle;
-                padding: 6px;
-                font-size: 0.9em;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
+        tbody {
 
-                .imgMask {
-                    margin: auto;
-                    width: 50px;
-                    height: 50px;
+            tr {
+                color: #E1E1E1;
+
+                //-webkit-//ition: all 0.25s ease;
+                //-moz-transition: all 0.25s ease;
+                //-o-transition: all 0.25s ease;
+                //transition: all 0.25s ease;
+
+                &.loadError {
+                    background: #852C09;
+                }
+
+                &.selectedItem {
+                    background: rgba(0, 52, 0, 0.77);
+                }
+
+                &:hover {
+                    background: #195613;
+                    color: #ffffff;
+                    cursor: pointer;
+                }
+
+                td {
+                    vertical-align: middle;
+                    padding: 6px;
+                    font-size: 0.9em;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                     overflow: hidden;
-                    border-radius: 25px;
-                    text-align: center;
-                    img {
+
+                    .imgMask {
+                        margin: auto;
+                        width: 50px;
                         height: 50px;
+                        overflow: hidden;
+                        border-radius: 25px;
+                        text-align: center;
+                        img {
+                            height: 50px;
+                        }
+                    }
+
+                    .nowPlaying {
+                        background: green;
                     }
                 }
-
-                .nowPlaying {
-                    background: green;
-                }
-                &.emptyTable {
-                    text-align: center;
-                    vertical-align: middle;
-                    color: $warning-text;
-                    border: 1px solid $warning-text;
-                    height: 40px;
-                }
             }
+        }
+    }
+    &.emptyTable {
+        thead {
+            display: none;
+        }
+        td {
+            text-align: center;
+            vertical-align: middle;
+            color: $warning-text;
+            height: 40px;
         }
     }
 }
