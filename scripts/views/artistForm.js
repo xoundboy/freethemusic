@@ -72,16 +72,17 @@ module.exports = Backbone.View.extend({
         return false;
     },
 
-    onArtistSaveSuccess: function(){
+    onArtistSaveSuccess: function(data){
+        this.newArtistId = data.id;
         X7.collections.artists.fetch({
             reset: true,
             success: $.proxy(this.onArtistsFetchSuccess, this)
         });
     },
 
-    onArtistsFetchSuccess: function(data){
+    onArtistsFetchSuccess: function(){
         if (this.returnUrl){
-            X7.router.navigate(this.returnUrl + '?actId='+ data.id, {trigger:true});
+            X7.router.navigate(this.returnUrl + '?actId='+ this.newArtistId, {trigger:true});
             return;
         }
         if (this.newArtist){

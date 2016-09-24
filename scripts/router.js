@@ -65,11 +65,15 @@ module.exports = Backbone.Router.extend({
         this._selectItemById("navRecordings");
     },
 
-    recordingAdd: function(step) {
+    recordingAdd: function(step, queryString) {
         var that = this;
         this._pausePlayback();
 
         X7.models.audioUpload.setStep(step ? parseInt(step) : 1);
+        var actIdFromQs = qs.parse(queryString).actId;
+        if (actIdFromQs){
+            X7.models.audioUpload.set("actID", actIdFromQs);
+        }
 
         this._showInOverlay({
             contentView: X7.views.audioUpload,
@@ -107,6 +111,7 @@ module.exports = Backbone.Router.extend({
     },
 
     artistAdd: function(e) {
+        this._hideOverlay();
         new ArtistAddOrEditPanelView({returnUrl: this._getReturnUrlFromQs(e)}).render();
         this._selectItemById("navArtists");
     },
@@ -161,6 +166,10 @@ module.exports = Backbone.Router.extend({
         });
 
         $("#overlayContainer").show();
+    },
+
+    _hideOverlay: function(){
+        $("#overlayContainer").hide();
     },
 
     _selectItemById: function(id){

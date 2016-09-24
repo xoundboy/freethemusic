@@ -6,7 +6,7 @@ module.exports = Backbone.View.extend({
     id: "recordingEditContent",
     className: "addOrEditPanel",
 
-    initialize: function(options) {
+    initialize: function() {
         this.model.set("artistOptions", X7.collections.artists.toJSON(), {silent: true});
         this.model.bind('change', this.render, this);
     },
