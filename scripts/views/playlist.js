@@ -24,11 +24,6 @@ module.exports = Backbone.View.extend({
         "click #playPlaylist": "playFromTop"
     },
 
-    play: function(e){
-        var recordingId = $(e.currentTarget).closest("tr").attr("data-recordingId");
-        X7.models.player.load(X7.collections.recordings.get(recordingId), true);
-    },
-
     edit: function(){
         X7.router.navigate("playlist/edit/" + this.model.get("id"), {trigger: true});
     },

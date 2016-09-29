@@ -365,7 +365,7 @@ select {
 
 #playerContainer {
     box-sizing: border-box;
-    padding: 0 10px;
+    padding: 4px 18px;
     width: 100%;
     background: $background-header-footer;
 
@@ -619,10 +619,9 @@ table.benGrid {
                             height: 50px;
                         }
                     }
-
-                    .nowPlaying {
-                        background: green;
-                    }
+                }
+                &.nowPlaying {
+                    background: green;
                 }
             }
         }

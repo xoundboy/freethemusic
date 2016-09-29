@@ -12,25 +12,33 @@ module.exports = Backbone.View.extend({
 
     initialize: function(options){
         this.playlistModel = options.playlistModel;
+        this.listenTo(this.collection, 'change', this.render);
     },
 
     events: {
         "click .playButton": "play",
+        "click .pauseButton": "pause",
         "click .removeTrackFromList": "remove"
     },
 
-    play: function(){
-        // TODO call play method on parent playlist
+    play: function(e){
+        var recordingId = $(e.currentTarget).closest("tr").attr("data-recordingid");
+        var trackModel = this.collection.get(recordingId);
+        X7.models.player.playPlaylistTrack(trackModel, this.collection);
+    },
+
+    pause: function(){
+        X7.models.player.pause();
     },
 
     remove: function(e){
         var trackIndex = $(e.currentTarget).closest("tr").index();
-        console.log(trackIndex);
         this.playlistModel.removeTrackByIndex(trackIndex);
     },
 
     styleButtons: function(){
         button.style(this.$el.find(".playButton"), "ui-icon-play");
+        button.style(this.$el.find(".pauseButton"), "ui-icon-pause");
         button.style(this.$el.find(".removeTrackFromList"), "ui-icon-close");
     },
 

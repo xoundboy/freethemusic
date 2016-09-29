@@ -9,8 +9,15 @@
     </thead>
     <tbody>
     {{#trackList}}
-    <tr id="recordingId-{{id}}" class="recordingRow" data-recordingid="{{id}}">
-        <td><button class="playButton" data-filename="{{audioFile}}.mp3">Play now</button></td>
+    <tr id="recordingId-{{id}}" class="recordingRow {{#currentlyPlaying}}nowPlaying{{/currentlyPlaying}}" data-recordingid="{{id}}">
+        <td>
+            {{#currentlyPlaying}}
+            <button class="pauseButton" data-filename="{{audioFile}}.mp3">Pause</button>
+            {{/currentlyPlaying}}
+            {{^currentlyPlaying}}
+            <button class="playButton" data-filename="{{audioFile}}.mp3">Play now</button>
+            {{/currentlyPlaying}}
+        </td>
         <td><a href="#recording/{{id}}">{{{title}}}</a></td>
         <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
         <td class="alignr"><button class="removeTrackFromList">Remove</button></td>

@@ -31,18 +31,17 @@ module.exports = Backbone.Model.extend({
 
         if (tracklist.length) {
             var modelId = window.localStorage.getItem(config.LS_PLAYER_LOADED_ID);
-            this.load(X7.collections.queue.get(modelId));
+            var model = X7.collections.queue.get(modelId);
+            if (model) this.load(model);
         } else {
             this.waitForTrackToBeAdded();
         }
 
-        if(!this.getPlaybackPosition()){
-            this.setPlaybackPosition(0);
-        }
+        if (!this.getPlaybackPosition()) this.setPlaybackPosition(0);
     },
 
     connectToTracklist: function(trackList, playFromTop){
-        this.set("playlist", trackList);
+        this.set("trackList", trackList);
         if (playFromTop) {
             this.load(trackList.at(0), true);
         }
@@ -51,11 +50,11 @@ module.exports = Backbone.Model.extend({
     waitForTrackToBeAdded: function(){
 
         var that = this;
-        var playlist = this.get("playlist");
+        var trackList = this.get("trackList");
 
-        this.listenTo(playlist, 'add', function (e) {
+        this.listenTo(trackList, 'add', function (e) {
             that.loadNext();
-            that.stopListening(playlist, 'add');
+            that.stopListening(trackList, 'add');
             that.play();
         });
     },
@@ -94,13 +93,25 @@ module.exports = Backbone.Model.extend({
         }
     },
 
+    playPlaylistTrack: function(track, tracklist){
+        if (this.get("trackList") != tracklist){
+            this.connectToTracklist(tracklist, false);
+        }
+        if (this.get("loadedModel") != track){
+            this.setPlaybackPosition(0);
+            this.load(track, true);
+        } else if (!this.get("isPlaying")){
+            this.load(track, true);
+        }
+    },
+
     unLoad: function(){
         this.unset("loadedModel");
         this.setLoadedModelId(null);
     },
 
     loadNext: function(){
-        var nextModel = this.get("playlist").nextModel(this.get("loadedModel"));
+        var nextModel = this.get("trackList").nextModel(this.get("loadedModel"));
         if (nextModel){
             this.setPlaybackPosition(0);
             this.load(nextModel);
@@ -111,7 +122,7 @@ module.exports = Backbone.Model.extend({
     },
 
     loadPrevious: function(){
-        var previousModel = this.get("playlist").previousModel(this.get("loadedModel"));
+        var previousModel = this.get("trackList").previousModel(this.get("loadedModel"));
         if (previousModel) {
             this.setPlaybackPosition(0);
             this.load(previousModel);
@@ -124,6 +135,7 @@ module.exports = Backbone.Model.extend({
     play: function(){
         this.set("isPlaying", true);
         this.audioElement.play(this.getPlaybackPosition(), this.onTrackFinished);
+        this.trigger("playing", this.get("loadedModel").id);
         this.updateCurrentTimeInterval = setInterval($.proxy(this.updatePlaybackPosition, this), 50);
     },
 
@@ -131,6 +143,7 @@ module.exports = Backbone.Model.extend({
         this.setPlaybackPosition(this.audioElement.elem.currentTime);
         this.set("isPlaying", false);
         this.audioElement.pause();
+        this.trigger("stop");
         clearInterval(this.updateCurrentTimeInterval);
     },
 
