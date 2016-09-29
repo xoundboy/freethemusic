@@ -7,6 +7,8 @@ var $ = require('jquery');
 
 module.exports = Backbone.Model.extend({
 
+    PREVIOUS_TRACK_SELECTION_WINDOW: 2,
+
     updateCurrentTimeInterval: null,
 
     defaults: {
@@ -122,13 +124,18 @@ module.exports = Backbone.Model.extend({
     },
 
     loadPrevious: function(){
-        var previousModel = this.get("trackList").previousModel(this.get("loadedModel"));
-        if (previousModel) {
-            this.setPlaybackPosition(0);
-            this.load(previousModel);
-            if (this.isPlaying()){
-                this.play();
+        if (this.getPlaybackPosition() < this.PREVIOUS_TRACK_SELECTION_WINDOW) {
+            var previousModel = this.get("trackList").previousModel(this.get("loadedModel"));
+            if (previousModel) {
+                this.setPlaybackPosition(0);
+                this.load(previousModel);
+                if (this.isPlaying()) {
+                    this.play();
+                }
             }
+        } else {
+            this.setPlaybackPosition(0);
+            this.play();
         }
     },
 

@@ -129,6 +129,7 @@ module.exports = Backbone.Router.extend({
 
     playlist: function(id){
         this._showInMainContent(new PlaylistView({id:id}));
+        this._selectItemById("navPlaylists");
     },
 
     playlistEdit: function(id){
