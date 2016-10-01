@@ -20,17 +20,18 @@ module.exports = Backbone.Model.extend({
 
     addTrack: function(recordingId, callback) {
         trackList = this.getTrackList();
-        trackList.push(parseInt(recordingId));
+        var id = parseInt(recordingId);
+        if (trackList.indexOf(id) == -1) trackList.push(id);
         this.set({trackList:JSON.stringify(trackList)},{silent:true});
         this.save({success:callback()},{silent:true});
     },
 
     getTrackList: function (){
-        var trackList = this.get("trackList");
+        var trackList = JSON.parse(this.get("trackList"));
         if (trackList === "null"){
             return [];
         } else {
-            return JSON.parse(trackList);
+            return trackList;
         }
     },
 
@@ -39,11 +40,11 @@ module.exports = Backbone.Model.extend({
         this.save();
     },
 
-    removeTrackByIndex: function(index){
+    removeTrack: function(id){
+        X7.collections.tracklist.delete(id);
         var trackList = this.getTrackList();
-        var modifiedTrackList = trackList.splice(index, 1);
+        var modifiedTrackList = _.filter(trackList, function(el){return el !== parseInt(id);});
         this.setTrackList(modifiedTrackList);
-        this.save();
     },
 
     whiteList: ['id','name','actID', 'actName', 'yearPublished','label','isAlbum','notes','trackList','listLength'],

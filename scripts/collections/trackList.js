@@ -8,6 +8,23 @@ module.exports = Backbone.Collection.extend({
         this.listenTo(X7.models.player, 'playing stop', this.setCurrentlyPlayingTrack);
     },
 
+    load: function(idList) {
+        this.reset(null);
+        for (var i in idList){
+            this.add(X7.collections.recordings.get(idList[i]), {silent:true});
+        }
+        this.trigger("reset");
+    },
+
+    save: function(){
+        var idArray = this.pluck("id");
+        X7.models.playlist.setTrackList(idArray);
+    },
+
+    delete: function(recID){
+        this.remove(this.get(recID));
+    },
+
     setCurrentlyPlayingTrack: function(id){
         this.invoke('set', {"currentlyPlaying": false});
         if (id) this.get(id).set("currentlyPlaying", true);

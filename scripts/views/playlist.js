@@ -1,27 +1,35 @@
 var $ = require('jquery');
-
 var template = require('./html/playlist.html');
-var PlaylistModel = require('../models/playlist.js');
-var TrackListCollection = require('../collections/trackList.js');
-var TrackListView = require('../views/trackList.js');
 var button = require('../helpers/button.js');
+var TracklistView = require('./trackList.js');
+var PlaylistModel = require('../models/playlist.js');
 
 module.exports = Backbone.View.extend({
 
     tagName: "div",
     id: "playlist",
 
-    initialize: function (options) {
-        this.model = new PlaylistModel({
-            id: options.id
-        });
-
-        this.model.fetch({success: $.proxy(this.onPlaylistModelFetched, this)});
-    },
-
     events: {
         "click #editPlaylist": "edit",
         "click #playPlaylist": "playFromTop"
+    },
+
+    initialize: function(){
+        this.listenTo(X7.collections.tracklist, 'reset', this.render);
+    },
+
+    loadModel: function(id){
+        this.model = new PlaylistModel({id:id});
+        this.model.fetch({success: $.proxy(this.createTrackList, this)});
+    },
+
+    createTrackList: function(){
+        X7.collections.tracklist.load(JSON.parse(this.model.get("trackList")));
+        X7.views.tracklist = new TracklistView({
+            collection: X7.collections.tracklist,
+            playlistModel: this.model
+        });
+        this.render();
     },
 
     edit: function(){
@@ -32,29 +40,6 @@ module.exports = Backbone.View.extend({
         X7.models.player.connectToTracklist(this.model.get("trackList"), true);
     },
 
-    onPlaylistModelFetched: function(model, response){
-        var modelFromDb = response;
-        modelFromDb.trackList = new TrackListCollection(
-            this.collectionFromIdList(JSON.parse(modelFromDb.trackList))
-        );
-
-        this.model.set(modelFromDb);
-
-        this.trackListCollectionView = new TrackListView({
-            collection: modelFromDb.trackList,
-            playlistModel: this.model
-        });
-
-        this.render();
-    },
-
-    collectionFromIdList: function(idList){
-        var selected = [];
-        for (var i in idList)
-            selected.push(X7.collections.recordings.get(idList[i]));
-        return selected;
-    },
-
     styleButtons: function(){
         button.style(this.$el.find("#playPlaylist"), "ui-icon-play");
         button.style(this.$el.find("#editPlaylist"), "ui-icon-pencil");
@@ -62,16 +47,10 @@ module.exports = Backbone.View.extend({
 
     render: function() {
         this.$el.html(template(this.model.attributes));
-        this.renderTrackList();
+        var j$ = X7.views.tracklist.render().el;
+        this.$el.find("#trackListContainer").html(j$);
         this.styleButtons();
         this.delegateEvents();
         return this;
-    },
-
-    renderTrackList: function(){
-        if (this.trackListCollectionView){
-            this.$el.find("#trackListContainer").html(this.trackListCollectionView.render().el);
-        }
     }
-
 });

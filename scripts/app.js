@@ -18,12 +18,15 @@ var PlayerView = require('./views/player.js');
 var PlaylistModel = require('./models/playlist.js');
 var PlaylistsCollection = require('./collections/playlists.js');
 var PlaylistsView = require('./views/playlists.js');
+var PlaylistView = require('./views/playlist.js');
 var QueueCollection = require('./collections/queue.js');
 var QueueHistoryCollection = require('./collections/queueHistory.js');
 var QueueView = require('./views/queue.js');
 var RecordingsCollection = require('./collections/recordings.js');
 var RecordingsView = require('./views/recordings.js');
 var Router = require('./router.js');
+var TrackListCollection = require('./collections/trackList.js');
+var TracklistView = require('./views/trackList.js');
 
 
 // Global App Object
@@ -42,6 +45,8 @@ X7.collections.queueHistory = new QueueHistoryCollection();
 X7.collections.recordings = new RecordingsCollection();
 X7.models.audioUpload = new AudioUploadModel();
 X7.models.newPlaylist = new PlaylistModel();
+X7.models.playlist = new PlaylistModel();
+X7.views.playlist = new PlaylistView({model: X7.models.playlist});
 
 $(function(){
 
@@ -52,14 +57,16 @@ $(function(){
     X7.views.queue = new QueueView({collection: X7.collections.queue});
     X7.views.recordings = new RecordingsView({collection: X7.collections.recordings});
 
+
     // Bootstrap the application after syncing models with server
     $( document ).ajaxStop(function() {
         $(this).unbind("ajaxStop");
         $("#loading").remove();
 
-        // player
         X7.models.player = new PlayerModel(X7.collections.queue);
         X7.views.player = new PlayerView({model: X7.models.player});
+        X7.collections.tracklist = new TrackListCollection();
+        X7.views.tracklist = new TracklistView({collection: X7.collections.tracklist});
 
         X7.views.nav.render();
         X7.views.player.render();

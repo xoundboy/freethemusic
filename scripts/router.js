@@ -5,7 +5,6 @@ var qs = require('query-string');
 var RecordingDetailsView        = require('./views/recording.js');
 var RecordingEditPanelView      = require('./views/recordingEdit.js');
 
-var PlaylistView                = require('./views/playlist.js');
 var PlaylistAddOrEditPanelView  = require('./views/playlistForm.js');
 
 var ArtistAddOrEditPanelView    = require('./views/artistForm.js');
@@ -128,7 +127,8 @@ module.exports = Backbone.Router.extend({
     },
 
     playlist: function(id){
-        this._showInMainContent(new PlaylistView({id:id}));
+        X7.views.playlist.loadModel(id);
+        this._showInMainContent(X7.views.playlist);
         this._selectItemById("navPlaylists");
     },
 

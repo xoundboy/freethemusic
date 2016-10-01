@@ -26,7 +26,7 @@ module.exports = Backbone.View.extend({
     },
 
     onTrackAddedToPlaylist: function(){
-        console.log("callback called");
+        // todo show a notification
     },
 
     render: function(){

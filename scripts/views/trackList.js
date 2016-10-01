@@ -12,7 +12,8 @@ module.exports = Backbone.View.extend({
 
     initialize: function(options){
         this.playlistModel = options.playlistModel;
-        this.listenTo(this.collection, 'change', this.render);
+        this.listenTo(X7.collections.tracklist, 'change', this.render);
+        this.listenTo(this.playlistModel, 'change', this.render);
     },
 
     events: {
@@ -32,8 +33,8 @@ module.exports = Backbone.View.extend({
     },
 
     remove: function(e){
-        var trackIndex = $(e.currentTarget).closest("tr").index();
-        this.playlistModel.removeTrackByIndex(trackIndex);
+        var recId = $(e.currentTarget).closest("tr").attr("data-recordingid");
+        this.playlistModel.removeTrack(recId);
     },
 
     styleButtons: function(){
@@ -43,7 +44,6 @@ module.exports = Backbone.View.extend({
     },
 
     sortablize: function(){
-
         var that = this;
         var oldIndex;
 
@@ -63,9 +63,11 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
+        console.log("rendering tracklist");
         this.$el.html(template({trackList: this.collection.toJSON()}));
         this.sortablize();
         this.styleButtons();
+        this.delegateEvents();
         return this;
     }
 });
