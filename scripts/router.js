@@ -17,6 +17,9 @@ module.exports = Backbone.Router.extend({
 
     routes: {
         ''                                  : 'recordings',
+
+        'login'                             : 'login',
+
         'recordings'                        : 'recordings',
         'recordings/highlight/:id'          : 'recordingHighlight',
         'recording/:id'                     : 'recordingDetails',
@@ -43,6 +46,10 @@ module.exports = Backbone.Router.extend({
     /**
      * ROUTES
      */
+
+    login: function() {
+        this._showInMainContent(X7.views.login);
+    },
 
     recordings: function() {
         this._showInMainContent(X7.views.recordings);

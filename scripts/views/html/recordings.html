@@ -1,6 +1,8 @@
-
+<h1>Tracks</h1>
 <div class="buttonBar">
+    {{#adminUser}}
     <button class="addRecordingButton cta">Upload recording</button>
+    {{/adminUser}}
 </div>
 <table id="recordings_table" class="benGrid {{^recordings}}emptyTable{{/recordings}}">
     <thead>
@@ -10,8 +12,10 @@
         <th bengrid-key="audioFile">Title</th>
         <th bengrid-key="actName">Artist</th>
         <th bengrid-key="actName">Duration</th>
+        {{#adminUser}}
         <td class="buttonColumn"></td>
         <td class="buttonColumn"></td>
+        {{/adminUser}}
     </tr>
     </thead>
     <tbody>
@@ -25,13 +29,15 @@
         <td><a href="#recording/{{id}}">{{{title}}}</a></td>
         <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
         <td class="rightAlign">{{duration}}</td>
+        {{#adminUser}}
         <td><button class="editRecordingButton">edit</button></td>
         <td><button class="deleteRecordingButton">delete</button></td>
+        {{/adminUser}}
     </tr>
     {{/recordings}}
     {{^recordings}}
     <tr>
-        <td colspan="7">No recordings yet
+        <td {{#adminUser}}colspan="7"{{/adminUser}}{{^adminUser}}colspan="5"{{/adminUser}}>No recordings yet
             <a href="#recording/add" class="link">Upload one now</a>
         </td>
     </tr>

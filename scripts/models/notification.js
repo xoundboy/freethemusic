@@ -15,6 +15,8 @@ module.exports = Backbone.Model.extend({
         showCancelButton: false,
 
         okCallback: function(){},
-        cancelCallback: function(){}
+        cancelCallback: function(){},
+        timeoutCallback: function(){}
+
     }
 });

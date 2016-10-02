@@ -99,7 +99,11 @@ module.exports = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.html(template({recordings:this.collection.toJSON()}));
+        var viewModel = {
+            adminUser: X7.adminUser,
+            recordings: this.collection.toJSON()
+        };
+        this.$el.html(template(viewModel));
         this.styleButtons();
 
         // Sub-views need this or events associated with

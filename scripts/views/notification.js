@@ -17,6 +17,7 @@ module.exports = Backbone.View.extend({
 
     close: function(){
         this.$el.empty().removeData().unbind().hide();
+        this.model.get("timeoutCallback").call();
     },
 
     render: function(){

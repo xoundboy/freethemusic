@@ -11,5 +11,6 @@ module.exports = {
     LS_QUEUE: "X71_queue",
     //LS_CURRENTLY_PLAYING_INDEX: "X71_currently_playing_index",
     LS_PLAYER_LOADED_ID: "X71_player_loaded_id",
-    LS_PLAYBACK_POSITION: "X71_playback_position"
+    LS_PLAYBACK_POSITION: "X71_playback_position",
+    LS_ACCESS_TOKEN: "X71_access_token"
 };

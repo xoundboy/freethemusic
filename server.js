@@ -1,6 +1,8 @@
+var base64SigningKey = "NSUiBDr4nnAWif8GujmI3AHZThT8i8Q7NawJ3jk/Zp+uEyYE4d5/CjXsPxYvsSuu8b8jyDqmz1GQJJOi+MpRV6thrOoZgeHUQSYiTXscSm6Fv4vJIJ26X3HoOUsFX2ja8bWGi1Lv43/rJ5kYCgZEyDr8WVFam1oUSFO9sB34WdhSgkbTiPm8Z3edWI2+Qt1dzAyu5rZhXTgHyKU0dtQgs6aJ5F/94QiGDcwdD/c4JagBTDyqDgLpqGdGfNF2jlEqq2rQno7ga6sLZyoCNh6lF663MnKONx8+tb7ptwac+S+lUy3IBK23d2trTVYo5L0XGVHg1+5uijhER7OsN0Y9Ew==";
+var signingKey = new Buffer(base64SigningKey, 'base64');
+
 var express = require('express');
 var app = express();
-
 
 var http = require('http').Server(app);
 var multer  = require('multer');
@@ -10,6 +12,7 @@ var fs = require('fs');
 var rimraf = require('rimraf');
 var mysql = require('mysql');
 var bodyParser = require("body-parser");
+var nJwt = require('njwt');
 
 var connection = mysql.createConnection({
     host     : config.DB_HOST,
@@ -20,7 +23,6 @@ var connection = mysql.createConnection({
 
 var pathToAudioUploadDir = './public/uploads/audio';
 var pathToImageUploadDir = './public/uploads/images';
-
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -35,9 +37,9 @@ var apiKey = new stormpath.ApiKey(
 var client = new stormpath.Client({ apiKey: apiKey });
 
 var applicationHref = process.env['STORMPATH_APPLICATION_HREF'];
-
+var stormpathApp;
 client.getApplication(applicationHref, function(err, application) {
-    //console.log('Application:', application);
+    stormpathApp = application;
 });
 
 function handleError(err, res) {
@@ -58,6 +60,40 @@ function getLastId(res, callback){
         }
     });
 }
+
+/**
+ * LOGIN
+ */
+app.post('/api/login', function(req, res){
+    var authRequest = {
+        username: req.body.username,
+        password: req.body.password
+    };
+    stormpathApp.authenticateAccount(authRequest, function(err, result) {
+        if (err){
+            console.log(err);
+            res.status(err.status).send();
+            return;
+        }
+        res.status(200).json({token: generateAccessToken()});
+    });
+});
+
+var generateAccessToken = function(){
+    var jwt = nJwt.create({scope:"admins"}, signingKey);
+    return jwt.compact();
+};
+
+app.post('/api/login/verifyToken', function(req, res){
+    nJwt.verify(req.body.token, signingKey, function(err, verifiedJwt){
+        if (!err && verifiedJwt.body.scope === 'admins'){
+            res.status(200).json({msg:"authenticated administrator"});
+        } else {
+            res.status(403).send("not authenticated");
+        }
+    });
+    return null;
+});
 
 /**
  * UPLOAD

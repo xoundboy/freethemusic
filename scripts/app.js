@@ -12,6 +12,7 @@ var ArtistsView = require('./views/artists.js');
 var AudioUploadModel = require('./models/audioUpload.js');
 var AudioUploadView = require('./views/audioUpload.js');
 var Backbone = require('backbone');
+var LoginView = require('./views/login.js');
 var NavView = require('./views/nav.js');
 var PlayerModel = require('./models/player.js');
 var PlayerView = require('./views/player.js');
@@ -28,13 +29,16 @@ var Router = require('./router.js');
 var TrackListCollection = require('./collections/trackList.js');
 var TracklistView = require('./views/trackList.js');
 
+var config = require('./config.js');
+var tokenCandidate = window.localStorage.getItem(config.LS_ACCESS_TOKEN);
 
 // Global App Object
 global.X7 = {
     models: {},
     collections: {},
     views: {},
-    routers: {}
+    routers: {},
+    adminUser: false
 };
 
 // Create model instances
@@ -46,10 +50,10 @@ X7.collections.recordings = new RecordingsCollection();
 X7.models.audioUpload = new AudioUploadModel();
 X7.models.newPlaylist = new PlaylistModel();
 X7.models.playlist = new PlaylistModel();
+X7.views.login = new LoginView();
 X7.views.playlist = new PlaylistView({model: X7.models.playlist});
 
-$(function(){
-
+var bootStrap = function(){
     X7.views.artists = new ArtistsView({collection: X7.collections.artists});
     X7.views.audioUpload = new AudioUploadView({model: X7.models.audioUpload});
     X7.views.nav = new NavView();
@@ -78,5 +82,33 @@ $(function(){
             $(".contextMenu").empty();
         });
     });
+};
 
+var verifyToken = function(tokenCandidate){
+    $.ajax({
+        url: 'api/login/verifyToken',
+        method: 'POST',
+        data: {token: tokenCandidate},
+        success: onVerifyTokenSuccess,
+        error: onVerifyTokenFailure
+    });
+};
+
+var onVerifyTokenSuccess = function(){
+    X7.adminUser = true;
+    bootStrap();
+};
+
+var onVerifyTokenFailure = function(){
+    X7.adminUser = false;
+    window.localStorage.removeItem(config.LS_ACCESS_TOKEN);
+    bootStrap();
+};
+
+$(function(){
+    if (tokenCandidate) {
+        verifyToken(tokenCandidate);
+        return;
+    }
+    bootStrap();
 });
