@@ -565,25 +565,8 @@ app.delete('/api/playlist/:id', function(req, res){
 });
 
 
-/**
- * TRACKLISTS
- */
-// GET /api/tracklist/id
-app.get("/api/tracklist/:id", function(req, res){
-    connection.query("CALL GetTracklistById(" + utils.htmlEscape(req.params.id) + ");", function(err, rows){
-        if (!handleError(err, res)){
-            res.json(rows[0][0]);
-        }
-    });
-});
-// PUT /api/tracklist/id
-
-
-
-
-
+// CREATE SERVER
 app.use(express.static('public'));
-
 http.listen(config.SERVER_PORT, function(){
     console.log("Connected & Listen to port " + config.SERVER_PORT);
 });

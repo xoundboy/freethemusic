@@ -27,7 +27,12 @@ module.exports = Backbone.Collection.extend({
 
     setCurrentlyPlayingTrack: function(id){
         this.invoke('set', {"currentlyPlaying": false});
-        if (id) this.get(id).set("currentlyPlaying", true);
+        if (id) {
+            var track = this.get(id);
+            if (track){
+                track.set("currentlyPlaying", true);
+            }
+        }
     },
 
     nextModel: function(currentModel){

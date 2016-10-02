@@ -28,11 +28,7 @@ module.exports = Backbone.Model.extend({
 
     getTrackList: function (){
         var trackList = JSON.parse(this.get("trackList"));
-        if (trackList === "null"){
-            return [];
-        } else {
-            return trackList;
-        }
+        return trackList ? trackList : [];
     },
 
     setTrackList: function (trackList){

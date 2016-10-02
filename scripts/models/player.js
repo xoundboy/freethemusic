@@ -141,7 +141,7 @@ module.exports = Backbone.Model.extend({
 
     play: function(){
         this.set("isPlaying", true);
-        this.audioElement.play(this.getPlaybackPosition(), this.onTrackFinished);
+        this.audioElement.play(this.getPlaybackPosition(), $.proxy(this.onTrackFinished, this));
         this.trigger("playing", this.get("loadedModel").id);
         this.updateCurrentTimeInterval = setInterval($.proxy(this.updatePlaybackPosition, this), 50);
     },
@@ -168,6 +168,6 @@ module.exports = Backbone.Model.extend({
     },
 
     onTrackFinished: function(){
-        console.log("track finished");
+        this.loadNext();
     }
 });

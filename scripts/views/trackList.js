@@ -63,7 +63,6 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
-        console.log("rendering tracklist");
         this.$el.html(template({trackList: this.collection.toJSON()}));
         this.sortablize();
         this.styleButtons();
