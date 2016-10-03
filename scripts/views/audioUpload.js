@@ -54,11 +54,11 @@ module.exports = Backbone.View.extend({
         });
 
         // empty the temporary uploads folder on the server
-        xhr_removeuploads.open('DELETE', '/api/removetempuploads', true);
+        xhr_removeuploads.open('DELETE', '/api/recording/removeTempUploads', true);
         xhr_removeuploads.onload = function(){
 
             formData.append('uploadFile', file);
-            xhr_upload.open('POST', "/api/upload", true);
+            xhr_upload.open('POST', "/api/recording/upload", true);
             xhr_upload.onload = function (data) {
                 var response = (JSON.parse(data.currentTarget.responseText));
                 that.model.set("tempName", response.tempName);

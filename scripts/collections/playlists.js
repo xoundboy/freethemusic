@@ -3,7 +3,7 @@
 module.exports = Backbone.Collection.extend({
 
     model: PlaylistModel,
-    url: "api/playlists",
+    url: "api/playlist/all",
     sort_key: "name",
 
     initialize: function() {

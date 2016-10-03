@@ -4,7 +4,7 @@ var ArtistModel = require('../models/artist.js');
 module.exports = Backbone.Collection.extend({
 
     model: ArtistModel,
-    url: "api/artists",
+    url: "api/artist/all",
     sort_key: "actName",
 
     initialize: function() {

@@ -4,7 +4,7 @@ var RecordingModel = require('../models/recording.js');
 module.exports = Backbone.Collection.extend({
 
     model: RecordingModel,
-    url: "api/recordings",
+    url: "api/recording/all",
     sort_key: "title",
 
     initialize: function() {
