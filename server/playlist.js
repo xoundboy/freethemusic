@@ -45,34 +45,38 @@ router.get('/:id', function(req, res){
  */
 router.post('/', function(req, res){
 
-    var output = {},
+    function onValidToken(){
+        var output = {},
 
-        onInsertGallery = function(err, res){
-            util.handleError(err, res) || util.getLastId(res, onGetGalleryInsertId);
-        },
+            onInsertGallery = function(err, res){
+                util.handleError(err, res) || util.getLastId(res, onGetGalleryInsertId);
+            },
 
-        onGetGalleryInsertId = function(id){
-            var query = "CALL InsertPlaylist('"
-                + utils.htmlEscape(req.body.name) + "',"
-                + utils.htmlEscape(req.body.actID || null) + ","
-                + id + ",'"
-                + utils.htmlEscape(req.body.yearPublished || null) + "','"
-                + utils.htmlEscape(req.body.label || null) + "','"
-                + utils.htmlEscape(req.body.notes) + "','"
-                + utils.htmlEscape(req.body.isAlbum || false) + "');";
-            connection.query(query, onInsertPlaylist);
-        },
+            onGetGalleryInsertId = function(id){
+                var query = "CALL InsertPlaylist('"
+                    + utils.htmlEscape(req.body.name) + "',"
+                    + utils.htmlEscape(req.body.actID || null) + ","
+                    + id + ",'"
+                    + utils.htmlEscape(req.body.yearPublished || null) + "','"
+                    + utils.htmlEscape(req.body.label || null) + "','"
+                    + utils.htmlEscape(req.body.notes) + "','"
+                    + utils.htmlEscape(req.body.isAlbum || false) + "');";
+                connection.query(query, onInsertPlaylist);
+            },
 
-        onInsertPlaylist = function(err, res) {
-            handleError(err, res) || util.getLastId(res, onGetPlaylistInsertId);
-        },
+            onInsertPlaylist = function(err, res) {
+                handleError(err, res) || util.getLastId(res, onGetPlaylistInsertId);
+            },
 
-        onGetPlaylistInsertId = function(id){
-            output.id = id;
-            res.json(output);
-        };
+            onGetPlaylistInsertId = function(id){
+                output.id = id;
+                res.json(output);
+            };
 
-    connection.query("CALL InsertGallery();", onInsertGallery);
+        connection.query("CALL InsertGallery();", onInsertGallery);
+    }
+
+    util.verifyAccessToken(req.headers.authorization, onValidToken, res);
 });
 
 /**
@@ -80,35 +84,44 @@ router.post('/', function(req, res){
  */
 router.put('/:id', function(req, res){
 
-    var query = "CALL UpdatePlaylist("
-        + utils.htmlEscape(req.params.id) + ",'"
-        + utils.htmlEscape(req.body.name) + "',"
-        + utils.htmlEscape(req.body.actID || null) + ",'"
-        + utils.htmlEscape(req.body.yearPublished) + "','"
-        + utils.htmlEscape(req.body.label) + "','"
-        + utils.htmlEscape(req.body.notes) + "','"
-        + utils.htmlEscape(req.body.isAlbum) + "','"
-        + utils.htmlEscape(req.body.trackList) + "');";
+    function onValidToken(){
+        var query = "CALL UpdatePlaylist("
+            + utils.htmlEscape(req.params.id) + ",'"
+            + utils.htmlEscape(req.body.name) + "',"
+            + utils.htmlEscape(req.body.actID || null) + ",'"
+            + utils.htmlEscape(req.body.yearPublished) + "','"
+            + utils.htmlEscape(req.body.label) + "','"
+            + utils.htmlEscape(req.body.notes) + "','"
+            + utils.htmlEscape(req.body.isAlbum) + "','"
+            + utils.htmlEscape(req.body.trackList) + "');";
 
-    connection.query(query, function(err){
-        if(err){
-            console.log(err);
-            res.status(400).send("can't update the playlist in the database");
-        }
-        res.json({msg: "success"});
-    });
+        connection.query(query, function(err){
+            if(err){
+                console.log(err);
+                res.status(400).send("can't update the playlist in the database");
+            }
+            res.json({msg: "success"});
+        });
+    }
+
+    util.verifyAccessToken(req.headers.authorization, onValidToken, res);
 });
 
 /**
  * DELETE /api/playlist/id
  */
 router.delete('/:id', function(req, res){
-    connection.query("CALL DeletePlaylist(" + utils.htmlEscape(req.params.id) + ");", function (err) {
-        if (err) {
-            res.status(400).send("the artist could not be deleted from the database");
-        }
-        res.sendStatus(200);
-    });
+
+    function onValidToken(){
+        connection.query("CALL DeletePlaylist(" + utils.htmlEscape(req.params.id) + ");", function (err) {
+            if (err) {
+                res.status(400).send("the artist could not be deleted from the database");
+            }
+            res.sendStatus(200);
+        });
+    }
+
+    util.verifyAccessToken(req.headers.authorization, onValidToken, res);
 });
 
 module.exports = router;

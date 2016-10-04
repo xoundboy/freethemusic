@@ -6,19 +6,6 @@ var express = require('express'),
 var connection = util.dbConn();
 
 /**
- * POST /api/gallery
- */
-router.post('/', function(req, res){
-    var onInsertGallery = function(err, res){
-            util.handleError(err, res) || util.getLastId(res, onGetGalleryInsertId);
-        },
-        onGetGalleryInsertId = function(id){
-            res.json({id:id});
-        };
-    connection.query("CALL InsertGallery();", onInsertGallery);
-});
-
-/**
  * GET /api/gallery/id
  */
 router.get('/:id', function(req, res){
@@ -39,21 +26,41 @@ router.get('/:id', function(req, res){
 });
 
 /**
+ * POST /api/gallery
+ */
+router.post('/', function(req, res){
+
+    function onValidToken() {
+        var onInsertGallery = function(err, res){
+                util.handleError(err, res) || util.getLastId(res, onGetGalleryInsertId);
+            },
+            onGetGalleryInsertId = function(id){
+                res.json({id:id});
+            };
+        connection.query("CALL InsertGallery();", onInsertGallery);
+    }
+    util.verifyAccessToken(req.headers.authorization, onValidToken, res);
+});
+
+/**
  * PUT /api/gallery/id
  */
 router.put('/:id', function(req, res){
 
-    var images = JSON.stringify(req.body.images);
+    function onValidToken(){
+        var images = JSON.stringify(req.body.images);
 
-    var query = "CALL UpdateGallery("
-        + utils.htmlEscape(req.params.id) + ",'"
-        + images + "');";
+        var query = "CALL UpdateGallery("
+            + utils.htmlEscape(req.params.id) + ",'"
+            + images + "');";
 
-    var onGalleryUpdated = function(err){
-        util.handleError(err, res) || res.json({msg: "success"});
-    };
+        var onGalleryUpdated = function(err){
+            util.handleError(err, res) || res.json({msg: "success"});
+        };
 
-    connection.query(query, onGalleryUpdated);
+        connection.query(query, onGalleryUpdated);
+    }
+    util.verifyAccessToken(req.headers.authorization, onValidToken, res);
 });
 
 module.exports = router;

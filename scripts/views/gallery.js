@@ -9,6 +9,7 @@ var GalleryImagesCollection = require('../collections/galleryImages.js');
 var GalleryImagesView = require('./galleryImages.js');
 var ImageModel = require('../models/image.js');
 var template = require('./html/gallery.html');
+var ajax = require('../core/ajax.js');
 
 /**
  * To associate and integrate a gallery with an "Other Entity" (OE)
@@ -99,17 +100,20 @@ module.exports = Backbone.View.extend({
     },
 
     uploadImage: function(e){
-        var file = e.target.files[0],
-            xhr_upload = new XMLHttpRequest();
+
+        var file = e.target.files[0];
 
         if (file){
             this.showLoadingMessage();
             this.setFormData(file);
 
-            xhr_upload.open('POST', "/api/image/upload", true);
-            xhr_upload.onload = $.proxy(this.onUploadImageSuccess, this);
-            xhr_upload.onerror = $.proxy(this.onUploadImageError, this);
-            xhr_upload.send(this.formData);
+            ajax.request({
+                method: 'POST',
+                url: "/api/image/upload",
+                success: $.proxy(this.onUploadImageSuccess, this),
+                error: $.proxy(this.onUploadImageError, this),
+                data: this.formData
+            });
         }
     },
 

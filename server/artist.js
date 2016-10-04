@@ -34,57 +34,67 @@ router.get('/all', function(req, res){
  */
 router.post('/', function(req, res){
 
-    var output = {},
+    function onValidToken() {
 
-        onInsertGallery = function(err, res){
-            util.handleError(err, res) || util.getLastId(res, onGetGalleryInsertId);
-        },
+        var output = {},
 
-        onGetGalleryInsertId = function(id){
-            var query = "CALL InsertAct('"
-                + utils.htmlEscape(req.body.actName) + "','"
-                + utils.htmlEscape(req.body.actTown) + "','"
-                + utils.htmlEscape(req.body.actCountry) + "','"
-                + utils.htmlEscape(req.body.website) + "','"
-                + utils.htmlEscape(req.body.tags) + "','"
-                + utils.htmlEscape(req.body.biog) + "',"
-                + id + ");";
-            connection.query(query, onInsertArtist);
-        },
+            onInsertGallery = function(err, res){
+                util.handleError(err, res) || util.getLastId(res, onGetGalleryInsertId);
+            },
 
-        onInsertArtist = function(err, res) {
-            util.handleError(err, res) || util.getLastId(res, onGetArtistInsertId);
-        },
+            onGetGalleryInsertId = function(id){
+                var query = "CALL InsertAct('"
+                    + utils.htmlEscape(req.body.actName) + "','"
+                    + utils.htmlEscape(req.body.actTown) + "','"
+                    + utils.htmlEscape(req.body.actCountry) + "','"
+                    + utils.htmlEscape(req.body.website) + "','"
+                    + utils.htmlEscape(req.body.tags) + "','"
+                    + utils.htmlEscape(req.body.biog) + "',"
+                    + id + ");";
+                connection.query(query, onInsertArtist);
+            },
 
-        onGetArtistInsertId = function(id){
-            output.id = id;
-            res.json(output);
-        };
+            onInsertArtist = function(err, res) {
+                util.handleError(err, res) || util.getLastId(res, onGetArtistInsertId);
+            },
 
-    connection.query("CALL InsertGallery();", onInsertGallery);
+            onGetArtistInsertId = function(id){
+                output.id = id;
+                res.json(output);
+            };
+
+        connection.query("CALL InsertGallery();", onInsertGallery);
+    }
+
+    util.verifyAccessToken(req.headers.authorization, onValidToken, res);
 });
 
 /**
  * PUT /api/artist/id
  */
 router.put('/:id', function(req, res){
-    var query = "CALL UpdateArtist("
-        + utils.htmlEscape(req.params.id) + ","
-        + utils.htmlEscape(req.body.galleryID) + ",'"
-        + utils.htmlEscape(req.body.actName) + "','"
-        + utils.htmlEscape(req.body.actTown) + "','"
-        + utils.htmlEscape(req.body.actCountry) + "','"
-        + utils.htmlEscape(req.body.website) + "','"
-        + utils.htmlEscape(req.body.tags) + "','"
-        + utils.htmlEscape(req.body.biog) + "');";
 
-    connection.query(query, function(err){
-        if(err){
-            console.log(err);
-            res.status(400).send("can't update the artist in the database");
-        }
-        res.json({msg: "success"});
-    });
+    function onValidToken(){
+        var query = "CALL UpdateArtist("
+            + utils.htmlEscape(req.params.id) + ","
+            + utils.htmlEscape(req.body.galleryID) + ",'"
+            + utils.htmlEscape(req.body.actName) + "','"
+            + utils.htmlEscape(req.body.actTown) + "','"
+            + utils.htmlEscape(req.body.actCountry) + "','"
+            + utils.htmlEscape(req.body.website) + "','"
+            + utils.htmlEscape(req.body.tags) + "','"
+            + utils.htmlEscape(req.body.biog) + "');";
+
+        connection.query(query, function(err){
+            if(err){
+                console.log(err);
+                res.status(400).send("can't update the artist in the database");
+            }
+            res.json({msg: "success"});
+        });
+    }
+
+    util.verifyAccessToken(req.headers.authorization, onValidToken, res);
 });
 
 /**
@@ -92,45 +102,49 @@ router.put('/:id', function(req, res){
  */
 router.delete('/:id', function(req, res){
 
-    // find all the artist's recordings
-    connection.query("CALL GetAllRecordingsByActId(" + utils.htmlEscape(req.params.id) + ");", function(err, rows){
+    function onValidToken(){
 
-        if (err){
-            console.log(err);
-            res.sendStatus(200);
+        // find all the artist's recordings
+        connection.query("CALL GetAllRecordingsByActId(" + utils.htmlEscape(req.params.id) + ");", function(err, rows){
 
-        } else if (rows && rows.length) {
+            if (err){
+                console.log(err);
+                res.sendStatus(200);
 
-            // delete all of the artist's recordings (one by one)
-            rows[0].map(function (recording) {
+            } else if (rows && rows.length) {
 
-                // delete the mp3 file
-                fs.unlink(config.AUDIO_LIBRARY_PATH + recording.audioFile + ".mp3", function (err) {
+                // delete all of the artist's recordings (one by one)
+                rows[0].map(function (recording) {
 
-                    if (err) {
-                        res.status(400).send("cannot delete the file " + recording.audioFile + ".mp3");
-                        return;
-                    }
+                    // delete the mp3 file
+                    fs.unlink(config.AUDIO_LIBRARY_PATH + recording.audioFile + ".mp3", function (err) {
 
-                    // then delete the recording's database entry
-                    connection.query("CALL DeleteRecording('" + utils.htmlEscape(recording.audioFile) + "');", function (err) {
                         if (err) {
-                            res.status(400).send("an artist's recording could not be deleted from the database");
+                            res.status(400).send("cannot delete the file " + recording.audioFile + ".mp3");
+                            return;
                         }
+
+                        // then delete the recording's database entry
+                        connection.query("CALL DeleteRecording('" + utils.htmlEscape(recording.audioFile) + "');", function (err) {
+                            if (err) {
+                                res.status(400).send("an artist's recording could not be deleted from the database");
+                            }
+                        });
                     });
                 });
-            });
-        }
-    });
+            }
+        });
 
-    // next, delete the artist from the database
-    connection.query("CALL DeleteAct(" + utils.htmlEscape(req.params.id) + ");", function (err) {
-        if (err) {
-            res.status(400).send("the artist could not be deleted from the database");
-        }
-        res.sendStatus(200);
-    });
+        // next, delete the artist from the database
+        connection.query("CALL DeleteAct(" + utils.htmlEscape(req.params.id) + ");", function (err) {
+            if (err) {
+                res.status(400).send("the artist could not be deleted from the database");
+            }
+            res.sendStatus(200);
+        });
+    }
 
+    util.verifyAccessToken(req.headers.authorization, onValidToken, res);
 });
 
 module.exports = router;

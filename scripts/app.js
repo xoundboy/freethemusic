@@ -7,6 +7,9 @@ require('../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.theme.min.c
 
 var $ = require('jquery');
 window.jQuery = $;
+
+require('./core/sync.js');
+
 var ArtistsCollection = require('./collections/artists.js');
 var ArtistsView = require('./views/artists.js');
 var AudioUploadModel = require('./models/audioUpload.js');
