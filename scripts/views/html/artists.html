@@ -1,13 +1,17 @@
 <div class="buttonBar">
+    {{#adminUser}}
     <button class="addArtistButton cta">Add artist</button>
+    {{/adminUser}}
 </div>
 <table id="artists_table" class="benGrid {{^artists}}emptyTable{{/artists}}">
     <thead>
     <tr>
         <td></td>
         <th bengrid-key="actName">Artist</th>
+        {{#adminUser}}
         <td class="buttonColumn"></td>
         <td class="buttonColumn"></td>
+        {{/adminUser}}
     </tr>
     </thead>
     <tbody>
@@ -15,13 +19,15 @@
     <tr id="actID-{{id}}" class="artistRow" data-actid="{{id}}">
         <td><div class="imgMask">{{#avatar}}<img src="assets/images/{{avatar.src}}" />{{/avatar}}</div></td>
         <td data-artistid="{{id}}"><a href="#artist/{{id}}">{{actName}}</a></td>
+        {{#adminUser}}
         <td><button class="editArtistButton">edit</button></td>
         <td><button class="deleteArtistButton">delete</button></td>
+        {{/adminUser}}
     </tr>
     {{/artists}}
     {{^artists}}
     <tr>
-        <td colspan="5" class="emptyTable">No artists yet <a href="#audioUpload" class="link">Upload one now</a> </td>
+        <td {{#adminUser}}colspan="4"{{/adminUser}}{{^adminUser}}colspan="2"{{/adminUser}} class="emptyTable">No artists yet <a href="#audioUpload" class="link">Upload one now</a> </td>
     </tr>
     {{/artists}}
     </tbody>

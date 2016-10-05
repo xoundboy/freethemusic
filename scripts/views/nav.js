@@ -46,7 +46,7 @@ module.exports = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.html(template());
+        this.$el.html(template({adminUser:X7.adminUser}));
         this.styleButtons();
         return this;
     }

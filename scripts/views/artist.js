@@ -1,7 +1,9 @@
 /**
  * Created by xoundboy on 17/03/16.
  */
-var $ = require('jquery');
+var $ = require('jquery'),
+    Mustache = require('mustache');
+
 var template = require('./html/artist.html');
 
 module.exports = Backbone.View.extend({

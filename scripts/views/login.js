@@ -44,6 +44,7 @@ module.exports = Backbone.View.extend({
         if (res.token){
             window.localStorage.setItem(config.LS_ACCESS_TOKEN, res.token);
         }
+        X7.views.nav.render();
         this.showSuccessMessage();
     },
 

@@ -1,6 +1,7 @@
 var $ = require('jquery');
 var template = require('./html/artists.html');
 
+
 module.exports = Backbone.View.extend({
 
     tagName: "div",
@@ -65,7 +66,13 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
-        this.$el.html(template({artists:this.collection.toJSON()}));
+
+        var viewModel = {
+            adminUser: X7.adminUser,
+            artists: this.collection.toJSON()
+        };
+
+        this.$el.html(template(viewModel));
         this.styleButtons();
 
         // Sub-views need this or events associated with

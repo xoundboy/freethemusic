@@ -12,42 +12,48 @@ var client = new stormPath.Client({ apiKey: apiKey });
 
 var applicationHref = process.env['STORMPATH_APPLICATION_HREF'];
 
-client.getApplication(applicationHref, function(err, stormPathApp) {
 
-    /**
-     * POST /api/login
-     */
-    router.post('/', function(req, res){
+/**
+ * POST /api/login
+ */
+router.post('/', function(req, res){
 
-        var authRequest = {
-            username: req.body.username,
-            password: req.body.password
-        };
+    var authRequest = {
+        username: req.body.username,
+        password: req.body.password
+    };
 
-        stormPathApp.authenticateAccount(authRequest, function(err) {
-            if (err){
-                res.status(err.status).json({msg:err.userMessage});
-                return;
-            }
-            res.status(200).json({token: util.generateAccessToken()});
-        });
-    });
+    client.getApplication(applicationHref, function(err, stormPathApp) {
 
-    /**
-     * POST /api/login/verifyToken
-     */
-    router.post('/verifyToken', function(req, res) {
-
-        function onValidToken() {
-            res.status(200).json({msg:"authenticated administrator"});
+        if (!err){
+            stormPathApp.authenticateAccount(authRequest, function(err) {
+                if (err){
+                    res.status(err.status).json({msg:err.userMessage});
+                    return;
+                }
+                res.status(200).json({token: util.generateAccessToken()});
+            });
+        } else {
+            res.status(err.code).json({msg: err.userMessage});
         }
-
-        function onInvalidToken(err) {
-            res.status(403).json({msg:err.userMessage});
-        }
-
-        util.verifyAccessToken(req.body.token, onValidToken, onInvalidToken);
     });
 });
+
+/**
+ * POST /api/login/verifyToken
+ */
+router.post('/verifyToken', function(req, res) {
+
+    function onValidToken() {
+        res.status(200).json({msg:"authenticated administrator"});
+    }
+
+    function onInvalidToken(err) {
+        res.status(403).json({msg:err.userMessage});
+    }
+
+    util.verifyAccessToken(req.body.token, onValidToken, onInvalidToken);
+});
+
 
 module.exports = router;

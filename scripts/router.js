@@ -1,6 +1,7 @@
 ﻿var $ = require('jquery');
 var Backbone = require('backbone');
 var qs = require('query-string');
+var config = require('./config.js');
 
 var RecordingDetailsView        = require('./views/recording.js');
 var RecordingEditPanelView      = require('./views/recordingEdit.js');
@@ -16,9 +17,11 @@ var ArtistView                  = require('./views/artist.js');
 module.exports = Backbone.Router.extend({
 
     routes: {
+
         ''                                  : 'recordings',
 
         'login'                             : 'login',
+        'logout'                            : 'logout',
 
         'recordings'                        : 'recordings',
         'recordings/highlight/:id'          : 'recordingHighlight',
@@ -49,6 +52,13 @@ module.exports = Backbone.Router.extend({
 
     login: function() {
         this._showInMainContent(X7.views.login);
+    },
+
+    logout: function() {
+        window.localStorage.removeItem(config.LS_ACCESS_TOKEN);
+        X7.adminUser = false;
+        Backbone.history.history.back();
+        X7.views.nav.render();
     },
 
     recordings: function() {

@@ -5,4 +5,10 @@
     <a href="#queue" id="navQueue">Queue</a>
     <a href="#artists" id="navArtists">Artists</a>
     <a href="#playlists" id="navPlaylists">Lists</a>
+    {{^adminUser}}
+    <a href="#login" id="navLogin">Login</a>
+    {{/adminUser}}
+    {{#adminUser}}
+    <a href="#logout" id="navLogin">Logout</a>
+    {{/adminUser}}
 </nav>
