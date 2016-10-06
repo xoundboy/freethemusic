@@ -47,8 +47,13 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
-        var playlists = this.collection.toJSON();
-        this.$el.html(template({playlists: playlists}));
+
+        var viewModel = {
+            adminUser: X7.adminUser,
+            playlists: this.collection.toJSON()
+        };
+
+        this.$el.html(template(viewModel));
 
         this.styleButtons();
 

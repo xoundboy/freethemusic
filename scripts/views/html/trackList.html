@@ -4,7 +4,9 @@
         <th></th>
         <th bengrid-key="audioFile">Title</th>
         <th bengrid-key="actName">Artist</th>
+        {{#adminUser}}
         <th></th>
+        {{/adminUser}}
     </tr>
     </thead>
     <tbody>
@@ -20,7 +22,9 @@
         </td>
         <td><a href="#recording/{{id}}">{{{title}}}</a></td>
         <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
+        {{#adminUser}}
         <td class="alignr"><button class="removeTrackFromList">Remove</button></td>
+        {{/adminUser}}
     </tr>
     {{/trackList}}
     {{^trackList}}

@@ -1,5 +1,7 @@
 <div class="buttonBar">
+    {{#adminUser}}
     <button class="addPlaylistButton cta">Add Playlist</button>
+    {{/adminUser}}
 </div>
 
 <table id="playlists_table" class="benGrid {{^playlists}}emptyTable{{/playlists}}">
@@ -8,8 +10,10 @@
         <th bengrid-key="audioFile">List</th>
         <th bengrid-key="actName">Artist</th>
         <th bengrid-key="actName">Length</th>
+        {{#adminUser}}
         <td class="buttonColumn"></td>
         <td class="buttonColumn"></td>
+        {{/adminUser}}
     </tr>
     </thead>
     <tbody class="ui-sortable">
@@ -21,13 +25,15 @@
             {{^actName}}Various Artists{{/actName}}
         </a></td>
         <td>{{listLength}}</td>
+        {{#adminUser}}
         <td><button class="editPlaylistButton">edit</button></td>
         <td><button class="deletePlaylistButton">delete</button></td>
+        {{/adminUser}}
     </tr>
     {{/playlists}}
     {{^playlists}}
     <tr>
-        <td colspan="7" class="emptyTable">No playlists yet
+        <td {{#adminUser}}colspan="5"{{/adminUser}}{{#adminUser}}colspan="3"{{/adminUser}} class="emptyTable">No playlists yet
             <a href="#playlist/add" class="link">Add one now</a>
         </td>
     </tr>

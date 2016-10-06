@@ -1,9 +1,11 @@
+<h1>{{name}}</h1>
+
 <div class="buttonBar">
     <button id="playPlaylist" class="cta {{#trackList}}emptyTrackList{{/trackList}}">Play</button>
+    {{#adminUser}}
     <button id="editPlaylist" class="floatr">Edit</button>
+    {{/adminUser}}
 </div>
-
-<h1>{{name}}</h1>
 
 <div class="playlistImages">
     {{#images}}

@@ -46,6 +46,7 @@ module.exports = Backbone.View.extend({
     },
 
     render: function() {
+        this.model.set("adminUser",X7.adminUser);
         this.$el.html(template(this.model.attributes));
         var j$ = X7.views.tracklist.render().el;
         this.$el.find("#trackListContainer").html(j$);

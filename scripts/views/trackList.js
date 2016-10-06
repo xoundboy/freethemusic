@@ -63,7 +63,11 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
-        this.$el.html(template({trackList: this.collection.toJSON()}));
+        var viewModel = {
+            trackList: this.collection.toJSON(),
+            adminUser: X7.adminUser
+        };
+        this.$el.html(template(viewModel));
         this.sortablize();
         this.styleButtons();
         this.delegateEvents();
