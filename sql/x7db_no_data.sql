@@ -644,7 +644,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertAct`(
   IN website VARCHAR(254),
   IN tags VARCHAR(254),
   IN biog TEXT,
-  IN galleryIdToInsert SMALLINT
+  IN galleryIdToInsert SMALLINT,
+  OUT insert_id INT(10)
 )
 BEGIN
     INSERT INTO acts (
@@ -665,6 +666,7 @@ BEGIN
       biog,
       galleryIdToInsert
     );
+    SET insert_id = LAST_INSERT_ID();
   END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -681,9 +683,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertGallery`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertGallery`(
+  OUT insert_id INT(10)
+)
 BEGIN
     INSERT INTO galleries (images) VALUES ('');
+    SET insert_id = LAST_INSERT_ID();
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -707,7 +712,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPlaylist`(
   IN yearPublished VARCHAR(50),
   IN label VARCHAR(50),
   IN notes TEXT,
-  IN isAlbum VARCHAR(5)
+  IN isAlbum VARCHAR(5),
+  OUT insert_id INT(10)
 )
 BEGIN
     INSERT INTO playlists (
@@ -730,6 +736,7 @@ BEGIN
       notes,
       isAlbum
     );
+    SET insert_id = LAST_INSERT_ID();
   END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -744,7 +751,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertRecording`(
   IN audioFile VARCHAR(50),
@@ -755,7 +762,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertRecording`(
   IN recLocation VARCHAR(254),
   IN recDate DATETIME,
   IN recNotes LONGTEXT,
-  IN tags VARCHAR(254)
+  IN tags VARCHAR(254),
+  OUT insert_id INT(10)
 )
 BEGIN
 INSERT INTO recordings (
@@ -780,6 +788,7 @@ INSERT INTO recordings (
     recNotes,
     tags
   );
+  SET insert_id = LAST_INSERT_ID();
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -927,4 +936,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-02 11:19:30
+-- Dump completed on 2016-10-15 16:35:10

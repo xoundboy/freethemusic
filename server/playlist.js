@@ -46,34 +46,31 @@ router.get('/:id', function(req, res){
 router.post('/', function(req, res){
 
     function onValidToken(){
-        var output = {},
 
-            onInsertGallery = function(err, res){
-                util.handleError(err, res) || util.getLastId(res, onGetGalleryInsertId);
+        var onInsertGallery = function(err, result){
+
+                if (!util.handleError(err, res)){
+                    var galleryId = util.getInsertId(result);
+                    var query = "CALL InsertPlaylist('"
+                        + utils.htmlEscape(req.body.name) + "',"
+                        + utils.htmlEscape(req.body.actID || null) + ","
+                        + galleryId + ",'"
+                        + utils.htmlEscape(req.body.yearPublished || null) + "','"
+                        + utils.htmlEscape(req.body.label || null) + "','"
+                        + utils.htmlEscape(req.body.notes) + "','"
+                        + utils.htmlEscape(req.body.isAlbum || false) + "', " +
+                        "@insert_id); SELECT @insert_id;";
+                    connection.query(query, onInsertPlaylist);
+                }
             },
 
-            onGetGalleryInsertId = function(id){
-                var query = "CALL InsertPlaylist('"
-                    + utils.htmlEscape(req.body.name) + "',"
-                    + utils.htmlEscape(req.body.actID || null) + ","
-                    + id + ",'"
-                    + utils.htmlEscape(req.body.yearPublished || null) + "','"
-                    + utils.htmlEscape(req.body.label || null) + "','"
-                    + utils.htmlEscape(req.body.notes) + "','"
-                    + utils.htmlEscape(req.body.isAlbum || false) + "');";
-                connection.query(query, onInsertPlaylist);
-            },
-
-            onInsertPlaylist = function(err, res) {
-                handleError(err, res) || util.getLastId(res, onGetPlaylistInsertId);
-            },
-
-            onGetPlaylistInsertId = function(id){
-                output.id = id;
-                res.json(output);
+            onInsertPlaylist = function(err, result) {
+                if (!util.handleError(err, result)){
+                    res.json({id:util.getInsertId(result)});
+                }
             };
 
-        connection.query("CALL InsertGallery();", onInsertGallery);
+        connection.query("CALL InsertGallery(@insert_id);SELECT @insert_id;", onInsertGallery);
     }
 
     util.verifyAccessToken(req.headers.authorization, onValidToken, res);

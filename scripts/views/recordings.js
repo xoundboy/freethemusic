@@ -22,14 +22,14 @@ module.exports = Backbone.View.extend({
     events: {
         "click th"                      : "sort",
         "click .playButton"             : "play",
-        "click .addToListButton"        : "addToListMenu",
+        "click .add"                    : "add",
         "click .editRecordingButton"    : "edit",
         "click .deleteRecordingButton"  : "delete",
-        "click a[href=#uploads]"        : "add",
-        "click .addRecordingButton"     : "add"
+        "click a[href=#uploads]"        : "upload",
+        "click .uploadRecordingButton"  : "upload"
     },
 
-    add: function(){
+    upload: function(){
         X7.router.navigate("recording/add/1", {trigger: true});
     },
 
@@ -59,19 +59,27 @@ module.exports = Backbone.View.extend({
         X7.models.player.load(this.collection.get(recordingId), true);
     },
 
-    addToListMenu: function(e){
+    add: function(e){
 
         e.stopPropagation();
 
         var $btn = $(e.currentTarget),
-            $contextMenuContainer = $btn.parent().find(".listContextMenuContainer");
+            recId = $btn.closest("tr").attr("data-recordingId");
 
-        var contextMenuView = new AddToListContextMenuView({
-            collection: X7.collections.playlists,
-            recordingId: $btn.closest("tr").attr("data-recordingId")
-        });
+        if (X7.adminUser){
 
-        $contextMenuContainer.html(contextMenuView.render().el);
+            var $contextMenuContainer = $btn.parent().find(".listContextMenuContainer");
+            var contextMenuView = new AddToListContextMenuView({
+                collection: X7.collections.playlists,
+                recordingId: recId
+            });
+            $contextMenuContainer.html(contextMenuView.render().el);
+
+        } else {
+            X7.collections.queue.addModel(X7.collections.recordings.get(recId), this.onTrackAdded);
+        }
+
+
 
         // show onboarding help for first time a user adds a track to the queue
         //console.log(X7.collections.queue.length);
@@ -83,6 +91,14 @@ module.exports = Backbone.View.extend({
         //}
     },
 
+    onTrackAdded: function(data){
+        console.log(data);
+        notification.create({
+            message: "Track added to queue: " + data.get("title") + " by " + data.get("actName"),
+            autohide: true
+        });
+    },
+
     sort: function(e) {
         var field = $(e.target).attr("bengrid-key");
         if (field) {
@@ -92,10 +108,10 @@ module.exports = Backbone.View.extend({
 
     styleButtons: function() {
         button.style(this.$el.find(".playButton"), "ui-icon-play");
-        button.style(this.$el.find(".addToListButton"), "ui-icon-plusthick");
+        button.style(this.$el.find(".add"), "ui-icon-plusthick");
         button.style(this.$el.find(".editRecordingButton"), "ui-icon-pencil");
         button.style(this.$el.find(".deleteRecordingButton"), "ui-icon-trash");
-        button.style(this.$el.find(".addRecordingButton"), "ui-icon-plusthick", true);
+        button.style(this.$el.find(".uploadRecordingButton"), "ui-icon-plusthick", true);
     },
 
     render: function () {

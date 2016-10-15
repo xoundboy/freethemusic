@@ -1,14 +1,16 @@
 <nav>
     <button class="goBack">Back</button>
     <button class="goForward">Forward</button>
-    <a href="#recordings" id="navRecordings" class="selected">Tracks</a>
-    <a href="#queue" id="navQueue">Queue</a>
-    <a href="#artists" id="navArtists">Artists</a>
-    <a href="#playlists" id="navPlaylists">Lists</a>
-    {{^adminUser}}
-    <a href="#login" id="navLogin">Login</a>
-    {{/adminUser}}
-    {{#adminUser}}
-    <a href="#logout" id="navLogin">Logout</a>
-    {{/adminUser}}
+    <div class="textLabels">
+        <a href="#recordings" id="navRecordings" class="selected">Tracks</a>
+        <a href="#queue" id="navQueue">Queue</a>
+        <a href="#artists" id="navArtists">Artists</a>
+        <a href="#playlists" id="navPlaylists">Lists</a>
+        {{^adminUser}}
+        <a href="#login" id="navLogin">Login</a>
+        {{/adminUser}}
+        {{#adminUser}}
+        <a href="#logout" id="navLogin">Logout</a>
+        {{/adminUser}}
+    </div>
 </nav>

@@ -7,7 +7,8 @@ module.exports = Backbone.Model.extend({
         stepCount: 4,
         tags: "",
         recNotes: "",
-        currentStep: 1
+        currentStep: 1,
+        audioTag: null
     },
 
     saveProps: [

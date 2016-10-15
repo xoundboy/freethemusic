@@ -331,20 +331,28 @@ select {
     height: 40px;
     z-index: 10;
     background-color: $background-header-footer;
-    a {
+    .textLabels {
         display: inline-block;
-        color: #848484;
-        padding: 12px 6px;
-        font-size: 16px;
+        a {
+            display: inline-block;
+            color: #848484;
+            padding: 12px 6px;
+            font-size: 16px;
 
-        &:hover {
-            color: white;
-            background: $upholstery-pattern;
+            &:hover {
+                color: white;
+                background: $upholstery-pattern;
+            }
+            &.selected {
+                color: white;
+                background: $upholstery-pattern;
+                background-size: 100px 100px;
+            }
         }
-        &.selected {
-            color: white;
-            background: $upholstery-pattern;
-            background-size: 100px 100px;
+        @media (max-width: 600px) {
+            a {
+                //text-indent:-9999px;
+            }
         }
     }
 

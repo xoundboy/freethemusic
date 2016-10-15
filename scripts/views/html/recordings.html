@@ -1,7 +1,7 @@
 <h1>Tracks</h1>
 <div class="buttonBar">
     {{#adminUser}}
-    <button class="addRecordingButton cta">Upload recording</button>
+    <button class="uploadRecordingButton cta">Upload recording</button>
     {{/adminUser}}
 </div>
 <table id="recordings_table" class="benGrid {{^recordings}}emptyTable{{/recordings}}">
@@ -23,7 +23,7 @@
     <tr id="recordingId-{{id}}" class="recordingRow" data-recordingid="{{id}}">
         <td><button class="playButton" data-filename="{{audioFile}}.mp3">Play now</button></td>
         <td>
-            <button class="addToListButton" data-filename="{{audioFile}}.mp3">Add to queue</button>
+            <button class="add" data-filename="{{audioFile}}.mp3">Add to queue</button>
             <div class="contextMenu listContextMenuContainer"></div>
         </td>
         <td><a href="#recording/{{id}}">{{{title}}}</a></td>

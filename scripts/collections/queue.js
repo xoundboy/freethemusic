@@ -26,10 +26,10 @@ module.exports = Backbone.Collection.extend({
         return (this.indexOf(this.getCurrentModel()));
     },
 
-    addModel: function(recording){
+    addModel: function(recording, callback){
         var copyOfRecordingModel = recording.clone();
         this.push(copyOfRecordingModel);
-        copyOfRecordingModel.save({silent: true});
+        copyOfRecordingModel.save({silent: true}, {success:callback});
     },
 
     nextModel: function(currentModel){

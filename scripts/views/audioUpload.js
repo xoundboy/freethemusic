@@ -7,6 +7,7 @@ var utils = require('../helpers/commonUtils.js');
 var RecordingAddEdit = require('./recordingForm.js');
 var RecordingModel = require('../models/recording.js');
 var template = require('./html/audioUpload.html');
+var ajax = require('../core/ajax.js');
 
 module.exports = Backbone.View.extend({
 
@@ -16,6 +17,7 @@ module.exports = Backbone.View.extend({
 
     initialize: function () {
         this.model.bind('change', this.render, this);
+        this.formData = new FormData();
 
         // Start from the beginning
         this.model.setStep(1);
@@ -42,73 +44,88 @@ module.exports = Backbone.View.extend({
 
     initiateUpload: function (e) {
 
-        var that = this,
-            file = e.target.files[0],
-            formData = new FormData(),
-            xhr_removeuploads = new XMLHttpRequest(),
-            xhr_upload = new XMLHttpRequest();
+        this.file = e.target.files[0];
 
         // show the "uploading" message
-        var loadingMessage = notification.create({
+        this.loadingMessage = notification.create({
             message: "Uploading file to server, please wait..."
         });
 
         // empty the temporary uploads folder on the server
-        xhr_removeuploads.open('DELETE', '/api/recording/removeTempUploads', true);
-        xhr_removeuploads.onload = function(){
+        ajax.request({
+            method: 'DELETE',
+            url: '/api/upload/removeTempDir',
+            success: $.proxy(this.onDeleteSuccess, this),
+            error: this.onDeleteError
+        });
+    },
 
-            formData.append('uploadFile', file);
-            xhr_upload.open('POST', "/api/recording/upload", true);
-            xhr_upload.onload = function (data) {
-                var response = (JSON.parse(data.currentTarget.responseText));
-                that.model.set("tempName", response.tempName);
-                that.model.set("size", response.size);
-                loadingMessage.close();
-                that.goToStep(2);
-            };
-            xhr_upload.onerror = function (data) {
-                alert("error uploading the file");
-                console.log(data);
-            };
-            xhr_upload.send(formData);
-        };
-        xhr_removeuploads.onerror = function(){
-            console.log("could not recreate the remote uploads folder");
-        };
-        xhr_removeuploads.send();
+    onDeleteSuccess: function(){
+        this.formData.append('uploadFile', this.file);
+        ajax.request({
+            method: 'POST',
+            url: "/api/upload/recording",
+            success: $.proxy(this.onUploadSuccess, this),
+            error: $.proxy(this.onUploadError, this),
+            data: this.formData
+        });
+    },
+
+    onDeleteError: function(){
+        console.log("could not recreate the remote uploads folder");
+    },
+
+    onUploadSuccess: function (data) {
+        var response = (JSON.parse(data.currentTarget.responseText));
+        this.model.set("tempName", response.tempName);
+        this.model.set("size", response.size);
+        this.loadingMessage.close();
+        this.goToStep(2);
+    },
+
+    onUploadError: function (data) {
+        alert("error uploading the file");
+        console.log(data);
     },
 
     finish: function() {
 
-        var recording = new RecordingModel(),
-            that = this;
+        var recording = new RecordingModel();
 
         var modelCheck = this.model.validate();
 
         if (modelCheck.isReadyToSave){
             recording.save(this.model.getSaveProps(), {
-                success: function(data) {
-                    X7.collections.recordings.fetch({
-                        reset: true,
-                        success: function(){
-                            that.model.clear().set(that.model.defaults);
-                            that.model.setStep(1);
-                            X7.router.navigate('/recordings/highlight/' + data.id, {trigger: true});
-                        },
-                        error: function(err){
-                            console.log(err);
-                        }
-                    });
-                },
-                error: function(model, response, options) {
-                    console.log(model);
-                    console.log(response);
-                    console.log(options);
-                }
+                success: $.proxy(this.onModelSaveSuccess, this),
+                error: $.proxy(this.onModelSaveError, this)
             });
         } else {
             alert(modelCheck.errorMessage);
         }
+    },
+
+    onModelSaveError: function(model, response, options) {
+        console.log(model);
+        console.log(response);
+        console.log(options);
+    },
+
+    onModelSaveSuccess: function() {
+        X7.collections.recordings.fetch({
+            reset: true,
+            success: $.proxy(this.onRecordingsFetchSuccess, this),
+            error: $.proxy(this.onRecordingsFetchError, this)
+        });
+    },
+
+    onRecordingsFetchSuccess: function(data){
+        this.model.clear().set(this.model.defaults);
+        this.model.setStep(1);
+        X7.router.navigate('/recordings/highlight/' + data.id, {trigger: true});
+    },
+
+    onRecordingsFetchError: function(err){
+        console.log(err);
     },
 
     stashFormData: function(){
@@ -146,11 +163,12 @@ module.exports = Backbone.View.extend({
         }
     },
 
+    onAudioTagMetaDataLoaded: function (e) {
+        this.model.set('duration', utils.formattedDuration(e.target.duration));
+    },
+
     render: function () {
-
-        var that = this;
         this.$el.html(template(this.model.attributes)).show();
-
 
         // only for step 2
         if(this.model.get('step2')){
@@ -159,9 +177,7 @@ module.exports = Backbone.View.extend({
             if (!this.model.get('duration')){
                 var audioTag = document.getElementById("uploadedFile");
                 if (audioTag) {
-                    audioTag.addEventListener('loadedmetadata', function (e) {
-                        that.model.set('duration', utils.formattedDuration(audioTag.duration));
-                    }, false);
+                    audioTag.addEventListener('loadedmetadata', $.proxy(this.onAudioTagMetaDataLoaded, this), false);
                 }
             }
         }

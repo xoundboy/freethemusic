@@ -36,34 +36,28 @@ router.post('/', function(req, res){
 
     function onValidToken() {
 
-        var output = {},
-
-            onInsertGallery = function(err, res){
-                util.handleError(err, res) || util.getLastId(res, onGetGalleryInsertId);
+        var onInsertGallery = function(err, result){
+                if (!util.handleError(err, res)){
+                    var galleryId = util.getInsertId(result);
+                    var query = "CALL InsertAct('"
+                        + utils.htmlEscape(req.body.actName) + "','"
+                        + utils.htmlEscape(req.body.actTown) + "','"
+                        + utils.htmlEscape(req.body.actCountry) + "','"
+                        + utils.htmlEscape(req.body.website) + "','"
+                        + utils.htmlEscape(req.body.tags) + "','"
+                        + utils.htmlEscape(req.body.biog) + "',"
+                        + galleryId + ", @insert_id); SELECT @insert_id;";
+                    connection.query(query, onInsertArtist);
+                }
             },
 
-            onGetGalleryInsertId = function(id){
-                var query = "CALL InsertAct('"
-                    + utils.htmlEscape(req.body.actName) + "','"
-                    + utils.htmlEscape(req.body.actTown) + "','"
-                    + utils.htmlEscape(req.body.actCountry) + "','"
-                    + utils.htmlEscape(req.body.website) + "','"
-                    + utils.htmlEscape(req.body.tags) + "','"
-                    + utils.htmlEscape(req.body.biog) + "',"
-                    + id + ");";
-                connection.query(query, onInsertArtist);
-            },
-
-            onInsertArtist = function(err, res) {
-                util.handleError(err, res) || util.getLastId(res, onGetArtistInsertId);
-            },
-
-            onGetArtistInsertId = function(id){
-                output.id = id;
-                res.json(output);
+            onInsertArtist = function(err, result) {
+                if (!util.handleError(err, result)){
+                    res.json({id:util.getInsertId(result)});
+                }
             };
 
-        connection.query("CALL InsertGallery();", onInsertGallery);
+        connection.query("CALL InsertGallery(@insert_id);SELECT @insert_id;", onInsertGallery);
     }
 
     util.verifyAccessToken(req.headers.authorization, onValidToken, res);

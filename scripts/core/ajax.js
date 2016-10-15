@@ -7,7 +7,8 @@ module.exports = {
 
         var xhr_upload = new XMLHttpRequest();
 
-        xhr_upload.open('POST', "/api/image/upload", true);
+        if (options.url && options.method)
+            xhr_upload.open(options.method, options.url, true);
 
         if (options.success)
             xhr_upload.onload = options.success;

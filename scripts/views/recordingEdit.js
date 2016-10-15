@@ -15,7 +15,16 @@ module.exports = Backbone.View.extend({
 
     events: {
         "click #cancelEditButton": "closePanel",
-        "click #updateRecordingButton": "updateRecording"
+        "click #updateRecordingButton": "updateRecording",
+        "change #actID": "selectArtist"
+    },
+
+    selectArtist: function(e){
+        if(e.target.value === "new"){
+            console.log(this.model);
+            var returnUrl = encodeURIComponent('recording/edit/' + this.model.id);
+            X7.router.navigate("/artist/add?returnUrl=" + returnUrl , {trigger:true});
+        }
     },
 
     closePanel: function() {

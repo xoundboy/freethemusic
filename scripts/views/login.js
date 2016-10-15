@@ -17,7 +17,7 @@ module.exports = Backbone.View.extend({
     tagName: "div",
 
     events: {
-        "click #loginButton": "onSubmit"
+        "submit #loginForm": "onSubmit"
     },
 
     onSubmit: function(e){
@@ -27,6 +27,7 @@ module.exports = Backbone.View.extend({
         if (this.$form.validate().form()){
             this.sendAuthRequest();
         }
+        return false;
     },
 
     sendAuthRequest: function(){

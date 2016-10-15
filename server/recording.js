@@ -1,10 +1,8 @@
 var express = require('express'),
-    rimraf = require('rimraf'),
     config = require('./config.js'),
     fs = require('fs'),
     util = require('./util.js'),
     utils = require('../scripts/helpers/commonUtils.js'),
-    multer = require('multer'),
     router = express.Router();
 
 var connection = util.dbConn();
@@ -74,44 +72,18 @@ router.post('/', function(req, res){
                 + utils.htmlEscape(req.body.recLocation) + "','"
                 + utils.htmlEscape(utils.mysqlFormatDate(req.body.recDate)) + "','"
                 + utils.htmlEscape(req.body.recNotes) + "','"
-                + utils.htmlEscape(req.body.tags) + "');";
+                + utils.htmlEscape(req.body.tags) + "', @insert_id); SELECT @insert_id;";
 
-            connection.query(query, function(err){
-                if (err) {
-                    console.log(err);
-                    res.status(400).send("error inserting the recording record into the database");
-                } else {
-                    connection.query('SELECT last_insert_id() AS id;', function(err, rows){
-                        if (err){
-                            console.log(err);
-                            res.status(400).send("can't get the new recording record insert ID from the database");
-                        } else {
-                            res.json({id: rows[0].id});
-                        }
-                    });
-                }
-            });
+            connection.query(query, onInsertRecording);
         } else {
             res.status(400).send("file does not exist in uploads folder");
         }
     }
 
-    util.verifyAccessToken(req.headers.authorization, onValidToken, res);
-});
-
-/**
- *  POST /api/recording/upload - initial file upload
- */
-router.post('/upload', multer({ dest: config.AUDIO_UPLOAD_DIR_PATH}).single('uploadFile'), function(req, res){
-
-    function onValidToken(){
-        // add the .mp3 extension to the uploaded file
-        fs.rename(req.file.path, req.file.path + ".mp3");
-
-        res.json({
-            tempName: req.file.filename,
-            size: req.file.size
-        });
+    function onInsertRecording (err, result) {
+        if (!util.handleError(err, result)){
+            res.json({id:util.getInsertId(result)});
+        }
     }
 
     util.verifyAccessToken(req.headers.authorization, onValidToken, res);
@@ -187,33 +159,7 @@ router.delete('/:id', function(req, res){
     util.verifyAccessToken(req.headers.authorization, onValidToken, res);
 });
 
-/**
- * DELETE /api/recording/removeTempUploads - empty the temporary uploads folder
- */
-router.delete('/removeTempUploads', function(req, res){
 
-    function onValidToken(){
-        rimraf(config.AUDIO_UPLOAD_DIR_PATH, onUploadsDirRemoved);
-    }
-
-    function onUploadsDirRemoved(err) {
-        if (err){
-            res.status(400).send("Temporary uploads folder cannot be removed");
-            return;
-        }
-        fs.mkdir(config.AUDIO_UPLOAD_DIR_PATH, 0755, onUploadsDirRecreated);
-    }
-
-    function onUploadsDirRecreated (err){
-        if (err){
-            res.status(400).send("Temporary uploads folder cannot be recreated");
-            return;
-        }
-        res.sendStatus(200);
-    }
-
-    util.verifyAccessToken(req.headers.bearer, onValidToken, res);
-});
 
 
 module.exports = router;

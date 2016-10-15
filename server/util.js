@@ -3,7 +3,7 @@ var config = require('./config.js'),
     mysql = require('mysql'),
     signingKey = new Buffer(config.base64SigningKey, 'base64');
 
-module.exports = {
+var util = {
 
     verifyAccessToken: function (token, success, fail) {
 
@@ -34,7 +34,8 @@ module.exports = {
             host     : config.DB_HOST,
             user     : config.DB_USER,
             password : config.DB_PASS,
-            database : config.DB_NAME
+            database : config.DB_NAME,
+            multipleStatements: true
         });
     },
 
@@ -49,6 +50,10 @@ module.exports = {
         });
     },
 
+    getInsertId: function(result){
+        return result[1][0]["@insert_id"];
+    },
+
     handleError: function(err, res) {
 
         if (err) {
@@ -60,3 +65,5 @@ module.exports = {
     }
 
 };
+
+module.exports = util;
