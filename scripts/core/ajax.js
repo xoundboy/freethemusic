@@ -19,7 +19,8 @@ module.exports = {
         var payload = options.data ? options.data : null;
 
         var token = window.localStorage.getItem(config.LS_ACCESS_TOKEN);
-        if (token)
+
+        if (token && !options.disableAuthHeader)
             xhr_upload.setRequestHeader('Authorization', token);
 
         xhr_upload.send(payload);

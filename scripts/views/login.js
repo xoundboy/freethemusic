@@ -1,14 +1,14 @@
 require('jquery-validation');
 require('jquery-serializejson');
 
-var notification = require('../helpers/notification.js');
+var notification = require('../helpers/notification');
 
 var _ = require('underscore');
 var $ = require('jquery');
 var Backbone = require('backbone');
-var button = require('../helpers/button.js');
+var button = require('../helpers/button');
 var template = require('./html/login.html');
-var config = require('../config.js');
+var config = require('../config');
 
 module.exports = Backbone.View.extend({
 
@@ -78,8 +78,9 @@ module.exports = Backbone.View.extend({
         });
     },
 
-    render: function(){
-        this.$el.html(template()).show();
+    render: function(loggedIn){
+        var viewModel = {loggedIn:loggedIn};
+        this.$el.html(template(viewModel)).show();
         button.style(this.$el.find("#loginButton"));
         return this;
     }

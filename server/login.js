@@ -18,6 +18,10 @@ var applicationHref = process.env['STORMPATH_APPLICATION_HREF'];
  */
 router.post('/', function(req, res){
 
+    //TODO remove this for prod (prevents call to stormpath)
+    res.status(200).json({token: util.generateAccessToken()});
+    return;
+
     var authRequest = {
         username: req.body.username,
         password: req.body.password

@@ -23,12 +23,12 @@ module.exports = Backbone.View.extend({
     },
 
     delete: function(e){
-        var $btn = $(e.currentTarget),
-            playlistId = $btn.closest("tr").attr("data-playlistId");
-
-        // TODO implement "are you sure?" dialog
-        var modelToDelete = this.collection.get(playlistId);
-        this.collection.remove(modelToDelete);
+        if (confirm("Are you sure?")){
+            var $btn = $(e.currentTarget),
+                playlistId = $btn.closest("tr").attr("data-playlistId");
+            var modelToDelete = this.collection.get(playlistId);
+            this.collection.remove(modelToDelete);
+        }
     },
 
     edit: function(e){

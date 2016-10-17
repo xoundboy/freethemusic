@@ -2,6 +2,7 @@
 var Backbone = require('backbone');
 var qs = require('query-string');
 var config = require('./config.js');
+var token = require('./core/token');
 
 var RecordingDetailsView        = require('./views/recording.js');
 var RecordingEditPanelView      = require('./views/recordingEdit.js');
@@ -51,7 +52,11 @@ module.exports = Backbone.Router.extend({
      */
 
     login: function() {
-        this._showInMainContent(X7.views.login);
+
+        function onTokenVerified() {
+            this._showInMainContent(X7.views.login);
+        }
+        token.verify(onTokenVerified.bind(this));
     },
 
     logout: function() {

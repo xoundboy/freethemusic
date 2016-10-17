@@ -4,36 +4,35 @@ require('../css/admin/style.scss');
 require('../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.min.css');
 require('../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css');
 require('../jquery-ui-custom-theme/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css');
+require('./core/sync');
 
 var $ = require('jquery');
 window.jQuery = $;
 
-require('./core/sync.js');
-
-var ArtistsCollection = require('./collections/artists.js');
-var ArtistsView = require('./views/artists.js');
-var AudioUploadModel = require('./models/audioUpload.js');
-var AudioUploadView = require('./views/audioUpload.js');
+var ArtistsCollection = require('./collections/artists');
+var ArtistsView = require('./views/artists');
+var AudioUploadModel = require('./models/audioUpload');
+var AudioUploadView = require('./views/audioUpload');
 var Backbone = require('backbone');
-var LoginView = require('./views/login.js');
-var NavView = require('./views/nav.js');
-var PlayerModel = require('./models/player.js');
-var PlayerView = require('./views/player.js');
-var PlaylistModel = require('./models/playlist.js');
-var PlaylistsCollection = require('./collections/playlists.js');
-var PlaylistsView = require('./views/playlists.js');
-var PlaylistView = require('./views/playlist.js');
-var QueueCollection = require('./collections/queue.js');
-var QueueHistoryCollection = require('./collections/queueHistory.js');
-var QueueView = require('./views/queue.js');
-var RecordingsCollection = require('./collections/recordings.js');
-var RecordingsView = require('./views/recordings.js');
-var Router = require('./router.js');
-var TrackListCollection = require('./collections/trackList.js');
-var TracklistView = require('./views/trackList.js');
+var LoginView = require('./views/login');
+var NavView = require('./views/nav');
+var PlayerModel = require('./models/player');
+var PlayerView = require('./views/player');
+var PlaylistModel = require('./models/playlist');
+var PlaylistsCollection = require('./collections/playlists');
+var PlaylistsView = require('./views/playlists');
+var PlaylistView = require('./views/playlist');
+var QueueCollection = require('./collections/queue');
+var QueueHistoryCollection = require('./collections/queueHistory');
+var QueueView = require('./views/queue');
+var RecordingsCollection = require('./collections/recordings');
+var RecordingsView = require('./views/recordings');
+var Router = require('./router');
+var TrackListCollection = require('./collections/trackList');
+var TracklistView = require('./views/trackList');
 
-var config = require('./config.js');
-var tokenCandidate = window.localStorage.getItem(config.LS_ACCESS_TOKEN);
+var config = require('./config');
+var token = require('./core/token');
 
 // Global App Object
 global.X7 = {
@@ -87,31 +86,6 @@ var bootStrap = function(){
     });
 };
 
-var verifyToken = function(tokenCandidate){
-    $.ajax({
-        url: 'api/login/verifyToken',
-        method: 'POST',
-        data: {token: tokenCandidate},
-        success: onVerifyTokenSuccess,
-        error: onVerifyTokenFailure
-    });
-};
-
-var onVerifyTokenSuccess = function(){
-    X7.adminUser = true;
-    bootStrap();
-};
-
-var onVerifyTokenFailure = function(){
-    X7.adminUser = false;
-    window.localStorage.removeItem(config.LS_ACCESS_TOKEN);
-    bootStrap();
-};
-
 $(function(){
-    if (tokenCandidate) {
-        verifyToken(tokenCandidate);
-        return;
-    }
-    bootStrap();
+    token.verify(bootStrap);
 });
