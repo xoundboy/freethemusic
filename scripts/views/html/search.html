@@ -1,0 +1,31 @@
+<form name="search" id="searchForm">
+    <input type="text" name="q" id="q" placeholder="track, artist, location, date etc" />
+    <button id="searchButton">Search</button>
+</form>
+
+{{#data.recordingsExist}}
+<div id="recordingResults">
+    <h3>Recordings: {{data.recordings.length}}</h3>
+    {{#data.recordings}}
+    <div class="resultRow">{{title}}</div>
+    {{/data.recordings}}
+</div>
+{{/data.recordingsExist}}
+
+{{#data.artistsExist}}
+<div id="artistResults">
+    <h3>Artists: {{data.artists.length}}</h3>
+    {{#data.artists}}
+    <div class="resultRow">{{actName}}</div>
+    {{/data.artists}}
+</div>
+{{/data.artistsExist}}
+
+{{#data.playlistsExist}}
+<div id="playlistResults">
+    <h3>Playlists: {{data.playlists.length}}</h3>
+    {{#data.playlists}}
+    <div class="resultRow">{{name}}</div>
+    {{/data.playlists}}
+</div>
+{{/data.playlistsExist}}

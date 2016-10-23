@@ -28,6 +28,7 @@ var QueueView = require('./views/queue');
 var RecordingsCollection = require('./collections/recordings');
 var RecordingsView = require('./views/recordings');
 var Router = require('./router');
+var SearchView = require('./views/search');
 var TrackListCollection = require('./collections/trackList');
 var TracklistView = require('./views/trackList');
 
@@ -54,6 +55,7 @@ X7.models.newPlaylist = new PlaylistModel();
 X7.models.playlist = new PlaylistModel();
 X7.views.login = new LoginView();
 X7.views.playlist = new PlaylistView({model: X7.models.playlist});
+X7.views.search = new SearchView({model: X7.models.search});
 
 var bootStrap = function(){
     X7.views.artists = new ArtistsView({collection: X7.collections.artists});

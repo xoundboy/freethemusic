@@ -20,3 +20,4 @@ app.use('/api/image', require('./server/image'));
 app.use('/api/gallery', require('./server/gallery'));
 app.use('/api/artist', require('./server/artist'));
 app.use('/api/playlist', require('./server/playlist'));
+app.use('/api/search', require('./server/search'));

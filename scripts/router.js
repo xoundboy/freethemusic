@@ -44,6 +44,8 @@ module.exports = Backbone.Router.extend({
         'playlist/add'                      : 'playlistAdd',
         'playlist/:id'                      : 'playlist',
 
+        'search'                            : 'search',
+
         'tags'                              : 'tags'
     },
 
@@ -164,6 +166,10 @@ module.exports = Backbone.Router.extend({
         this._selectItemById("navPlaylists");
     },
 
+    search: function(e) {
+        this._showInMainContent(X7.views.search);
+        this._selectItemById("navSearch");
+    },
 
     /**
      * PRIVATE METHODS

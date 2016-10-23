@@ -369,6 +369,15 @@ select {
     height: calc(100% - 143px);
     background: $upholstery-pattern;
     background-size: 100px 100px;
+
+    #searchContent {
+        h3 {
+            padding: 20px;
+        }
+        .resultRow {
+            padding-left: 40px;
+        }
+    }
 }
 
 #playerContainer {
