@@ -78,8 +78,8 @@ module.exports = Backbone.View.extend({
         });
     },
 
-    render: function(loggedIn){
-        var viewModel = {loggedIn:loggedIn};
+    render: function(){
+        var viewModel = {loggedIn:X7.adminUser};
         this.$el.html(template(viewModel)).show();
         button.style(this.$el.find("#loginButton"));
         return this;

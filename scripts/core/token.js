@@ -1,5 +1,6 @@
 var config = require('../config');
 var ajax = require('./ajax');
+var $ = require('jquery');
 
 module.exports = {
 
@@ -25,11 +26,9 @@ module.exports = {
 
         ajax.request({
             url: 'api/login/verifyToken',
-            method: 'POST',
-            data: {token: token},
+            method: "POST",
             success: this.success.bind(this),
-            error: this.error.bind(this),
-            disableAuthHeader: true
+            error: this.error.bind(this)
         });
     },
 

@@ -5,6 +5,13 @@ module.exports = {
 
     request: function(options){
 
+        if (!options)
+            throw new Error("missing options object");
+        if (!options.method)
+            throw new Error("missing XMLHttpRequest METHOD");
+        if (!options.url)
+            throw new Error("missing XMLHttpRequest url");
+
         var xhr_upload = new XMLHttpRequest();
 
         if (options.url && options.method)
@@ -20,7 +27,7 @@ module.exports = {
 
         var token = window.localStorage.getItem(config.LS_ACCESS_TOKEN);
 
-        if (token && !options.disableAuthHeader)
+        if (token)
             xhr_upload.setRequestHeader('Authorization', token);
 
         xhr_upload.send(payload);

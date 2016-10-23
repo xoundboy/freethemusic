@@ -19,8 +19,8 @@ var applicationHref = process.env['STORMPATH_APPLICATION_HREF'];
 router.post('/', function(req, res){
 
     //TODO remove this for prod (prevents call to stormpath)
-    res.status(200).json({token: util.generateAccessToken()});
-    return;
+    //res.status(200).json({token: util.generateAccessToken()});
+    //return;
 
     var authRequest = {
         username: req.body.username,
@@ -56,7 +56,7 @@ router.post('/verifyToken', function(req, res) {
         res.status(403).json({msg:err.userMessage});
     }
 
-    util.verifyAccessToken(req.body.token, onValidToken, onInvalidToken);
+    util.verifyAccessToken(req.headers.authorization, onValidToken, onInvalidToken);
 });
 
 
