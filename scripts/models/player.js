@@ -4,6 +4,7 @@
 var config = require('../config.js');
 var AudioElement = require('../helpers/AudioElement.js');
 var $ = require('jquery');
+var TrackListCollection = require('../collections/trackList');
 
 module.exports = Backbone.Model.extend({
 
@@ -43,8 +44,14 @@ module.exports = Backbone.Model.extend({
     },
 
     connectToTracklist: function(trackList, playFromTop){
+        if (typeof trackList === "string"){
+            var trackListArray = JSON.parse(trackList);
+            trackList = new TrackListCollection();
+            trackList.load(trackListArray);
+        }
         this.set("trackList", trackList);
         if (playFromTop) {
+            this.setPlaybackPosition(0);
             this.load(trackList.at(0), true);
         }
     },
@@ -91,6 +98,7 @@ module.exports = Backbone.Model.extend({
         this.setLoadedModelId(model.id);
         this.trigger("loaded");
         if (playWhenLoaded){
+
             this.play();
         }
     },
