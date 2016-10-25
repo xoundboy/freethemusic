@@ -107,7 +107,7 @@ module.exports = Backbone.View.extend({
             this.showLoadingMessage();
             this.setFormData(file);
 
-            ajax.request({
+            ajax.requestWithToken({
                 method: 'POST',
                 url: "/api/image/upload",
                 success: $.proxy(this.onUploadImageSuccess, this),

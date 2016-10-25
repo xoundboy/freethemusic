@@ -1,9 +1,8 @@
 var config = require('../config.js');
 
-
 module.exports = {
 
-    request: function(options){
+    requestWithToken: function(options){
 
         if (!options)
             throw new Error("missing options object");

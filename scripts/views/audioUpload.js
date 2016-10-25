@@ -52,7 +52,7 @@ module.exports = Backbone.View.extend({
         });
 
         // empty the temporary uploads folder on the server
-        ajax.request({
+        ajax.requestWithToken({
             method: 'DELETE',
             url: '/api/upload/removeTempDir',
             success: $.proxy(this.onDeleteSuccess, this),
@@ -62,7 +62,7 @@ module.exports = Backbone.View.extend({
 
     onDeleteSuccess: function(){
         this.formData.append('uploadFile', this.file);
-        ajax.request({
+        ajax.requestWithToken({
             method: 'POST',
             url: "/api/upload/recording",
             success: $.proxy(this.onUploadSuccess, this),

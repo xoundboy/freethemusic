@@ -24,7 +24,7 @@ module.exports = {
             return;
         }
 
-        ajax.request({
+        ajax.requestWithToken({
             url: 'api/login/verifyToken',
             method: "POST",
             success: this.success.bind(this),

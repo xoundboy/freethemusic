@@ -1,7 +1,8 @@
 module.exports = Backbone.Model.extend({
     url: "api/search",
     defaults: {
-        q: ""
+        q: "",
+        resultsCount: true
     },
     setResultsCount: function(){
         var r = this.get("results");
