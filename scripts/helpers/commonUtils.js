@@ -73,6 +73,7 @@ module.exports = {
     htmlEscape: function (str) {
         return String(str)
             .replace(/&/g, '&amp;')
+            .replace(/\\/g, '')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#39;')
             .replace(/</g, '&lt;')

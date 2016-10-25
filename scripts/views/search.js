@@ -11,7 +11,7 @@ module.exports = Backbone.View.extend({
     data: null,
 
     initialize: function () {
-
+        this.listenTo(this.model, "change", this.render);
     },
 
     events: {
@@ -21,6 +21,7 @@ module.exports = Backbone.View.extend({
     onSubmit: function(e){
         e.preventDefault();
         this.$form = this.$el.find("#searchForm");
+        this.model.set("q", this.$form.find("#q").val());
 
         if (this.$form.validate().form()){
             this.sendSearchRequest();
@@ -38,40 +39,26 @@ module.exports = Backbone.View.extend({
         });
     },
 
-    onSearchSuccess: function(result){
-        this.data = result;
-        this.render();
+    onSearchSuccess: function(data){
+        this.model.set("results", data);
+        this.model.setResultsCount();
+        this.model.set("error", false);
     },
 
-    onSearchFail: function(data){Exist
-        console.log(data);
-    },
-
-    enrichData: function(){
-        if (!this.data)
-            return null;
-
-        var d = this.data;
-        d.resultCount =  d.recordings.length + d.artists.length + d.playlists.length;
-        d.recordingsExist = !!(d.recordings.length);
-        d.artistsExist = !!(d.artists.length);
-        d.playlistsExist = !!(d.playlists.length);
+    onSearchFail: function(){
+        this.model.set("error", true);
     },
 
     styleButtons: function() {
+        button.style(this.$el.find("#searchButton"),"ui-icon-search");
     },
 
     render: function () {
-        this.enrichData();
-        var viewModel = {
-            data: this.data
-        };
-        this.$el.html(template(viewModel));
+        this.$el.html(template(this.model.attributes));
         this.styleButtons();
 
         this.delegateEvents();
 
         return this;
     }
-
 });

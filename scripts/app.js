@@ -29,6 +29,7 @@ var RecordingsCollection = require('./collections/recordings');
 var RecordingsView = require('./views/recordings');
 var Router = require('./router');
 var SearchView = require('./views/search');
+var SearchModel = require('./models/search');
 var TrackListCollection = require('./collections/trackList');
 var TracklistView = require('./views/trackList');
 
@@ -53,6 +54,7 @@ X7.collections.recordings = new RecordingsCollection();
 X7.models.audioUpload = new AudioUploadModel();
 X7.models.newPlaylist = new PlaylistModel();
 X7.models.playlist = new PlaylistModel();
+X7.models.search = new SearchModel();
 X7.views.login = new LoginView();
 X7.views.playlist = new PlaylistView({model: X7.models.playlist});
 X7.views.search = new SearchView({model: X7.models.search});

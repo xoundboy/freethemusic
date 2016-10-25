@@ -1,31 +1,39 @@
 <form name="search" id="searchForm">
-    <input type="text" name="q" id="q" placeholder="track, artist, location, date etc" />
+    <input type="text" name="q" id="q" value="{{q}}" placeholder="title, artist or playlist" minlength="3" />
     <button id="searchButton">Search</button>
 </form>
-
-{{#data.recordingsExist}}
+{{^error}}
+{{#results.recordings.length}}
 <div id="recordingResults">
-    <h3>Recordings: {{data.recordings.length}}</h3>
-    {{#data.recordings}}
+    <h3>Recordings: {{results.recordings.length}}</h3>
+    {{#results.recordings}}
     <div class="resultRow">{{title}}</div>
-    {{/data.recordings}}
+    {{/results.recordings}}
 </div>
-{{/data.recordingsExist}}
+{{/results.recordings.length}}
 
-{{#data.artistsExist}}
+{{#results.artists.length}}
 <div id="artistResults">
-    <h3>Artists: {{data.artists.length}}</h3>
-    {{#data.artists}}
+    <h3>Artists: {{results.artists.length}}</h3>
+    {{#results.artists}}
     <div class="resultRow">{{actName}}</div>
-    {{/data.artists}}
+    {{/results.artists}}
 </div>
-{{/data.artistsExist}}
+{{/results.artists.length}}
 
-{{#data.playlistsExist}}
+{{#results.playlists.length}}
 <div id="playlistResults">
-    <h3>Playlists: {{data.playlists.length}}</h3>
-    {{#data.playlists}}
+    <h3>Playlists: {{results.playlists.length}}</h3>
+    {{#results.playlists}}
     <div class="resultRow">{{name}}</div>
-    {{/data.playlists}}
+    {{/results.playlists}}
 </div>
-{{/data.playlistsExist}}
+{{/results.playlists.length}}
+
+{{^resultsCount}}
+<div>No results</div>
+{{/resultsCount}}
+{{/error}}
+{{#error}}
+<div class="error">Error</div>
+{{/error}}
