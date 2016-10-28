@@ -57,6 +57,7 @@ module.exports = Backbone.View.extend({
         this.$el.html(template(this.model.attributes));
         this.styleButtons();
 
+        this.$el.find("#q").focus();
         this.delegateEvents();
 
         return this;

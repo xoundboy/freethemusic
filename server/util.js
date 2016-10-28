@@ -21,7 +21,10 @@ var util = {
 
             fail.sendStatus(403);
         }
-
+        if (config.disableAuth){
+            success();
+            return;
+        }
         nJwt.verify(token, signingKey, onVerified);
     },
 

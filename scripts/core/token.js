@@ -17,6 +17,12 @@ module.exports = {
     verify: function(callback){
 
         this.callback = callback;
+
+        if (config.disableAuth){
+            this.success();
+            return;
+        }
+
         var token = this.getFromLocalStorage();
 
         if (!token) {

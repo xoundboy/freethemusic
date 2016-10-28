@@ -1,5 +1,5 @@
 <form name="search" id="searchForm">
-    <input type="text" name="q" id="q" value="{{q}}" placeholder="title, artist or playlist" minlength="3" />
+    <input type="text" name="q" id="q" value="{{q}}" placeholder="title, artist or playlist" minlength="3" autofocus />
     <button id="searchButton">Search</button>
 </form>
 {{^error}}
@@ -25,7 +25,7 @@
 <div id="playlistResults">
     <h3>Playlists: {{results.playlists.length}}</h3>
     {{#results.playlists}}
-    <div class="resultRow">{{name}}</div>
+    <div class="resultRow"><a href="/#playlist/{{id}}">{{name}} {{#length}}({{length}}){{/length}}</a></div>
     {{/results.playlists}}
 </div>
 {{/results.playlists.length}}
@@ -34,6 +34,7 @@
 <div>No results</div>
 {{/resultsCount}}
 {{/error}}
+
 {{#error}}
 <div class="error">Error</div>
 {{/error}}

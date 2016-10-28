@@ -90,7 +90,8 @@ router.put('/:id', function(req, res){
             + utils.htmlEscape(req.body.label) + "','"
             + utils.htmlEscape(req.body.notes) + "','"
             + utils.htmlEscape(req.body.isAlbum) + "','"
-            + utils.htmlEscape(req.body.trackList) + "');";
+            + utils.htmlEscape(req.body.trackList) + "',"
+            + JSON.parse(req.body.trackList).length + ");";
 
         connection.query(query, function(err){
             if(err){
