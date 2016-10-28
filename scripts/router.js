@@ -71,7 +71,7 @@ module.exports = Backbone.Router.extend({
 
     home: function(){
         this._showInMainContent(X7.views.home);
-        this._selectItemById("navHome")
+        this._selectItemById("navHome");
     },
 
     recordings: function() {

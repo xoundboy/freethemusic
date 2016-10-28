@@ -101,8 +101,9 @@ module.exports = {
     },
 
     parseJSON: function(str) {
+        var output;
         try {
-            var output = JSON.parse(str);
+            output = JSON.parse(str);
         } catch (e) {
             return false;
         }
