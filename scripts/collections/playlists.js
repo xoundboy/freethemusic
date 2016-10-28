@@ -1,4 +1,5 @@
 ﻿var PlaylistModel = require('../models/playlist.js');
+var util = require('../helpers/commonUtils');
 
 module.exports = Backbone.Collection.extend({
 
@@ -10,6 +11,16 @@ module.exports = Backbone.Collection.extend({
         this.bind("remove", function (model) {
             model.destroy({wait: true});
         });
+    },
+
+    resetModels: function(models){
+        this.reset(null);
+        if (util.isArray(models)){
+            for (var index in models){
+                var model = new PlaylistModel(models[index]);
+                this.add(model);
+            }
+        }
     },
 
     comparator: function(item) {

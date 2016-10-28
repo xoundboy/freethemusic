@@ -46,12 +46,18 @@ module.exports = Backbone.View.extend({
     },
 
     render: function() {
-        this.model.set("adminUser",X7.adminUser);
+        this.model.set("adminUser", X7.adminUser);
         this.$el.html(template(this.model.attributes));
-        var j$ = X7.views.tracklist.render().el;
-        this.$el.find("#trackListContainer").html(j$);
         this.styleButtons();
+        this.renderTrackList();
         this.delegateEvents();
         return this;
+    },
+
+    renderTrackList: function() {
+        var j$ = X7.views.tracklist.render().el;
+
+
+        this.$el.find("#trackListContainer").html(j$);
     }
 });

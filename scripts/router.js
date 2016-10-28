@@ -19,7 +19,8 @@ module.exports = Backbone.Router.extend({
 
     routes: {
 
-        ''                                  : 'recordings',
+        ''                                  : 'home',
+        'home'                              : 'home',
 
         'login'                             : 'login',
         'logout'                            : 'logout',
@@ -66,6 +67,11 @@ module.exports = Backbone.Router.extend({
         X7.adminUser = false;
         Backbone.history.history.back();
         X7.views.nav.render();
+    },
+
+    home: function(){
+        this._showInMainContent(X7.views.home);
+        this._selectItemById("navHome")
     },
 
     recordings: function() {

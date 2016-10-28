@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var utils = require('../helpers/commonUtils');
 
 module.exports = Backbone.Model.extend({
 
@@ -27,7 +28,7 @@ module.exports = Backbone.Model.extend({
     },
 
     getTrackList: function (){
-        var trackList = JSON.parse(this.get("trackList"));
+        var trackList = utils.parseJSON(this.get("trackList"));
         return trackList ? trackList : [];
     },
 

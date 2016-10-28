@@ -2,7 +2,10 @@
     <button class="goBack">Back</button>
     <button class="goForward">Forward</button>
     <div class="textLabels">
+        <a href="#home" id="navHome" class="selected">Home</a>
+        {{#adminUser}}
         <a href="#recordings" id="navRecordings" class="selected">Tracks</a>
+        {{/adminUser}}
         <a href="#queue" id="navQueue">Queue</a>
         <a href="#artists" id="navArtists">Artists</a>
         <a href="#playlists" id="navPlaylists">Lists</a>

@@ -82,8 +82,11 @@ router.post('/', function(req, res){
 router.put('/:id', function(req, res){
 
     function onValidToken(){
+        var trackList = utils.parseJSON(req.body.trackList);
+        var length = trackList ? trackList.length : 0;
+
         var query = "CALL UpdatePlaylist("
-            + utils.htmlEscape(req.params.id) + ",'"
+            + utils.htmlEscape(req.params .id) + ",'"
             + utils.htmlEscape(req.body.name) + "',"
             + utils.htmlEscape(req.body.actID || null) + ",'"
             + utils.htmlEscape(req.body.yearPublished) + "','"
@@ -91,7 +94,7 @@ router.put('/:id', function(req, res){
             + utils.htmlEscape(req.body.notes) + "','"
             + utils.htmlEscape(req.body.isAlbum) + "','"
             + utils.htmlEscape(req.body.trackList) + "',"
-            + JSON.parse(req.body.trackList).length + ");";
+            + length + ");";
 
         connection.query(query, function(err){
             if(err){

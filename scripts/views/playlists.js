@@ -2,6 +2,7 @@ var $ = require('jquery');
 var Backbone = require('backbone');
 var button = require('../helpers/button.js');
 var template = require('./html/playlists.html');
+var PlaylistTableView = require('./playlistsTable');
 
 module.exports = Backbone.View.extend({
 
@@ -16,24 +17,8 @@ module.exports = Backbone.View.extend({
     },
 
     events: {
-        "click .deletePlaylistButton": "delete",
-        "click .editPlaylistButton": "edit",
         "click a[href=#playlist]" : "add",
         "click .addPlaylistButton": "add"
-    },
-
-    delete: function(e){
-        if (confirm("Are you sure?")){
-            var $btn = $(e.currentTarget),
-                playlistId = $btn.closest("tr").attr("data-playlistId");
-            var modelToDelete = this.collection.get(playlistId);
-            this.collection.remove(modelToDelete);
-        }
-    },
-
-    edit: function(e){
-        var playlistID = $(e.currentTarget).closest("tr").attr("data-playlistId");
-        X7.router.navigate('playlist/edit/' + playlistID, {trigger:true});
     },
 
     add: function(){
@@ -41,24 +26,19 @@ module.exports = Backbone.View.extend({
     },
 
     styleButtons: function() {
-        button.style(this.$el.find(".editPlaylistButton"), "ui-icon-pencil");
-        button.style(this.$el.find(".deletePlaylistButton"), "ui-icon-trash");
         button.style(this.$el.find(".addPlaylistButton"), "ui-icon-plusthick", true);
     },
 
     render: function(){
-
-        var viewModel = {
-            adminUser: X7.adminUser,
-            playlists: this.collection.toJSON()
-        };
-
-        this.$el.html(template(viewModel));
-
+        this.$el.html(template({adminUser: X7.adminUser}));
         this.styleButtons();
-
+        this.renderTable();
         this.delegateEvents();
-
         return this;
+    },
+
+    renderTable: function(){
+        var playlistTableView = new PlaylistTableView({collection: this.collection});
+        this.$el.find("#playlistTableContainer").html(playlistTableView.render().el);
     }
 });

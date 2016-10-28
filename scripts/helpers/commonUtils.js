@@ -94,5 +94,18 @@ module.exports = {
             default:
                 return null;
         }
+    },
+
+    isArray: function(obj){
+        return !!obj && Array === obj.constructor;
+    },
+
+    parseJSON: function(str) {
+        try {
+            var output = JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return output;
     }
 };

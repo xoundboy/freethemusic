@@ -24,9 +24,7 @@
 {{#results.playlists.length}}
 <div id="playlistResults">
     <h3>Playlists: {{results.playlists.length}}</h3>
-    {{#results.playlists}}
-    <div class="resultRow"><a href="/#playlist/{{id}}">{{name}} {{#length}}({{length}}){{/length}}</a></div>
-    {{/results.playlists}}
+    <div id="playlistsResultsTableContainer"></div>
 </div>
 {{/results.playlists.length}}
 

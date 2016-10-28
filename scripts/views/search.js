@@ -3,6 +3,8 @@ var template = require('./html/search.html');
 require('jquery-validation');
 require('jquery-serializejson');
 var $ = require('jquery');
+var PlaylistsTableView = require('./playlistsTable');
+
 
 module.exports = Backbone.View.extend({
 
@@ -40,8 +42,7 @@ module.exports = Backbone.View.extend({
     },
 
     onSearchSuccess: function(data){
-        this.model.set("results", data);
-        this.model.setResultsCount();
+        this.model.processResultsData(data);
         this.model.set("error", false);
     },
 
@@ -56,10 +57,16 @@ module.exports = Backbone.View.extend({
     render: function () {
         this.$el.html(template(this.model.attributes));
         this.styleButtons();
-
-        this.$el.find("#q").focus();
+        this.$el.find("#q").focus()
+            .val(this.model.attributes.q);
+        this.renderPlaylistsTable();
         this.delegateEvents();
-
         return this;
+    },
+
+    renderPlaylistsTable: function(){
+        var playlistsTableView = new PlaylistsTableView({collection:this.model.get("playLists")});
+        this.$el.find("#playlistsResultsTableContainer").html(playlistsTableView.render().el);
     }
+
 });
