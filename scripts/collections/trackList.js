@@ -1,25 +1,27 @@
+var _ = require('underscore');
 var TrackModel = require('../models/track.js');
 
 module.exports = Backbone.Collection.extend({
 
     model: TrackModel,
 
-    initialize: function(){
+    initialize: function(options){
+        _.extend(this, _.pick(options, "idArray"));
         this.listenTo(X7.models.player, 'playing stop', this.setCurrentlyPlayingTrack);
     },
 
-    load: function(idList) {
-        this.reset(null);
-        for (var i in idList){
-            this.add(X7.collections.recordings.get(idList[i]), {silent:true});
-        }
-        this.trigger("reset");
+    populateByIdArray: function(idArray){
+        _.each(idArray, this.addModelById.bind(this));
     },
 
-    save: function(){
-        var idArray = this.pluck("id");
-        X7.models.playlist.setTrackList(idArray);
+    addModelById: function(id){
+        this.add(X7.collections.recordings.get(id, {silent:true}));
     },
+
+    //save: function(){
+    //    var idArray = this.pluck("id");
+    //    X7.models.playlist.setTrackList(idArray);
+    //},
 
     delete: function(recID){
         this.remove(this.get(recID));

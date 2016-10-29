@@ -105,7 +105,7 @@ module.exports = {
         try {
             output = JSON.parse(str);
         } catch (e) {
-            return false;
+            return null;
         }
         return output;
     }

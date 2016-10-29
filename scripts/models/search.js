@@ -1,15 +1,19 @@
 var PlaylistsCollection = require('../collections/playlists');
+var RecordingsCollection = require('../collections/recordings');
+var ArtistsCollection = require('../collections/artists');
 
 module.exports = Backbone.Model.extend({
 
     defaults: {
         q: "",
-        playLists: null,
+        playlLists: null,
         resultsCount: true
     },
 
     initialize: function(){
         this.set("playLists", new PlaylistsCollection());
+        this.set("recordings", new RecordingsCollection());
+        this.set("artists", new ArtistsCollection());
     },
 
     setResultsCount: function(){
@@ -21,6 +25,8 @@ module.exports = Backbone.Model.extend({
         this.set("results", data);
         this.setResultsCount();
         this.get("playLists").resetModels(data.playlists);
+        this.get("recordings").resetModels(data.recordings);
+        this.get("artists").resetModels(data.artists);
         this.trigger("change");
     }
 });

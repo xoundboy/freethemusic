@@ -1,8 +1,10 @@
 var $ = require('jquery');
 var template = require('./html/playlist.html');
-var button = require('../helpers/button.js');
-var TracklistView = require('./trackList.js');
-var PlaylistModel = require('../models/playlist.js');
+var button = require('../helpers/button');
+var TracklistView = require('./trackList');
+var TrackListCollection = require('../collections/trackList');
+var PlaylistModel = require('../models/playlist');
+var utils = require('../helpers/commonUtils');
 
 module.exports = Backbone.View.extend({
 
@@ -14,22 +16,10 @@ module.exports = Backbone.View.extend({
         "click #playPlaylist": "playFromTop"
     },
 
-    initialize: function(){
-        this.listenTo(X7.collections.tracklist, 'reset', this.render);
-    },
-
-    loadModel: function(id){
-        this.model = new PlaylistModel({id:id});
-        this.model.fetch({success: $.proxy(this.createTrackList, this)});
-    },
-
-    createTrackList: function(){
-        X7.collections.tracklist.load(JSON.parse(this.model.get("trackList")));
-        X7.views.tracklist = new TracklistView({
-            collection: X7.collections.tracklist,
-            playlistModel: this.model
-        });
-        this.render();
+    initialize: function(options){
+        this.model = new PlaylistModel({id: options.id});
+        this.model.fetch({success:this.render.bind(this)});
+        //this.listenTo(X7.collections.tracklist, 'reset', this.render);
     },
 
     edit: function(){
@@ -55,9 +45,15 @@ module.exports = Backbone.View.extend({
     },
 
     renderTrackList: function() {
-        var j$ = X7.views.tracklist.render().el;
-
-
-        this.$el.find("#trackListContainer").html(j$);
+        var idArray = this.model.get("trackList");
+        if (idArray.length){
+            var collection = new TrackListCollection();
+            collection.populateByIdArray(idArray);
+            var tracklistView = new TracklistView({
+                collection: collection,
+                playlistModel: this.model
+            });
+            this.$el.find("#trackListContainer").html(tracklistView.render().el);
+        }
     }
 });

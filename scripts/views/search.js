@@ -4,7 +4,7 @@ require('jquery-validation');
 require('jquery-serializejson');
 var $ = require('jquery');
 var PlaylistsTableView = require('./playlistsTable');
-
+var TracklistView = require('./trackList');
 
 module.exports = Backbone.View.extend({
 
@@ -60,6 +60,7 @@ module.exports = Backbone.View.extend({
         this.$el.find("#q").focus()
             .val(this.model.attributes.q);
         this.renderPlaylistsTable();
+        this.renderRecordingsTable();
         this.delegateEvents();
         return this;
     },
@@ -67,6 +68,11 @@ module.exports = Backbone.View.extend({
     renderPlaylistsTable: function(){
         var playlistsTableView = new PlaylistsTableView({collection:this.model.get("playLists")});
         this.$el.find("#playlistsResultsTableContainer").html(playlistsTableView.render().el);
+    },
+
+    renderRecordingsTable: function(){
+        var recordingsTableView = new TracklistView({collection:this.model.get("recordings")});
+        this.$el.find("#recordingsResultsTableContainer").html(recordingsTableView.render().el);
     }
 
 });

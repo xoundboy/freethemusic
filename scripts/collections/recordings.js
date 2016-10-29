@@ -1,5 +1,6 @@
-var notification = require('../helpers/notification.js');
-var RecordingModel = require('../models/recording.js');
+var notification = require('../helpers/notification');
+var RecordingModel = require('../models/recording');
+var util = require('../helpers/commonUtils');
 
 module.exports = Backbone.Collection.extend({
 
@@ -17,6 +18,16 @@ module.exports = Backbone.Collection.extend({
             message: "RECORDING DELETED<br />'" + model.get("title") + "' by " + model.get("actName"),
             autohide: true
         });
+    },
+
+    resetModels: function(models){
+        this.reset(null);
+        if (util.isArray(models)){
+            for (var index in models){
+                var model = new RecordingModel(models[index]);
+                this.add(model);
+            }
+        }
     },
 
     comparator: function(item) {

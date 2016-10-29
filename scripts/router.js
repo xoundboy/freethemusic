@@ -1,19 +1,20 @@
 ﻿var $ = require('jquery');
 var Backbone = require('backbone');
 var qs = require('query-string');
-var config = require('./config.js');
+var config = require('./config');
 var token = require('./core/token');
 
-var RecordingDetailsView        = require('./views/recording.js');
-var RecordingEditPanelView      = require('./views/recordingEdit.js');
+var RecordingDetailsView        = require('./views/recording');
+var RecordingEditPanelView      = require('./views/recordingEdit');
 
-var PlaylistAddOrEditPanelView  = require('./views/playlistForm.js');
+var PlaylistAddOrEditPanelView  = require('./views/playlistForm');
 
-var ArtistAddOrEditPanelView    = require('./views/artistForm.js');
+var ArtistAddOrEditPanelView    = require('./views/artistForm');
 
-var OverlayModel                = require('./models/overlay.js');
-var OverlayView                 = require('./views/overlay.js');
-var ArtistView                  = require('./views/artist.js');
+var ArtistView                  = require('./views/artist');
+var PlaylistView                = require('./views/playlist');
+var OverlayModel                = require('./models/overlay');
+var OverlayView                 = require('./views/overlay');
 
 module.exports = Backbone.Router.extend({
 
@@ -157,8 +158,7 @@ module.exports = Backbone.Router.extend({
     },
 
     playlist: function(id){
-        X7.views.playlist.loadModel(id);
-        this._showInMainContent(X7.views.playlist);
+        this._showInMainContent(new PlaylistView({id:id}));
         this._selectItemById("navPlaylists");
     },
 

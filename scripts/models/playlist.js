@@ -13,9 +13,8 @@ module.exports = Backbone.Model.extend({
         response.isAlbum = response.isAlbum !== "false";
         response.images = response.images === undefined || response.images === "" ? null
             : JSON.parse(response.images);
-
-        var trackList = response.trackList ? JSON.parse(response.trackList) : [];
-        this.set("listLength", (trackList) ? trackList.length : 0);
+        response.trackList = utils.parseJSON(response.trackList);
+        response.listLength = response.trackList ? response.trackList.length : 0;
         return response;
     },
 

@@ -23,7 +23,6 @@ var PlayerView = require('./views/player');
 var PlaylistModel = require('./models/playlist');
 var PlaylistsCollection = require('./collections/playlists');
 var PlaylistsView = require('./views/playlists');
-var PlaylistView = require('./views/playlist');
 var QueueCollection = require('./collections/queue');
 var QueueHistoryCollection = require('./collections/queueHistory');
 var QueueView = require('./views/queue');
@@ -32,8 +31,6 @@ var RecordingsView = require('./views/recordings');
 var Router = require('./router');
 var SearchView = require('./views/search');
 var SearchModel = require('./models/search');
-var TrackListCollection = require('./collections/trackList');
-var TracklistView = require('./views/trackList');
 
 var config = require('./config');
 var token = require('./core/token');
@@ -56,10 +53,8 @@ X7.collections.recordings = new RecordingsCollection();
 X7.models.audioUpload = new AudioUploadModel();
 X7.models.home = new HomeModel();
 X7.models.newPlaylist = new PlaylistModel();
-X7.models.playlist = new PlaylistModel();
 X7.models.search = new SearchModel();
 X7.views.login = new LoginView();
-X7.views.playlist = new PlaylistView({model: X7.models.playlist});
 X7.views.search = new SearchView({model: X7.models.search});
 
 var bootStrap = function(){
@@ -79,8 +74,6 @@ var bootStrap = function(){
 
         X7.models.player = new PlayerModel(X7.collections.queue);
         X7.views.player = new PlayerView({model: X7.models.player});
-        X7.collections.tracklist = new TrackListCollection();
-        X7.views.tracklist = new TracklistView({collection: X7.collections.tracklist});
 
         X7.views.nav.render();
         X7.views.player.render();

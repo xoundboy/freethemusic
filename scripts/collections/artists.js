@@ -1,5 +1,6 @@
-var notification = require('../helpers/notification.js');
-var ArtistModel = require('../models/artist.js');
+var notification = require('../helpers/notification');
+var ArtistModel = require('../models/artist');
+var util = require('../helpers/commonUtils');
 
 module.exports = Backbone.Collection.extend({
 
@@ -15,5 +16,15 @@ module.exports = Backbone.Collection.extend({
                 autohide: true
             });
         });
+    },
+
+    resetModels: function(models){
+        this.reset(null);
+        if (util.isArray(models)){
+            for (var index in models){
+                var model = new ArtistModel(models[index]);
+                this.add(model);
+            }
+        }
     }
 });
