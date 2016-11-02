@@ -12,7 +12,6 @@ module.exports = Backbone.View.extend({
     selectedId: null,
 
     initialize: function () {
-        this.collection.fetch();
         this.listenTo(this.collection, 'reset sort remove fetch change', this.render);
     },
 

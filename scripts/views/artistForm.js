@@ -13,8 +13,6 @@ module.exports = Backbone.View.extend({
     tagName: "div",
     id: "artistEditPanel",
     className: "addOrEditPanel",
-    containerElSelector: "#mainContent",
-    newArtist: true,
 
     events: {
         "click #cancelEditButton": "closePanel",
@@ -22,28 +20,14 @@ module.exports = Backbone.View.extend({
     },
 
     initialize: function(options) {
-
         _.extend(this, _.pick(options, "returnUrl"));
-
-        if (options.id){
-
-            // existing artist
-            this.newArtist = false;
-            this.model = X7.collections.artists.get(options.id);
-            this.setGalleryView(this.model.get("galleryID"));
-
+        _.extend(this, _.pick(options, "newArtist"));
+        this.listenTo(this.model, "change", this.render);
+        if (!this.newArtist){
+            this.model.fetch();
         } else {
-
-            //  new artist
-            this.model = new ArtistModel();
+            this.render();
         }
-    },
-
-    setGalleryView: function(galleryID){
-        this.galleryView = new GalleryView({
-            galleryID: galleryID,
-            containerElSelector: "#artistGalleryContainer"
-        });
     },
 
     closePanel: function() {
@@ -94,19 +78,21 @@ module.exports = Backbone.View.extend({
 
     render: function () {
         this.$el.html(template(this.model.attributes));
-
-        // first render self into #mainContent
-        $(this.containerElSelector).html(this.$el);
-
-        // now render the gallery section if its available
-        if (this.galleryView) this.galleryView.render();
-
         this.$el.find("button").button();
+        this.renderGallery();
 
         // Sub-views need this or events associated with
         // previous renderings of the view will be lost.
         this.delegateEvents();
 
         return this;
+    },
+
+    renderGallery: function(){
+        var galleryID = this.model.get("galleryID");
+        if (galleryID){
+            var galleryView = new GalleryView({id: galleryID});
+            this.$el.find("#artistGalleryContainer").html(galleryView.render().el);
+        }
     }
 });

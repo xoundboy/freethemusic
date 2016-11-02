@@ -4,17 +4,20 @@ var qs = require('query-string');
 var config = require('./config');
 var token = require('./core/token');
 
-var RecordingDetailsView        = require('./views/recording');
-var RecordingEditPanelView      = require('./views/recordingEdit');
+var RecordingDetailsView = require('./views/recording');
+var RecordingEditPanelView = require('./views/recordingEdit');
 
-var PlaylistAddOrEditPanelView  = require('./views/playlistForm');
+var PlaylistFormView = require('./views/playlistForm');
 
-var ArtistAddOrEditPanelView    = require('./views/artistForm');
+var ArtistFormView = require('./views/artistForm');
 
-var ArtistView                  = require('./views/artist');
-var PlaylistView                = require('./views/playlist');
-var OverlayModel                = require('./models/overlay');
-var OverlayView                 = require('./views/overlay');
+var ArtistModel = require('./models/artist');
+var ArtistView = require('./views/artist');
+var ArtistsView = require('./views/artists');
+var PlaylistView = require('./views/playlist');
+var OverlayModel = require('./models/overlay');
+var OverlayView  = require('./views/overlay');
+
 
 module.exports = Backbone.Router.extend({
 
@@ -120,7 +123,7 @@ module.exports = Backbone.Router.extend({
     },
 
     artists: function() {
-        this._showInMainContent(X7.views.artists);
+        this._showInMainContent(new ArtistsView({collection:X7.collections.artists}));
         this._selectItemById("navArtists");
     },
 
@@ -130,19 +133,28 @@ module.exports = Backbone.Router.extend({
     },
 
     artistHighlight: function(id) {
-        this._showInMainContent(X7.views.artists);
+        this._showInMainContent(new ArtistsView({collection:X7.collections.artists}));
         this._highlightElement($("#actID-" + id));
         this._selectItemById("navArtists");
     },
 
     artistEdit: function(id) {
-        new ArtistAddOrEditPanelView({id:id,containerElSelector: "#mainContent"}).render();
+        var artistModel =  new ArtistModel({id:id});
+        var artistFormView = new ArtistFormView({
+            model:artistModel,
+            newArtist: false
+        });
+        this._showInMainContent(artistFormView);
         this._selectItemById("navArtists");
     },
 
     artistAdd: function(e) {
         this._hideOverlay();
-        new ArtistAddOrEditPanelView({returnUrl: this._getReturnUrlFromQs(e)}).render();
+        this._showInMainContent(new ArtistFormView({
+            model: new ArtistModel(),
+            returnUrl: this._getReturnUrlFromQs(e),
+            newArtist: true
+        }));
         this._selectItemById("navArtists");
     },
 
@@ -163,12 +175,12 @@ module.exports = Backbone.Router.extend({
     },
 
     playlistEdit: function(id){
-        new PlaylistAddOrEditPanelView({id:id,containerElSelector: "#mainContent"}).render();
+        new PlaylistFormView({id:id,containerElSelector: "#mainContent"}).render();
         this._selectItemById("navPlaylists");
     },
 
     playlistAdd: function(e){
-        new PlaylistAddOrEditPanelView({returnUrl: this._getReturnUrlFromQs(e)}).render();
+        new PlaylistFormView({returnUrl: this._getReturnUrlFromQs(e)}).render();
         this._selectItemById("navPlaylists");
     },
 

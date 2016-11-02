@@ -9,10 +9,10 @@ require('./core/sync');
 var $ = require('jquery');
 window.jQuery = $;
 
-var ArtistsCollection = require('./collections/artists');
-var ArtistsView = require('./views/artists');
 var AudioUploadModel = require('./models/audioUpload');
 var AudioUploadView = require('./views/audioUpload');
+var ArtistsCollection = require('./collections/artists');
+var ArtistsView = require('./views/artists');
 var Backbone = require('backbone');
 var HomeView = require('./views/home');
 var HomeModel = require('./models/home');
@@ -38,18 +38,26 @@ var token = require('./core/token');
 // Global App Object
 global.X7 = {
     models: {},
-    collections: {},
+    collections: {
+        artists: null
+    },
     views: {},
     routers: {},
     adminUser: false
 };
 
-// Create model instances
-X7.collections.artists = new ArtistsCollection();
 X7.collections.playlists = new PlaylistsCollection();
+X7.collections.playlists.fetch();
+
+X7.collections.artists = new ArtistsCollection();
+X7.collections.artists.fetch();
+
+X7.collections.recordings = new RecordingsCollection();
+X7.collections.recordings.fetch();
+
 X7.collections.queue = new QueueCollection();
 X7.collections.queueHistory = new QueueHistoryCollection();
-X7.collections.recordings = new RecordingsCollection();
+
 X7.models.audioUpload = new AudioUploadModel();
 X7.models.home = new HomeModel();
 X7.models.newPlaylist = new PlaylistModel();
@@ -58,14 +66,13 @@ X7.views.login = new LoginView();
 X7.views.search = new SearchView({model: X7.models.search});
 
 var bootStrap = function(){
-    X7.views.artists = new ArtistsView({collection: X7.collections.artists});
     X7.views.audioUpload = new AudioUploadView({model: X7.models.audioUpload});
     X7.views.home = new HomeView({model:X7.models.home});
     X7.views.nav = new NavView();
     X7.views.playlists = new PlaylistsView({collection: X7.collections.playlists});
+    X7.views.artists = new ArtistsView({collection: X7.collections.artists});
     X7.views.queue = new QueueView({collection: X7.collections.queue});
     X7.views.recordings = new RecordingsView({collection: X7.collections.recordings});
-
 
     // Bootstrap the application after syncing models with server
     $( document ).ajaxStop(function() {

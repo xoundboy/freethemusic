@@ -66,7 +66,6 @@ var util = {
         }
         return false;
     }
-
 };
 
 module.exports = util;

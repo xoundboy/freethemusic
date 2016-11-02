@@ -10,28 +10,12 @@ var GalleryImagesView = require('./galleryImages.js');
 var ImageModel = require('../models/image.js');
 var template = require('./html/gallery.html');
 var ajax = require('../core/ajax.js');
-
-/**
- * To associate and integrate a gallery with an "Other Entity" (OE)
- * for example, artist, track, playlist etc do the following:
- *
- *  1. create an empty gallery and get its id
- *
- *  2. assign this galleryID to the OE model
- *
- *  3. When initializing the OE view,
- *
- *          this.galleryView = utils.createGalleryView(galleryID, containerElSelector)
- *
- *  4. After the OE view HTML has been rendered into the DOM,
- *
- *          this.galleryView && this.galleryView.render();
- */
-
+var button = require('../helpers/button');
 
 module.exports = Backbone.View.extend({
 
     id: "gallery",
+    tag: "div",
 
     initialize: function (options) {
 
@@ -39,13 +23,8 @@ module.exports = Backbone.View.extend({
         this.initializeForm();
 
         this.model = new GalleryModel({
-            id: options.galleryID,
+            id: options.id,
             images: new GalleryImagesCollection()
-        });
-
-        // sub-view
-        this.galleryImagesView = new GalleryImagesView({
-            collection: this.model.get("images")
         });
 
         this.model.fetch({success: $.proxy(this.onGalleryModelFetched, this)});
@@ -163,12 +142,15 @@ module.exports = Backbone.View.extend({
 
         this.$el.find("#deleteSelectedImages").hide();
 
+        this.$el.find("button").button();
+
         // sub-views need this
         this.delegateEvents();
         return this;
     },
 
     renderGalleryImages: function(){
-        this.$el.find("#imagesContainer").html(this.galleryImagesView.render().el);
+        var galleryImagesView = new GalleryImagesView({collection: this.model.get("images")});
+        this.$el.find("#imagesContainer").html(galleryImagesView.render().el);
     }
 });

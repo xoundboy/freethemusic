@@ -5,6 +5,7 @@ require('jquery-serializejson');
 var $ = require('jquery');
 var PlaylistsTableView = require('./playlistsTable');
 var TracklistView = require('./trackList');
+var ArtistsTableView = require('./artistsTable');
 
 module.exports = Backbone.View.extend({
 
@@ -61,6 +62,7 @@ module.exports = Backbone.View.extend({
             .val(this.model.attributes.q);
         this.renderPlaylistsTable();
         this.renderRecordingsTable();
+        this.renderArtistsTable();
         this.delegateEvents();
         return this;
     },
@@ -73,6 +75,11 @@ module.exports = Backbone.View.extend({
     renderRecordingsTable: function(){
         var recordingsTableView = new TracklistView({collection:this.model.get("recordings")});
         this.$el.find("#recordingsResultsTableContainer").html(recordingsTableView.render().el);
+    },
+
+    renderArtistsTable: function(){
+        var artistsTableView = new ArtistsTableView({collection:this.model.get("artists")});
+        this.$el.find("#artistsResultsTableContainer").html(artistsTableView.render().el);
     }
 
 });

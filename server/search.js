@@ -49,7 +49,15 @@ router.get('/', function(req, res){
 
     function artistsResponse(err, result){
         if (!util.handleError(err, result)){
-            output.artists = result[0];
+            output.artists  = result[0].map(function(row){
+                if(row.images){
+                    var parsedImagesString = JSON.parse(row.images);
+                    if (Array.isArray(parsedImagesString)){
+                        row.avatar = parsedImagesString[0];
+                    }
+                }
+                return row;
+            });
             dispatch();
         }
     }

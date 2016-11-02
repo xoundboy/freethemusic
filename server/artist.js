@@ -11,13 +11,14 @@ var connection = util.dbConn();
  * GET /api/artist/all
  */
 router.get('/all', function(req, res){
+
     connection.query("CALL GetAllArtists();", function(err, rows){
         if (err) {
             console.log(err);
             res.sendStatus(500);
         } else {
             res.json(rows[0].map(function(row){
-                if(row.images !== ""){
+                if(row.images){
                     var parsedImagesString = JSON.parse(row.images);
                     if (Array.isArray(parsedImagesString)){
                         row.avatar = parsedImagesString[0];
@@ -25,6 +26,29 @@ router.get('/all', function(req, res){
                 }
                 return row;
             }));
+        }
+    });
+});
+
+/**
+ * GET /api/artist/:id
+ */
+router.get('/:id', function(req, res){
+    var query = "CALL GetArtistById(" + utils.htmlEscape(req.params.id) + ");";
+    connection.query(query, function(err, rows){
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        } else {
+            res.json(rows[0].map(function(row){
+                if(row.images){
+                    var parsedImagesString = JSON.parse(row.images);
+                    if (Array.isArray(parsedImagesString)){
+                        row.avatar = parsedImagesString[0];
+                    }
+                }
+                return row;
+            })[0]);
         }
     });
 });

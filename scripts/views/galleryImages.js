@@ -3,8 +3,6 @@
  */
 var _ = require('underscore');
 var $ = require('jquery');
-var Mustache = require('mustache');
-var ImageModel = require("../models/image.js");
 var template = require('./html/galleryImages.html');
 
 module.exports = Backbone.View.extend({
