@@ -82,9 +82,7 @@ router.post('/', function(req, res){
 router.put('/:id', function(req, res){
 
     function onValidToken(){
-        var trackList = utils.parseJSON(req.body.trackList);
-        var length = trackList ? trackList.length : 0;
-
+        var length = req.body.trackList ? req.body.trackList.length : 0;
         var query = "CALL UpdatePlaylist("
             + utils.htmlEscape(req.params .id) + ",'"
             + utils.htmlEscape(req.body.name) + "',"

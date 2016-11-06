@@ -1,9 +1,9 @@
-var $ = require('jquery');
-var _ = require('underscore');
-var template = require('./html/trackList.html');
-require('jquery-ui/sortable');
 require('jquery-ui-touch-punch');
+require('jquery-ui/sortable');
+var $ = require('jquery');
+var AddToListContextMenuView = require('./recordingAddMenu.js');
 var button = require('../helpers/button.js');
+var template = require('./html/trackList.html');
 
 module.exports = Backbone.View.extend({
 
@@ -12,14 +12,34 @@ module.exports = Backbone.View.extend({
 
     initialize: function(options){
         this.playlistModel = options.playlistModel;
-        this.listenTo(X7.collections.tracklist, 'change', this.render);
-        this.listenTo(this.playlistModel, 'change', this.render);
+        //this.listenTo(X7.collections.tracklist, 'change', this.render);
+        //this.listenTo(this.playlistModel, 'change', this.render);
+        this.listenTo(this.collection, "change remove add", this.render.bind(this));
     },
 
     events: {
         "click .playButton": "play",
         "click .pauseButton": "pause",
-        "click .removeTrackFromList": "remove"
+        "click .removeTrackFromList": "remove",
+        "click .add": "add"
+    },
+
+    add: function(e){
+        e.stopPropagation();
+        var $btn = $(e.currentTarget),
+            recId = $btn.closest("tr").attr("data-recordingId");
+
+        if (X7.adminUser){
+            var $contextMenuContainer = $btn.parent().find(".listContextMenuContainer");
+            var contextMenuView = new AddToListContextMenuView({
+                collection: X7.collections.playlists.getFilteredCollection(this.playlistModel),
+                modelToAdd: this.collection.get(recId)
+            });
+            $contextMenuContainer.html(contextMenuView.render().el);
+
+        } else {
+            X7.collections.queue.addModel(X7.collections.recordings.get(recId), this.onTrackAdded);
+        }
     },
 
     play: function(e){
@@ -34,13 +54,15 @@ module.exports = Backbone.View.extend({
 
     remove: function(e){
         var recId = $(e.currentTarget).closest("tr").attr("data-recordingid");
-        this.playlistModel.removeTrack(recId);
+        this.collection.delete(recId);
+        this.playlistModel.save();
     },
 
     styleButtons: function(){
         button.style(this.$el.find(".playButton"), "ui-icon-play");
         button.style(this.$el.find(".pauseButton"), "ui-icon-pause");
         button.style(this.$el.find(".removeTrackFromList"), "ui-icon-close");
+        button.style(this.$el.find(".add"), "ui-icon-plusthick");
     },
 
     sortablize: function(){
@@ -63,14 +85,16 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
-        var viewModel = {
-            trackList: this.collection.toJSON(),
-            adminUser: X7.adminUser
-        };
-        this.$el.html(template(viewModel));
-        this.sortablize();
-        this.styleButtons();
-        this.delegateEvents();
+        if (this.collection){
+            var viewModel = {
+                trackList: this.collection.toJSON(),
+                adminUser: X7.adminUser
+            };
+            this.$el.html(template(viewModel));
+            this.sortablize();
+            this.styleButtons();
+            this.delegateEvents();
+        }
         return this;
     }
 });

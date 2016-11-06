@@ -14,14 +14,13 @@ module.exports = Backbone.Collection.extend({
         _.each(idArray, this.addModelById.bind(this));
     },
 
+    exportIdArray: function(){
+        return JSON.stringify(this.pluck("id"));
+    },
+
     addModelById: function(id){
         this.add(X7.collections.recordings.get(id, {silent:true}));
     },
-
-    //save: function(){
-    //    var idArray = this.pluck("id");
-    //    X7.models.playlist.setTrackList(idArray);
-    //},
 
     delete: function(recID){
         this.remove(this.get(recID));

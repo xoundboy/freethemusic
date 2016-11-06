@@ -1,10 +1,7 @@
-var $ = require('jquery');
 var template = require('./html/playlist.html');
 var button = require('../helpers/button');
 var TracklistView = require('./trackList');
-var TrackListCollection = require('../collections/trackList');
 var PlaylistModel = require('../models/playlist');
-var utils = require('../helpers/commonUtils');
 
 module.exports = Backbone.View.extend({
 
@@ -45,15 +42,10 @@ module.exports = Backbone.View.extend({
     },
 
     renderTrackList: function() {
-        var idArray = this.model.get("trackList");
-        if (idArray.length){
-            var collection = new TrackListCollection();
-            collection.populateByIdArray(idArray);
-            var tracklistView = new TracklistView({
-                collection: collection,
-                playlistModel: this.model
-            });
-            this.$el.find("#trackListContainer").html(tracklistView.render().el);
-        }
+        var tracklistView = new TracklistView({
+            collection: this.model.get("trackListCollection"),
+            playlistModel: this.model
+        });
+        this.$el.find("#trackListContainer").html(tracklistView.render().el);
     }
 });

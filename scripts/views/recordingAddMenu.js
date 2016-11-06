@@ -5,7 +5,8 @@ var $ = require('jquery');
 module.exports = Backbone.View.extend({
 
     initialize: function(options){
-        _.extend(this, _.pick(options, "recordingId"));
+        //_.extend(this, _.pick(options, "recordingId"));
+        _.extend(this, _.pick(options, "modelToAdd"));
     },
 
     events: {
@@ -14,15 +15,13 @@ module.exports = Backbone.View.extend({
     },
 
     addToQueue: function(){
-        X7.collections.queue.addModel(
-            X7.collections.recordings.get(this.recordingId)
-        );
+        X7.collections.queue.addModel(this.modelToAdd);
     },
 
     addToPlaylist: function(e){
         var playlistId = $(e.target).attr("data-id");
         var chosenPlaylistModel = X7.collections.playlists.get(playlistId);
-        chosenPlaylistModel.addTrack(this.recordingId, this.onTrackAddedToPlaylist);
+        chosenPlaylistModel.addTrack(this.modelToAdd, this.onTrackAddedToPlaylist);
     },
 
     onTrackAddedToPlaylist: function(){

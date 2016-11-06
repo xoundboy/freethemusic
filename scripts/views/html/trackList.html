@@ -1,11 +1,13 @@
 <table id="trackList_table" class="benGrid {{^trackList}}emptyTable{{/trackList}}">
     <thead>
     <tr>
-        <th></th>
+        <th class="buttonColumn"></th>
+        <th class="buttonColumn"></th>
         <th bengrid-key="audioFile">Title</th>
         <th bengrid-key="actName">Artist</th>
+        <th bengrid-key="actName">Duration</th>
         {{#adminUser}}
-        <th></th>
+        <th class="buttonColumn"></th>
         {{/adminUser}}
     </tr>
     </thead>
@@ -20,8 +22,13 @@
             <button class="playButton" data-filename="{{audioFile}}.mp3">Play now</button>
             {{/currentlyPlaying}}
         </td>
+        <td>
+            <button class="add" data-filename="{{audioFile}}.mp3">Add to queue</button>
+            <div class="contextMenu listContextMenuContainer"></div>
+        </td>
         <td><a href="#recording/{{id}}">{{{title}}}</a></td>
         <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
+        <td class="rightAlign">{{duration}}</td>
         {{#adminUser}}
         <td class="alignr"><button class="removeTrackFromList">Remove</button></td>
         {{/adminUser}}

@@ -58,9 +58,9 @@ X7.collections.recordings.fetch();
 X7.collections.queue = new QueueCollection();
 X7.collections.queueHistory = new QueueHistoryCollection();
 
+
 X7.models.audioUpload = new AudioUploadModel();
 X7.models.home = new HomeModel();
-X7.models.newPlaylist = new PlaylistModel();
 X7.models.search = new SearchModel();
 X7.views.login = new LoginView();
 X7.views.search = new SearchView({model: X7.models.search});

@@ -1,7 +1,5 @@
 ﻿require('jquery-ui/effect');
-var _ = require('underscore');
 var $ = require('jquery');
-var Mustache = require('mustache');
 var button = require('../helpers/button.js');
 var notification = require('../helpers/notification.js');
 var AddToListContextMenuView = require('./recordingAddMenu.js');
@@ -127,5 +125,4 @@ module.exports = Backbone.View.extend({
 
         return this;
     }
-
 });

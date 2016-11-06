@@ -30,5 +30,13 @@ module.exports = Backbone.Collection.extend({
     sortByField: function(fieldName) {
         this.sort_key = fieldName;
         this.sort();
+    },
+
+    getFilteredCollection: function(modelToRemove){
+        var filteredPlaylists = this.filter(function(playlist) {
+            return playlist.id !== modelToRemove.id;
+        });
+
+        return new Backbone.Collection(filteredPlaylists);
     }
 });
