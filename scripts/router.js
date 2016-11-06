@@ -14,6 +14,7 @@ var ArtistFormView = require('./views/artistForm');
 var ArtistModel = require('./models/artist');
 var ArtistView = require('./views/artist');
 var ArtistsView = require('./views/artists');
+var PlaylistModel = require('./models/playlist');
 var PlaylistView = require('./views/playlist');
 var OverlayModel = require('./models/overlay');
 var OverlayView  = require('./views/overlay');
@@ -139,12 +140,10 @@ module.exports = Backbone.Router.extend({
     },
 
     artistEdit: function(id) {
-        var artistModel =  new ArtistModel({id:id});
-        var artistFormView = new ArtistFormView({
-            model:artistModel,
+        this._showInMainContent(new ArtistFormView({
+            model: new ArtistModel({id:id}),
             newArtist: false
-        });
-        this._showInMainContent(artistFormView);
+        }));
         this._selectItemById("navArtists");
     },
 
@@ -175,12 +174,19 @@ module.exports = Backbone.Router.extend({
     },
 
     playlistEdit: function(id){
-        new PlaylistFormView({id:id,containerElSelector: "#mainContent"}).render();
+        this._showInMainContent(new PlaylistFormView({
+            model: new PlaylistModel({id:id}),
+            newAPlaylist: false
+        }));
         this._selectItemById("navPlaylists");
     },
 
     playlistAdd: function(e){
-        new PlaylistFormView({returnUrl: this._getReturnUrlFromQs(e)}).render();
+        this._showInMainContent(new PlaylistFormView({
+            model: new PlaylistModel(),
+            returnUrl: this._getReturnUrlFromQs(e),
+            newPlaylist: true
+        }));
         this._selectItemById("navPlaylists");
     },
 

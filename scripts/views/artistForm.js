@@ -3,7 +3,6 @@ require('jquery-serializejson');
 
 var _ = require('underscore');
 var $ = require('jquery');
-var ArtistModel = require('../models/artist.js');
 var notification = require('../helpers/notification.js');
 var GalleryView = require('./gallery.js');
 var template = require("./html/artistForm.html");
@@ -80,11 +79,7 @@ module.exports = Backbone.View.extend({
         this.$el.html(template(this.model.attributes));
         this.$el.find("button").button();
         this.renderGallery();
-
-        // Sub-views need this or events associated with
-        // previous renderings of the view will be lost.
         this.delegateEvents();
-
         return this;
     },
 

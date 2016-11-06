@@ -12,8 +12,6 @@ module.exports = Backbone.View.extend({
     tagName: "div",
     id: "playlistEditPanel",
     className: "addOrEditPanel",
-    containerElSelector: "#mainContent",
-    newPlaylist: true,
 
     events: {
         "click #cancelEditButton": "closePanel",
@@ -25,31 +23,20 @@ module.exports = Backbone.View.extend({
     initialize: function(options) {
 
         _.extend(this, _.pick(options, "returnUrl"));
-
-        if (options.id){
-            this.newPlaylist = false;
-            this.model = X7.collections.playlists.get(options.id);
-            this.setGalleryView(this.model.get("galleryID"));
-        } else {
-            this.model = X7.models.newPlaylist;
-        }
-
-        this.model.set("artistOptions", X7.collections.artists.toJSON(), {silent: true});
-
+        _.extend(this, _.pick(options, "newPlaylist"));
         this.listenTo(this.model, 'change', this.render);
+        if (!this.newPlaylist){
+            this.model.fetch();
+        } else {
+            this.render();
+        }
+        this.model.set("artistOptions", X7.collections.artists.toJSON(), {silent: true});
     },
 
     toggleIsAlbum: function(e){
         var formData = this.$el.find("#playlistInfo").serializeJSON();
         formData.isAlbum = formData.isAlbum !== undefined;
         this.model.set(formData);
-    },
-
-    setGalleryView: function(galleryID){
-        this.galleryView = new GalleryView({
-            galleryID: galleryID,
-            containerElSelector: "#playlistGalleryContainer"
-        });
     },
 
     updateSelect: function () {
@@ -113,21 +100,18 @@ module.exports = Backbone.View.extend({
 
     render: function () {
         this.$el.html(template(this.model.attributes));
-
-        // first render self into #mainContent
-        $(this.containerElSelector).html(this.$el);
-
-        // now render the gallery section if its available
-        if (this.galleryView) this.galleryView.render();
-
         this.$el.find("button").button();
-
+        this.renderGallery();
         this.updateSelect();
-
-        // Sub-views need this or events associated with
-        // previous renderings of the view will be lost.
         this.delegateEvents();
-
         return this;
+    },
+
+    renderGallery: function () {
+        var galleryID = this.model.get("galleryID");
+        if (galleryID){
+            var galleryView = new GalleryView({id: galleryID});
+            this.$el.find("#playlistGalleryContainer").html(galleryView.render().el);
+        }
     }
 });
