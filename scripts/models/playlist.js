@@ -12,7 +12,6 @@ module.exports = Backbone.Model.extend({
             : JSON.parse(response.images);
         response.trackListCollection = this.generateTrackListCollection(response.trackList);
         response.trackList = "see trackListCollection attribute";
-        response.listLength = response.trackListCollection.length;
         return response;
     },
 
@@ -26,6 +25,7 @@ module.exports = Backbone.Model.extend({
     save: function(attrs, options) {
         var trackListCollection = this.get("trackListCollection");
         this.set("trackList", trackListCollection.exportIdArray());
+        this.set("playlistLength", trackListCollection.length);
         Backbone.Model.prototype.save.call(this, attrs, options);
     },
 
@@ -35,9 +35,9 @@ module.exports = Backbone.Model.extend({
         this.save({success:callback()},{silent:true});
     },
 
-    whiteList: ['id','name','actID', 'actName', 'yearPublished','label','isAlbum','notes','trackList','listLength'],
+    whiteList: ['id','name','actID', 'actName', 'yearPublished','label','isAlbum','notes','trackList','playlistLength'],
 
     toJSON: function(){
         return _.pick(this.attributes, this.whiteList);
-    }}
-);
+    }
+});
