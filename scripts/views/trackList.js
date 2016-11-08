@@ -93,8 +93,8 @@ module.exports = Backbone.View.extend({
             this.$el.html(template(viewModel));
             this.sortablize();
             this.styleButtons();
-            this.delegateEvents();
         }
+        this.delegateEvents();
         return this;
     }
 });

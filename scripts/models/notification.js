@@ -17,6 +17,5 @@ module.exports = Backbone.Model.extend({
         okCallback: function(){},
         cancelCallback: function(){},
         timeoutCallback: function(){}
-
     }
 });

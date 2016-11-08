@@ -33,11 +33,31 @@ router.get('/all', function(req, res){
  * GET /api/playlist/id
  */
 router.get('/:id', function(req, res){
-    connection.query("CALL GetPlaylistById(" + utils.htmlEscape(req.params.id) + ");", function(err, rows){
+
+    var output;
+
+    function loadTracklist(err, rows){
         if (!util.handleError(err, res)){
-            res.json(rows[0][0]);
+            output = rows[0][0];
+            var trackList = output.trackList;
+            delete output.trackList;
+            if (trackList){
+                connection.query("CALL GetTracklistFromIdArray('" + trackList + "');", dispatchResults);
+            } else {
+                res.json(output);
+            }
         }
-    });
+    }
+
+    function dispatchResults(err, rows){
+        if (!util.handleError(err, res)) {
+            output.recordings = rows[0];
+            res.json(output);
+        }
+    }
+
+
+    connection.query("CALL GetPlaylistById(" + utils.htmlEscape(req.params.id) + ");", loadTracklist);
 });
 
 /**

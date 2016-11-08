@@ -20,7 +20,6 @@ var LoginView = require('./views/login');
 var NavView = require('./views/nav');
 var PlayerModel = require('./models/player');
 var PlayerView = require('./views/player');
-var PlaylistModel = require('./models/playlist');
 var PlaylistsCollection = require('./collections/playlists');
 var PlaylistsView = require('./views/playlists');
 var QueueCollection = require('./collections/queue');
@@ -52,12 +51,8 @@ X7.collections.playlists.fetch();
 X7.collections.artists = new ArtistsCollection();
 X7.collections.artists.fetch();
 
-X7.collections.recordings = new RecordingsCollection();
-X7.collections.recordings.fetch();
-
 X7.collections.queue = new QueueCollection();
 X7.collections.queueHistory = new QueueHistoryCollection();
-
 
 X7.models.audioUpload = new AudioUploadModel();
 X7.models.home = new HomeModel();
@@ -72,7 +67,6 @@ var bootStrap = function(){
     X7.views.playlists = new PlaylistsView({collection: X7.collections.playlists});
     X7.views.artists = new ArtistsView({collection: X7.collections.artists});
     X7.views.queue = new QueueView({collection: X7.collections.queue});
-    X7.views.recordings = new RecordingsView({collection: X7.collections.recordings});
 
     // Bootstrap the application after syncing models with server
     $( document ).ajaxStop(function() {

@@ -33,10 +33,11 @@ module.exports = Backbone.Collection.extend({
     },
 
     getFilteredCollection: function(modelToRemove){
+        if (!modelToRemove)
+            return this;
         var filteredPlaylists = this.filter(function(playlist) {
             return playlist.id !== modelToRemove.id;
         });
-
         return new Backbone.Collection(filteredPlaylists);
     }
 });

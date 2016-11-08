@@ -654,6 +654,31 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetTracklistFromIdArray` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTracklistFromIdArray`(
+  IN idArray TEXT
+)
+BEGIN
+  SELECT *, r.id AS id
+      FROM recordings r
+        LEFT JOIN acts a
+        ON r.actID = a.id
+      WHERE FIND_IN_SET(r.id, idArray) > 0;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `InsertAct` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -836,7 +861,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SearchArtists`(
     IN query VARCHAR(50)
 )
 BEGIN
-SELECT   *
+SELECT   *, a.id AS id
 FROM     acts a
   LEFT JOIN galleries g
     ON a.galleryID = g.id
@@ -885,7 +910,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SearchRecordings`(
     IN query VARCHAR(50)
 )
 BEGIN
-SELECT   *
+SELECT   *, r.id AS id
 FROM     recordings r 
   LEFT JOIN acts a
     ON r.actID = a.id
@@ -975,7 +1000,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePlaylist`(
   IN notes TEXT,
   IN isAlbum VARCHAR(5),
   IN trackList TEXT,
-  IN length INT
+  IN playlistLength INT
 )
 BEGIN
     UPDATE playlists p
@@ -986,7 +1011,7 @@ BEGIN
       p.notes = notes,
       p.isAlbum = isAlbum,
       p.trackList = trackList,
-      p.length = length
+      p.playlistLength = playlistLength
       WHERE p.id = idToUpdate;
   END ;;
 DELIMITER ;
@@ -1039,4 +1064,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-07 10:18:46
+-- Dump completed on 2016-11-08 19:35:50
