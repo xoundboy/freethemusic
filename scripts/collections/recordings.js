@@ -1,14 +1,14 @@
 var notification = require('../helpers/notification');
 var RecordingModel = require('../models/recording');
 var util = require('../helpers/commonUtils');
+var TracklistCollection = require('./trackList');
 
-module.exports = Backbone.Collection.extend({
+module.exports = TracklistCollection.extend({
 
-    model: RecordingModel,
     url: "api/recording/all",
-    sort_key: "title",
 
     initialize: function() {
+        this.constructor.__super__.initialize.apply(this, arguments);
         this.bind("remove", this.onRemove);
     },
 
@@ -28,19 +28,5 @@ module.exports = Backbone.Collection.extend({
                 this.add(model);
             }
         }
-    },
-
-    comparator: function(item) {
-        return item.get(this.sort_key);
-    },
-
-    sortByField: function(fieldName) {
-        this.sort_key = fieldName;
-        this.sort();
-    },
-
-    parse: function (response) {
-        return response[0];
     }
-
 });

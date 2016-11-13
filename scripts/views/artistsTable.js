@@ -25,14 +25,7 @@ module.exports = Backbone.View.extend({
         var $btn = $(e.currentTarget),
             actID = parseInt($btn.closest("tr").attr("data-actid"));
 
-        var thisArtistsRecordings = X7.collections.recordings.where({actID: actID});
-        var recordingList = "";
-
-        thisArtistsRecordings.map(function(recording){
-            recordingList += recording.get("title") + "\n";
-        });
-
-        if (confirm("WARNING: If you delete this artist then the following recordings will also be deleted:\n" + recordingList)){
+        if (confirm("WARNING: If you delete this artist then all their recordings will also be deleted")){
             this.collection.remove(this.collection.get(actID));
         }
     },

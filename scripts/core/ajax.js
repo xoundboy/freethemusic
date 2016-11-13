@@ -29,6 +29,15 @@ module.exports = {
         if (token)
             xhr_upload.setRequestHeader('Authorization', token);
 
+        xhr_upload.onreadystatuschange = this.handleErrors;
+
         xhr_upload.send(payload);
+    },
+
+    handleErrors: function(a,b,c,d){
+        console.log(a);
+        console.log(b);
+        console.log(c);
+        console.log(d);
     }
 };

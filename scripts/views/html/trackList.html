@@ -4,8 +4,10 @@
         <td class="buttonColumn"></td>
         <td class="buttonColumn"></td>
         <th bengrid-key="audioFile">Title</th>
+        {{^omitArtistColumn}}
         <th bengrid-key="actName">Artist</th>
-        <th bengrid-key="actName">Duration</th>
+        {{/omitArtistColumn}}
+        <th bengrid-key="actName" class="rightAlign">Duration</th>
         {{#adminUser}}
         <td class="buttonColumn"></td>
         {{/adminUser}}
@@ -27,7 +29,9 @@
             <div class="contextMenu listContextMenuContainer"></div>
         </td>
         <td><a href="#recording/{{id}}">{{{title}}}</a></td>
+        {{^omitArtistColumn}}
         <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">{{{actName}}}</a></td>
+        {{/omitArtistColumn}}
         <td class="rightAlign">{{duration}}</td>
         {{#adminUser}}
         <td class="alignr"><button class="removeTrackFromList">Remove</button></td>

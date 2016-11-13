@@ -1,11 +1,11 @@
-var button = require('../helpers/button.js');
-var template = require('./html/search.html');
-require('jquery-validation');
 require('jquery-serializejson');
+require('jquery-validation');
 var $ = require('jquery');
-var PlaylistsTableView = require('./playlistsTable');
-var TracklistView = require('./trackList');
 var ArtistsTableView = require('./artistsTable');
+var button = require('../helpers/button.js');
+var PlaylistsTableView = require('./playlistsTable');
+var template = require('./html/search.html');
+var TracklistView = require('./trackList');
 
 module.exports = Backbone.View.extend({
 

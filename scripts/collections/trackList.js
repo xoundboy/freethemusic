@@ -4,6 +4,8 @@ var RecordingModel = require('../models/recording.js');
 module.exports = Backbone.Collection.extend({
 
     model: RecordingModel,
+    sort_key: "title",
+    sort_order: "none",
 
     initialize: function(options){
         _.extend(this, _.pick(options, "idArray"));
@@ -55,5 +57,14 @@ module.exports = Backbone.Collection.extend({
         var modelToMove = this.remove(id, {silent: true});
         this.add(modelToMove, {at: newIndex});
         playlistModel.setTrackList(this.pluck('id'));
+    },
+
+    sortByField: function(fieldName) {
+        this.sort_key = fieldName;
+        this.sort();
+    },
+
+    comparator: function(item) {
+        return item.get(this.sort_key);
     }
 });

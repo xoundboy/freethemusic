@@ -14,6 +14,8 @@ var ArtistFormView = require('./views/artistForm');
 var ArtistModel = require('./models/artist');
 var ArtistView = require('./views/artist');
 var ArtistsView = require('./views/artists');
+var RecordingsView = require('./views/recordings');
+var RecordingsCollection = require('./collections/recordings');
 var PlaylistModel = require('./models/playlist');
 var PlaylistView = require('./views/playlist');
 var OverlayModel = require('./models/overlay');
@@ -42,7 +44,7 @@ module.exports = Backbone.Router.extend({
         'artists/highlight/:id'             : 'artistHighlight',
         'artist/edit/:id'                   : 'artistEdit',
         'artist/add'                        : 'artistAdd',
-        'artist/:id'                        : 'artist',
+        'artist/:id(?*qs)'                  : 'artist',
 
         'playlists'                         : 'playlists',
         'playlists/highlight/:id'           : 'playlistHighlight',
@@ -80,7 +82,9 @@ module.exports = Backbone.Router.extend({
     },
 
     recordings: function() {
-        this._showInMainContent(X7.views.recordings);
+        var recordingsCollection = new RecordingsCollection();
+        var recordingsView = new RecordingsView({collection:recordingsCollection});
+        this._showInMainContent(recordingsView);
         this._selectItemById("navRecordings");
     },
 
@@ -123,13 +127,13 @@ module.exports = Backbone.Router.extend({
         this._selectItemById("navQueue");
     },
 
-    artists: function() {
+    artists: function(e) {
         this._showInMainContent(new ArtistsView({collection:X7.collections.artists}));
         this._selectItemById("navArtists");
     },
 
-    artist: function(id) {
-        this._showInMainContent(new ArtistView({model:X7.collections.artists.get(id)}));
+    artist: function(id, tab) {
+        this._showInMainContent(new ArtistView({id:id,tab:tab}));
         this._selectItemById("navArtists");
     },
 

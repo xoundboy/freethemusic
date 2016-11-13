@@ -34,23 +34,40 @@ router.get('/all', function(req, res){
  * GET /api/artist/:id
  */
 router.get('/:id', function(req, res){
-    var query = "CALL GetArtistById(" + utils.htmlEscape(req.params.id) + ");";
-    connection.query(query, function(err, rows){
-        if (err) {
-            console.log(err);
-            res.sendStatus(500);
-        } else {
-            res.json(rows[0].map(function(row){
-                if(row.images){
-                    var parsedImagesString = JSON.parse(row.images);
-                    if (Array.isArray(parsedImagesString)){
-                        row.avatar = parsedImagesString[0];
-                    }
-                }
-                return row;
-            })[0]);
+
+    var actId = utils.htmlEscape(req.params.id);
+    var response;
+
+    function getArtistRecordings(err, rows){
+        if (!util.handleError(err, res)){
+            response = rows[0][0];
+            if(response.images){
+                response.images = JSON.parse(response.images);
+                response.avatar = response.images[0];
+            }
+
+            var query = "CALL GetAllRecordingsByActId(" + actId + ");";
+            connection.query(query, getArtistPlaylists);
         }
-    });
+    }
+
+    function getArtistPlaylists(err, rows){
+        if (!util.handleError(err, res)){
+            response.recordings = rows[0];
+            var query = "CALL GetAllPlaylistsByActId(" + actId + ");";
+            connection.query(query, dispatchResponse);
+        }
+    }
+
+    function dispatchResponse(err, rows){
+        if (!util.handleError(err, res)){
+            response.playlists = rows[0];
+            res.json(response);
+        }
+    }
+
+    var query = "CALL GetArtistById(" + actId + ");";
+    connection.query(query, getArtistRecordings);
 });
 
 /**
@@ -76,7 +93,7 @@ router.post('/', function(req, res){
             },
 
             onInsertArtist = function(err, result) {
-                if (!util.handleError(err, result)){
+                if (!util.handleError(err, res)){
                     res.json({id:util.getInsertId(result)});
                 }
             };

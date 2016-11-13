@@ -1,5 +1,4 @@
 var _ = require('underscore');
-var utils = require('../helpers/commonUtils');
 var TrackListCollection = require('../collections/trackList');
 
 module.exports = Backbone.Model.extend({
@@ -23,6 +22,7 @@ module.exports = Backbone.Model.extend({
 
     save: function(attrs, options) {
         var trackListCollection = this.get("trackListCollection");
+        trackListCollection = trackListCollection ? trackListCollection : new TrackListCollection();
         this.set("trackList", trackListCollection.exportIdList());
         this.set("playlistLength", trackListCollection.length);
         Backbone.Model.prototype.save.call(this, attrs, options);

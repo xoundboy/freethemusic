@@ -37,7 +37,9 @@ module.exports = Backbone.View.extend({
     },
 
     renderTable: function(){
-        var playlistTableView = new PlaylistTableView({collection: this.collection});
+        var playlistTableView = new PlaylistTableView({
+            collection: this.collection
+        });
         this.$el.find("#playlistTableContainer").html(playlistTableView.render().el);
     }
 });

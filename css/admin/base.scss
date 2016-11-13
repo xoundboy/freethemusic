@@ -18,6 +18,10 @@ $overlay-background: rgb(5, 33, 5);
 
 $cta-link-text: #76a01b;
 
+$tabPanelsBg: #022a00;
+$unselectedTab: #021000;
+
+
 $font-size: 15px;
 
 
@@ -363,6 +367,7 @@ select {
 }
 
 #mainContent {
+    padding-top: 20px;
     box-sizing: border-box;
     overflow: auto;
     z-index: 5;
@@ -558,11 +563,15 @@ select {
     }
 }
 
-#artistImagesContainer {
-    vertical-align: top;
+.imgMask {
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 25px;
+    text-align: center;
     img {
-        vertical-align: top;
-        width: 40%;
+        height: 50px;
     }
 }
 
@@ -634,18 +643,6 @@ table.benGrid {
                     text-overflow: ellipsis;
                     white-space: nowrap;
                     overflow: hidden;
-
-                    .imgMask {
-                        margin: auto;
-                        width: 50px;
-                        height: 50px;
-                        overflow: hidden;
-                        border-radius: 25px;
-                        text-align: center;
-                        img {
-                            height: 50px;
-                        }
-                    }
                 }
                 &.nowPlaying {
                     background: green;
@@ -675,5 +672,86 @@ table.benGrid {
     img {
         height: 150px;
         margin: 5px;
+    }
+}
+
+.galleryScroller {
+    height: 100px;
+    overflow: hidden;
+
+    img {
+        height: 100px;
+    }
+}
+
+
+
+.tabComponent {
+    background: $tabPanelsBg;
+    .tabButtons {
+        margin: 20px 5px;
+        background: $unselectedTab;
+        .tabButton {
+            display: inline-block;
+            padding: 8px 18px;
+            color: grey;
+            &:hover {
+                background: $success-background;
+                color: white;
+                text-decoration: none;
+            }
+
+            &.selected {
+                color: white;
+                background: $tabPanelsBg;
+            }
+
+        }
+    }
+
+    .tabPanels {
+        min-height: 200px;
+        .tabPanel {
+            display: none;
+            &.selected {
+                display: block;
+            }
+        }
+    }
+}
+
+.artistDetails {
+    .artistHeader {
+        display: block;
+        #artistName {
+            display: inline-block;
+            font-size: 24px;
+            position: relative;
+            top: -66px;
+        }
+        .imgMask {
+            width: 100px;
+            height: 100px;
+            border-radius: 0;
+            margin: 0 20px;
+            display: inline-block;
+            img {
+                height: 100px;
+            }
+        }
+    }
+}
+
+table.infoTable {
+    tr {
+        td {
+            padding: 10px;
+            
+            &.item {
+                text-align: right;
+                background: $unselectedTab;
+                color: grey;
+            }
+        }
     }
 }

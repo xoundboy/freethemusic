@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var _ = require('underscore');
 var Backbone = require('backbone');
 var button = require('../helpers/button.js');
 var template = require('./html/playlistsTable.html');
@@ -7,8 +8,8 @@ module.exports = Backbone.View.extend({
 
     tagName: "div",
 
-    initialize: function () {
-
+    initialize: function (options){
+        _.extend(this, _.pick(options, "omitArtistColumn"));
     },
 
     events: {
@@ -36,18 +37,16 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
-
-        var viewModel = {
-            adminUser: X7.adminUser,
-            playlists: this.collection.toJSON()
-        };
-
-        this.$el.html(template(viewModel));
-
-        this.styleButtons();
-
+        if (this.collection){
+            var viewModel = {
+                adminUser: X7.adminUser,
+                playlists: this.collection.toJSON(),
+                omitArtistColumn: this.omitArtistColumn
+            };
+            this.$el.html(template(viewModel));
+            this.styleButtons();
+        }
         this.delegateEvents();
-
         return this;
     }
 });

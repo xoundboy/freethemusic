@@ -21,7 +21,7 @@ router.get('/all', function(req,res){
             return;
         }
         rows = (rows && rows.length != 0) ? rows : {};
-        res.json(rows);
+        res.json(rows[0]);
     }
 
 });
@@ -121,6 +121,10 @@ router.put('/:id', function(req, res){
  */
 router.delete('/:id', function(req, res){
 
+    function removeRecordingFromPlaylists(id){
+        // Todo
+    }
+
     function onValidToken(){
         connection.query("CALL GetRecordingById(" + utils.htmlEscape(req.params.id) + ")", function(err, rows){
 
@@ -131,6 +135,8 @@ router.delete('/:id', function(req, res){
             }
 
             var fileToDelete = rows[0][0].audioFile;
+
+            removeRecordingFromPlaylists(id);
 
             fs.unlink(config.AUDIO_LIBRARY_PATH + fileToDelete + ".mp3", function(err){
 

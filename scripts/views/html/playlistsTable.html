@@ -2,7 +2,9 @@
     <thead>
     <tr>
         <th bengrid-key="audioFile">List</th>
+        {{^omitArtistColumn}}
         <th bengrid-key="actName">Artist</th>
+        {{/omitArtistColumn}}
         <th bengrid-key="actName">Length</th>
         {{#adminUser}}
         <td class="buttonColumn"></td>
@@ -14,10 +16,12 @@
     {{#playlists}}
     <tr id="playlistID-{{id}}" class="playlistRow" data-playlistid="{{id}}">
         <td><a href="#playlist/{{id}}">{{{name}}}</a></td>
+        {{^omitArtistColumn}}
         <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">
             {{#actName}}{{actName}}{{/actName}}
             {{^actName}}Various Artists{{/actName}}
         </a></td>
+        {{/omitArtistColumn}}
         <td>{{playlistLength}}</td>
         {{#adminUser}}
         <td><button class="editPlaylistButton">edit</button></td>

@@ -1,6 +1,7 @@
 require('jquery-ui-touch-punch');
 require('jquery-ui/sortable');
 var $ = require('jquery');
+var _ = require('underscore');
 var AddToListContextMenuView = require('./recordingAddMenu.js');
 var button = require('../helpers/button.js');
 var template = require('./html/trackList.html');
@@ -12,16 +13,25 @@ module.exports = Backbone.View.extend({
 
     initialize: function(options){
         this.playlistModel = options.playlistModel;
+        _.extend(this, _.pick(options, "omitArtistColumn"));
         //this.listenTo(X7.collections.tracklist, 'change', this.render);
         //this.listenTo(this.playlistModel, 'change', this.render);
-        this.listenTo(this.collection, "change remove add", this.render.bind(this));
+        this.listenTo(this.collection, "change remove add sort", this.render.bind(this));
     },
 
     events: {
         "click .playButton": "play",
         "click .pauseButton": "pause",
         "click .removeTrackFromList": "remove",
-        "click .add": "add"
+        "click .add": "add",
+        "click th": "sort"
+    },
+
+    sort: function(e) {
+        var field = $(e.target).attr("bengrid-key");
+        if (field) {
+            this.collection.sortByField(field);
+        }
     },
 
     add: function(e){
@@ -88,7 +98,8 @@ module.exports = Backbone.View.extend({
         if (this.collection){
             var viewModel = {
                 trackList: this.collection.toJSON(),
-                adminUser: X7.adminUser
+                adminUser: X7.adminUser,
+                omitArtistColumn: this.omitArtistColumn
             };
             this.$el.html(template(viewModel));
             this.sortablize();
