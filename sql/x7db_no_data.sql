@@ -430,11 +430,18 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllArtists`()
 BEGIN
-  SELECT *, acts.id AS id 
-  FROM acts 
-    LEFT JOIN galleries 
-      ON acts.galleryID = galleries.id
-  ORDER BY actName;
+  SELECT a.actName, a.id AS id, images,
+    COUNT(r.title) AS recordingCount,
+    COUNT(p.name) AS albumCount
+    FROM acts a
+      LEFT JOIN recordings r 
+        ON r.actID = a.id
+      LEFT JOIN playlists p
+        ON p.actID = a.id
+      LEFT JOIN galleries g
+        ON a.galleryID = g.id
+    GROUP BY a.id
+  ORDER BY a.actName;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -461,6 +468,29 @@ BEGIN
         ON p.actID = a.id
     ORDER BY p.dateCreated DESC;
   END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetAllPlaylistsByActId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllPlaylistsByActId`(
+    IN actIdToFind SMALLINT
+)
+BEGIN
+SELECT   *
+FROM     playlists
+WHERE    actID = actIdToFind;
+END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -572,8 +602,7 @@ BEGIN
   FROM acts a
     LEFT JOIN galleries g
       ON a.galleryID = g.id
-    WHERE a.id = idToFind
-  ORDER BY actName;
+    WHERE a.id = idToFind;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1064,4 +1093,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-08 19:35:50
+-- Dump completed on 2016-11-14  0:34:12
