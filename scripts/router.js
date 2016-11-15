@@ -89,8 +89,12 @@ module.exports = Backbone.Router.extend({
     },
 
     recordingHighlight: function(id){
-        this._showInMainContent(X7.views.recordings);
-        this._highlightElement($("#recordingId-" + id));
+        var recordingsCollection = new RecordingsCollection();
+        var recordingsView = new RecordingsView({
+            collection:recordingsCollection,
+            highlightId:id
+        });
+        this._showInMainContent(recordingsView);
         this._selectItemById("navRecordings");
     },
 
@@ -138,8 +142,10 @@ module.exports = Backbone.Router.extend({
     },
 
     artistHighlight: function(id) {
-        this._showInMainContent(new ArtistsView({collection:X7.collections.artists}));
-        this._highlightElement($("#actID-" + id));
+        this._showInMainContent(new ArtistsView({
+            collection:X7.collections.artists,
+            highlightId:id
+        }));
         this._selectItemById("navArtists");
     },
 
@@ -229,31 +235,8 @@ module.exports = Backbone.Router.extend({
         $("#overlayContainer").hide();
     },
 
-    _selectItemById: function(id){
+    _selectItemById: function(id){//
         X7.views.nav.selectItemById(id);
-    },
-
-    _highlightElement: function($element){
-
-        if ($element.length){
-
-            // highlight the colour
-            $element.addClass("highlighted");
-
-            // scroll into view
-            var offset = $element.offset();
-            if(offset){
-                $('html, body').animate({
-                    scrollTop: offset.top,
-                    scrollLeft: offset.left
-                }, "slow");
-
-                setTimeout(function(){
-                    // unhighlight after a couple of secs
-                    $element.removeClass("highlighted");
-                }, 2000);
-            }
-        }
     },
 
     _pausePlayback: function(){

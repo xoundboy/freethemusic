@@ -2,8 +2,9 @@ require('jquery-ui-touch-punch');
 require('jquery-ui/sortable');
 var $ = require('jquery');
 var _ = require('underscore');
-var AddToListContextMenuView = require('./recordingAddMenu.js');
-var button = require('../helpers/button.js');
+var AddToListContextMenuView = require('./recordingAddMenu');
+var button = require('../helpers/button');
+var highlight = require('../helpers/highlight');
 var template = require('./html/trackList.html');
 
 module.exports = Backbone.View.extend({
@@ -14,6 +15,7 @@ module.exports = Backbone.View.extend({
     initialize: function(options){
         this.playlistModel = options.playlistModel;
         _.extend(this, _.pick(options, "omitArtistColumn"));
+        highlight.collectionRow(options.highlightId, this.collection, 2000);
         //this.listenTo(X7.collections.tracklist, 'change', this.render);
         //this.listenTo(this.playlistModel, 'change', this.render);
         this.listenTo(this.collection, "change remove add sort", this.render.bind(this));

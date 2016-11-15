@@ -15,7 +15,8 @@
     </thead>
     <tbody>
     {{#trackList}}
-    <tr id="recordingId-{{id}}" class="recordingRow {{#currentlyPlaying}}nowPlaying{{/currentlyPlaying}}" data-recordingid="{{id}}">
+    <tr id="recordingId-{{id}}" class="recordingRow {{#currentlyPlaying}}nowPlaying{{/currentlyPlaying}}
+    {{#highlighted}}highlighted{{/highlighted}}" data-recordingid="{{id}}">
         <td>
             {{#currentlyPlaying}}
             <button class="pauseButton" data-filename="{{audioFile}}.mp3">Pause</button>

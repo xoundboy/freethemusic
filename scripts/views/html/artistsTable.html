@@ -3,7 +3,7 @@
     <tr>
         <td></td>
         <th bengrid-key="actName">Artist</th>
-        <th bengrid-key="recordingCount">Recordings</th>
+        <th bengrid-key="recordingCount" class="centeredText">Recordings</th>
         {{#adminUser}}
         <td class="buttonColumn"></td>
         <td class="buttonColumn"></td>
@@ -12,10 +12,10 @@
     </thead>
     <tbody>
     {{#artists}}
-    <tr id="actID-{{id}}" class="artistRow" data-actid="{{id}}">
+    <tr id="actID-{{id}}" class="artistRow {{#highlighted}}highlighted{{/highlighted}}" data-actid="{{id}}">
         <td><div class="imgMask">{{#avatar}}<img src="assets/images/{{avatar.src}}" />{{/avatar}}</div></td>
         <td data-artistid="{{id}}"><a href="#artist/{{id}}">{{actName}}</a></td>
-        <td>{{recordingCount}}</td>
+        <td class="centeredText">{{recordingCount}}</td>
         {{#adminUser}}
         <td><button class="editArtistButton">edit</button></td>
         <td><button class="deleteArtistButton">delete</button></td>

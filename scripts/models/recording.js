@@ -5,7 +5,8 @@ module.exports = Backbone.Model.extend({
     urlRoot: "api/recording",
 
     defaults: {
-        currentlyPlaying: false
+        currentlyPlaying: false,
+        highlighted: false
     },
 
     parse: function (response) {

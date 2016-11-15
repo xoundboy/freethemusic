@@ -110,22 +110,10 @@ module.exports = Backbone.View.extend({
         console.log(options);
     },
 
-    onModelSaveSuccess: function() {
-        X7.collections.recordings.fetch({
-            reset: true,
-            success: $.proxy(this.onRecordingsFetchSuccess, this),
-            error: $.proxy(this.onRecordingsFetchError, this)
-        });
-    },
-
-    onRecordingsFetchSuccess: function(data){
+    onModelSaveSuccess: function(data) {
         this.model.clear().set(this.model.defaults);
         this.model.setStep(1);
         X7.router.navigate('/recordings/highlight/' + data.id, {trigger: true});
-    },
-
-    onRecordingsFetchError: function(err){
-        console.log(err);
     },
 
     stashFormData: function(){

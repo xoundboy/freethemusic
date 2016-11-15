@@ -1,8 +1,7 @@
 ﻿require('jquery-ui/effect');
-//var $ = require('jquery');
+var _ = require('underscore');
 var button = require('../helpers/button.js');
 var notification = require('../helpers/notification.js');
-//var AddToListContextMenuView = require('./recordingAddMenu.js');
 var TracklistView = require('./trackList');
 var template = require('./html/recordings.html');
 
@@ -12,8 +11,10 @@ module.exports = Backbone.View.extend({
     id: "recordingsContent",
     className: "recordings",
     nowPlayingId: null,
+    highlightId: null,
 
-    initialize: function () {
+    initialize: function (options) {
+        _.extend(this, _.pick(options, "highlightId"));
         this.collection.fetch({success:this.renderTrackList.bind(this)});
     },
 
@@ -24,7 +25,6 @@ module.exports = Backbone.View.extend({
     upload: function(){
         X7.router.navigate("recording/add/1", {trigger: true});
     },
-
 
     styleButtons: function() {
         button.style(this.$el.find(".uploadRecordingButton"), "ui-icon-plusthick", true);
@@ -40,7 +40,8 @@ module.exports = Backbone.View.extend({
 
     renderTrackList: function() {
         var tracklistView = new TracklistView({
-            collection: this.collection
+            collection: this.collection,
+            highlightId: this.highlightId
         });
         this.$el.find("#trackListContainer").html(tracklistView.render().el);
     }

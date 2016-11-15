@@ -1,13 +1,14 @@
 var $ = require('jquery');
 var template = require('./html/artistsTable.html');
-
+var highlight = require('../helpers/highlight');
 
 module.exports = Backbone.View.extend({
 
     tagName: "div",
     selectedId: null,
 
-    initialize: function () {
+    initialize: function (options) {
+        highlight.collectionRow(options.highlightId, this.collection, 2000);
         this.listenTo(this.collection, 'reset sort change remove', this.render);
     },
 
