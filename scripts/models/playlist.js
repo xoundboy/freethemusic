@@ -5,6 +5,11 @@ module.exports = Backbone.Model.extend({
 
     urlRoot: "api/playlist",
 
+    defaults: {
+        currentlyPlaying: false,
+        highlighted: false
+    },
+
     parse: function(response){
         response.isAlbum = response.isAlbum !== "false";
         response.images = response.images === undefined || response.images === "" ? null

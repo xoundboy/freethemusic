@@ -16,11 +16,12 @@ var ArtistView = require('./views/artist');
 var ArtistsView = require('./views/artists');
 var RecordingsView = require('./views/recordings');
 var RecordingsCollection = require('./collections/recordings');
+
 var PlaylistModel = require('./models/playlist');
 var PlaylistView = require('./views/playlist');
 var OverlayModel = require('./models/overlay');
 var OverlayView  = require('./views/overlay');
-
+var viewFactory = require('./helpers/viewFactory');
 
 module.exports = Backbone.Router.extend({
 
@@ -168,13 +169,12 @@ module.exports = Backbone.Router.extend({
     },
 
     playlists: function() {
-        this._showInMainContent(X7.views.playlists);
+        this._showInMainContent(viewFactory.create("playlists"));
         this._selectItemById("navPlaylists");
     },
 
     playlistHighlight: function(id) {
-        this._showInMainContent(X7.views.playlists);
-        this._highlightElement($("#playlistID-" + id));
+        this._showInMainContent(viewFactory.create("playlists",{highlightId:id}));
         this._selectItemById("navPlaylists");
     },
 
@@ -235,7 +235,7 @@ module.exports = Backbone.Router.extend({
         $("#overlayContainer").hide();
     },
 
-    _selectItemById: function(id){//
+    _selectItemById: function(id){
         X7.views.nav.selectItemById(id);
     },
 

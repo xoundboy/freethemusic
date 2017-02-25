@@ -1,0 +1,12 @@
+1. Set env vars
+STORMPATH_APPLICATION_HREF=https://api.stormpath.com/v1/applications/6FaqImjizZlx4eZhYBYKL6
+STORMPATH_CLIENT_APIKEY_ID=631OR6CT70YFBEBI5RZD50Q3W
+STORMPATH_CLIENT_APIKEY_SECRET=fQ7FfjT2sKi/gJuJkYZ5l0lF0B0Bpty8pWR5VdS+wxA
+X71_DB_HOST=localhost
+X71_DB_NAME=x71db
+X71_DB_PASS=
+X71_DB_USER=root
+X71_LIB_PATH=/Users/xoundboy/xoundlib
+X71_ROOT=/Users/xoundboy/x7.1
+X71_SERVER_PORT=8081
+X71_TESTING_BIN=/Users/xoundboy/x7.1/test/bin

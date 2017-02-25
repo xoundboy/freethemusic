@@ -1,6 +1,5 @@
 var config = require('../config');
 var ajax = require('./ajax');
-var $ = require('jquery');
 
 module.exports = {
 

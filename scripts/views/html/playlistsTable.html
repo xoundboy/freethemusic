@@ -14,8 +14,10 @@
     </thead>
     <tbody class="ui-sortable">
     {{#playlists}}
-    <tr id="playlistID-{{id}}" class="playlistRow" data-playlistid="{{id}}">
-        <td><a href="#playlist/{{id}}">{{{name}}}</a></td>
+    <tr id="playlistID-{{id}}"
+        class="playlistRow {{#currentlyPlaying}}nowPlaying{{/currentlyPlaying}} {{#highlighted}}highlighted{{/highlighted}}"
+        data-playlistid="{{id}}">
+         <td><a href="#playlist/{{id}}">{{{name}}}</a></td>
         {{^omitArtistColumn}}
         <td data-artistid="{{actID}}"><a href="#artist/{{actID}}">
             {{#actName}}{{actName}}{{/actName}}

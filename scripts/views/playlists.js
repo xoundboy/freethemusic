@@ -1,4 +1,4 @@
-var $ = require('jquery');
+var _ = require('underscore');
 var Backbone = require('backbone');
 var button = require('../helpers/button.js');
 var template = require('./html/playlists.html');
@@ -11,8 +11,10 @@ module.exports = Backbone.View.extend({
     className: "playlists",
     selectedId: null,
 
-    initialize: function () {
+    initialize: function (options) {
+        _.extend(this, _.pick(options,"highlightId"));
         this.listenTo(this.collection, 'reset sort remove fetch change', this.render);
+        this.collection.fetch();
     },
 
     events: {
@@ -38,7 +40,8 @@ module.exports = Backbone.View.extend({
 
     renderTable: function(){
         var playlistTableView = new PlaylistTableView({
-            collection: this.collection
+            collection: this.collection,
+            highlightId: this.highlightId
         });
         this.$el.find("#playlistTableContainer").html(playlistTableView.render().el);
     }

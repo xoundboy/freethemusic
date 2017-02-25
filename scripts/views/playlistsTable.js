@@ -3,6 +3,7 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var button = require('../helpers/button.js');
 var template = require('./html/playlistsTable.html');
+var highlight = require('../helpers/highlight');
 
 module.exports = Backbone.View.extend({
 
@@ -10,6 +11,9 @@ module.exports = Backbone.View.extend({
 
     initialize: function (options){
         _.extend(this, _.pick(options, "omitArtistColumn"));
+        this.listenTo(this.collection, "change remove add sort", this.render.bind(this));
+        //TODO figure out how to do this without recursion
+        //highlight.collectionRow(options.highlightId, this.collection, 2000);
     },
 
     events: {
